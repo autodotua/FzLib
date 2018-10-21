@@ -1,0 +1,119 @@
+201802
+	【Dialog】完成DialogBox、InputBox
+20180303
+	【Dialog】修改InputBox当KeyDown等同确定为KeyUp
+	【Text】新增GradualChangedTextBlock和HintTextBox
+20180304-05
+	【Progress】新增ProgressBarWithPercentageText
+20180305-08
+	【Text】新增TimePicker
+20180309-10
+	【Text】新增渐变（滚动）数字标签
+	【Progress】多功能进度条新增自定义文字、文字水平位置选项
+20180317
+	【Progress】新增LoadingOverlay
+20180318~19
+	【Text】新增SearchComboBox
+20180320
+	【FlatStyle】新增Button
+20180321
+	【Dialog】
+		修复了输入框背景颜色与主体背景颜色相同的BUG
+		修复了输入框按下任何按钮都会出发确定按钮的BUG
+	【FlatStyle】创建ListView
+20180322
+	【FlatStyle】基本完成ListView，完成Style以及简单的简化
+	【Text】新增StrokeableLabel
+20180323
+	【FlatStyle】新增CheckBox
+	【FlatStyle】新增UneditableComboBox
+	【Text】新增FileDropTextBox
+20180331
+	【Text】FileDropTextBox新增“仅支持单文件/文件夹”属性
+20180401
+	【Dialog】更改Dialog为父窗口中央并取消TopMost
+20180405
+	【Dialog】新增inputBox的多行输入支持
+	【Text】【ButtonBase】将EventArgs改为标准EventArgs
+20180408
+	【Dialog】新增InputBox的AllowEmpty属性
+20180412~14
+	【Dialog】新增Toast
+20180418
+	【Dialog】修复了其中一个ShowMessage的Owner问题
+20180419
+	【Text】【TimePicker】新增隐藏秒、获取时间和时分秒
+20180429
+	【Text】【NumberTextBox】新增直接获取数字
+20180430
+	【Picker】将TimePicker移植Picker
+	【Picker】新增ColorPicker
+	【Picker】新增ColorPickerTextBox
+	【Picker】新增FontPicker
+20180506
+	【Text】【GradualChangedNumberBlock】修复当设置字体大小时不完全显示的BUG
+	【Text】【GradualChangedNumberBlock】修复了超出边界部分也会显示的BUG
+20180508
+	【Text】【GradualChangedTextBlock】、【GradualChangedNumberTextBlock】新增动画时间属性
+20180511
+	【FlatStyle】【HorizontalSlider】完善，新增右边的数字显示
+20180512
+	【FlatStyle】【Button】修复了Content中误加了一个Grid导致部分情况下设置Content失效的BUG
+20180517
+	【FlatStyle】【HorizontalSlider】新增数字左边、右边可以显示的内容
+20180518
+	【FlatStyle】【HorizontalSlider】新增文本的对齐方式
+	【FlatStyle】【HorizontalSlider】用委托来指定要显示的值
+2018521
+	【Tools】修复了只能序列化UIElement的BUG
+20180522
+	【FlatStyle】新增ListBox
+20180526
+	【FlatStyle】【Button】新增DisableTimeAfterClicking属性
+	【Picker】新增DatePicker和DateRangePicker
+20180527	
+	【Progress】【LoadingOverlay】新增Show方法和Hide方法
+20180528
+	【FlatStyle】修改【ListBox】和【ListView】的Item的HorizontalContentAlignment属性为Stretch
+20180604
+	【FlatStyle】【TableView】新增支持从Excel粘贴
+20180614
+	【ButtonBase】【TrayIcon】修改右键菜单为Windows默认样式而非WPF样式
+	【Dialog】【DialogBox】新增详细内容块，显示更小的字体
+	【Dialog】【DialogHelper】同步更新
+20180616
+	【ControlsExtended】完成PanelExportDialog输出对话框
+20180624
+	【ButtonBase】【TrayIcon】新增鼠标单击事件和手动增加右键菜单项
+20180710
+	【Text】【FileDropTextBox】修复了设置非Multiple时仍然显示可拖放的BUG
+	【Text】【FileDropTextBox】新增Filter属性
+	【Text】【FileDropTextBox】新增AllowDragDrop属性
+	【Text】新增【FileDropListBox】
+20180719
+	移动文件操作相关类到【FileSystem】
+	【FileSystem】【FileDropListBox】新增AcceptFiles和AcceptFolders属性
+	【ButtonBase】移动TrayIcon到【WpfCode】【Program】
+20180720
+	【TimePicker】新增TimeSpan属性
+	【TimePicker】新增DateTime属性的set方法
+20180722
+	【FlatStyle】新增【TreeView】类
+2018072x
+	【FlatStyle】修复【TreeView】在获取焦点时闪退的BUG
+	【Common】新增CloneXaml方法
+20180731
+	【FlatStyle】【ListView】完善Item相关事件
+20180802
+	【FlatStyle】【Button】新增圆角属性
+	新增【Win10Style】命名空间，加入大量MahApps中的元素
+20180803
+	【Progress】新增【LoadingBar】类
+20180807
+	升级.Net Framework 版本 4.7.2
+20180808
+	【FileSystem】【FileDropListBox】更改为ItemsSource模式
+	【Dialog】【DialogHelper】新增ShowYesNo方法
+20180809
+	【Dialog】【DialogHelper】ShowMassage方法新增onlyShowMessage选项
+	【Dialog】【DialogHelper】修复了DefaultDialogOwner误写成DefautDialogOwner的BUG

@@ -1,0 +1,110 @@
+﻿20180415
+	创建项目
+20180427
+	【Program】新增Thread类，DoEvent方法
+	【WindowsApi】新增WindowMode类
+20180508
+	【Program】新增Config
+20180515
+	【Program】【Config】新增直接Get或Set TextBox和ComboBox的数据
+20180519
+	【Program】基本完成SettingsBase类，可用于代替自带的Settings
+20180520
+	修复巨型BUG：WpfCodes写成了WPfCodes
+	【Media】新增【CanvasExport】用于输出Canvas到位图、矢量图、文档
+20180521~22
+	【Basic】新增Enumerable类，可导入导出Csv
+20180523
+	【Program】【SettingsBase】修复了无法保存和读取Boolean类的设置的BUG
+20180524
+	【Program】新增Startup类注册开机启动
+20180527
+	【Program】【Startup】新增多实例检测
+20180604
+	【Basic】【Enumerable】新增普通导出到Csv模式
+20180622
+	【WindowsApi】新增Clipboard类
+20180627
+	【WindowsApi】新增HotKey类
+20180714
+	【Program】新增【Pipe】程序间通信封装类
+20180715
+	【Program】【Startup】新增CheckAnotherInstanceAndOpenWindow方法
+20180719
+	【Basic】【Enumerable】新增StringListToString方法
+20180720
+	【Basic】【Number】新增SecondToFitString方法
+	【Program】【SettingsBase】支持了null值
+	【Program】【SettingsBase】支持了List<string>类型的属性
+20180722
+	【Program】新增【Exception】类
+20180726
+	【WindowsApi】新增【PerformanceInformation】类
+	【Basic】【Number】ByteToFitString方法新增自定义单位
+20180729
+	【Basic】新增【IO】类，FileExistsCaseSensitive方法
+20180731
+	【Basic】【IO】新增DeleteToRecycleBin方法
+20180807
+	新增【Device】命名空间，【Mouse】类
+	升级.Net Framework 版本 4.7.2
+20180808
+	【Program】【SettingBase】新增Json
+	【Program】【SettingBase】更改为静态类获取实例
+20180820
+	【Program】【Config】新增SaveForce方法
+	【Program】【TrayIcon】修复了是用最简单的构造函数时MouseClick失效的BUG
+20180823
+	【Program】【Startup】为SetRunWhenStartup增加了setWorkingDirectoryHere参数
+	【Program】【Exception】新增autoShowMessage和notWorkInDebugMode参数
+	【Program】【Exception】修复了因为工作空间默认在System32导致无法写入错误信息的BUG
+20180901
+	【HotKey】由【WindowsApi】移至Device
+	【Device】新增【KeyboardHelper】类
+	【Device】新增【KeyboardHook】类
+20180917
+	【WindowsApi】命名空间改为【System】
+	【System】【WindowMode】新增多个方法等
+	【Program】【SettingBase】新增Json方式保存时可选择格式化
+20180918
+	【Basic】【IO】新增CreateShortcut方法
+20181002~03
+	【FileSystem】重命名为【IO】
+	【System】重命名为【Windows】
+	【SQLite】内类除了【SQLiteHelper】取消SQLite前缀
+	【Program】【Exception】修改为【UnhandledException】，并改为静态类
+	【Program】新增【Config】命名空间，包括
+		【Config】改名为【DotNetConfigHelper】
+		【SettingsBase】改名为【JsonSettingsBase】，仅保留json设置，修改默认名为config.json
+	【IO】新增【FileSystemTree】类
+	【Program】移动单例程序相关到【SingleInstance】类
+	【IO】新增【Shortcut】类
+	修改方法名，新增注册表开机启动项的模式
+	【Windows】【WindowMode】修改为【WindowStyle】
+20181006
+	【Program】【Startup】SourceFileName字段改为公共属性
+	新增【Cryptography】命名空间，内含【Aes】【Hash】【CommonSettings】类
+20181007
+	【Cryptography】【Aes】修复了加密文件时每个缓冲区为一个Aes序列导致生成的加密文件为缓冲区大小相关的BUG
+20181008
+	【Cryptography】【Aes】新增StreamToStream的加密解密
+	【Cryptography】新增【Res】
+20181010
+	【Program】【TrayIcon】在有关Menu的方法后加Item(s)
+	【Program】【TrayIcon】新增InsertContextMenuItem方法
+	【Basic】【EncodingType】内方法移动到【String】
+	【Basic】【String】修改GetType为Get方法，FileStream参数改为Stream，新增byte[]参数的重载
+	【Basic】【String】RemoveStart方法新增repeat参数
+20181011
+	【Program】【Startup】IsRegistryKeyExist方法新增支持验证目标路径是否匹配
+	【Program】新增【Information】类
+20181012
+	【IO】【FileSystemTree】新增CompareFiles静态方法
+20181014
+	【Program】新增【Notify】命名空间，移入【TrayIcon】
+	【Program】【Notify】新增【TaskDialog】类
+	【Program】新增【Runtime】命名空间，移入【SinglePipe】、【SingleInstance】【Thread】【UnhandledException】
+	【Program】【Runtime】【UnhandledException】中将MessageBox改为TaskDialog
+20181015
+	【Program】【Runtime】调整了【SingleInstance】的一些内容，改为非静态类
+	【Windows】新增【FileFotmatAssociation】类

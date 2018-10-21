@@ -1,0 +1,7 @@
+20181021
+	所有项目重命名、更改命名空间：
+		StandardCodes=>FzLib
+		WpfCodes=>FzLib.Wpf
+		WpfControls=>FzLib.Wpf.Controls
+	开始整合日志
+	将输出目录整合到Release文件夹
