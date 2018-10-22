@@ -1,0 +1,97 @@
+﻿<Window x:Class="FzLib.Control.ControlsExtended.PanelExportDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                               xmlns:text="clr-namespace:FzLib.Control.Text"
+     xmlns:flat="clr-namespace:FzLib.Control.FlatStyle"
+             xmlns:file="clr-namespace:FzLib.Control.FileSystem"
+    xmlns:picker="clr-namespace:FzLib.Control.Picker"
+   xmlns:local="clr-namespace:FzLib.Control.ControlsExtended"
+             mc:Ignorable="d" 
+        Title="输出"
+        WindowStyle="ToolWindow"
+        WindowStartupLocation="CenterOwner"
+            SizeToContent="WidthAndHeight">
+    <Grid Margin="4">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="8"/>
+            <ColumnDefinition Width="Auto"/>
+
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="2" VerticalAlignment="Center">
+            <file:StorageOperationButton x:Name="btnJpg" OperateType="SaveFile"  Margin="4" DialogComplete="StorageOperationButton_DialogComplete_1" DefaultExtension="jpg" >JPEG</file:StorageOperationButton>
+            <file:StorageOperationButton x:Name="btnPng"  OperateType="SaveFile"  Margin="4" DialogComplete="StorageOperationButton_DialogComplete_1" DefaultExtension="png" >PNG</file:StorageOperationButton>
+                <file:StorageOperationButton  x:Name="btnXps" OperateType="SaveFile"  Margin="4" DialogComplete="StorageOperationButton_DialogComplete_1" DefaultExtension="xps" >XPS</file:StorageOperationButton>
+            <flat:Button x:Name="btnPrt" Margin="4" Click="btnPrt_Click">打印</flat:Button>
+
+        </StackPanel>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="4"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="4"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="4"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="4"/>
+                <RowDefinition Height="Auto"/>
+                <!--<RowDefinition Height="4"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="4"/>
+                <RowDefinition Height="Auto"/>-->
+
+            </Grid.RowDefinitions>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="4"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="4"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="4"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="4"/>
+                <ColumnDefinition Width="Auto"/>
+
+
+            </Grid.ColumnDefinitions>
+
+            <flat:CheckBox  x:Name="chkSize">自定义大小大小：</flat:CheckBox>
+            <text:NumberTextBox IsEnabled="{Binding ElementName=chkSize,Path=IsChecked,TargetNullValue=false}" MinWidth="48" MatchMode="PositiveNumber" x:Name="txtSizeWidth" Grid.Column="2"  />
+            <TextBlock Grid.Column="4">×</TextBlock>
+            <text:NumberTextBox IsEnabled="{Binding ElementName=chkSize,Path=IsChecked,TargetNullValue=false}" MatchMode="PositiveNumber" MinWidth="48" x:Name="txtSizeHeight" Grid.Column="6"/>
+          
+            <TextBlock Grid.Row="2">缩放：</TextBlock>
+            <text:NumberTextBox Grid.Row="2" MinWidth="48" MatchMode="PositiveNumber" x:Name="txtMagnificationWidth" Grid.Column="2">1</text:NumberTextBox>
+            <TextBlock Grid.Row="2" Grid.Column="4">×</TextBlock>
+            <text:NumberTextBox Grid.Row="2" MatchMode="PositiveNumber" MinWidth="48" x:Name="txtMagnificationHeight" Grid.Column="6">1</text:NumberTextBox>
+
+            <TextBlock Grid.Row="4">出血：</TextBlock>
+            <text:NumberTextBox Grid.Row="4" MatchMode="PositiveNumber" MinWidth="48" x:Name="txtBlood" Grid.Column="2" Grid.ColumnSpan="5">0</text:NumberTextBox>
+
+            <flat:CheckBox Grid.Row="6" x:Name="chkBackground">背景</flat:CheckBox>
+            <picker:ColorPickerTextBox x:Name="color" Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="5" IsEnabled="{Binding ElementName=chkBackground,Path=IsChecked, TargetNullValue=false}"/>
+
+            <TextBlock Grid.Row="8" >JPEG质量：</TextBlock>
+            <flat:HorizontalSlider x:Name="sldJpeg" Minimum="10" Maximum="100" Value="80" Grid.Column="2" Grid.ColumnSpan="5" Grid.Row="8"/>
+
+            <!--<TextBlock Grid.Row="10" VerticalAlignment="Center">输出文件夹：</TextBlock>
+            <Grid Grid.Row="10" Grid.Column="2" Grid.ColumnSpan="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="4"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <text:FileDropTextBox x:Name="txtPath" />
+                <btn:StorageOperationButton OperateType="SaveFile" Grid.Column="2" DialogComplete="StorageOperationButton_DialogComplete"  >...</btn:StorageOperationButton>
+            </Grid>
+            <TextBlock Grid.Row="12" VerticalAlignment="Center">输出文件名：</TextBlock>
+            <flat:TextBox x:Name="txtFileName" Grid.Row="12" Grid.Column="2" Grid.ColumnSpan="5"/>-->
+
+        </Grid>
+    </Grid>
+</Window>

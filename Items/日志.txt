@@ -1,7 +1,13 @@
 20181021
 	所有项目重命名、更改命名空间：
-		StandardCodes=>FzLib
-		WpfCodes=>FzLib.Wpf
-		WpfControls=>FzLib.Wpf.Controls
+		StandardCodes=>FzLib(FzStandardLib)
+		WpfCodes=>FzLib(FzWpfLib)
+		WpfControls=>FzLib.Controls(FzWpfControlLib)
 	开始整合日志
 	将输出目录整合到Release文件夹
+	重新建立新的Git库
+
+20181022
+	从FzWpfLib移动部分可移植代码到FzStandardLib
+	移动【FzLib.Program.Config】和【FzLib.SQLite】到【FzLib.Data】
+	移动【FzLib.Program.Config.DotNetConfigHelper】到【FzLib.Program.ConfigHelper】
