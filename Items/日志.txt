@@ -9,5 +9,14 @@
 
 20181022
 	从FzWpfLib移动部分可移植代码到FzStandardLib
-	移动【FzLib.Program.Config】和【FzLib.SQLite】到【FzLib.Data】
-	移动【FzLib.Program.Config.DotNetConfigHelper】到【FzLib.Program.ConfigHelper】
+	移动[FzLib.Program.Config]和[FzLib.SQLite]到[FzLib.Data]
+	移动[FzLib.Program.Config.DotNetConfigHelper]到[FzLib.Program.ConfigHelper]
+
+20181024~27
+	新增[FzLib.IO.FileProperty]命名空间，新增[Photo]子命名空间用于获取Exif信息
+	[FzLib.Control.ControlsExtended]新增ZoomableBorder类
+	[FzLib.Control.ControlsExtended]修改为[ControlExtended]
+	[FzLib.IO.FileProperty.Photo.ExifInfo]新增ChineseTtile属性
+	[FzLib.Control.Dialog.CommonFileSystemDialog]新增GetSaveFile方法
+	[FzLib.Control.FlatStyle.ListView]增加Load和AddRow方法的Params参数的重载
+	[FzLib.IO.FileProperty.Photo.Exif]新增错误检测

@@ -12,6 +12,7 @@ namespace FzLib.IO
 {
     public static class FileSystem
     {
+
         public static bool FileExistsCaseSensitive(string filename)
         {
             return new FileInfo(filename).ExistsCaseSensitive();
@@ -27,39 +28,7 @@ namespace FzLib.IO
             return directory != null && Directory.EnumerateFiles(directory).Any(p => p == fileFullName);
         }
 
-        public static void DeleteFileOrFolder(string path, bool ui = false, bool toRecycleBin = true)
-        {
-            if (global::System.IO.File.Exists(path))
-            {
-                vbFile.FileSystem.DeleteFile(path,
-                    ui ? UIOption.AllDialogs : UIOption.OnlyErrorDialogs,
-                    toRecycleBin ? RecycleOption.SendToRecycleBin : RecycleOption.DeletePermanently);
 
-            }
-            else if (Directory.Exists(path))
-            {
-
-                vbFile.FileSystem.DeleteDirectory(path,
-                     ui ? UIOption.AllDialogs : UIOption.OnlyErrorDialogs,
-                     toRecycleBin ? RecycleOption.SendToRecycleBin : RecycleOption.DeletePermanently);
-
-            }
-
-        }
-
-        public static void Delete(this FileInfo file, bool ui, bool toRecycleBin)
-        {
-            vbFile.FileSystem.DeleteFile(file.FullName,
-                ui ? UIOption.AllDialogs : UIOption.OnlyErrorDialogs,
-                toRecycleBin ? RecycleOption.SendToRecycleBin : RecycleOption.DeletePermanently);
-        }
-
-        public static void Delete(this DirectoryInfo file, bool ui, bool toRecycleBin)
-        {
-            vbFile.FileSystem.DeleteDirectory(file.FullName,
-                ui ? UIOption.AllDialogs : UIOption.OnlyErrorDialogs,
-                toRecycleBin ? RecycleOption.SendToRecycleBin : RecycleOption.DeletePermanently);
-        }
 
         public static string[] EnumerateAccessibleFiles(string path, bool directoryFirst = false)
         {
@@ -172,7 +141,7 @@ namespace FzLib.IO
                     }
                 }
 
-                throw new Exception("读取目录中的第一个文件失败",Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error()));
+                throw new Exception("读取目录中的第一个文件失败", Marshal.GetExceptionForHR(Marshal.GetHRForLastWin32Error()));
             }
             throw new DirectoryNotFoundException();
         }
@@ -183,7 +152,7 @@ namespace FzLib.IO
 
         public static long GetDirectoryLength(string path)
         {
-            if(!Directory.Exists(path))
+            if (!Directory.Exists(path))
             {
                 throw new DirectoryNotFoundException(path);
             }
@@ -212,6 +181,41 @@ namespace FzLib.IO
             GetShortPathName(longName, s, (uint)s.Capacity);
             return s.ToString();
         }
+        public static void DeleteFileOrFolder(string path, bool ui = false, bool toRecycleBin = true)
+        {
+            if (global::System.IO.File.Exists(path))
+            {
+                vbFile.FileSystem.DeleteFile(path,
+                    ui ? UIOption.AllDialogs : UIOption.OnlyErrorDialogs,
+                    toRecycleBin ? RecycleOption.SendToRecycleBin : RecycleOption.DeletePermanently);
+
+            }
+            else if (Directory.Exists(path))
+            {
+
+                vbFile.FileSystem.DeleteDirectory(path,
+                     ui ? UIOption.AllDialogs : UIOption.OnlyErrorDialogs,
+                     toRecycleBin ? RecycleOption.SendToRecycleBin : RecycleOption.DeletePermanently);
+
+            }
+
+        }
+
+        public static void Delete(this FileInfo file, bool ui, bool toRecycleBin)
+        {
+            vbFile.FileSystem.DeleteFile(file.FullName,
+                ui ? UIOption.AllDialogs : UIOption.OnlyErrorDialogs,
+                toRecycleBin ? RecycleOption.SendToRecycleBin : RecycleOption.DeletePermanently);
+        }
+
+        public static void Delete(this DirectoryInfo file, bool ui, bool toRecycleBin)
+        {
+            vbFile.FileSystem.DeleteDirectory(file.FullName,
+                ui ? UIOption.AllDialogs : UIOption.OnlyErrorDialogs,
+                toRecycleBin ? RecycleOption.SendToRecycleBin : RecycleOption.DeletePermanently);
+        }
+
+   
     }
 
 }

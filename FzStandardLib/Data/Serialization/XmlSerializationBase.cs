@@ -1,12 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
+using System.Xml.Serialization;
+using static FzLib.Data.Converter;
 
-namespace FzLib.Data
+namespace FzLib.Data.Serialization
 {
-    public abstract class JsonConfigBase
+    public abstract class XmlSerializationBase
     {
+        protected XmlSerializationBase() { }
 
-        public static T Creat<T>(string path = "config.json") where T : JsonConfigBase, new()
+        public static T Creat<T>(string path = "config.xml") where T : XmlSerializationBase, new()
         {
             T instance = new T
             {
@@ -14,12 +18,12 @@ namespace FzLib.Data
             };
             return instance;
         }
-        public static T OpenOrCreat<T>(string path = "config.json") where T : JsonConfigBase, new()
+        public static T OpenOrCreat<T>(string path = "config.xml") where T : XmlSerializationBase, new()
         {
             T instance;
             if (File.Exists(path))
             {
-                instance = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
+                instance = GetObjectFromXml<T>(File.ReadAllText(path));
             }
             else
             {
@@ -28,15 +32,14 @@ namespace FzLib.Data
             instance.Path = path;
             return instance;
         }
-        public static T Open<T>(string path = "config.json") where T : JsonConfigBase, new()
+        public static T Open<T>(string path = "config.xml") where T : XmlSerializationBase, new()
         {
-            T instance = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
+            T instance = GetObjectFromXml<T>(File.ReadAllText(path));
             instance.Path = path;
             return instance;
         }
 
 
-        protected JsonConfigBase() { }
 
 
 
@@ -55,9 +58,10 @@ namespace FzLib.Data
 
 
 
-        protected string Path { get; private set; } = "config.json";
+        protected string Path { get; private set; } = "config.xml";
 
 
+        protected JsonSerializerSettings Settings { get; set; } = new JsonSerializerSettings();
         public void Save(bool format = false)
         {
             Save(Path,format);
@@ -69,15 +73,7 @@ namespace FzLib.Data
             {
                 path = Path;
             }
-
-            if (format)
-            {
-                File.WriteAllText(path, Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented));
-            }
-            else
-            {
-                File.WriteAllText(path, Newtonsoft.Json.JsonConvert.SerializeObject(this));
-            }
+            File.WriteAllText(path, GetXml(this, Settings));
         }
 
     }

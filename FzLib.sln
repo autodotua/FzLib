@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "日志", "日志", "{CC0BCD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTest", "ConsoleTest\ConsoleTest.csproj", "{4CC2469F-1FE4-4106-9778-A7EE90561D3C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfTest", "WpfTest\WpfTest.csproj", "{8E5C7E1A-2C72-4767-8C3E-015F41A7D979}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -43,6 +45,10 @@ Global
 		{4CC2469F-1FE4-4106-9778-A7EE90561D3C}.Debug|x64.Build.0 = Debug|x64
 		{4CC2469F-1FE4-4106-9778-A7EE90561D3C}.Release|x64.ActiveCfg = Release|x64
 		{4CC2469F-1FE4-4106-9778-A7EE90561D3C}.Release|x64.Build.0 = Release|x64
+		{8E5C7E1A-2C72-4767-8C3E-015F41A7D979}.Debug|x64.ActiveCfg = Debug|x64
+		{8E5C7E1A-2C72-4767-8C3E-015F41A7D979}.Debug|x64.Build.0 = Debug|x64
+		{8E5C7E1A-2C72-4767-8C3E-015F41A7D979}.Release|x64.ActiveCfg = Release|x64
+		{8E5C7E1A-2C72-4767-8C3E-015F41A7D979}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

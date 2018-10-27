@@ -24,5 +24,70 @@ namespace FzLib.Control.FlatStyle
         {
             InitializeComponent();
         }
+
+
+        public event KeyEventHandler ItemPreviewKeyDown;
+        public event KeyEventHandler ItemPreviewDeleteKeyDown;
+
+        public event MouseButtonEventHandler ItemPreviewMouseLeftButtonDoubleClick;
+        public event MouseButtonEventHandler ItemPreviewMouseRightButtonDoubleClick;
+        public event MouseButtonEventHandler ItemPreviewMouseDoubleClick;
+
+        public event MouseButtonEventHandler ItemPreviewMouseUp;
+        public event MouseButtonEventHandler ItemPreviewMouseLeftButtonUp;
+        public event MouseButtonEventHandler ItemPreviewMouseRightButtonUp;
+        public event MouseButtonEventHandler ItemPreviewMouseDown;
+        public event MouseButtonEventHandler ItemPreviewMouseLeftButtonDown;
+        public event MouseButtonEventHandler ItemPreviewMouseRightButtonDown;
+
+        private void LvwItemPreviewMouseDoubleClickEventHandler(object sender, MouseButtonEventArgs e)
+        {
+            ItemPreviewMouseDoubleClick?.Invoke(sender, e);
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                ItemPreviewMouseLeftButtonDoubleClick?.Invoke(sender, e);
+            }
+            else if (e.ChangedButton == MouseButton.Right)
+            {
+                ItemPreviewMouseRightButtonDoubleClick?.Invoke(sender, e);
+            }
+        }
+
+        private void ListViewItem_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            ItemPreviewMouseUp?.Invoke(sender, e);
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                ItemPreviewMouseLeftButtonUp?.Invoke(sender, e);
+            }
+            else if (e.ChangedButton == MouseButton.Right)
+            {
+                ItemPreviewMouseRightButtonUp?.Invoke(sender, e);
+            }
+        }
+
+        private void ListViewItemMouseDownEventHandler(object sender, MouseButtonEventArgs e)
+        {
+            ItemPreviewMouseDown?.Invoke(sender, e);
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                ItemPreviewMouseLeftButtonDown?.Invoke(sender, e);
+            }
+            else if (e.ChangedButton == MouseButton.Right)
+            {
+                ItemPreviewMouseRightButtonDown?.Invoke(sender, e);
+            }
+        }
+
+        private void LvwItemPreviewKeyDownEventHandler(object sender, KeyEventArgs e)
+        {
+            ItemPreviewKeyDown?.Invoke(sender, e);
+            if (e.Key == Key.Delete)
+            {
+                ItemPreviewDeleteKeyDown?.Invoke(sender, e);
+            }
+        }
+
+
     }
 }

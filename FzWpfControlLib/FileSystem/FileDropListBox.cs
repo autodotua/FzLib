@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Data;
 
 namespace FzLib.Control.FileSystem
 {
@@ -19,11 +15,11 @@ namespace FzLib.Control.FileSystem
             AllowDrop = true;
             SelectionMode = System.Windows.Controls.SelectionMode.Extended;
             PreviewKeyDown += PreviewKeyDownEventHandler;
-            PreviewDragOver += DragEnterEventHandler;
+            PreviewDragOver += FileDragEnter;
             PreviewDrop += DropEventHandler;
             ItemsSource = FileList;
-         //Binding binding = new Binding(nameof(FileList)) { ElementName = Name };
-         //   SetBinding(ItemsSourceProperty, binding);
+            //Binding binding = new Binding(nameof(FileList)) { ElementName = Name };
+            //   SetBinding(ItemsSourceProperty, binding);
         }
 
         public ObservableCollection<string> FileList { get; } = new ObservableCollection<string>();
@@ -43,7 +39,7 @@ namespace FzLib.Control.FileSystem
             }
         }
 
-        private void DragEnterEventHandler(object sender, DragEventArgs e)
+        private void FileDragEnter(object sender, DragEventArgs e)
         {
             if (!AllowDragDrop)
             {
@@ -63,8 +59,7 @@ namespace FzLib.Control.FileSystem
                 e.Handled = true;
             }
         }
-        public bool AcceptFiles { get; set; } = true;
-        public bool AcceptFolders { get; set; } = true;
+        public FileAcceptMode AcceptMode { get; set; } = FileAcceptMode.FilesAndFilesInFolders;
         public string Filter { get; set; } = ".*";
         public bool PressDeleteKeyToDeleteItem { get; set; } = true;
 
@@ -107,14 +102,21 @@ namespace FzLib.Control.FileSystem
             {
                 if (r.IsMatch(Filter))
                 {
-                    if (AcceptFiles)
+                    if (AcceptMode == FileAcceptMode.Files || AcceptMode == FileAcceptMode.FilesAndFilesInFolders)
                     {
                         if (File.Exists(file))
                         {
                             availableFiles.Add(file);
                         }
                     }
-                    if (AcceptFolders)
+                    if (AcceptMode == FileAcceptMode.FilesAndFilesInFolders)
+                    {
+                        if (Directory.Exists(file))
+                        {
+                          availableFiles.AddRange(  IO.FileSystem.EnumerateAccessibleFiles(file));
+                        }
+                        }
+                    else if (AcceptMode == FileAcceptMode.Folders || AcceptMode == FileAcceptMode.FilesAndFolders)
                     {
                         if (Directory.Exists(file))
                         {
@@ -127,5 +129,12 @@ namespace FzLib.Control.FileSystem
             return availableFiles.ToArray();
         }
 
+    }
+    public enum FileAcceptMode
+    {
+        Files,
+        Folders,
+        FilesAndFilesInFolders,
+        FilesAndFolders
     }
 }

@@ -35,7 +35,10 @@ namespace FzLib.Control.FlatStyle
             }
         }
         private List<string> columnHeaders;
-
+        public void Load(params string[] columnHeaders)
+        {
+            Load((IList<string>)columnHeaders);
+        }
         /// <summary>
         /// 加载列。当调用此方法使，将切换数据绑定为自动。
         /// </summary>
@@ -66,6 +69,10 @@ namespace FzLib.Control.FlatStyle
                     Header = name,
                 }
                 );
+        }
+        public int AddRow(params string[] texts)
+        {
+            return AddRow(texts, null);
         }
         /// <summary>
         /// 增加行

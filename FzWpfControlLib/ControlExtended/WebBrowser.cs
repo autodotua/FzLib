@@ -8,7 +8,7 @@ using System.Windows.Threading;
 using System.Globalization;
 using System.Runtime.InteropServices;
 
-namespace FzLib.Control.ControlsExtended
+namespace FzLib.Control.ControlExtended
 {
     public enum WebBrowserEmulationVersion
     {

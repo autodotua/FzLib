@@ -2,13 +2,13 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace FzLib.Data
+namespace FzLib.Data.Serialization
 {
-    public class Serialization
+    public class BinarySerialization
     { /// <summary>
       /// 把对象序列化为字节数组
       /// </summary>
-        public static byte[] SerializeObject<T>(T obj)
+        public static byte[] Serialize<T>(T obj)
         {
             object[] attributes = obj.GetType().GetCustomAttributes(typeof(SerializableAttribute), true);
             if (attributes == null || attributes.Length == 0)
@@ -32,7 +32,7 @@ namespace FzLib.Data
         /// <summary>
         /// 把字节数组反序列化成对象
         /// </summary>
-        public static T DeserializeObject<T>(byte[] bytes)
+        public static T Deserialize<T>(byte[] bytes)
         {
             T obj = default(T);
             if (bytes == null)

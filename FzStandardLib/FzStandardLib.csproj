@@ -4,7 +4,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>FzStandardLib</AssemblyName>
     <RootNamespace>FzLib</RootNamespace>
-    <Platforms>AnyCPU;x64</Platforms>
+    <Platforms>x64</Platforms>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
