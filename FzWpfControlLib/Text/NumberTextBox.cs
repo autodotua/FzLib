@@ -14,15 +14,11 @@ namespace FzLib.Control.Text
     {
         public NumberTextBox()
         {
-            //InputMethod.SetPreferredImeState(this, InputMethodState.Off);
-
-            // PreviewKeyDown += PreviewKeyDownEventHandler;
-            //PreviewTextInput += PreviewTextInputEventHandler;
             normalBrush = BorderBrush;
-            TextChanged += TextChangedEventHandler;
+            TextChanged += InputedTextChanged;
         }
 
-        private void TextChangedEventHandler(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        private void InputedTextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             if (IsAllowed())
             {
@@ -30,11 +26,9 @@ namespace FzLib.Control.Text
             }
             else
             {
-                BorderBrush = errorBrush;
+                BorderBrush = ErrorBrush;
             }
         }
-
-        private SolidColorBrush errorBrush = new SolidColorBrush(Colors.Red);
 
         private Brush normalBrush;
 
@@ -250,7 +244,7 @@ namespace FzLib.Control.Text
 
 
         public Mode MatchMode { get; set; }
-        public SolidColorBrush ErrorBrush { get => errorBrush; set => errorBrush = value; }
+        public SolidColorBrush ErrorBrush { get; set; } = new SolidColorBrush(Colors.Red);
 
         [Flags]
         public enum Mode

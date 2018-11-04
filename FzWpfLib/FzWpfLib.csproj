@@ -115,9 +115,12 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="IO\Shortcut.cs" />
+    <Compile Include="Media\Converter.cs" />
     <Compile Include="Program\ConfigurationHelper.cs" />
+    <Compile Include="Program\Information.cs" />
     <Compile Include="Program\Notify\TaskDialog.cs" />
     <Compile Include="Program\Runtime\SingleInstance.cs" />
+    <Compile Include="Program\Runtime\SinglePipe.cs" />
     <Compile Include="Program\Runtime\UnhandledException.cs" />
     <Compile Include="Windows\FileFormatAssociation.cs" />
     <Compile Include="Windows\PerformanceInformation.cs" />

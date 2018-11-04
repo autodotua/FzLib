@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using static FzLib.IO.FileSystemTree;
 using SearchOption = System.IO.SearchOption;
 using vbFile = Microsoft.VisualBasic.FileIO;
 
@@ -215,7 +216,15 @@ namespace FzLib.IO
                 toRecycleBin ? RecycleOption.SendToRecycleBin : RecycleOption.DeletePermanently);
         }
 
-   
+
+        public static FileComparisonResult CompareFiles(string leftPath, string rightPath)
+        {
+            FileSystemTree left = GetFileSystemTree(leftPath);
+            FileSystemTree right = GetFileSystemTree(rightPath);
+           return FileSystemTree.CompareFiles(left, right);
+        }
+
+
     }
 
 }

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace FzLib.Control.FileSystem
@@ -18,17 +14,19 @@ namespace FzLib.Control.FileSystem
             PreviewDrop += TextBox_Drop;
         }
 
+
+
         private void TextBox_DragEnter(object sender, DragEventArgs e)
         {
-            if(!allowDragDrop)
+            if (!AllowDragDrop)
             {
                 return;
             }
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                var files =GetAvailableFiles( e.Data.GetData(DataFormats.FileDrop) as string[]);
-                
-                if (!Multiple && files.Length > 1 || files.Length==0)
+                var files = GetAvailableFiles(e.Data.GetData(DataFormats.FileDrop) as string[]);
+
+                if (!Multiple && files.Length > 1 || files.Length == 0)
                 {
                     e.Effects = DragDropEffects.None;
                 }
@@ -39,56 +37,51 @@ namespace FzLib.Control.FileSystem
                 e.Handled = true;
             }
         }
-        private bool allowFile = true;
-        private bool allowFolder = true;
-        private bool check = true;
-        private bool multiple = true;
-        private string filter = ".*";
-        private bool allowDragDrop = true;
 
-        public bool AllowFile { get => allowFile; set => allowFile = value; }
-        public bool AllowFolder { get => allowFolder; set => allowFolder = value; }
+        public bool AllowFolder { get; set; } = true;
         /// <summary>
         /// 
         /// </summary>
-        public bool Check { get => check; set => check = value; }
-        public bool Multiple { get => multiple; set => multiple = value; }
-        public string Filter { get => filter; set => filter = value; }
-        public bool AllowDragDrop { get => allowDragDrop; set => allowDragDrop = value; }
+        public bool Check { get; set; } = true;
+        public bool Multiple { get; set; } = true;
+        public string Filter { get; set; } = ".*";
+        public bool AllowDragDrop { get; set; } = true;
+        public bool AllowFile { get; set; } = true;
+        public string Splitter { get; set; } = "|";
 
-        public delegate void FileDroppedHandler(object sender,Common.StorageOperationEventArgs e);
+        public delegate void FileDroppedHandler(object sender, Common.StorageOperationEventArgs e);
         public event FileDroppedHandler FileDropped;
 
         private void TextBox_Drop(object sender, DragEventArgs e)
         {
-            if(!allowDragDrop)
+            if (!AllowDragDrop)
             {
                 return;
             }
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                var files =GetAvailableFiles( e.Data.GetData(DataFormats.FileDrop) as string[]);
-                if (!Multiple && files.Length > 1 || files.Length==0)
+                var files = GetAvailableFiles(e.Data.GetData(DataFormats.FileDrop) as string[]);
+                if (!Multiple && files.Length > 1 || files.Length == 0)
                 {
                     return;
                 }
                 if (files.Length == 1)
                 {
                     Text = files[0];
+                    FileDropped?.Invoke(this, new Common.StorageOperationEventArgs(files[0], Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.None));
+
                     return;
                 }
 
-                StringBuilder str = new StringBuilder();
                 List<string> result = new List<string>();
                 foreach (var i in files)
                 {
-                    if (check)
+                    if (Check)
                     {
                         if (File.Exists(i))
                         {
                             if (AllowFile)
                             {
-                                str.Append(i + "|");
                                 result.Add(i);
                             }
                         }
@@ -96,40 +89,53 @@ namespace FzLib.Control.FileSystem
                         {
                             if (AllowFolder)
                             {
-                                str.Append(i + "|");
                                 result.Add(i);
                             }
                         }
                     }
                     else
                     {
-                        str.Append(i + "|");
                         result.Add(i);
                     }
                 }
-                Text = str.ToString();
-                FileDropped?.Invoke(this,new Common.StorageOperationEventArgs(result.ToArray(),Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.None));
+                Text = string.Join(Splitter, result);
+                FileDropped?.Invoke(this, new Common.StorageOperationEventArgs(result.ToArray(), Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.None));
             }
         }
 
-        public  string[] GetAvailableFiles(string[] files)
+        public void SetFiles(params string[] files)
         {
-            Regex r = new Regex(filter, RegexOptions.Compiled);
+            Text = string.Join(Splitter, files);
+        }
+
+        public string[] GetAvailableFiles(string[] files)
+        {
+            Regex r = new Regex(Filter, RegexOptions.Compiled);
 
             List<string> availableFiles = new List<string>();
             foreach (var file in files)
             {
-               if(r.IsMatch(filter))
+                if (r.IsMatch(Filter))
                 {
-                    if(File.Exists(file))
+                    if (AllowFile)
                     {
-                        availableFiles.Add(file);
+                        if (File.Exists(file))
+                        {
+                            availableFiles.Add(file);
+                        }
+                    }
+                    if(AllowFolder)
+                    {
+                        if (Directory.Exists(file))
+                        {
+                            availableFiles.Add(file);
+                        }
                     }
                 }
             }
 
-            return availableFiles.ToArray() ;
+            return availableFiles.ToArray();
         }
-        
+
     }
 }

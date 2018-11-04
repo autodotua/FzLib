@@ -93,6 +93,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControlExtended\ExtendedUserControl.cs" />
+    <Compile Include="ControlExtended\ExtendedWindow.cs" />
+    <Compile Include="ControlExtended\SettingWindow.cs" />
     <Compile Include="ControlExtended\ZoomableBorder.cs" />
     <Compile Include="DarkerBrushConverter.cs" />
     <Compile Include="Dialog\CommonFileSystemDialog.cs" />

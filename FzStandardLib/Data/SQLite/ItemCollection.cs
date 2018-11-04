@@ -2,23 +2,45 @@
 using System.Data;
 using System.Data.SQLite;
 using System.Linq;
+using System.Text;
 
 namespace FzLib.Data.SQLite
 {
     public class ItemCollection
     {
-        public ItemCollection(SQLiteConnection dbConnection, string tableName)
+        public TableHelper Table { get; }
+        public ItemCollection(SQLiteConnection dbConnection, string tableName, TableHelper table)
         {
             DbConnection = dbConnection ?? throw new ArgumentNullException(nameof(dbConnection));
             TableName = tableName ?? throw new ArgumentNullException(nameof(tableName));
+            Table = table ?? throw new ArgumentNullException(nameof(table));
         }
 
         private SQLiteConnection DbConnection { get; }
         public string TableName { get; }
         public void Add(params string[] values)
-        {
-            string sql = "insert into " + TableName + " values (" + string.Join(",", values) + ")";
-            DbConnection.ExecuteNonQuery(sql);
+        {          
+           string sql = "insert into " + TableName + " values (" + string.Join(",", values) + ")";
+                     DbConnection.ExecuteNonQuery(sql);
+
+            //StringBuilder str = new StringBuilder("insert into " + TableName + " values (");
+            //for(int i=0;i<values.Length;i++)
+            //{
+            //    if(i!=0)
+            //    {
+            //        str.Append(",");
+            //    }
+            //    if(Table.Fields[i].type=="TEXT")
+            //    {
+            //        str.Append("\"").Append(values[i]).Append("\"");
+            //    }
+            //    else
+            //    {
+            //        str.Append(values[i]);
+
+            //    }
+            //}
+            //DbConnection.ExecuteNonQuery(str.ToString());
         }
 
         public void Add(params (string column, string value)[] values)

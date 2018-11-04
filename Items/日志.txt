@@ -9,14 +9,28 @@
 
 20181022
 	从FzWpfLib移动部分可移植代码到FzStandardLib
-	移动[FzLib.Program.Config]和[FzLib.SQLite]到[FzLib.Data]
-	移动[FzLib.Program.Config.DotNetConfigHelper]到[FzLib.Program.ConfigHelper]
+	移动【Program.Config】和【SQLite】到【Data】
+	移动【Program.Config.DotNetConfigHelper】到【Program.ConfigHelper】
 
 20181024~27
-	新增[FzLib.IO.FileProperty]命名空间，新增[Photo]子命名空间用于获取Exif信息
-	[FzLib.Control.ControlsExtended]新增ZoomableBorder类
-	[FzLib.Control.ControlsExtended]修改为[ControlExtended]
-	[FzLib.IO.FileProperty.Photo.ExifInfo]新增ChineseTtile属性
-	[FzLib.Control.Dialog.CommonFileSystemDialog]新增GetSaveFile方法
-	[FzLib.Control.FlatStyle.ListView]增加Load和AddRow方法的Params参数的重载
-	[FzLib.IO.FileProperty.Photo.Exif]新增错误检测
+	新增【IO.FileProperty】命名空间，新增【Photo】子命名空间用于获取Exif信息
+	【Control.ControlsExtended】新增ZoomableBorder类
+	【Control.ControlsExtended】修改为【ControlExtended】
+	【IO.FileProperty.Photo.ExifInfo】新增ChineseTtile属性
+	【Control.Dialog.CommonFileSystemDialog】新增GetSaveFile方法
+	【Control.FlatStyle.ListView】增加Load和AddRow方法的Params参数的重载
+	【IO.FileProperty.Photo.Exif】新增错误检测
+20181102
+	【Control.ControlExtended】新增【NotifiableUserControl】类（来自Exif底栏）
+	【Control.ControlExtended】新增【NotifiableWindow】类（来自Exif底栏）
+	【Control.ControlExtended】新增【SettingWindow】类（来自Exif底栏）
+	新增【Media】命名空间，新增【Converter】类
+	移动【Basic.Enumerable】类到【Data.Serialization】并改名为【CvsSerialization】
+	新增【Extension】命名空间，用于扩展类的常用方法；新增【ExtendedObservableCollection】类，提供Range方法
+20181103
+	【IO.FileProperty.Photo.NaturalLanguageConverter】新增焦距转换器
+20181104
+	【Control.ControlExtended.NotifiableWindow】修改为【ExtendedWindow】
+	【Control.ControlExtended.NotifiableUserControl】修改为【ExtendedUserControl】
+	【Control.FileSystem.FileDropTextBox】修复了文件夹不可用的BUG
+	【Control.FileSystem.FileDropTextBox】修复单文件时不触发事件的BUG

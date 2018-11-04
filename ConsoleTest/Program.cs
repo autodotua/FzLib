@@ -1,7 +1,9 @@
 ﻿using FzLib.Data;
 using FzLib.Data.Serialization;
+using FzLib.IO;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,8 +19,12 @@ namespace ConsoleTest
             //   config.Save();
             //Config config = Config.OpenOrCreat<Config>();
             //config.Save();
-
-            var a = FzLib.IO.FileProperty.Photo.Exif.Get(@"C:\Users\autod\Desktop\测试\DSC07346(Lr).JPG");
+        //    Stopwatch watch = new Stopwatch();
+        //    watch.Start();
+        //  var a=  FileSystem.CompareFiles(@"C:\Users\autod\OneDrive", @"E:\备份\20181101-121029\C\Users\autod\OneDrive");
+        //    watch.Stop();
+        //    Console.WriteLine(watch.ElapsedMilliseconds);
+           var a = FzLib.IO.FileProperty.Photo.Exif.Get(@"C:\Users\autod\Desktop\新建文件夹 (2)\DSC08518(Lr).JPG");
 
 
             Console.Read();

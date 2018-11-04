@@ -15,7 +15,16 @@ namespace FzLib.Data.SQLite
         {
             this.DbConnection = dbConnection;
             TableName = tableName ?? throw new ArgumentNullException(nameof(tableName));
-            Items = new ItemCollection(dbConnection, tableName);
+            DataTable dt = DbConnection.Query($"Pragma Table_Info({ TableName})");
+            for (int i = 0; i < 6; i++)
+            {
+                Debug.WriteLine(dt.Rows[0].ItemArray[i].GetType());
+            }
+            Fields= dt.Rows.Cast<DataRow>()
+                .Select(p => ((long)p.ItemArray[0], p.ItemArray[1] as string, p.ItemArray[2] as string,
+                (long)p.ItemArray[3] == 1, (long)p.ItemArray[5] == 1, p.ItemArray[4] as string)).ToArray();
+            Items = new ItemCollection(dbConnection, tableName,this);
+            
         }
 
         public void Delete()
@@ -23,20 +32,7 @@ namespace FzLib.Data.SQLite
             DbConnection.ExecuteNonQuery("drop table " + TableName);
         }
 
-        public (long id, string name, string type, bool notNull, bool primaryKey, string defaultValue)[] Fields
-        {
-            get
-            {
-                DataTable dt = DbConnection.Query($"Pragma Table_Info({ TableName})");
-                for (int i = 0; i < 6; i++)
-                {
-                    Debug.WriteLine(dt.Rows[0].ItemArray[i].GetType());
-                }
-                return dt.Rows.Cast<DataRow>()
-                    .Select(p => ((long)p.ItemArray[0], p.ItemArray[1] as string, p.ItemArray[2] as string,
-                    (long)p.ItemArray[3] == 1, (long)p.ItemArray[5] == 1, p.ItemArray[4] as string)).ToArray();
-            }
-        }
+        public (long id, string name, string type, bool notNull, bool primaryKey, string defaultValue)[] Fields { get; }
         public DataTable Union(bool includingRepeatedRows, params QueryParameter[] parameters)
         {
             return DbConnection.Query(string.Join(" union " + (includingRepeatedRows ? "all " : ""), parameters.Select(p => p.GetSql(TableName))));

@@ -7,15 +7,15 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FzLib.Basic
+namespace FzLib.Data.Serialization
 {
-    public static class Enumerable
+    public static class CvsSerialization
     {
         public static void ExportToCsvByClassProperties<T>(IEnumerable<T> objs, IEnumerable<string> propertyNames, string path)
         {
-            ExportToCsvByClassProperties(objs, propertyNames, path, System.Text.Encoding.UTF8);
+            ExportToCsvByClassProperties(objs, propertyNames, path, Encoding.UTF8);
         }
-        public static void ExportToCsvByClassProperties<T>(IEnumerable<T> objs, IEnumerable<string> propertyNames, string path, System.Text.Encoding encoding)
+        public static void ExportToCsvByClassProperties<T>(IEnumerable<T> objs, IEnumerable<string> propertyNames, string path, Encoding encoding)
         {
             Type type = typeof(T);
             ExportToCsvByClassProperties(objs, type.GetProperties().Where(p => propertyNames.Contains(p.Name)), path, encoding);
@@ -23,9 +23,9 @@ namespace FzLib.Basic
         }
         public static void ExportToCsvByClassProperties<T>(IEnumerable<T> objs, string path)
         {
-            ExportToCsvByClassProperties(objs, path, System.Text.Encoding.UTF8);
+            ExportToCsvByClassProperties(objs, path, Encoding.UTF8);
         }
-        public static void ExportToCsvByClassProperties<T>(IEnumerable<T> objs, string path, System.Text.Encoding encoding)
+        public static void ExportToCsvByClassProperties<T>(IEnumerable<T> objs, string path, Encoding encoding)
         {
             Type type = typeof(T);
             ExportToCsvByClassProperties(objs, type.GetRuntimeProperties(), path, encoding);
@@ -33,10 +33,10 @@ namespace FzLib.Basic
         }
         public static void ExportToCsvByClassProperties<T>(IEnumerable<T> objs, IEnumerable<PropertyInfo> properties, string path)
         {
-            ExportToCsvByClassProperties(objs, properties, path, System.Text.Encoding.UTF8);
+            ExportToCsvByClassProperties(objs, properties, path, Encoding.UTF8);
 
         }
-        public static void ExportToCsvByClassProperties<T>(IEnumerable<T> objs, IEnumerable<PropertyInfo> properties, string path, System.Text.Encoding encoding)
+        public static void ExportToCsvByClassProperties<T>(IEnumerable<T> objs, IEnumerable<PropertyInfo> properties, string path, Encoding encoding)
         {
             if (!File.Exists(path))
             {
@@ -67,9 +67,9 @@ namespace FzLib.Basic
         }
         public static void ExportToCsvByStringList(IEnumerable<IEnumerable<string>> stringLists, IEnumerable<string> header, string path)
         {
-            ExportToCsvByStringList(stringLists, header, path, System.Text.Encoding.UTF8);
+            ExportToCsvByStringList(stringLists, header, path, Encoding.UTF8);
         }
-        public static void ExportToCsvByStringList(IEnumerable<IEnumerable<string>> stringLists, IEnumerable<string> header, string path, System.Text.Encoding encoding)
+        public static void ExportToCsvByStringList(IEnumerable<IEnumerable<string>> stringLists, IEnumerable<string> header, string path, Encoding encoding)
         {
             if (!File.Exists(path))
             {
@@ -112,9 +112,9 @@ namespace FzLib.Basic
         public static void ExportToCsv<T>(IEnumerable<T> objs, string path)
         {
 
-            ExportToCsv(objs, path, System.Text.Encoding.UTF8);
+            ExportToCsv(objs, path, Encoding.UTF8);
         }
-        public static void ExportToCsv<T>(IEnumerable<T> objs, string path, System.Text.Encoding encoding)
+        public static void ExportToCsv<T>(IEnumerable<T> objs, string path, Encoding encoding)
         {
 
             using (StreamWriter stream = new StreamWriter(File.Open(path, FileMode.Create), encoding))
@@ -126,10 +126,10 @@ namespace FzLib.Basic
 
         public static T[] ImportFromCsv<T>(string path)
         {
-            return ImportFromCsv<T>(path, System.Text.Encoding.UTF8);
+            return ImportFromCsv<T>(path, Encoding.UTF8);
         }
 
-        public static T[] ImportFromCsv<T>(string path, System.Text.Encoding encoding)
+        public static T[] ImportFromCsv<T>(string path, Encoding encoding)
         {
             T[] result = null;
             using (StreamReader stream = new StreamReader(File.Open(path, FileMode.Open), encoding))

@@ -48,6 +48,7 @@ namespace FzLib.Control
             public StorageOperationEventArgs(string name, CommonFileDialogResult result)
             {
                 Name = name;
+                Names = new[] { name };
                 Result = result;
             }
             public StorageOperationEventArgs(CommonFileDialogResult result)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace FzLib.IO.FileProperty.Photo
@@ -37,8 +38,14 @@ namespace FzLib.IO.FileProperty.Photo
                 {262 ,converterPhotometricInterpretation },
                 {50970 ,converterColorSpace },
                 {40961 ,converterColorSpace },
+                {41989 ,converterFocalLength },
+                {37386 ,converterFocalLength },
             };
         }
+        public static readonly Func<object, string> converterFocalLength = new Func<object, string>(o =>
+           {
+               return ((o is ushort) ? o.ToString() : ((URational)o).DecimalValue.ToString()) + "mm";
+           });
         public static readonly Func<object, string> converterDateTime = new Func<object, string>(o =>
            {
                string value = o as string;
