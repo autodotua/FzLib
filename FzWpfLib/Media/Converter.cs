@@ -10,7 +10,7 @@ using System.IO;
 
 namespace FzLib.Media
 {
-    class Converter
+   public class Converter
     {
         public static WImage.BitmapImage BitmapToBitmapImage(Draw.Bitmap bitmap)
         {
@@ -36,10 +36,18 @@ namespace FzLib.Media
 
         }
 
-        private static Draw.SolidBrush WindowMediaColorToDrawingSolidBrush(WMedia.Color color)
+        private static Draw.SolidBrush MediaColorToDrawingSolidBrush(WMedia.Color color)
         {
             return new Draw.SolidBrush(Draw.Color.FromArgb(color.A, color.R, color.G, color.B));
         }
 
+        public static Draw.Color MediaColorToDrawingColor(WMedia.Color color)
+        {
+            return Draw.Color.FromArgb(color.A, color.R, color.G, color.B);
+        }
+        public static WMedia.Color DrawingColorToMeidaColor(Draw.Color color)
+        {
+            return WMedia.Color.FromArgb(color.A, color.R, color.G, color.B);
+        }
     }
 }

@@ -12,6 +12,7 @@ namespace FzLib.Control.FlatStyle
     /// </summary>
     public partial class WindowHeader : UserControl, INotifyPropertyChanged
     {
+        public static readonly double marginTop = 32;
         public static WindowHeader CreatTitle(Window window, bool autoEvents = true)
         {
             WindowHeader header = new WindowHeader();
@@ -19,13 +20,13 @@ namespace FzLib.Control.FlatStyle
 
             Panel content = window.Content as Panel;
             content.Children.Insert(0, header);
-            content.Margin = new Thickness(0, 32, 0, 0);
+            content.Margin = new Thickness(0, marginTop, 0, 0);
             header.VerticalAlignment = VerticalAlignment.Top;
-            header.Margin = new Thickness(0, -32, 0, 0);
+            header.Margin = new Thickness(0, -marginTop, 0, 0);
             header.HeaderText = window.Title;
             if (content is Grid)
             {
-                Grid.SetColumnSpan(header, 127);
+                Grid.SetColumnSpan(header, int.MaxValue);
             }
 
             header.autoEvents = autoEvents;
@@ -42,9 +43,9 @@ namespace FzLib.Control.FlatStyle
             set
             {
                 parentWindow = value;
-                WindowChrome chrome = new WindowChrome();
-                chrome.CaptionHeight = 0;
-                WindowChrome.SetWindowChrome(value, chrome);
+                //WindowChrome chrome = new WindowChrome();
+                //chrome.CaptionHeight = 0;
+                //WindowChrome.SetWindowChrome(value, chrome);
                 value.WindowStyle = WindowStyle.None;
                 value.AllowsTransparency = true;
             }

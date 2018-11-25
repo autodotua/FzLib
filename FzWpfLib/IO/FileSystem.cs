@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 using static FzLib.IO.FileSystemTree;
 using SearchOption = System.IO.SearchOption;
 using vbFile = Microsoft.VisualBasic.FileIO;
@@ -28,8 +29,6 @@ namespace FzLib.IO
 
             return directory != null && Directory.EnumerateFiles(directory).Any(p => p == fileFullName);
         }
-
-
 
         public static string[] EnumerateAccessibleFiles(string path, bool directoryFirst = false)
         {
@@ -221,9 +220,85 @@ namespace FzLib.IO
         {
             FileSystemTree left = GetFileSystemTree(leftPath);
             FileSystemTree right = GetFileSystemTree(rightPath);
-           return FileSystemTree.CompareFiles(left, right);
+            return FileSystemTree.CompareFiles(left, right);
+        }
+        public static void Copy(this DirectoryInfo directory, string destinationPath)
+        {
+            CopyDirectory(directory.FullName, destinationPath);
+        }
+        public async static Task CopyAsync(this DirectoryInfo directory, string destinationPath)
+        {
+            await CopyDirectoryAsync(directory.FullName, destinationPath);
+        }
+        public async static Task CopyDirectoryAsync(string sourcePath, string destinationPath)
+        {
+            await Task.Run(() => CopyDirectory(sourcePath, destinationPath));
         }
 
+        public static void CopyDirectory(string sourcePath, string destinationPath)
+        {
+            DirectoryInfo info = new DirectoryInfo(sourcePath);
+            Directory.CreateDirectory(destinationPath);
+            foreach (FileSystemInfo fsi in info.GetFileSystemInfos())
+            {
+                string destName = Path.Combine(destinationPath, fsi.Name);
+
+                if (fsi is FileInfo)          //如果是文件，复制文件
+                {
+                    File.Copy(fsi.FullName, destName);
+                }
+                else                                    //如果是文件夹，新建文件夹，递归
+                {
+                    Directory.CreateDirectory(destName);
+                    CopyDirectory(fsi.FullName, destName);
+                }
+            }
+        }
+        ///// <summary>
+        ///// 删除文件夹（及文件夹下所有子文件夹和文件）
+        ///// </summary>
+        ///// <param name="directoryPath"></param>
+        //public static void DeleteDirectory(string directoryPath, bool forceDeleteReadOnly)
+        //{
+        //    if(Directory.Exists(directoryPath))
+        //    {
+        //        throw new DirectoryNotFoundException();
+        //    }
+        //    foreach (string d in Directory.GetFileSystemEntries(directoryPath))
+        //    {
+        //        if (File.Exists(d))
+        //        {
+        //            FileInfo file = new FileInfo(d);
+        //            if (file.Attributes.HasFlag(FileAttributes.ReadOnly))
+        //            {
+        //                if (forceDeleteReadOnly)
+        //                {
+        //                    file.Attributes = FileAttributes.Normal;
+        //                }
+        //                else
+        //                {
+        //                    throw new IOException("文件" + file.FullName + "是只读的");
+        //                }
+        //            }
+        //            File.Delete(d);     //删除文件   
+        //        }
+        //        else
+        //        {
+        //            DeleteDirectory(d, forceDeleteReadOnly);    //删除文件夹
+        //        }
+        //    }
+        //    Directory.Delete(directoryPath);    //删除空文件夹
+        //}
+
+        ///// <summary>
+        ///// 删除文件夹（及文件夹下所有子文件夹和文件）
+        ///// </summary>
+        ///// <param name="directoryPath"></param>
+        //public async static Task DeleteDirectoryAsync(string directoryPath, bool forceDeleteReadOnly)
+        //{
+        //    await Task.Run(() => DeleteDirectory(directoryPath, forceDeleteReadOnly));
+        //}
+        
 
     }
 

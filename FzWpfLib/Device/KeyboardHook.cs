@@ -35,10 +35,10 @@ namespace FzLib.Device
 
         public struct KBDLLHOOKSTRUCT
         {
-            public UInt32 vkCode;
-            public UInt32 scanCode;
-            public UInt32 flags;
-            public UInt32 time;
+            public uint vkCode;
+            public uint scanCode;
+            public uint flags;
+            public uint time;
             public IntPtr extraInfo;
         }
 

@@ -4,14 +4,20 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>FzStandardLib</AssemblyName>
     <RootNamespace>FzLib</RootNamespace>
-    <Platforms>x64</Platforms>
+    <Platforms>x64;AnyCPU</Platforms>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <LangVersion>7.1</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutputPath>..\Release\</OutputPath>
+    <OutputPath>..\Release\x64</OutputPath>
     <WarningLevel>3</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>C:\Users\autod\OneDrive\同步\作品\模块\Release\AnyCPU\</OutputPath>
+    <WarningLevel>3</WarningLevel>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
 
   <ItemGroup>

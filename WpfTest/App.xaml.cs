@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FzLib.Program.Notify;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +14,10 @@ namespace WpfTest
     /// </summary>
     public partial class App : Application
     {
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            TrayIcon icon = new TrayIcon(WpfTest.Properties.Resources.icon, "ads");
+            icon.Show();
+        }
     }
 }

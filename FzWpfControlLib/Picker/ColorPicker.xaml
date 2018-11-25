@@ -4,6 +4,7 @@
    x:Class="FzLib.Control.Picker.ColorPicker"
     xmlns:local="clr-namespace:FzLib.Control.Picker"
 x:Name="picker"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}"
     Height="15" Width="15" >
     <UserControl.Resources>
         <!--Button的样式 -->

@@ -34,3 +34,20 @@
 	【Control.ControlExtended.NotifiableUserControl】修改为【ExtendedUserControl】
 	【Control.FileSystem.FileDropTextBox】修复了文件夹不可用的BUG
 	【Control.FileSystem.FileDropTextBox】修复单文件时不触发事件的BUG
+20181108
+	恢复AnyCPU配置
+20181110
+	【Data.Serialization】修复Json和Xml序列化的方法中把Create误写为Creat的BUG
+	【Data.Serialization】修改Json和Xml序列化的Save方法为虚方法
+	【Data.Serialization】新增Json和Xml序列化的TryCreateOrOpen方法
+	【Control.Dialog.DialogHelper】将ShowException方法的showOnlyMessage参数默认改为true
+	【Program.Notify.TrayIcon】新增两个ClickToOpenOrHideWindow方法
+20181111
+	【Extension】新增ISingleObject接口，用于需要在外部引用一个地址可能变化的值
+20181120
+	【IO.FileSystem】新增目录的复制方法和删除方法
+20181124
+	【Control.Dialog】将DialolgHelper类中的静态方法移动到DialogBox和InputBox中
+	新增FzGeographyLib程序集，新增GpxInfo的部分方法
+20181125
+	【GeoGraphy】新增Coordinate命名空间，包含Convert类、LatLng类和Transformation类

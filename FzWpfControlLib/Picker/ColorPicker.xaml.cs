@@ -23,7 +23,6 @@ namespace FzLib.Control.Picker
 
         public ColorPicker()
         {
-            DataContext = this;
             InitializeComponent();
             CommandBindings.Add(new CommandBinding(SelectColorCommand, SelectColorCommandExecute));
         }

@@ -86,7 +86,7 @@ namespace FzLib.Control.Dialog
                 {
                     if (!Regex.IsMatch(txt.Text, regex))
                     {
-                        DialogHelper.ShowError("输入的文本不符合要求！");
+                        DialogBox.ShowError("输入的文本不符合要求！",this);
                         return;
                     }
                 }
@@ -166,6 +166,22 @@ namespace FzLib.Control.Dialog
                     (stk.Children[defaultButtonIndex] as Button).IsEnabled = txt.Text != "";
                 }
             }
+        }
+        public static Window DefaultDialogOwner { get; set; } = null;
+
+
+        public static bool GetInput(string message, out string text, SolidColorBrush color = null, string defaultText = "", string regex = ".*", bool allowEmpty = true, Window owner = null)
+        {
+            var box = new InputBox(message, owner ?? DefaultDialogOwner, color, defaultText, regex) { AllowEmpty = allowEmpty };
+            box.AddButton("取消");
+            box.AddButton("确定", true, true);
+            box.ShowDialog();
+            text = box.ResultText;
+            if (box.ResultIndex == 1)
+            {
+                return true;
+            }
+            return false;
         }
     }
     

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FzLib.Control.FlatStyle;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ namespace WpfTest
         public MainWindow()
         {
             InitializeComponent();
+            WindowHeader.CreatTitle(this);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

@@ -85,7 +85,7 @@ namespace FzLib.Control.ControlExtended
                         bool disable = attri.IncludeWhiteSpace ? string.IsNullOrWhiteSpace(value) : string.IsNullOrEmpty(value);
                         if (disable)
                         {
-                            DialogHelper.ShowError("设置“" + GetName(prop) + "”的值不可为空", this);
+                            DialogBox.ShowError("设置“" + GetName(prop) + "”的值不可为空", this);
                             return false;
                         }
                     }
@@ -97,7 +97,7 @@ namespace FzLib.Control.ControlExtended
                     int? value = (control as NumberTextBox).IntNumber;
                     if (!value.HasValue)
                     {
-                        DialogHelper.ShowError("设置“" + GetName(prop) + "”的值不是整数", this);
+                        DialogBox.ShowError("设置“" + GetName(prop) + "”的值不是整数", this);
                         return false;
                     }
                     var attriNum = prop.GetCustomAttribute<LimitedNumberSettingAttribute>();
@@ -105,12 +105,12 @@ namespace FzLib.Control.ControlExtended
                     {
                         if (value.Value < attriNum.NumberMin)
                         {
-                            DialogHelper.ShowError("设置“" + GetName(prop) + "”的值不应小于" + attriNum.NumberMin, this);
+                            DialogBox.ShowError("设置“" + GetName(prop) + "”的值不应小于" + attriNum.NumberMin, this);
                             return false;
                         }
                         if (value.Value > attriNum.NumberMax)
                         {
-                            DialogHelper.ShowError("设置“" + GetName(prop) + "”的值不应大于" + attriNum.NumberMax, this);
+                            DialogBox.ShowError("设置“" + GetName(prop) + "”的值不应大于" + attriNum.NumberMax, this);
                             return false;
                         }
                     }
@@ -121,7 +121,7 @@ namespace FzLib.Control.ControlExtended
                     double? value = (control as NumberTextBox).DoubleNumber;
                     if (!value.HasValue)
                     {
-                        DialogHelper.ShowError("设置“" + GetName(prop) + "”的值不是整数", this);
+                        DialogBox.ShowError("设置“" + GetName(prop) + "”的值不是整数", this);
                         return false;
                     }
                     var attriNum = prop.GetCustomAttribute<LimitedNumberSettingAttribute>();
@@ -129,12 +129,12 @@ namespace FzLib.Control.ControlExtended
                     {
                         if (value.Value < attriNum.NumberMin)
                         {
-                            DialogHelper.ShowError("设置“" + GetName(prop) + "”的值不应小于" + attriNum.NumberMin, this);
+                            DialogBox.ShowError("设置“" + GetName(prop) + "”的值不应小于" + attriNum.NumberMin, this);
                             return false;
                         }
                         if (value.Value > attriNum.NumberMax)
                         {
-                            DialogHelper.ShowError("设置“" + GetName(prop) + "”的值不应大于" + attriNum.NumberMax, this);
+                            DialogBox.ShowError("设置“" + GetName(prop) + "”的值不应大于" + attriNum.NumberMax, this);
                             return false;
                         }
                     }

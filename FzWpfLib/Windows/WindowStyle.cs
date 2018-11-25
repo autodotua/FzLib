@@ -48,6 +48,10 @@ namespace FzLib.Windows
             }
         }
 
+        public IntPtr SetParent(IntPtr parentWindowHandle)
+        {
+          return  SetParent(winHandle, parentWindowHandle);
+        }
         public bool SetToMouseThrough()
         {
             return Set(winHandle, GWL_EXSTYLE, WindowModes.Transparent | WindowModes.ToolWindow);
@@ -81,7 +85,7 @@ namespace FzLib.Windows
             return Set(winHandle, GWL_EXSTYLE, 0);
         }
 
-        public static IntPtr GetWorkerWindow()
+        public static IntPtr GetWorkerWindow()  
         {
             // 获取
             IntPtr windowHandle = FindWindow("Progman", null);

@@ -10,7 +10,7 @@ namespace FzLib.Data.Serialization
     {
         protected XmlSerializationBase() { }
 
-        public static T Creat<T>(string path = "config.xml") where T : XmlSerializationBase, new()
+        public static T Create<T>(string path = "config.xml") where T : XmlSerializationBase, new()
         {
             T instance = new T
             {
@@ -18,7 +18,18 @@ namespace FzLib.Data.Serialization
             };
             return instance;
         }
-        public static T OpenOrCreat<T>(string path = "config.xml") where T : XmlSerializationBase, new()
+        public static T TryOpenOrCreate<T>(string path = "config.xml") where T : XmlSerializationBase, new()
+        {
+            try
+            {
+                return OpenOrCreate<T>(path);
+            }
+            catch
+            {
+                return Create<T>(path);
+            }
+        }
+        public static T OpenOrCreate<T>(string path = "config.xml") where T : XmlSerializationBase, new()
         {
             T instance;
             if (File.Exists(path))
@@ -62,12 +73,12 @@ namespace FzLib.Data.Serialization
 
 
         protected JsonSerializerSettings Settings { get; set; } = new JsonSerializerSettings();
-        public void Save(bool format = false)
+        public virtual void Save(bool format = false)
         {
             Save(Path,format);
         }
 
-        public void Save(string path, bool format = false)
+        public virtual void Save(string path, bool format = false)
         {
             if (path == null)
             {

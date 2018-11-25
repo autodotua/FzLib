@@ -11,7 +11,7 @@ namespace FzLib.Data.Serialization
             Settings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
         }
 
-        public static T Creat<T>(string path = "config.json") where T : JsonSerializationBase, new()
+        public static T Create<T>(string path = "config.json") where T : JsonSerializationBase, new()
         {
             T instance = new T
             {
@@ -19,7 +19,18 @@ namespace FzLib.Data.Serialization
             };
             return instance;
         }
-        public static T OpenOrCreat<T>(string path = "config.json") where T : JsonSerializationBase, new()
+        public static T TryOpenOrCreate<T>(string path = "config.json") where T : JsonSerializationBase, new()
+        {
+            try
+            {
+                return OpenOrCreate<T>(path);
+            }
+            catch
+            {
+                return Create<T>(path);
+            }
+        }
+        public static T OpenOrCreate<T>(string path = "config.json") where T : JsonSerializationBase, new()
         {
             T instance;
             if (File.Exists(path))
@@ -64,12 +75,12 @@ namespace FzLib.Data.Serialization
         protected JsonSerializerSettings Settings { get; set; } = new JsonSerializerSettings();
 
 
-        public void Save()
+        public virtual void Save()
         {
             Save(Path);
         }
 
-        public void Save(string path)
+        public virtual void Save(string path)
         {
             if (path == null)
             {

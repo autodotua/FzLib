@@ -1,5 +1,8 @@
-﻿using System;
+﻿using FzLib.Extension;
+using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Windows;
 using System.Windows.Forms;
 
 namespace FzLib.Program.Notify
@@ -124,7 +127,7 @@ namespace FzLib.Program.Notify
             trayIcon.ContextMenu.MenuItems.Add(index, new MenuItem(text, new EventHandler((p1, p2) => action())));
 
         }
-        
+
         public void DeleteContextMenuItem(string text)
         {
             trayIcon.ContextMenu.MenuItems.RemoveByKey(text);
@@ -139,6 +142,53 @@ namespace FzLib.Program.Notify
         }
 
         public ContextMenu ContextMenu => trayIcon.ContextMenu;
+
+        public void ClickToOpenOrHideWindow(Window window)
+        {
+            MouseLeftClick += (p1, p2) =>
+            {
+                if (window.Visibility != Visibility.Visible)
+                {
+                    window.Show();
+                    window.Activate();
+                }
+                else
+                {
+                    window.Hide();
+                }
+            };
+        }
+        public void ClickToOpenOrHideWindow<T>(ISingleObject<T> obj) where T:Window,new()
+        {
+            MouseLeftClick += (p1, p2) =>
+            {
+                T window = null;
+                if (obj.SingleObject != null)
+                {
+                    window = obj.SingleObject;
+                    var propertyInfo = typeof(Window).GetProperty("IsDisposed", BindingFlags.NonPublic | BindingFlags.Instance);
+                    var isDisposed = (bool)propertyInfo.GetValue(obj.SingleObject);
+                    if (!isDisposed)
+                    {
+                        if (window.Visibility != Visibility.Visible)
+                        {
+                            window.Show();
+                            window.Activate();
+                        }
+                        else
+                        {
+                            window.Hide();
+                        }
+                        return;
+                    }
+                }
+                
+                window = new T();
+                obj.SingleObject= window;
+                window.Show();
+                
+            };
+        }
 
         public event MouseEventHandler MouseLeftClick;
         public event MouseEventHandler MouseRightClick;

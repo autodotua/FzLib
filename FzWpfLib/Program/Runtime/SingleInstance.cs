@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FzLib.Extension;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -75,6 +76,19 @@ namespace FzLib.Program.Runtime
                 return false;
             }
         }
+        public async Task<bool> CheckAndOpenWindow<T>(Application app, ISingleObject<T> obj) where T : Window, new()
+        {
+            if (ExistAnotherInstance)
+            {
+                await SendOpenWindowMessage();
+                return true;
+            }
+            else
+            {
+                RegistClient<T>(app,obj);
+                return false;
+            }
+        }
 
         private async Task SendOpenWindowMessage()
         {
@@ -84,7 +98,6 @@ namespace FzLib.Program.Runtime
             pipe.Dispose();
             Environment.Exit(-1);
         }
-
         private void RegistClient<T>(Application app) where T : Window, new()
         {
             SinglePipe.Clinet pipe = new SinglePipe.Clinet(Name + "_Mutex");
@@ -122,6 +135,51 @@ namespace FzLib.Program.Runtime
                             app.MainWindow.WindowState = WindowState.Normal;
                         }
                         app.MainWindow.Activate();
+                        //pipe.Dispose();
+                        //pipe.Start();
+                        //SetForegroundWindow(new WindowInteropHelper(app.MainWindow).Handle);
+                    });
+                }
+            };
+        }
+
+        private void RegistClient<T>(Application app, ISingleObject<T> obj) where T : Window, new()
+        {
+            SinglePipe.Clinet pipe = new SinglePipe.Clinet(Name + "_Mutex");
+            pipe.Start();
+            pipe.GotMessage += (p1, p2) =>
+            {
+                if (p2.Message == "OpenWindow")
+                {
+                    app.Dispatcher.Invoke(() =>
+                    {
+                        if (obj.SingleObject== null)
+                        {
+                            obj.SingleObject = new T();
+                        }
+                        try
+                        {
+
+                            obj.SingleObject.Show();
+                        }
+                        catch (InvalidOperationException)
+                        {
+                            obj.SingleObject = new T();
+                            obj.SingleObject.Show();
+                        }
+                        if (obj.SingleObject.Visibility == Visibility.Hidden)
+                        {
+                            obj.SingleObject.Visibility = Visibility.Collapsed;
+                        }
+                        if (obj.SingleObject.Visibility != Visibility.Visible)
+                        {
+                            obj.SingleObject.Visibility = Visibility.Visible;
+                        }
+                        if (obj.SingleObject.WindowState == WindowState.Minimized)
+                        {
+                            obj.SingleObject.WindowState = WindowState.Normal;
+                        }
+                        obj.SingleObject.Activate();
                         //pipe.Dispose();
                         //pipe.Start();
                         //SetForegroundWindow(new WindowInteropHelper(app.MainWindow).Handle);

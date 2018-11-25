@@ -27,7 +27,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\Release\AnyCPU\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -43,7 +43,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>..\Release\</OutputPath>
+    <OutputPath>..\Release\x64\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -96,6 +96,7 @@
     <Compile Include="ControlExtended\ExtendedUserControl.cs" />
     <Compile Include="ControlExtended\ExtendedWindow.cs" />
     <Compile Include="ControlExtended\SettingWindow.cs" />
+    <Compile Include="ControlExtended\WindowHelper.cs" />
     <Compile Include="ControlExtended\ZoomableBorder.cs" />
     <Compile Include="DarkerBrushConverter.cs" />
     <Compile Include="Dialog\CommonFileSystemDialog.cs" />
@@ -173,7 +174,6 @@
     <Compile Include="Dialog\DialogBox.xaml.cs">
       <DependentUpon>DialogBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialog\DialogHelper.cs" />
     <Compile Include="Progress\ProgressBarWithPercentageText.xaml.cs">
       <DependentUpon>ProgressBarWithPercentageText.xaml</DependentUpon>
     </Compile>
@@ -198,7 +198,6 @@
     <Compile Include="Picker\TimePicker.xaml.cs">
       <DependentUpon>TimePicker.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Tools.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="ControlExtended\PanelExportDialog.xaml">
