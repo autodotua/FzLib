@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FzLib.Data.Serialization
+namespace FzLib.DataStorage.Serialization
 {
     public static class CvsSerialization
     {

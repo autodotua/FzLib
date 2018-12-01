@@ -27,15 +27,17 @@ namespace FzLib.Program.Notify
                     handle = windowHandles[window];
                 }
                 Dialog.OwnerWindowHandle = handle;
+                Dialog.Opened += (p1, p2) => OpenedDialogCount++;
+                Dialog.Closing += (p1, p2) => OpenedDialogCount--;
             }
         }
-
-
 
         public TaskDialogResult Show()
         {
             return Dialog.Show();
         }
+
+        public static int OpenedDialogCount { get; private set; }
 
         public static void Show(Window window, string text, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None)
         {
@@ -165,8 +167,19 @@ namespace FzLib.Program.Notify
             }
         }
 
+        public static void ShowException(Window win, Exception ex, string message = null)
+        {
+            ShowWithDetail(win, ex.Message, message ?? "程序发生异常", ex.ToString(), TaskDialogStandardIcon.Error, false, "查看详细错误");
 
-
+        }
+        public static void ShowError(Window win, string title, string detail)
+        {
+            ShowWithDetail(win, title, "错误", detail, TaskDialogStandardIcon.Error, false, "查看详细错误");
+        }
+        public static void ShowError(Window win, string title)
+        {
+            Show(win, title, "错误", TaskDialogStandardIcon.Error);
+        }
         public void Dispose()
         {
             Dialog.Dispose();

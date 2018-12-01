@@ -5,9 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Collections.Generic;
-using static FzLib.Data.SQLite.SQLiteHelper;
+using static FzLib.DataStorage.SQLite.SQLiteHelper;
 
-namespace FzLib.Data.SQLite
+namespace FzLib.DataStorage.SQLite
 {
     public class DatabaseHelper:IDisposable
     {

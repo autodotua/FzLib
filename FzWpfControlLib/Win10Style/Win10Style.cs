@@ -69,6 +69,7 @@ namespace FzLib.Control.Win10Style
     {
         public WindowButtonCommands()
         {
+            CommonResources.InitializeControlResouces(Resources, "Controls");
             CommonResources.InitializeControlResoucesInThemes(Resources, "WindowButtonCommands");
             Style = FindResource("MahApps.Metro.Styles.WindowButtonCommands.Win10") as Style;
         }
@@ -201,6 +202,11 @@ namespace FzLib.Control.Win10Style
     #region Slider
     public class RangeSlider : MahApps.Metro.Controls.RangeSlider
     {
+        public RangeSlider()
+        {
+            CommonResources.InitializeControlResoucesInThemes(Resources, "RangeSlider");
+            Style = FindResource("MahApps.Metro.Styles.RangeSlider.Win10") as Style;
+        }
     }
 
 

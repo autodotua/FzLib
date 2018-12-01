@@ -50,4 +50,18 @@
 	【Control.Dialog】将DialolgHelper类中的静态方法移动到DialogBox和InputBox中
 	新增FzGeographyLib程序集，新增GpxInfo的部分方法
 20181125
-	【GeoGraphy】新增Coordinate命名空间，包含Convert类、LatLng类和Transformation类
+	【Geography】新增【Coordinate】命名空间，包含Convert类、LatLng类和Transformation类
+	【Geography】新增【Analysis】命名空间，包含DistanceAnalysis类和SpeedAnalysis
+20181126
+	【Geography.Format】新增Shapefile类，可以导出空白shapefile（目前仅支持point）
+	【Geography.Format.GpxInfo】新增支持导出到gpx文件
+	【Geography.Coordinate.LatLng】重命名为MapPoint
+20181128
+	【Geography.Coordinate.MapPoint】重命名为GeoPoint
+	【Geography.Coordinate】新增【GeoPointCoolection】类
+	【Geography.Format.GpxTrackInfo】新增Distance、MaxSpeed、ToTalTime等属性和GetMaxSpeed等方法
+	【Data】命名空间改为【DataStorage】，新增【DataAnalysis】命名空间
+20181130
+	【Geography.Coordinate】将Convert变为命名空间，新增【GeoCoord】类和【TileNumber】类
+20181201
+	【Program.Notify.TaskDialog】新增ShowException方法、ShowError方法、OpenedDialogCount属性

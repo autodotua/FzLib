@@ -4,7 +4,7 @@ using System.Data.SQLite;
 using System.Diagnostics;
 using System.Linq;
 
-namespace FzLib.Data.SQLite
+namespace FzLib.DataStorage.SQLite
 {
     public class TableHelper
     {

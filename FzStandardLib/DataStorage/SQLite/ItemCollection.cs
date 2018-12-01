@@ -4,7 +4,7 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 
-namespace FzLib.Data.SQLite
+namespace FzLib.DataStorage.SQLite
 {
     public class ItemCollection
     {

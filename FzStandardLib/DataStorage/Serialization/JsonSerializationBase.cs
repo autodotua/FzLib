@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System.IO;
-using static FzLib.Data.Converter;
+using static FzLib.DataStorage.Converter;
 
-namespace FzLib.Data.Serialization
+namespace FzLib.DataStorage.Serialization
 {
     public abstract class JsonSerializationBase
     {

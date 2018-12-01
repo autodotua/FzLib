@@ -3,7 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using System;
 
-namespace FzLib.Data.SQLite
+namespace FzLib.DataStorage.SQLite
 {
     public class QueryParameter
     {

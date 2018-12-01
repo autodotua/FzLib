@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace FzLib.Data.Serialization
+namespace FzLib.DataStorage.Serialization
 {
     public class BinarySerialization
     { /// <summary>

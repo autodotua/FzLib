@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
-using static FzLib.Data.Converter;
+using static FzLib.DataStorage.Converter;
 
-namespace FzLib.Data.Serialization
+namespace FzLib.DataStorage.Serialization
 {
     public abstract class XmlSerializationBase
     {

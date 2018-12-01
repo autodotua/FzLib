@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Xml;
-using static FzLib.Geography.Format.GpxHelper;
 
 namespace FzLib.Geography.Format
 {
-    public class GpxInfo
+    public class GpxInfo: ICloneable
     {
         public static GpxInfo FromString(string gpxString)
         {
@@ -26,7 +27,10 @@ namespace FzLib.Geography.Format
         {
             LoadGpxInfoProperties(this, xml);
         }
+        public GpxInfo()
+        {
 
+        }
 
         public string Creator { get; set; }
         public string Version { get; set; }
@@ -36,7 +40,6 @@ namespace FzLib.Geography.Format
         public string Author { get; set; }
         public string Url { get; set; }
 
-
         public string UrlName { get; set; }
         public DateTime Time { get; set; }
         public string KeyWords { get; set; }
@@ -45,83 +48,13 @@ namespace FzLib.Geography.Format
         public Dictionary<string, string> OtherProperties { get; private set; } = new Dictionary<string, string>();
 
         public List<GpxTrackInfo> Tracks { get; private set; } = new List<GpxTrackInfo>();
-    }
-    public class GpxTrackInfo
-    {
 
-        internal GpxTrackInfo(XmlNode xml)
-        {
-            LoadGpxTrackInfoProperties(this, xml);
-        }
-        public Dictionary<string, string> OtherProperties { get; private set; } = new Dictionary<string, string>();
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public List<GpxTrackPointInfo> Points { get; private set; } = new List<GpxTrackPointInfo>();
-      //public List<GpxTrackPointInfo> GetOffsetPoints(double north, double east)
-      //  {
-      //      List<GpxTrackPointInfo> newPoints = new List<GpxTrackPointInfo>();
-      //      foreach (var point in Points)
-      //      {
-      //          var newPoint = new GpxTrackPointInfo()
-      //          {
-      //              Altitude = point.Altitude,
-      //              OtherProperties = point.OtherProperties,
-      //              Time = point.Time,
-      //              Latitude = point.Latitude + north / meterPerDegree,
-      //              Longitude = point.Longitude + east / meterPerDegree * Math.Cos(Math.Abs( point.Latitude )* Math.PI / 180),
-      //          };
-      //          if(newPoint.Longitude>180)
-      //          {
-      //              newPoint.Longitude = newPoint.Longitude - 360;
-      //          }
-      //          else if(newPoint.Longitude<-180)
-      //          {
-      //              newPoint.Longitude = newPoint.Longitude + 360;
-      //          }
-      //          newPoints.Add(newPoint);
-      //      }
-      //      return newPoints;
-      //  }
 
-    }
-    public class GpxTrackPointInfo
-    {
-        public GpxTrackPointInfo() { }
-        internal GpxTrackPointInfo(XmlNode xml)
-        {
-            LoadGpxTrackPointInfoProperties(this, xml);
-        }
-        /// <summary>
-        /// 经度
-        /// </summary>
-        public double Longitude { get; set; }
-        /// <summary>
-        /// 纬度
-        /// </summary>
-        public double Latitude { get; set; }
-        public double Altitude { get; set; }
-        public DateTime Time { get; set; }
-        public Dictionary<string, string> OtherProperties { get; internal set; } = new Dictionary<string, string>();
-
-    }
-
-    internal class GpxHelper
-    {
         public static void LoadGpxInfoProperties(GpxInfo info, XmlNode xml)
         {
             LoadGpxInfoProperties(info, xml.Attributes.Cast<XmlAttribute>());
             LoadGpxInfoProperties(info, xml.ChildNodes.Cast<XmlElement>());
 
-        }
-        public static void LoadGpxTrackInfoProperties(GpxTrackInfo info, XmlNode xml)
-        {
-            LoadGpxTrackInfoProperties(info, xml.Attributes.Cast<XmlAttribute>());
-            LoadGpxTrackInfoProperties(info, xml.ChildNodes.Cast<XmlElement>());
-        }
-        public static void LoadGpxTrackPointInfoProperties(GpxTrackPointInfo info, XmlNode xml)
-        {
-            LoadGpxTrackPointInfoProperties(info, xml.Attributes.Cast<XmlAttribute>());
-            LoadGpxTrackPointInfoProperties(info, xml.ChildNodes.Cast<XmlElement>());
         }
         private static void LoadGpxInfoProperties(GpxInfo info, IEnumerable<XmlNode> nodes)
         {
@@ -148,17 +81,24 @@ namespace FzLib.Geography.Format
                     case "urlname":
                         info.UrlName = node.InnerText;
                         break;
+                    case "distance":
+                        if (double.TryParse(node.InnerText, out double result))
+                        {
+                            info.Distance = result;
+                        }
+                        break;
                     case "time":
-                        info.Time = DateTime.Parse(node.InnerText);
+                        if (DateTime.TryParse(node.InnerText,  CultureInfo.CurrentCulture,DateTimeStyles.AdjustToUniversal, out DateTime time))
+                        {
+                            info.Time = time;
+                        }
                         break;
                     case "keywords":
                         info.KeyWords = node.InnerText;
                         break;
-                    case "distance":
-                        info.Distance = double.Parse(node.InnerText);
-                        break;
+
                     case "trk":
-                        info.Tracks.Add(new GpxTrackInfo(node));
+                        info.Tracks.Add(new GpxTrackInfo(node, info));
                         break;
                     default:
                         info.OtherProperties.Add(node.Name, node.InnerText);
@@ -168,54 +108,89 @@ namespace FzLib.Geography.Format
             }
         }
 
-        private static void LoadGpxTrackInfoProperties(GpxTrackInfo info, IEnumerable<XmlNode> nodes)
+        public string ToGpxXml()
         {
-            foreach (var node in nodes)
-            {
-                switch (node.Name)
-                {
-                    case "name":
-                        info.Name = node.InnerText;
-                        break;
-                    case "desc":
-                        info.Description = node.InnerText;
-                        break;
-                    case "trkseg":
-                        foreach (XmlNode ptNode in node.ChildNodes)
-                        {
+            XmlDocument doc = new XmlDocument();
+            XmlDeclaration dec = doc.CreateXmlDeclaration("1.0", "utf-8", "no");
+            doc.AppendChild(dec);
 
-                            info.Points.Add(new GpxTrackPointInfo(ptNode));
-                        }
-                        break;
-                    default:
-                        info.OtherProperties.Add(node.Name, node.InnerText);
-                        break;
-                }
-            }
-        }
-        private static void LoadGpxTrackPointInfoProperties(GpxTrackPointInfo info, IEnumerable<XmlNode> nodes)
-        {
-            foreach (var node in nodes)
+
+            XmlElement root = doc.CreateElement("gpx"); doc.AppendChild(root);
+            
+
+
+            root.SetAttribute("version", Version);
+            root.SetAttribute("creator", Creator);
+            AppendChildNode( "name", Name);
+            AppendChildNode( "author", Author);
+            AppendChildNode( "url", Url);
+            AppendChildNode( "urlname", UrlName);
+            AppendChildNode( "time", Time.ToString(Constant. GpxTimeFormat));
+            AppendChildNode( "keywords", KeyWords);
+            AppendChildNode( "distance", Distance.ToString());
+            foreach (var item in OtherProperties)
             {
-                switch (node.Name)
+                if (item.Key.Contains("xmlns") )
                 {
-                    case "lat":
-                        info.Latitude = double.Parse(node.InnerText);
-                        break;
-                    case "lon":
-                        info.Longitude = double.Parse(node.InnerText);
-                        break;
-                    case "ele":
-                        info.Altitude = double.Parse(node.InnerText);
-                        break;
-                    case "time":
-                        info.Time = DateTime.Parse(node.InnerText);
-                        break;
-                    default:
-                        info.OtherProperties.Add(node.Name, node.InnerText);
-                        break;
+                }
+                else if (item.Key.Contains(":"))
+                {
+                    
+                }
+                else
+                {
+                    AppendChildNode(item.Key, item.Value);
                 }
             }
+            foreach (var trk in Tracks)
+            {
+                XmlElement node = doc.CreateElement("trk");
+                trk.WriteGpxXml(doc, node);
+                root.AppendChild(node);
+            }
+
+            return GetXmlString();
+
+            void AppendChildNode(string name, string value)
+            {
+                XmlElement child = doc.CreateElement(name);
+                child.InnerText = value;
+                root.AppendChild(child);
+            }
+            string GetXmlString()
+            {
+                string xmlString = null;
+                using (var stringWriter = new StringWriter())
+                {
+                    XmlWriterSettings xmlSettingsWithIndentation = new XmlWriterSettings
+                    {
+                        Indent = true,
+                        IndentChars = "\t",
+                    };
+                    using (var xmlTextWriter = XmlWriter.Create(stringWriter, xmlSettingsWithIndentation))
+                    {
+                        doc.WriteTo(xmlTextWriter);
+                        xmlTextWriter.Flush();
+                        xmlString = stringWriter.GetStringBuilder().ToString();
+                    }
+                }
+
+                return xmlString;
+            }
+
+        }
+
+
+        public GpxInfo Clone()
+        {
+            var info = MemberwiseClone() as GpxInfo;
+            info.Tracks = Tracks.Select(p => p.Clone()).ToList();
+            return info;
+        }
+
+        object ICloneable.Clone()
+        {
+            return Clone();
         }
     }
 }

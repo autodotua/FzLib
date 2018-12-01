@@ -1,19 +1,19 @@
 ﻿using System;
 
-namespace FzLib.Geography.Coordinate
+namespace FzLib.Geography.Coordinate.Convert
 {
-    public static class Convert
+    public static class GeoCoordConverter
     {
         private const double a = 6378245.0;
 
         private const double ee = 0.0066934216229659433;
 
 
-        public static LatLng WGS84ToGCJ02(LatLng wgLoc)
+        public static GeoPoint WGS84ToGCJ02(GeoPoint wgLoc)
         {
             if (OutOfChina(wgLoc.Latitude, wgLoc.Longitude))
             {
-                return new LatLng(wgLoc.Latitude, wgLoc.Longitude);
+                return new GeoPoint(wgLoc.Latitude, wgLoc.Longitude);
             }
             double num = TransformLat(wgLoc.Longitude - 105.0, wgLoc.Latitude - 35.0);
             double num2 = TransformLon(wgLoc.Longitude - 105.0, wgLoc.Latitude - 35.0);
@@ -23,12 +23,12 @@ namespace FzLib.Geography.Coordinate
             double num4 = Math.Sqrt(num3);
             num = num * 180.0 / (6335552.7170004258 / (num3 * num4) * 3.1415926535897931);
             num2 = num2 * 180.0 / (6378245.0 / num4 * Math.Cos(d) * 3.1415926535897931);
-            return new LatLng(wgLoc.Latitude + num, wgLoc.Longitude + num2);
+            return new GeoPoint(wgLoc.Latitude + num, wgLoc.Longitude + num2);
         }
 
-        public static LatLng WGS84ToBD09(double gg_lat, double gg_lon)
+        public static GeoPoint WGS84ToBD09(double gg_lat, double gg_lon)
         {
-            LatLng wgLoc = new LatLng(gg_lat, gg_lon);
+            GeoPoint wgLoc = new GeoPoint(gg_lat, gg_lon);
             wgLoc = WGS84ToGCJ02(wgLoc);
             double num = 52.359877559829883;
             double longitude = wgLoc.Longitude;
@@ -40,14 +40,14 @@ namespace FzLib.Geography.Coordinate
             return wgLoc;
         }
 
-        public static LatLng GCJ02ToWGS84(LatLng gcjPoint)
+        public static GeoPoint GCJ02ToWGS84(GeoPoint gcjPoint)
         {
             if (OutOfChina(gcjPoint.Latitude, gcjPoint.Longitude))
             {
                 return gcjPoint;
             }
-            LatLng latLng = Transform(gcjPoint);
-            return new LatLng(gcjPoint.Latitude - latLng.Latitude, gcjPoint.Longitude - latLng.Longitude);
+            GeoPoint latLng = Transform(gcjPoint);
+            return new GeoPoint(gcjPoint.Latitude - latLng.Latitude, gcjPoint.Longitude - latLng.Longitude);
         }
 
         private static double TransformLat(double x, double y)
@@ -79,9 +79,9 @@ namespace FzLib.Geography.Coordinate
             return false;
         }
 
-        private static LatLng Transform(LatLng point)
+        private static GeoPoint Transform(GeoPoint point)
         {
-            LatLng latLng = new LatLng(0.0, 0.0);
+            GeoPoint latLng = new GeoPoint(0.0, 0.0);
             double num = TransformLat(point.Longitude - 105.0, point.Latitude - 35.0);
             double num2 = TransformLon(point.Longitude - 105.0, point.Latitude - 35.0);
             double d = point.Latitude / 180.0 * 3.1415926535897931;
@@ -94,5 +94,7 @@ namespace FzLib.Geography.Coordinate
             latLng.Longitude = num2;
             return latLng;
         }
+
+       
     }
 }

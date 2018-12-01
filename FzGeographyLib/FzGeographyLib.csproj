@@ -4,6 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>FzLib.Geography</RootNamespace>
     <Platforms>AnyCPU;x64</Platforms>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -13,5 +14,28 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutputPath>..\Release\x64</OutputPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Format\GpxTrackPointInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FzStandardLib\FzStandardLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Format\EmptyShapefiles\EmptyPointShapefilesResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EmptyPointShapefilesResource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Format\EmptyShapefiles\EmptyPointShapefilesResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>EmptyPointShapefilesResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
 
 </Project>

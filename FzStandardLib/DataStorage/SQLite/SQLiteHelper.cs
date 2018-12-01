@@ -2,9 +2,9 @@
 using System.Data;
 using System.Data.SQLite;
 using System.Linq;
-using static FzLib.Data.SQLite.SQLiteHelper;
+using static FzLib.DataStorage.SQLite.SQLiteHelper;
 
-namespace FzLib.Data.SQLite
+namespace FzLib.DataStorage.SQLite
 {
     public static class SQLiteHelper
     {

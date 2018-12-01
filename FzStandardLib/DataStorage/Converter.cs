@@ -3,7 +3,7 @@ using System.IO;
 using System.Xml;
 using Formatting = Newtonsoft.Json.Formatting;
 
-namespace FzLib.Data
+namespace FzLib.DataStorage
 {
     public static class Converter
     {
