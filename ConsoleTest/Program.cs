@@ -58,12 +58,12 @@ namespace ConsoleTest
 
             //   }
 
-            var lat = 29;
-            var lng = 121;
-            var level = 8;
-            var (tileX, tileY) = FzLib.Geography.Coordinate.Convert.TileNumber.GeoPointToTile(lat, lng, level);
-
-            Console.WriteLine($"http://webrd01.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=7&x={tileX}&y={tileY}&z={level}");
+        // var lat = 29;
+        // var lng = 121;
+        // var level = 8;
+        // var (tileX, tileY) = FzLib.Geography.Coordinate.Convert.TileNumber.GeoPointToTile(lat, lng, level);
+        //
+        // Console.WriteLine($"http://webrd01.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=7&x={tileX}&y={tileY}&z={level}");
             Console.Read();
 
         }

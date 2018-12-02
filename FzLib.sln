@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfTest", "WpfTest\WpfTest.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FzGeographyLib", "FzGeographyLib\FzGeographyLib.csproj", "{A8A9FD43-F962-4631-ABC2-1B02B7D479B6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FzAlgorithmLib", "FzAlgorithmLib\FzAlgorithmLib.csproj", "{6EF4CC31-90D2-4BCF-BD0D-D9C44DD3DFE6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,14 @@ Global
 		{A8A9FD43-F962-4631-ABC2-1B02B7D479B6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A8A9FD43-F962-4631-ABC2-1B02B7D479B6}.Release|x64.ActiveCfg = Release|x64
 		{A8A9FD43-F962-4631-ABC2-1B02B7D479B6}.Release|x64.Build.0 = Release|x64
+		{6EF4CC31-90D2-4BCF-BD0D-D9C44DD3DFE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EF4CC31-90D2-4BCF-BD0D-D9C44DD3DFE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EF4CC31-90D2-4BCF-BD0D-D9C44DD3DFE6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6EF4CC31-90D2-4BCF-BD0D-D9C44DD3DFE6}.Debug|x64.Build.0 = Debug|Any CPU
+		{6EF4CC31-90D2-4BCF-BD0D-D9C44DD3DFE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EF4CC31-90D2-4BCF-BD0D-D9C44DD3DFE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EF4CC31-90D2-4BCF-BD0D-D9C44DD3DFE6}.Release|x64.ActiveCfg = Release|Any CPU
+		{6EF4CC31-90D2-4BCF-BD0D-D9C44DD3DFE6}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

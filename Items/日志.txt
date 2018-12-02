@@ -65,3 +65,5 @@
 	【Geography.Coordinate】将Convert变为命名空间，新增【GeoCoord】类和【TileNumber】类
 20181201
 	【Program.Notify.TaskDialog】新增ShowException方法、ShowError方法、OpenedDialogCount属性
+20181202
+	将以前的算法库整合至FzAlgorithmLib程序集，命名空间【FzLib.Algorithm】，简单进行了休整
