@@ -67,3 +67,28 @@
 	【Program.Notify.TaskDialog】新增ShowException方法、ShowError方法、OpenedDialogCount属性
 20181202
 	将以前的算法库整合至FzAlgorithmLib程序集，命名空间【FzLib.Algorithm】，简单进行了休整
+	【Program.Notify.TaskDialog】移植FzWpfLib的唯一Control命名空间下的【Control.Dialog】命名空间
+	【Program.Notify.TrayIcon】移至【Program.Runtime】
+	【Control.Dialog】新增由“文件归位器”移植的SankeBar
+20181204
+	【Program.Runtime.TrayIcon】新增ReShowWhenDisplayChanged属性，防止Dpi变化时变糊
+20181212
+	【Geography.Format.Shapefile】新增支持Multipoint
+20181213
+	【Program】新增【Verification】类，暂时只有验证使用日期是否超过，以后会添加验证文件
+	【Basic】新增【Math】类，含有扩展欧几里得算法
+20181216
+	【Control.Dialog.SnakeBar】静态方法新增owner参数，新增Show方法
+	【FzLib.Extension】新增【Loop】类，用于扩展循环相关方法
+	【Fzlib.Basic.Math】新增【FastRandom】内部类
+20181218
+	【FzLib.Extension】新增【BinarySortTree】二叉排序树用于较多数据的排序
+20181220
+	将所有有关集合的类移植【Basic.Collection】，并新建红黑树用于大量数据的快速插入排序
+20181223
+	【Fzlib.Basic.Math】新增获取可能的质数方法
+	【Basic.Collection】新增【ExtendedDictionary】类
+20181229
+	【Control.Dialog.CommonFileSystemDialog】新增GetOpenFile方法
+20190107
+	【Control】新增【Extension】命名空间，内含【ListViewHelper】类，暂有拖放Item功能

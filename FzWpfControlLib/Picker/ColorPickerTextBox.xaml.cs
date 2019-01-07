@@ -32,18 +32,18 @@ namespace FzLib.Control.Picker
         {
             get
             {
-                if(StrictMode)
+                if (StrictMode)
                 {
                     SolidColorBrush brush;
                     try
                     {
-                        brush=new BrushConverter().ConvertFrom(txt.Text) as SolidColorBrush;
+                        brush = new BrushConverter().ConvertFrom(txt.Text) as SolidColorBrush;
                     }
                     catch
                     {
                         return null;
                     }
-                    if(brush != colorPicker.CurrentColor)
+                    if (brush != colorPicker.CurrentColor)
                     {
                         return null;
                     }
@@ -59,11 +59,26 @@ namespace FzLib.Control.Picker
 
         public void SetColor(string color)
         {
-          ColorBrush=  new BrushConverter().ConvertFrom(color) as SolidColorBrush;
+            ColorBrush = new BrushConverter().ConvertFrom(color) as SolidColorBrush;
         }
         /// <summary>
         /// 如果启动严格模式，输入框的内容也必须正确
         /// </summary>
         public bool StrictMode { get => strictMode; set => strictMode = value; }
+
+
+        public event EventHandler SelectionColorChanged;
+
+        private void colorPicker_SelectionColorChanged(object sender, EventArgs e)
+        {
+            SelectionColorChanged?.Invoke(this, e);
+        }
+
+ 
+
+        private void txt_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            SelectionColorChanged?.Invoke(this, new EventArgs());
+        }
     }
 }

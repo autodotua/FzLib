@@ -100,6 +100,8 @@
     <Compile Include="ControlExtended\ZoomableBorder.cs" />
     <Compile Include="DarkerBrushConverter.cs" />
     <Compile Include="Dialog\CommonFileSystemDialog.cs" />
+    <Compile Include="Dialog\SankeBar.cs" />
+    <Compile Include="Extension\ExtendListView.cs" />
     <Compile Include="FileSystem\StorageOperationButton.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="ControlExtended\PanelExport.cs" />

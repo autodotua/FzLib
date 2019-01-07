@@ -300,6 +300,27 @@ namespace FzLib.IO
         //}
         
 
+        public static string GetNoDuplicateFile(string path)
+        {
+            if(!File.Exists(path))
+            {
+                return path;
+            }
+            int i = 2;
+            string directoryName = Path.GetDirectoryName(path);
+            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(path);
+            string fileExtension= Path.GetExtension(path);
+            while (true)
+            {
+                string newName = Path.Combine(directoryName, $"{fileNameWithoutExtension} ({i.ToString()}){fileExtension}");
+                if(!File.Exists(newName))
+                {
+                    return newName;
+                }
+                i++;
+            }
+        }
+
     }
 
 }

@@ -88,7 +88,10 @@ namespace FzLib.Geography.Coordinate
             }
         }
 
-
+        public override string ToString()
+        {
+            return $"({Latitude},{Longitude})";
+        }
         public GeoPoint Clone()
         {
             return MemberwiseClone() as GeoPoint;

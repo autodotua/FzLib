@@ -1,4 +1,5 @@
-﻿using FzLib.Extension;
+﻿using FzLib.Basic.Collection;
+using FzLib.Extension;
 using System;
 using System.Collections.Generic;
 using System.Linq;

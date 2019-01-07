@@ -1,9 +1,9 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Controls.Primitives;
 
 namespace FzLib.Control.Picker
 {
@@ -11,14 +11,18 @@ namespace FzLib.Control.Picker
     {
         public SolidColorBrush CurrentColor
         {
-            get { return (SolidColorBrush)GetValue(CurrentColorProperty); }
-            set { SetValue(CurrentColorProperty, value); }
+            get=> (SolidColorBrush)GetValue(CurrentColorProperty); 
+            set
+            {
+                SetValue(CurrentColorProperty, value);
+                SelectionColorChanged?.Invoke(this, new EventArgs());
+            }
         }
 
         public static DependencyProperty CurrentColorProperty =
             DependencyProperty.Register("CurrentColor", typeof(SolidColorBrush), typeof(ColorPicker), new PropertyMetadata(Brushes.Black));
-        
-        public static RoutedUICommand SelectColorCommand = new RoutedUICommand("SelectColorCommand","SelectColorCommand", typeof(ColorPicker));
+
+        public static RoutedUICommand SelectColorCommand = new RoutedUICommand("SelectColorCommand", "SelectColorCommand", typeof(ColorPicker));
         private Window _advancedPickerWindow;
 
         public ColorPicker()
@@ -44,6 +48,8 @@ namespace FzLib.Control.Picker
                 _advancedPickerWindow.Close();
         }
 
+        public event EventHandler SelectionColorChanged;
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             popup.IsOpen = false;
@@ -55,18 +61,18 @@ namespace FzLib.Control.Picker
             popup.IsOpen = false;
             var advancedColorPickerDialog = new AdvancedColorPickerDialog();
             _advancedPickerWindow = new Window
-                                        {
-                                            AllowsTransparency = true,
-                                            Content = advancedColorPickerDialog,
-                                            WindowStyle = WindowStyle.None,
-                                            ShowInTaskbar = false,
-                                            Background = new SolidColorBrush(Colors.Transparent),
-                                            Padding = new Thickness(0),
-                                            Margin = new Thickness(0),
-                                            WindowState = WindowState.Normal,
-                                            WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                                            SizeToContent = SizeToContent.WidthAndHeight
-                                        };
+            {
+                AllowsTransparency = true,
+                Content = advancedColorPickerDialog,
+                WindowStyle = WindowStyle.None,
+                ShowInTaskbar = false,
+                Background = new SolidColorBrush(Colors.Transparent),
+                Padding = new Thickness(0),
+                Margin = new Thickness(0),
+                WindowState = WindowState.Normal,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                SizeToContent = SizeToContent.WidthAndHeight
+            };
             _advancedPickerWindow.DragMove();
             _advancedPickerWindow.KeyDown += AdvancedPickerPopUpKeyDown;
             advancedColorPickerDialog.DialogResultEvent += AdvancedColorPickerDialogDialogResultEvent;
@@ -83,7 +89,7 @@ namespace FzLib.Control.Picker
         {
             _advancedPickerWindow.Close();
             var dialogEventArgs = (DialogEventArgs)e;
-            if (!dialogEventArgs.DialogResult )
+            if (!dialogEventArgs.DialogResult)
                 return;
             CurrentColor = dialogEventArgs.SelectedColor;
         }

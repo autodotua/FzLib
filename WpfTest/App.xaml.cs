@@ -1,4 +1,4 @@
-﻿using FzLib.Program.Notify;
+﻿using FzLib.Program.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,8 +16,8 @@ namespace WpfTest
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            TrayIcon icon = new TrayIcon(WpfTest.Properties.Resources.icon, "ads");
-            icon.Show();
+            MainWindow = new MainWindow();
+            MainWindow.Show();
         }
     }
 }

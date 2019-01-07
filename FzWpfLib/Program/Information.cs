@@ -6,10 +6,11 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace FzLib.Program
 {
-   public static class Information
+    public static class Information
     {
         static Information()
         {
@@ -23,10 +24,26 @@ namespace FzLib.Program
             set => Directory.SetCurrentDirectory(value);
         }
 
-        public static string ProgramFilePath { get; } 
-        public static string ProgramDirectoryPath { get; } 
+        public static void SetWorkingDirectoryToAppPath()
+        {
 
-        public static string ProgramName { get; } 
+            WorkingDirectory = ProgramDirectoryPath;
+        }
 
+        public static string ProgramFilePath { get; }
+        public static string ProgramDirectoryPath { get; }
+
+        public static string ProgramName { get; }
+
+        public static void Restart(int delaySeconds = 1)
+        {
+            ProcessStartInfo Info = new ProcessStartInfo();
+            Info.Arguments = $"/C choice /C Y /N /D Y /T {delaySeconds.ToString()} & START \"\" \"{ ProgramFilePath}\"";
+            Info.WindowStyle = ProcessWindowStyle.Hidden;
+            Info.CreateNoWindow = true;
+            Info.FileName = "cmd.exe";
+            Process.Start(Info);
+            Application.Current.Shutdown();
+        }
     }
 }

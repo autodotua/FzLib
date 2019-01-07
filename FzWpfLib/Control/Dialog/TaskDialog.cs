@@ -1,10 +1,12 @@
-﻿using Microsoft.WindowsAPICodePack.Dialogs;
+﻿using FzLib.Program;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Interop;
 using WinDialog = Microsoft.WindowsAPICodePack.Dialogs.TaskDialog;
-namespace FzLib.Program.Notify
+
+namespace FzLib.Control.Dialog
 {
     public class TaskDialog : IDisposable
     {

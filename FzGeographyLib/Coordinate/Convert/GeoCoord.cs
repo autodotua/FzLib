@@ -8,6 +8,24 @@ namespace FzLib.Geography.Coordinate.Convert
 
         private const double ee = 0.0066934216229659433;
 
+        public static GeoPoint BD09ToWgs84(GeoPoint point)
+        {
+           var gcj = BD09ToGCJ02(point);
+            var wgs84 = GCJ02ToWGS84(gcj);
+            return wgs84;
+        }
+        public static GeoPoint BD09ToGCJ02(GeoPoint point)
+        {
+            var bd_lat = point.Latitude;
+            var bd_lon = point.Longitude;
+            double x = bd_lon - 0.0065;
+            double y = bd_lat - 0.006;
+            double z = Math.Sqrt(x * x + y * y) - 0.00002 * Math.Sin(y * Math.PI);
+            double theta = Math.Atan2(y, x) - 0.000003 * Math.Cos(x * Math.PI);
+            double gg_lng = z * Math.Cos(theta);
+            double gg_lat = z * Math.Sin(theta);
+            return new GeoPoint(gg_lat, gg_lng);
+        }
 
         public static GeoPoint WGS84ToGCJ02(GeoPoint wgLoc)
         {

@@ -1,4 +1,6 @@
-﻿using FzLib.Control.FlatStyle;
+﻿using FzLib.Control.Dialog;
+using FzLib.Control.FlatStyle;
+using FzLib.Program.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -22,19 +24,34 @@ namespace WpfTest
     /// </summary>
     public partial class MainWindow : Window
     {
+        TrayIcon icon;
         public MainWindow()
         {
             InitializeComponent();
             WindowHeader.CreatTitle(this);
+             icon = new TrayIcon(WpfTest.Properties.Resources.icon, "ads");
+            icon.Show();
+            DpiChanged += (p1, p2) =>
+              {
+                  MessageBox.Show(p2.NewDpi.ToString());
+              };
+            icon.ReShowWhenDisplayChanged = true;
+       
         }
-
+        public class VisualBase : Visual
+        {
+            protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)
+            {
+                base.OnDpiChanged(oldDpi, newDpi);
+            }
+        }
+        public new event DpiChangedEventHandler DpiChanged;
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-        var a=    FzLib.Control.Dialog.CommonFileSystemDialog.GetSaveFile(new (string, string)[]
-            {
-                ("测试","test"),
-                ("测试2","test2")
-            },true,true);
+            SnakeBar bar = new SnakeBar(this);
+            bar.ShowMessage("你好");
+            icon.Hide();
+            icon.Show();
         }
     }
 }

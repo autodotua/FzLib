@@ -133,9 +133,9 @@ namespace Algorithm
 
 
 
-            GenrateMazeWithDepthFirst maze = new GenrateMazeWithDepthFirst();
-            maze.Genrate(new System.Drawing.Size(25, 25));
-            maze.PrintMap();
+            //GenrateMazeWithDepthFirst maze = new GenrateMazeWithDepthFirst();
+            //maze.Genrate(new System.Drawing.Size(25, 25));
+            //maze.PrintMap();
 
           // SolveMaze solve = new SolveMaze();
           // solve.PrintWhenGenerating = true;

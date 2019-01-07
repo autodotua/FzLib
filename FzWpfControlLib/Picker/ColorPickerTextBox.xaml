@@ -11,9 +11,9 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="4"/>
 
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <flat:TextBox x:Name="txt" Text="{Binding CurrentColor, ElementName=colorPicker, Mode=TwoWay}"/>
-        <local:ColorPicker x:Name="colorPicker"  Grid.Column="2" />
+        <flat:TextBox x:Name="txt" Text="{Binding CurrentColor, ElementName=colorPicker, Mode=TwoWay}" LostKeyboardFocus="txt_LostKeyboardFocus"/>
+        <local:ColorPicker x:Name="colorPicker"  Grid.Column="2" SelectionColorChanged="colorPicker_SelectionColorChanged" />
     </Grid>
 </UserControl>

@@ -13,6 +13,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutputPath>..\Release\x64</OutputPath>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,21 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FzStandardLib\FzStandardLib.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Format\EmptyShapefiles\EmptyPointShapefilesResource.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>EmptyPointShapefilesResource.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Format\EmptyShapefiles\EmptyPointShapefilesResource.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>EmptyPointShapefilesResource.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

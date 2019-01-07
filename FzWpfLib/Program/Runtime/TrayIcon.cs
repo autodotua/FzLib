@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Forms;
 
-namespace FzLib.Program.Notify
+namespace FzLib.Program.Runtime
 {
     public class TrayIcon : IDisposable
     {
@@ -59,6 +59,36 @@ namespace FzLib.Program.Notify
                  };
             }
         }
+
+        public bool ReShowWhenDisplayChanged
+        {
+            get => reShowWhenDpiChanged;
+            set
+            {
+                if (value == reShowWhenDpiChanged)
+                {
+                    return;
+                }
+
+                  reShowWhenDpiChanged= value;
+                if (value)
+                {
+                    Microsoft.Win32.SystemEvents.DisplaySettingsChanged += DisplaySettingsChanged;
+                }
+                else
+                {
+                    Microsoft.Win32.SystemEvents.DisplaySettingsChanged -= DisplaySettingsChanged;
+                }
+            }
+        }
+
+        private void DisplaySettingsChanged(object sender, EventArgs e)
+        {
+            Hide();
+            Show();
+        }
+
+        private bool reShowWhenDpiChanged = false;
 
         public TrayIcon(System.Drawing.Icon icon, string text, Action mouseLeftClick, Dictionary<string, Action> mouseRightClickMenu) : this(icon, text)
         {
@@ -158,7 +188,7 @@ namespace FzLib.Program.Notify
                 }
             };
         }
-        public void ClickToOpenOrHideWindow<T>(ISingleObject<T> obj) where T:Window,new()
+        public void ClickToOpenOrHideWindow<T>(ISingleObject<T> obj) where T : Window, new()
         {
             MouseLeftClick += (p1, p2) =>
             {
@@ -182,11 +212,11 @@ namespace FzLib.Program.Notify
                         return;
                     }
                 }
-                
+
                 window = new T();
-                obj.SingleObject= window;
+                obj.SingleObject = window;
                 window.Show();
-                
+
             };
         }
 
@@ -217,9 +247,5 @@ namespace FzLib.Program.Notify
 
 
 
-        public void AddToManager(string key)
-        {
-
-        }
     }
 }

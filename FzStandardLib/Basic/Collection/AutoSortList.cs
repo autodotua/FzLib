@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace FzLib.Extension
+namespace FzLib.Basic.Collection
 {
    public class AutoSortList<T> : List<T>
     {

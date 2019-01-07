@@ -112,11 +112,11 @@ namespace FzLib.Device
         }
         private bool ispaused = false;
 
-        public delegate void KeyDownEventDelegate(object sender, KeyboardHookEventArgs e);
-        public KeyDownEventDelegate KeyDown;
+        public delegate void KeyDownEventHandler(object sender, KeyboardHookEventArgs e);
+        public event KeyDownEventHandler KeyDown;
 
-        public delegate void KeyUpEventDelegate(object sender, KeyboardHookEventArgs e);
-        public KeyUpEventDelegate KeyUp;
+        public delegate void KeyUpEventHandler(object sender, KeyboardHookEventArgs e);
+        public event KeyUpEventHandler KeyUp;
 
         HookProc hookproc;
         IntPtr hhook;
