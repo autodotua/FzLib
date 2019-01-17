@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace FzLib.Control.ControlExtended
+namespace FzLib.Control.Extension
 {
   public  class ExtendedUserControl : UserControl, INotifyPropertyChanged
     {
@@ -23,6 +23,13 @@ namespace FzLib.Control.ControlExtended
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
             }
         }
+
+        protected void SetValueAndNotify<T>(ref T field, T value, params string[] names)
+        {
+            field = value;
+            Notify(names);
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

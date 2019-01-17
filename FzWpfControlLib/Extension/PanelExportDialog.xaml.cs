@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static FzLib.Control.Common;
 
-namespace FzLib.Control.ControlExtended
+namespace FzLib.Control.Extension
 {
     /// <summary>
     /// PanelExportDialog.xaml 的交互逻辑

@@ -12,6 +12,7 @@ namespace FzLib.Control.Dialog
     {
         WinDialog Dialog = new WinDialog();
         Window window;
+        public static Window DefaultOwner { get; set; }
         private static Dictionary<Window, IntPtr> windowHandles = new Dictionary<Window, IntPtr>();
         private TaskDialog(Window window)
         {
@@ -31,6 +32,7 @@ namespace FzLib.Control.Dialog
                 Dialog.OwnerWindowHandle = handle;
                 Dialog.Opened += (p1, p2) => OpenedDialogCount++;
                 Dialog.Closing += (p1, p2) => OpenedDialogCount--;
+                Dialog.Cancelable = true;
             }
         }
 
@@ -41,30 +43,45 @@ namespace FzLib.Control.Dialog
 
         public static int OpenedDialogCount { get; private set; }
 
-        public static void Show(Window window, string text, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None)
+        public static void Show(string text, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None, bool cancelable = false)
+        {
+            Show(DefaultOwner, text, icon, cancelable);
+        }
+        public static void Show(Window window, string text, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None, bool cancelable = false)
         {
             using (TaskDialog task = new TaskDialog(window))
             {
                 task.Dialog.Caption = Information.ProgramName;
                 task.Dialog.Text = text;
                 task.Dialog.Icon = icon;
-
+                task.Dialog.Cancelable = cancelable;
                 task.Show();
             }
         }
-        public static void Show(Window window, string text, string instructionText, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None)
+
+        public static void Show(string text, string instructionText, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None, bool cancelable = false)
+        {
+            Show(DefaultOwner, text, instructionText, icon, cancelable);
+        }
+        public static void Show(Window window, string text, string instructionText, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None, bool cancelable = false)
         {
             using (TaskDialog task = new TaskDialog(window))
             {
                 task.Dialog.Text = text;
                 task.Dialog.InstructionText = instructionText;
                 task.Dialog.Icon = icon;
+                task.Dialog.Cancelable = cancelable;
 
                 task.Show();
             }
 
         }
-        public static bool? ShowWithCheckBox(Window window, string text, string instructionText, string checkBoxText, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None, bool? isChecked = null)
+
+        public static bool? ShowWithCheckBox(string text, string instructionText, string checkBoxText, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None, bool? isChecked = null, bool cancelable = false)
+        {
+            return ShowWithCheckBox(DefaultOwner, text, instructionText, checkBoxText, icon, isChecked, cancelable);
+        }
+        public static bool? ShowWithCheckBox(Window window, string text, string instructionText, string checkBoxText, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None, bool? isChecked = null, bool cancelable = false)
         {
             bool? result;
             using (TaskDialog task = new TaskDialog(window))
@@ -74,13 +91,19 @@ namespace FzLib.Control.Dialog
                 task.Dialog.FooterCheckBoxChecked = isChecked;
                 task.Dialog.FooterCheckBoxText = checkBoxText;
                 task.Dialog.Icon = icon;
+                task.Dialog.Cancelable = cancelable;
 
                 task.Show();
                 result = task.Dialog.FooterCheckBoxChecked;
             }
             return result;
         }
-        public static void ShowWithDetail(Window window, string text, string instructionText, string detail, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None, bool expandFooter = false, string expandedLabel = "查看详情")
+
+        public static void ShowWithDetail(string text, string instructionText, string detail, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None, bool expandFooter = false, bool cancelable = false, string expandedLabel = "查看详情")
+        {
+            ShowWithDetail(DefaultOwner, text, instructionText, detail, icon, expandFooter, cancelable, expandedLabel);
+        }
+        public static void ShowWithDetail(Window window, string text, string instructionText, string detail, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None, bool expandFooter = false, bool cancelable = false, string expandedLabel = "查看详情")
         {
             using (TaskDialog task = new TaskDialog(window))
             {
@@ -89,6 +112,7 @@ namespace FzLib.Control.Dialog
                 task.Dialog.DetailsExpandedLabel = expandedLabel;
                 task.Dialog.DetailsExpandedText = detail;
                 task.Dialog.Icon = icon;
+                task.Dialog.Cancelable = cancelable;
                 if (expandFooter)
                 {
                     task.Dialog.ExpansionMode = TaskDialogExpandedDetailsLocation.ExpandFooter;
@@ -96,7 +120,12 @@ namespace FzLib.Control.Dialog
                 task.Show();
             }
         }
-        public static bool? ShowWithYesNoButtons(Window window, string text, string instructionText, string detail = null, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None, string yesButtonText = "是", string noButtonText = "否", string expandedLabel = "查看详情")
+
+        public static bool? ShowWithYesNoButtons(string text, string instructionText, string detail = null, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None, bool cancelable = false, string yesButtonText = "是", string noButtonText = "否", string expandedLabel = "查看详情")
+        {
+            return ShowWithYesNoButtons(DefaultOwner, text, instructionText, detail, icon, cancelable, yesButtonText, noButtonText, expandedLabel);
+        }
+        public static bool? ShowWithYesNoButtons(Window window, string text, string instructionText, string detail = null, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None, bool cancelable = false, string yesButtonText = "是", string noButtonText = "否", string expandedLabel = "查看详情")
         {
             bool? result = null;
             using (TaskDialog task = new TaskDialog(window))
@@ -119,13 +148,18 @@ namespace FzLib.Control.Dialog
                 };
                 task.Dialog.Controls.Add(yesButton);
                 task.Dialog.Controls.Add(noButton);
+                task.Dialog.Cancelable = cancelable;
                 task.Show();
 
             }
             return result;
         }
 
-        public static void ShowWithButtons(Window window, string text, string instructionText, IEnumerable<(string text, Action click)> buttons, string detail = null, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None, string expandedLabel = "查看详情")
+        public static void ShowWithButtons(string text, string instructionText, IEnumerable<(string text, Action click)> buttons, string detail = null, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None, bool cancelable = false, string expandedLabel = "查看详情")
+        {
+            ShowWithButtons(text, instructionText, buttons, detail, icon, cancelable, expandedLabel);
+        }
+        public static void ShowWithButtons(Window window, string text, string instructionText, IEnumerable<(string text, Action click)> buttons, string detail = null, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None, bool cancelable = false, string expandedLabel = "查看详情")
         {
             using (TaskDialog task = new TaskDialog(window))
             {
@@ -133,6 +167,7 @@ namespace FzLib.Control.Dialog
                 task.Dialog.InstructionText = instructionText;
                 task.Dialog.DetailsExpandedLabel = expandedLabel;
                 task.Dialog.DetailsExpandedText = detail;
+                task.Dialog.Cancelable = cancelable;
                 foreach ((string buttonText, Action action) in buttons)
                 {
                     TaskDialogButton button = new TaskDialogButton(buttonText, buttonText);
@@ -147,7 +182,11 @@ namespace FzLib.Control.Dialog
             }
         }
 
-        public static void ShowWithCommandLinks(Window window, string text, string instructionText, IEnumerable<(string text, string instruction, Action click)> buttons, string detail = null, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None, string expandedLabel = "查看详情")
+        public static void ShowWithCommandLinks(string text, string instructionText, IEnumerable<(string text, string instruction, Action click)> buttons, string detail = null, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None, bool cancelable = false, string expandedLabel = "查看详情")
+        {
+            ShowWithCommandLinks(DefaultOwner, text, instructionText, buttons, detail, icon, cancelable, expandedLabel);
+        }
+        public static void ShowWithCommandLinks(Window window, string text, string instructionText, IEnumerable<(string text, string instruction, Action click)> buttons, string detail = null, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None, bool cancelable = false, string expandedLabel = "查看详情")
         {
             using (TaskDialog task = new TaskDialog(window))
             {
@@ -155,12 +194,13 @@ namespace FzLib.Control.Dialog
                 task.Dialog.InstructionText = instructionText;
                 task.Dialog.DetailsExpandedLabel = expandedLabel;
                 task.Dialog.DetailsExpandedText = detail;
+                task.Dialog.Cancelable = cancelable;
                 foreach ((string buttonText, string instruction, Action click) in buttons)
                 {
                     TaskDialogCommandLink button = new TaskDialogCommandLink(buttonText, buttonText, instruction);
                     button.Click += (p1, p2) =>
                     {
-                        click();
+                        click?.Invoke();
                         task.Dialog.Close();
                     };
                     task.Dialog.Controls.Add(button);
@@ -169,19 +209,33 @@ namespace FzLib.Control.Dialog
             }
         }
 
-        public static void ShowException(Window win, Exception ex, string message = null)
+        public static void ShowException(Exception ex, string message = null, bool cancelable = false)
         {
-            ShowWithDetail(win, ex.Message, message ?? "程序发生异常", ex.ToString(), TaskDialogStandardIcon.Error, false, "查看详细错误");
+            ShowException(DefaultOwner, ex, message, cancelable);
+        }
+        public static void ShowException(Window win, Exception ex, string message = null, bool cancelable = false)
+        {
+            ShowWithDetail(win, ex.Message, message ?? "程序发生异常", ex.ToString(), TaskDialogStandardIcon.Error, false, cancelable, "查看详细错误");
 
+        }
+
+        public static void ShowError(string title, string detail)
+        {
+            ShowError(DefaultOwner, title, detail);
         }
         public static void ShowError(Window win, string title, string detail)
         {
-            ShowWithDetail(win, title, "错误", detail, TaskDialogStandardIcon.Error, false, "查看详细错误");
+            ShowWithDetail(win, title, "错误", detail, TaskDialogStandardIcon.Error, false, true, "查看详细错误");
+        }
+        public static void ShowError(string title)
+        {
+            ShowError(DefaultOwner, title);
         }
         public static void ShowError(Window win, string title)
         {
-            Show(win, title, "错误", TaskDialogStandardIcon.Error);
+            Show(win, title, "错误", TaskDialogStandardIcon.Error, true);
         }
+
         public void Dispose()
         {
             Dialog.Dispose();

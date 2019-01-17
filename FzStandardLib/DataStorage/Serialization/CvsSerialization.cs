@@ -9,34 +9,34 @@ using System.Threading.Tasks;
 
 namespace FzLib.DataStorage.Serialization
 {
-    public static class CvsSerialization
+    public static class CsvSerialization
     {
-        public static void ExportToCsvByClassProperties<T>(IEnumerable<T> objs, IEnumerable<string> propertyNames, string path)
+        public static void ExportByPropertyNames<T>(IEnumerable<T> objs, IEnumerable<string> propertyNames, string path)
         {
-            ExportToCsvByClassProperties(objs, propertyNames, path, Encoding.UTF8);
+            ExportByPropertyNames(objs, propertyNames, path, Encoding.UTF8);
         }
-        public static void ExportToCsvByClassProperties<T>(IEnumerable<T> objs, IEnumerable<string> propertyNames, string path, Encoding encoding)
-        {
-            Type type = typeof(T);
-            ExportToCsvByClassProperties(objs, type.GetProperties().Where(p => propertyNames.Contains(p.Name)), path, encoding);
-
-        }
-        public static void ExportToCsvByClassProperties<T>(IEnumerable<T> objs, string path)
-        {
-            ExportToCsvByClassProperties(objs, path, Encoding.UTF8);
-        }
-        public static void ExportToCsvByClassProperties<T>(IEnumerable<T> objs, string path, Encoding encoding)
+        public static void ExportByPropertyNames<T>(IEnumerable<T> objs, IEnumerable<string> propertyNames, string path, Encoding encoding)
         {
             Type type = typeof(T);
-            ExportToCsvByClassProperties(objs, type.GetRuntimeProperties(), path, encoding);
+            ExportByPropertyNames(objs, type.GetProperties().Where(p => propertyNames.Contains(p.Name)), path, encoding);
 
         }
-        public static void ExportToCsvByClassProperties<T>(IEnumerable<T> objs, IEnumerable<PropertyInfo> properties, string path)
+        public static void ExportByPropertyNames<T>(IEnumerable<T> objs, string path)
         {
-            ExportToCsvByClassProperties(objs, properties, path, Encoding.UTF8);
+            ExportByPropertyNames(objs, path, Encoding.UTF8);
+        }
+        public static void ExportByPropertyNames<T>(IEnumerable<T> objs, string path, Encoding encoding)
+        {
+            Type type = typeof(T);
+            ExportByPropertyNames(objs, type.GetRuntimeProperties(), path, encoding);
 
         }
-        public static void ExportToCsvByClassProperties<T>(IEnumerable<T> objs, IEnumerable<PropertyInfo> properties, string path, Encoding encoding)
+        public static void ExportByPropertyNames<T>(IEnumerable<T> objs, IEnumerable<PropertyInfo> properties, string path)
+        {
+            ExportByPropertyNames(objs, properties, path, Encoding.UTF8);
+
+        }
+        public static void ExportByPropertyNames<T>(IEnumerable<T> objs, IEnumerable<PropertyInfo> properties, string path, Encoding encoding)
         {
             if (!File.Exists(path))
             {
@@ -65,11 +65,11 @@ namespace FzLib.DataStorage.Serialization
                 writer.WriteRecords(list);
             }
         }
-        public static void ExportToCsvByStringList(IEnumerable<IEnumerable<string>> stringLists, IEnumerable<string> header, string path)
+        public static void ExportByStringList(IEnumerable<IEnumerable<string>> stringLists, IEnumerable<string> header, string path)
         {
-            ExportToCsvByStringList(stringLists, header, path, Encoding.UTF8);
+            ExportByStringList(stringLists, header, path, Encoding.UTF8);
         }
-        public static void ExportToCsvByStringList(IEnumerable<IEnumerable<string>> stringLists, IEnumerable<string> header, string path, Encoding encoding)
+        public static void ExportByStringList(IEnumerable<IEnumerable<string>> stringLists, IEnumerable<string> header, string path, Encoding encoding)
         {
             if (!File.Exists(path))
             {
@@ -109,12 +109,12 @@ namespace FzLib.DataStorage.Serialization
                 writer.WriteRecords(list);
             }
         }
-        public static void ExportToCsv<T>(IEnumerable<T> objs, string path)
+        public static void Export<T>(IEnumerable<T> objs, string path)
         {
 
-            ExportToCsv(objs, path, Encoding.UTF8);
+            Export(objs, path, Encoding.UTF8);
         }
-        public static void ExportToCsv<T>(IEnumerable<T> objs, string path, Encoding encoding)
+        public static void Export<T>(IEnumerable<T> objs, string path, Encoding encoding)
         {
 
             using (StreamWriter stream = new StreamWriter(File.Open(path, FileMode.Create), encoding))
@@ -124,12 +124,12 @@ namespace FzLib.DataStorage.Serialization
             }
         }
 
-        public static T[] ImportFromCsv<T>(string path)
+        public static T[] Import<T>(string path)
         {
-            return ImportFromCsv<T>(path, Encoding.UTF8);
+            return Import<T>(path, Encoding.UTF8);
         }
 
-        public static T[] ImportFromCsv<T>(string path, Encoding encoding)
+        public static T[] Import<T>(string path, Encoding encoding)
         {
             T[] result = null;
             using (StreamReader stream = new StreamReader(File.Open(path, FileMode.Open), encoding))

@@ -17,18 +17,18 @@ namespace FzLib.Program
         }
         public static bool CheckAvailableDeadlines(DateTime lastTime, OprationMode mode)
         {
-            if(DateTime.Now<lastTime)
+            if (DateTime.Now < lastTime)
             {
                 return true;
             }
 
-            switch(mode)
+            switch (mode)
             {
                 case OprationMode.Shutdown:
                     Environment.Exit(0);
                     break;
                 case OprationMode.WarnAndShutdown:
-                    TaskDialog.ShowError(null, "此程序已过使用期限");
+                    TaskDialog.ShowError("此程序已过使用期限");
                     Environment.Exit(0);
                     break;
             }

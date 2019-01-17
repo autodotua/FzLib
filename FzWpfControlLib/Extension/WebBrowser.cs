@@ -8,7 +8,7 @@ using System.Windows.Threading;
 using System.Globalization;
 using System.Runtime.InteropServices;
 
-namespace FzLib.Control.ControlExtended
+namespace FzLib.Control.Extension
 {
     public enum WebBrowserEmulationVersion
     {
@@ -19,7 +19,7 @@ namespace FzLib.Control.ControlExtended
         IE11OrEdge = 11001,
     }
     [ComImport, TypeLibType(TypeLibTypeFlags.FHidden), InterfaceType(ComInterfaceType.InterfaceIsIDispatch), Guid("34A715A0-6587-11D0-924A-0020AFC7AC4D")]
-    public interface DWebBrowserEvents2
+    public interface IDWebBrowserEvents2
     {
         [DispId(0x66)]
         void StatusTextChange([In] string text);
@@ -156,7 +156,7 @@ namespace FzLib.Control.ControlExtended
                 cookieType,
                 ReflectionService.BindingFlags,
                 null,
-                new[] { axIWebBrowser2, webBrowserEvent, typeof(DWebBrowserEvents2) },
+                new[] { axIWebBrowser2, webBrowserEvent, typeof(IDWebBrowserEvents2) },
                 CultureInfo.CurrentUICulture);
         }
 
@@ -248,7 +248,7 @@ namespace FzLib.Control.ControlExtended
         {
             throw new NotImplementedException();
         }
-        private class WebBrowserEvent : StandardOleMarshalObject, DWebBrowserEvents2
+        private class WebBrowserEvent : StandardOleMarshalObject, IDWebBrowserEvents2
         {
             private WebBrowser _helperInstance = null;
 

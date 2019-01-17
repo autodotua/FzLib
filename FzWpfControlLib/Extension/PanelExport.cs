@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Xps;
 using System.Windows.Xps.Packaging;
 
-namespace FzLib.Control.ControlExtended
+namespace FzLib.Control.Extension
 {
     public class PanelExport
     {

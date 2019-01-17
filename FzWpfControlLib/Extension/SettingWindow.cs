@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Controls = System.Windows.Controls;
 
-namespace FzLib.Control.ControlExtended
+namespace FzLib.Control.Extension
 {
     public class SettingWindow<T> : Window
     {

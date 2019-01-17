@@ -93,19 +93,19 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ControlExtended\ExtendedUserControl.cs" />
-    <Compile Include="ControlExtended\ExtendedWindow.cs" />
-    <Compile Include="ControlExtended\SettingWindow.cs" />
-    <Compile Include="ControlExtended\WindowHelper.cs" />
-    <Compile Include="ControlExtended\ZoomableBorder.cs" />
+    <Compile Include="Extension\ExtendedUserControl.cs" />
+    <Compile Include="Extension\ExtendedWindow.cs" />
+    <Compile Include="Extension\SettingWindow.cs" />
+    <Compile Include="Extension\WindowHelper.cs" />
+    <Compile Include="Extension\ZoomableBorder.cs" />
     <Compile Include="DarkerBrushConverter.cs" />
     <Compile Include="Dialog\CommonFileSystemDialog.cs" />
     <Compile Include="Dialog\SankeBar.cs" />
     <Compile Include="Extension\ExtendListView.cs" />
     <Compile Include="FileSystem\StorageOperationButton.cs" />
     <Compile Include="Common.cs" />
-    <Compile Include="ControlExtended\PanelExport.cs" />
-    <Compile Include="ControlExtended\PanelExportDialog.xaml.cs">
+    <Compile Include="Extension\PanelExport.cs" />
+    <Compile Include="Extension\PanelExportDialog.xaml.cs">
       <DependentUpon>PanelExportDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialog\Toast.cs" />
@@ -139,7 +139,7 @@
     <Compile Include="FlatStyle\WindowHeader.xaml.cs">
       <DependentUpon>WindowHeader.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ControlExtended\WebBrowser.cs" />
+    <Compile Include="Extension\WebBrowser.cs" />
     <Compile Include="Progress\LoadingBar.cs" />
     <Compile Include="Win10Style\CommonResources.cs" />
     <Compile Include="Win10Style\Helpers.cs" />
@@ -202,7 +202,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="ControlExtended\PanelExportDialog.xaml">
+    <Page Include="Extension\PanelExportDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -34,18 +34,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <SolidColorBrush x:Key="OptionMark.MouseOver.Background" Color="#FFF3F9FF"/>
-        <SolidColorBrush x:Key="OptionMark.MouseOver.Border" Color="#FF5593FF"/>
-        <SolidColorBrush x:Key="OptionMark.MouseOver.Glyph" Color="#FF212121"/>
-        <SolidColorBrush x:Key="OptionMark.Disabled.Background" Color="#FFE6E6E6"/>
-        <SolidColorBrush x:Key="OptionMark.Disabled.Border" Color="#FFBCBCBC"/>
-        <SolidColorBrush x:Key="OptionMark.Disabled.Glyph" Color="#FF707070"/>
-        <SolidColorBrush x:Key="OptionMark.Pressed.Background" Color="#FFD9ECFF"/>
-        <SolidColorBrush x:Key="OptionMark.Pressed.Border" Color="#FF3C77DD"/>
-        <SolidColorBrush x:Key="OptionMark.Pressed.Glyph" Color="#FF212121"/>
-        <SolidColorBrush x:Key="OptionMark.Static.Glyph" Color="#FF212121"/>
         <Style x:Key="CheckBoxStyle" TargetType="{x:Type CheckBox}">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
             <Setter Property="Background" Value="{StaticResource OptionMark.Static.Background}"/>
             <Setter Property="BorderBrush" Value="{StaticResource OptionMark.Static.Border}"/>
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
@@ -82,23 +72,12 @@
                                 <Setter Property="Padding" Value="4,-1,0,0"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="true">
-                                <!--<Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.MouseOver.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.MouseOver.Border}"/>-->
-                                <!--<Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.MouseOver.Glyph}"/>-->
-                                <!--<Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.MouseOver.Glyph}"/>-->
                                 <Setter Property="Background" TargetName="templateRoot" Value="{DynamicResource darker1}"/>
                             </Trigger>
-                            <!--<Trigger Property="IsEnabled" Value="false">
-                                --><!--<Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Disabled.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Disabled.Border}"/>--><!--
-                                <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.Disabled.Glyph}"/>
-                                --><!--<Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.Disabled.Glyph}"/>--><!--
-                            </Trigger>-->
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Opacity" TargetName="templateRoot"   Value="0.5"/>
+                            </Trigger>
                             <Trigger Property="IsPressed" Value="true">
-                                <!--<Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Pressed.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Pressed.Border}"/>-->
-                                <!--<Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.Pressed.Glyph}"/>-->
-                                <!--<Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.Pressed.Glyph}"/>-->
                                 <Setter Property="Background" TargetName="templateRoot" Value="{DynamicResource darker2}"/>
 
                             </Trigger>

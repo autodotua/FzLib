@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.SQLite;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -18,10 +19,15 @@ namespace FzLib.DataStorage.SQLite
 
         private SQLiteConnection DbConnection { get; }
         public string TableName { get; }
+        public void Add()
+        {
+            string sql = "insert into " + TableName + " values ("+string.Join(",",Enumerable.Repeat("NULL",Table.Fields.Length))+")";
+            DbConnection.ExecuteNonQuery(sql);
+        }
         public void Add(params string[] values)
-        {          
-           string sql = "insert into " + TableName + " values (" + string.Join(",", values) + ")";
-                     DbConnection.ExecuteNonQuery(sql);
+        {
+            string sql = "insert into " + TableName + " values (" + string.Join(",", values) + ")";
+            DbConnection.ExecuteNonQuery(sql);
 
             //StringBuilder str = new StringBuilder("insert into " + TableName + " values (");
             //for(int i=0;i<values.Length;i++)
@@ -82,7 +88,7 @@ namespace FzLib.DataStorage.SQLite
             DbConnection.ExecuteNonQuery($"update {TableName} set {string.Join(",", values.Select(p => p.column + "=" + p.value))} where {where}");
         }
 
-  
+
 
     }
 

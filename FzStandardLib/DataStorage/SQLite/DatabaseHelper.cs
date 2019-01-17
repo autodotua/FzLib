@@ -1,15 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Collections.Generic;
 using static FzLib.DataStorage.SQLite.SQLiteHelper;
 
 namespace FzLib.DataStorage.SQLite
 {
-    public class DatabaseHelper:IDisposable
+    public class DatabaseHelper : IDisposable
     {
         private SQLiteConnection DbConnection { get; }
         private FileInfo file;
@@ -30,7 +30,8 @@ namespace FzLib.DataStorage.SQLite
         }
 
         public bool IsEmpty => file.Length == 0;
-        public TableHelper CreateTable(string name, params (string name, string type)[] columns)
+
+        public TableHelper CreateTable(string name, bool idColumn, params (string name, string type)[] columns)
         {
             StringBuilder str = new StringBuilder(256);
             str.Append("create table ").Append(name).Append("(");
@@ -43,7 +44,11 @@ namespace FzLib.DataStorage.SQLite
             //        str.Append(",");
             //    }
             //}
-            str.Append(string.Join(",", columns.Select(p => p.name + "  " + p.type)));
+            if (idColumn)
+            {
+                str.Append("id INTEGER PRIMARY KEY AUTOINCREMENT,");
+            }
+            str.Append(string.Join(",", columns.Select(p => p.name + " " + p.type)));
 
             str.Append(")");
             DbConnection.ExecuteNonQuery(str.ToString());
@@ -71,7 +76,7 @@ namespace FzLib.DataStorage.SQLite
 
         public string[] GetAllTablesName()
         {
-           var dt= DbConnection.Query("select name from sqlite_master where type='table' order by name");
+            var dt = DbConnection.Query("select name from sqlite_master where type='table' order by name");
 
             return dt.Rows.Cast<DataRow>().Select(p => p.ItemArray[0]).Cast<string>().ToArray();
         }
@@ -83,7 +88,7 @@ namespace FzLib.DataStorage.SQLite
 
         public DataTable Union(bool includingRepeatedRows, params QueryParameter[] parameters)
         {
-            return DbConnection.Query(string.Join(" union " + (includingRepeatedRows ? "all " : ""), parameters.Select(p=>p.GetSql())));
+            return DbConnection.Query(string.Join(" union " + (includingRepeatedRows ? "all " : ""), parameters.Select(p => p.GetSql())));
         }
     }
 

@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace FzLib.Control.ControlExtended
+namespace FzLib.Control.Extension
 {
     public class ZoomableBorder : Border
     {

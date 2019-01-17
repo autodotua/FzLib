@@ -25,8 +25,34 @@ namespace FzLib.Control.Picker
             InitializeComponent();
         }
 
+        //public Color Color
+        //{
+        //    get
+        //    {
+        //        if (StrictMode)
+        //        {
+        //            SolidColorBrush brush;
+        //            try
+        //            {
+        //                brush = new BrushConverter().ConvertFrom(txt.Text) as SolidColorBrush;
+        //            }
+        //            catch
+        //            {
+        //                return null;
+        //            }
+        //            if (brush != colorPicker.CurrentColor)
+        //            {
+        //                return null;
+        //            }
+        //        }
 
-        private bool strictMode;
+        //        return colorPicker.CurrentColor;
+        //    }
+        //    set
+        //    {
+        //        colorPicker.CurrentColor = value;
+        //    }
+        //}
 
         public SolidColorBrush ColorBrush
         {
@@ -64,7 +90,7 @@ namespace FzLib.Control.Picker
         /// <summary>
         /// 如果启动严格模式，输入框的内容也必须正确
         /// </summary>
-        public bool StrictMode { get => strictMode; set => strictMode = value; }
+        public bool StrictMode { get; set; }
 
 
         public event EventHandler SelectionColorChanged;

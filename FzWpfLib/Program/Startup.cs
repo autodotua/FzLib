@@ -81,8 +81,7 @@ namespace FzLib.Program
 
         public static IO.Shortcut.ShortcutStatus IsRegistryKeyExist()
         {
-            string registryValue = registryKey.GetValue(AppName) as string;
-            if (registryValue == null)
+            if (!(registryKey.GetValue(AppName) is string registryValue))
             {
                 return IO.Shortcut.ShortcutStatus.NotExist;
             }

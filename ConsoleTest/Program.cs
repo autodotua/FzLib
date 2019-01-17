@@ -1,14 +1,18 @@
-﻿using FzLib.Extension;
+﻿using FzLib.Basic.Collection;
+using FzLib.Extension;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.InteropServices;
+using System.Text;
 using TaskScheduler;
-using static FzLib.Basic.Math;
 using static FzLib.Basic.Collection.Loop;
-using FzLib.Basic.Collection;
+using static FzLib.Basic.Math;
 
 namespace ConsoleTest
 {
@@ -207,9 +211,44 @@ namespace ConsoleTest
             //sw.Stop();
             //Console.WriteLine(sw.Elapsed);
 
-            ExtendedDictionary<int, int> a = new ExtendedDictionary<int, int>();
-            Console.Read();
+            //ExtendedDictionary<int, int> a = new ExtendedDictionary<int, int>();
+            //A[] As = new A[] { new A(), new A() };
+            //JObject json = new JObject();
+            //json.Add("array",JArray.FromObject(As));
 
+            //IEnumerable<A> array = json.GetValue("array").Select(p => p.ToObject<A>());
+
+            string path = @"C:\Users\autod\OneDrive\同步";
+            int index = 0;
+            Stopwatch sw = new Stopwatch();
+            var files = Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories).ToArray();
+            sw.Start();
+            foreach (var file in files)
+            {
+                var a = Exists(file);
+            }
+            sw.Stop();
+            Console.WriteLine(sw.Elapsed);
+         
+
+        Console.Read();
+
+        }
+        [DllImport("Shlwapi.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        private extern static bool PathFileExists(StringBuilder path);
+
+        static bool Exists(string path)
+        {
+            // A StringBuilder is required for interops calls that use strings
+            StringBuilder builder = new StringBuilder();
+            builder.Append(path);
+            return  PathFileExists(builder);
+        }
+
+        public class A
+        {
+            public string B { get; set; } = "dsd";
+            public int C { get; set; } = 4567;
         }
 
         //private static IList<int> Jk(IList<int> a, IList<int> b)
@@ -250,5 +289,5 @@ namespace ConsoleTest
     }
 
 
-    
+
 }

@@ -90,6 +90,10 @@ Template="{DynamicResource ComboBoxTemplate}"
                 <Trigger Property="HasItems" Value="false">
                     <Setter Property="Height" TargetName="dropDownBorder" Value="95"/>
                 </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+
+                </Trigger>
                 <MultiTrigger>
                     <MultiTrigger.Conditions>
                         <Condition Property="IsGrouping" Value="true"/>

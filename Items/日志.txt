@@ -92,3 +92,13 @@
 	【Control.Dialog.CommonFileSystemDialog】新增GetOpenFile方法
 20190107
 	【Control】新增【Extension】命名空间，内含【ListViewHelper】类，暂有拖放Item功能
+	【Basic.Number】新增米、平方米到适合的单位的方法
+20190109
+	【FzLib.Control.Dialog.TaskDialog】新增DefaultOwner属性，新增所有没有win参数的方法，新增cancelable参数
+20190112
+	【DataStorage.Seriallization.CsvSeriallization】修复了Csv误写为Cvs的BUG
+	【Control.FlatStyle.CheckBox】新增禁用时变灰
+20190114
+	移动【Control.ControlExtended】到【Control.Extension】
+20190117
+	【Control.FlatStyle.UneditableComboBox】新增禁用时变灰

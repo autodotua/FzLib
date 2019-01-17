@@ -1,4 +1,4 @@
-﻿<Window x:Class="FzLib.Control.ControlExtended.PanelExportDialog"
+﻿<Window x:Class="FzLib.Control.Extension.PanelExportDialog"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,7 +7,6 @@
      xmlns:flat="clr-namespace:FzLib.Control.FlatStyle"
              xmlns:file="clr-namespace:FzLib.Control.FileSystem"
     xmlns:picker="clr-namespace:FzLib.Control.Picker"
-   xmlns:local="clr-namespace:FzLib.Control.ControlExtended"
              mc:Ignorable="d" 
         Title="输出"
         WindowStyle="ToolWindow"

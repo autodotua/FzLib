@@ -56,15 +56,20 @@ namespace FzLib.Control.Extension
                 T item = (T)e.Data.GetData(typeof(T));
                 //index为放置时鼠标下元素项的索引  
                 int index = GetCurrentIndex(new GetPositionDelegate(e.GetPosition));
-                if (index > -1)
+                if (index > -1  )
                 {
                     //拖动元素集合的第一个元素索引  
                     int oldIndex = (ListView.ItemsSource as ObservableCollection<T>).IndexOf(item);
+                    if(oldIndex==index)
+                    {
+                        return;
+                    }
                     //下边那个循环要求数据源必须为ObservableCollection<T>类型，T为对象  
 
                     (ListView.ItemsSource as ObservableCollection<T>).Move(oldIndex, index);
                     SingleItemDragDroped?.Invoke(this, new SingleItemDragDropedEventArgs(oldIndex, index));
                     // lvw.SelectedItems.Clear();
+                    //ListView.SelectedIndex = index;
                 }
             }
         }

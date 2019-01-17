@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 
-namespace FzLib.Control.ControlExtended
+namespace FzLib.Control.Extension
 {
     class WindowHelper
     {

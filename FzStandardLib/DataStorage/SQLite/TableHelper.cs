@@ -16,10 +16,10 @@ namespace FzLib.DataStorage.SQLite
             this.DbConnection = dbConnection;
             TableName = tableName ?? throw new ArgumentNullException(nameof(tableName));
             DataTable dt = DbConnection.Query($"Pragma Table_Info({ TableName})");
-            for (int i = 0; i < 6; i++)
-            {
-                Debug.WriteLine(dt.Rows[0].ItemArray[i].GetType());
-            }
+            //for (int i = 0; i < 6; i++)
+            //{
+            //    Debug.WriteLine(dt.Rows[0].ItemArray[i].GetType());
+            //}
             Fields= dt.Rows.Cast<DataRow>()
                 .Select(p => ((long)p.ItemArray[0], p.ItemArray[1] as string, p.ItemArray[2] as string,
                 (long)p.ItemArray[3] == 1, (long)p.ItemArray[5] == 1, p.ItemArray[4] as string)).ToArray();

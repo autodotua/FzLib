@@ -80,12 +80,12 @@ namespace FzLib.Program.Runtime
             try
             {
                 //Application.Current.Dispatcher.Invoke(() => MessageBox.Show("程序发生了未捕获的错误，类型" + e.Source.ToString() + Environment.NewLine + Environment.NewLine + e.Exception.ToString(), AppName, MessageBoxButton.OK, MessageBoxImage.Error));
-                TaskDialog.ShowWithDetail(null, e.Exception.Message, "程序发生了未捕获的错误","来源："+e.Source.ToString()+Environment.NewLine+ e.Exception.ToString(), Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Error, false, "查看详细错误");
+                TaskDialog.ShowWithDetail(e.Exception.Message, "程序发生了未捕获的错误","来源："+e.Source.ToString()+Environment.NewLine+ e.Exception.ToString(), Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Error, false,true, "查看详细错误");
                 File.AppendAllText(Information.ProgramDirectoryPath+ "\\UnhandledException.log", Environment.NewLine + Environment.NewLine + DateTime.Now.ToString() + Environment.NewLine + e.Exception.ToString());
             }
             catch (Exception ex)
             {
-                TaskDialog.ShowWithDetail(null, e.Exception.Message, "错误信息无法写入磁盘",   ex.ToString(), Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Error, false, "查看详细错误");
+                TaskDialog.ShowWithDetail(e.Exception.Message, "错误信息无法写入磁盘",   ex.ToString(), Microsoft.WindowsAPICodePack.Dialogs.TaskDialogStandardIcon.Error, false,true, "查看详细错误");
 
             }
             finally
