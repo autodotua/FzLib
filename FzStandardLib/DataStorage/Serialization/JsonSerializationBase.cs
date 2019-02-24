@@ -1,10 +1,11 @@
 ﻿using Newtonsoft.Json;
+using System.ComponentModel;
 using System.IO;
 using static FzLib.DataStorage.Converter;
 
 namespace FzLib.DataStorage.Serialization
 {
-    public abstract class JsonSerializationBase
+    public abstract class JsonSerializationBase:INotifyPropertyChanged
     {
         protected JsonSerializationBase()
         {
@@ -88,7 +89,21 @@ namespace FzLib.DataStorage.Serialization
             }
             File.WriteAllText(path, GetJson(this, Settings));
         }
+        public event PropertyChangedEventHandler PropertyChanged;
 
+        protected void Notify(params string[] names)
+        {
+            foreach (var name in names)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
+        protected void SetValueAndNotify<T>(ref T field, T value, params string[] names)
+        {
+            field = value;
+            Notify(names);
+        }
     }
 
 }

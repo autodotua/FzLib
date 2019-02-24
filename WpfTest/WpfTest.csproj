@@ -125,9 +125,9 @@
       <Project>{1c01c352-2660-44e2-8110-8e0a38bfa81f}</Project>
       <Name>FzWpfControlLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FzWpfLib\FzWpfLib.csproj">
+    <ProjectReference Include="..\FzDesktopLib\FzDesktopLib.csproj">
       <Project>{260ea690-de17-4305-a42b-9fff41b7b079}</Project>
-      <Name>FzWpfLib</Name>
+      <Name>FzDesktopLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

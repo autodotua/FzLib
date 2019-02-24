@@ -40,10 +40,10 @@ namespace FzLib.Control.Extension
         private void SingleMouseMove(object sender, MouseEventArgs e)
         {
             ListView listview = sender as ListView;
-            if (e.LeftButton == MouseButtonState.Pressed)
+            T select = (T)listview.SelectedItem;
+            if (e.LeftButton == MouseButtonState.Pressed && IsMouseOverTarget(GetListViewItem(listview.SelectedIndex), new GetPositionDelegate(e.GetPosition)))
             {
-                T list = (T)listview.SelectedItem;
-                DataObject data = new DataObject(typeof(T), list);
+                DataObject data = new DataObject(typeof(T), select);
 
                 DragDrop.DoDragDrop(listview, data, DragDropEffects.Move);
             }
@@ -56,11 +56,11 @@ namespace FzLib.Control.Extension
                 T item = (T)e.Data.GetData(typeof(T));
                 //index为放置时鼠标下元素项的索引  
                 int index = GetCurrentIndex(new GetPositionDelegate(e.GetPosition));
-                if (index > -1  )
+                if (index > -1)
                 {
                     //拖动元素集合的第一个元素索引  
                     int oldIndex = (ListView.ItemsSource as ObservableCollection<T>).IndexOf(item);
-                    if(oldIndex==index)
+                    if (oldIndex == index)
                     {
                         return;
                     }
@@ -115,7 +115,7 @@ namespace FzLib.Control.Extension
             for (int i = 0; i < ListView.Items.Count; ++i)
             {
                 ListViewItem item = GetListViewItem(i);
-                if (item != null && this.IsMouseOverTarget(item, getPosition))
+                if (item != null && IsMouseOverTarget(item, getPosition))
                 {
                     index = i;
                     break;

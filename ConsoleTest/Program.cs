@@ -1,4 +1,6 @@
-﻿using FzLib.Basic.Collection;
+﻿using FzLib.Algorithm;
+using FzLib.Algorithm.DataStructure.Tree;
+using FzLib.Basic.Collection;
 using FzLib.Extension;
 using Newtonsoft.Json.Linq;
 using System;
@@ -218,76 +220,123 @@ namespace ConsoleTest
 
             //IEnumerable<A> array = json.GetValue("array").Select(p => p.ToObject<A>());
 
-            string path = @"C:\Users\autod\OneDrive\同步";
-            int index = 0;
+            //string path = @"C:\Users\autod\OneDrive\同步";
+            //int index = 0;
+            //Stopwatch sw = new Stopwatch();
+            //var files = Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories).ToArray();
+            //sw.Start();
+            //foreach (var file in files)
+            //{
+            //    var a = Exists(file);
+            //}
+            //sw.Stop();
+            //Console.WriteLine(sw.Elapsed);
+
+            //BinarySearchTree<int> tree = new BinarySearchTree<int>();
+            //tree.Add(1);
+            //tree.Add(4);
+            //tree.Add(6);
+            //tree.Add(2);
+            //tree.Add(756);
+            //tree.Add(324);
+            //tree.Add(24);
+            //tree.Add(5);
+            //tree.Add(1048);
+            //tree.Add(2048);
+
+
+
+            ////Console.WriteLine(tree.ToString(BinaryTreeBase<int, BinarySearchTree<int>.Node>.OrderType.InOrder, " "));
+
+            //Console.WriteLine(tree.ToVisualString());
+            //Console.WriteLine(tree.ToString());
+            //tree.Remove(tree.Search(6));
+            //tree.Remove(tree.Search(756));
+            //tree.Remove(tree.Search(1));
+            //Console.WriteLine(tree.ToVisualString());
+            //Console.WriteLine(tree.ToString());
+
+            //Random r = new Random();
+            //for (int j = 0; j < 100; j++)
+            //{
+            //    RedBlackTree<int> tree = new RedBlackTree<int>();
+            //    for (int i = 0; i < 10; i++)
+            //    {
+            //        int num = r.Next(100);
+            //        Console.Write(num + " ");
+            //        tree.Add(num);
+            //    }
+            //    Console.WriteLine();
+            //    Console.WriteLine(tree.ToString());
+            //    Console.WriteLine();
+            //}
+
+            //Random r = new Random();
+            //while (true)
+            //{
+            //    List<int> array = new List<int>();
+            //    Loop.ForRange(50, p => array.Add(r.Next(100)));
+            //    var results = new SortResult<int>[]
+            //    {
+            //    Sort.BubbleSort(array),
+            //    Sort.InsertSort(array),
+            //    Sort.BinaryInsertionSort(array),
+            //    Sort.ShellSort(array),
+            //    Sort.MergeSortWithoutRecursiveTimes(array),
+            //    Sort.MergeSortWithRecursiveTimes(array),
+            //    Sort.HeapSort(array),
+            //    };
+            //    Loop.ForRange(results[0].Result.Length, p =>
+            //    {
+            //        if (results.Any(q => q.Result[p] != results[0].Result[p]))
+            //        {
+            //            foreach (var item in results)
+            //            {
+            //                Console.WriteLine(string.Join(" ", item.Result));
+            //            }
+            //        }
+            //    });
+            //    Console.WriteLine("OK");
+            //}
+            Random r = new Random();
+            List<int> array = new List<int>();
+            ForRange(10000, p => array.Add(r.Next(10000)));
+            ForRange(10000, p => array.Add(r.Next(60000, 100000)));
+            ForRange(10000, p => array.Add(r.Next(10000, 20000)));
+            ForRange(3000, p => array.Add(p));
             Stopwatch sw = new Stopwatch();
-            var files = Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories).ToArray();
             sw.Start();
-            foreach (var file in files)
-            {
-                var a = Exists(file);
-            }
+            var a = array.Select(p => -p).ToArray();
             sw.Stop();
-            Console.WriteLine(sw.Elapsed);
-         
+            Console.WriteLine("Linq" + "   " + sw.ElapsedMilliseconds);
+            sw.Reset();
+            Func<IList<int>, SortResult<int>>[] methods = new Func<IList<int>, SortResult<int>>[]
+            {
+                Sort.BubbleSort,
+                Sort.SelectionSort,
+                Sort.InsertSort,
+                Sort.BinaryInsertionSort,
+                Sort.ShellSort,
+                Sort.MergeSortWithoutRecursiveTimes,
+                Sort.MergeSortWithRecursiveTimes,
+                Sort.HeapSort,
+                Sort.QuickSort,
+                Sort.QuickSort2,
+                Sort.QuickSort3,
+            };
+            foreach (var item in methods)
+            {
+                sw.Start();
+                item(array);
+                sw.Stop();
+                Console.WriteLine(item.Method.Name + "   " + sw.ElapsedMilliseconds);
+                sw.Reset();
+            }
 
-        Console.Read();
 
+            Console.ReadLine();
         }
-        [DllImport("Shlwapi.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        private extern static bool PathFileExists(StringBuilder path);
 
-        static bool Exists(string path)
-        {
-            // A StringBuilder is required for interops calls that use strings
-            StringBuilder builder = new StringBuilder();
-            builder.Append(path);
-            return  PathFileExists(builder);
-        }
 
-        public class A
-        {
-            public string B { get; set; } = "dsd";
-            public int C { get; set; } = 4567;
-        }
-
-        //private static IList<int> Jk(IList<int> a, IList<int> b)
-        //{
-        //    List<int> c = new List<int>() { a[0] };
-        //    Loop.ForRange(1, Math.Min(a.Count, b.Count), i => c.Add(((a[i] + b[i] + 1) * c[i - 1] + a[i]) % 2));
-        //    return c;
-        //}
-
-        private void CreatTask(string author, string desc, string name, string path)
-        {
-            TaskSchedulerClass scheduler = new TaskSchedulerClass();
-            //连接
-            scheduler.Connect(null, null, null, null);
-            //获取创建任务的目录
-            ITaskFolder folder = scheduler.GetFolder("\\");
-            //设置参数
-            ITaskDefinition task = scheduler.NewTask(0);
-            task.RegistrationInfo.Author = author;//创建者
-            task.RegistrationInfo.Description = desc;//描述
-                                                     //设置触发机制（此处是 登陆后）
-            task.Triggers.Create(_TASK_TRIGGER_TYPE2.TASK_TRIGGER_LOGON);
-            //设置动作（此处为运行exe程序）
-            IExecAction action = (IExecAction)task.Actions.Create(_TASK_ACTION_TYPE.TASK_ACTION_EXEC);
-            action.Path = path;//设置文件目录
-            task.Settings.ExecutionTimeLimit = "PT0S"; //运行任务时间超时停止任务吗? PTOS 不开启超时
-            task.Settings.DisallowStartIfOnBatteries = false;//只有在交流电源下才执行
-            task.Settings.RunOnlyIfIdle = false;//仅当计算机空闲下才执行
-
-            IRegisteredTask regTask =
-                folder.RegisterTaskDefinition(name, task,//此处需要设置任务的名称（name）
-                (int)_TASK_CREATION.TASK_CREATE, null, //user
-                null, // password
-                _TASK_LOGON_TYPE.TASK_LOGON_INTERACTIVE_TOKEN,
-                "");
-            IRunningTask runTask = regTask.Run(null);
-        }
     }
-
-
-
 }

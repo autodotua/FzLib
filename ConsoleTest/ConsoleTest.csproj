@@ -81,6 +81,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FzAlgorithmLib\FzAlgorithmLib.csproj">
+      <Project>{6EF4CC31-90D2-4BCF-BD0D-D9C44DD3DFE6}</Project>
+      <Name>FzAlgorithmLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FzGeographyLib\FzGeographyLib.csproj">
       <Project>{a8a9fd43-f962-4631-abc2-1b02b7d479b6}</Project>
       <Name>FzGeographyLib</Name>
@@ -89,9 +93,9 @@
       <Project>{bb1b51a0-e157-44c0-80f9-b09594af6447}</Project>
       <Name>FzStandardLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FzWpfLib\FzWpfLib.csproj">
+    <ProjectReference Include="..\FzDesktopLib\FzDesktopLib.csproj">
       <Project>{260ea690-de17-4305-a42b-9fff41b7b079}</Project>
-      <Name>FzWpfLib</Name>
+      <Name>FzDesktopLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

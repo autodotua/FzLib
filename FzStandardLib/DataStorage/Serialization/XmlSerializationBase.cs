@@ -1,12 +1,13 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
 using static FzLib.DataStorage.Converter;
 
 namespace FzLib.DataStorage.Serialization
 {
-    public abstract class XmlSerializationBase
+    public abstract class XmlSerializationBase : INotifyPropertyChanged
     {
         protected XmlSerializationBase() { }
 
@@ -75,7 +76,7 @@ namespace FzLib.DataStorage.Serialization
         protected JsonSerializerSettings Settings { get; set; } = new JsonSerializerSettings();
         public virtual void Save(bool format = false)
         {
-            Save(Path,format);
+            Save(Path, format);
         }
 
         public virtual void Save(string path, bool format = false)
@@ -86,7 +87,21 @@ namespace FzLib.DataStorage.Serialization
             }
             File.WriteAllText(path, GetXml(this, Settings));
         }
+        public event PropertyChangedEventHandler PropertyChanged;
 
+        protected void Notify(params string[] names)
+        {
+            foreach (var name in names)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
+        protected void SetValueAndNotify<T>(ref T field, T value, params string[] names)
+        {
+            field = value;
+            Notify(names);
+        }
     }
 
 }

@@ -102,3 +102,16 @@
 	移动【Control.ControlExtended】到【Control.Extension】
 20190117
 	【Control.FlatStyle.UneditableComboBox】新增禁用时变灰
+	【DataStorage.Serialization.*】新增INotifyPropertyChanged接口
+20190120
+	【Control.Dialog.CommonFileSystemDialog】改名为FileSystemDialog
+	【Control.Dialog.DialogBox】改名为MessageBox
+	【Control.Extension.ExtendedListview】修复了拖动非选中项区域（滚动条）也会触发拖放的BUG 
+20190127
+	【FzWpfLib】修改为【FzDesktopLib】
+	新增【FzWebLib】
+20190128
+	【Control.Dialog.InputDialog】新增输入时即时判断输入是否正确
+	【Control.FlatStyle.Button】IsEnable为False时降低透明度
+20190130
+	【Control.Dialog.FileSystemDialog】新增GetOpenFiles方法

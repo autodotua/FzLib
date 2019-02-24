@@ -10,17 +10,17 @@ namespace FzLib.Basic.Collection
     // 性质3.所有叶子都是黑色（叶子是NIL节点）
     // 性质4.如果一个节点是红的，则它的两个子节点都是黑的(从每个叶子到根的所有路径上不能有两个连续的红色节点)
     // 性质5.从任一节点到其叶子的所有路径都包含相同数目的黑色节点。
-    public class RedBlackTree<T>
+    public class RedBlackSortCollection<T>
     {
         //根节点
         private RedBlackTreeNode root;
         //比较器
         public Comparer<T> Comparer { get; private set; }
 
-        public RedBlackTree() : this(Comparer<T>.Default)
+        public RedBlackSortCollection() : this(Comparer<T>.Default)
         {
         }
-        public RedBlackTree(Comparer<T> comparer)
+        public RedBlackSortCollection(Comparer<T> comparer)
         {
             Comparer = comparer;
         }

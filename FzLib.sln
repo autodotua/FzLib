@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FzWpfControlLib", "FzWpfCon
 		{260EA690-DE17-4305-A42B-9FFF41B7B079} = {260EA690-DE17-4305-A42B-9FFF41B7B079}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FzWpfLib", "FzWpfLib\FzWpfLib.csproj", "{260EA690-DE17-4305-A42B-9FFF41B7B079}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FzDesktopLib", "FzDesktopLib\FzDesktopLib.csproj", "{260EA690-DE17-4305-A42B-9FFF41B7B079}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FzStandardLib", "FzStandardLib\FzStandardLib.csproj", "{BB1B51A0-E157-44C0-80F9-B09594AF6447}"
 EndProject
@@ -26,6 +26,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FzGeographyLib", "FzGeographyLib\FzGeographyLib.csproj", "{A8A9FD43-F962-4631-ABC2-1B02B7D479B6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FzAlgorithmLib", "FzAlgorithmLib\FzAlgorithmLib.csproj", "{6EF4CC31-90D2-4BCF-BD0D-D9C44DD3DFE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FzWebLib", "FzWebLib\FzWebLib.csproj", "{CC8ADA93-1737-4D88-96BE-C77028431383}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +93,14 @@ Global
 		{6EF4CC31-90D2-4BCF-BD0D-D9C44DD3DFE6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6EF4CC31-90D2-4BCF-BD0D-D9C44DD3DFE6}.Release|x64.ActiveCfg = Release|x64
 		{6EF4CC31-90D2-4BCF-BD0D-D9C44DD3DFE6}.Release|x64.Build.0 = Release|x64
+		{CC8ADA93-1737-4D88-96BE-C77028431383}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC8ADA93-1737-4D88-96BE-C77028431383}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC8ADA93-1737-4D88-96BE-C77028431383}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CC8ADA93-1737-4D88-96BE-C77028431383}.Debug|x64.Build.0 = Debug|Any CPU
+		{CC8ADA93-1737-4D88-96BE-C77028431383}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC8ADA93-1737-4D88-96BE-C77028431383}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC8ADA93-1737-4D88-96BE-C77028431383}.Release|x64.ActiveCfg = Release|Any CPU
+		{CC8ADA93-1737-4D88-96BE-C77028431383}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

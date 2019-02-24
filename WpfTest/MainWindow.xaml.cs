@@ -33,7 +33,7 @@ namespace WpfTest
             icon.Show();
             DpiChanged += (p1, p2) =>
               {
-                  MessageBox.Show(p2.NewDpi.ToString());
+                  System.Windows.MessageBox.Show(p2.NewDpi.ToString());
               };
             icon.ReShowWhenDisplayChanged = true;
        

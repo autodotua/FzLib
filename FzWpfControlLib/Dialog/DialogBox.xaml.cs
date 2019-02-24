@@ -1,28 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using static FzLib.Control.Dialog.DialogBox;
 
 namespace FzLib.Control.Dialog
 {
     /// <summary>
     /// DialogBox.xaml 的交互逻辑
     /// </summary>
-    public partial class DialogBox : Window
+    public partial class MessageBox : Window
     {
         
 
-        public DialogBox(DialogType type,Window owner=null)
+        public MessageBox(DialogType type,Window owner=null)
         {
             InitializeComponent();
             DialogType = type;
@@ -154,7 +146,7 @@ namespace FzLib.Control.Dialog
         }
         public static int ShowMessage(string message, string detial, DialogType type, IEnumerable<string> buttonTexts, Window owner = null)
         {
-            DialogBox box = new DialogBox(type, owner ?? DefaultDialogOwner);
+            MessageBox box = new MessageBox(type, owner ?? DefaultDialogOwner);
             box.SetMessage(message);
             box.SetDetail(detial);
             foreach (var i in buttonTexts)

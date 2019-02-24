@@ -12,7 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using static FzLib.Control.Dialog.DialogBox;
+using static FzLib.Control.Dialog.MessageBox;
 
 namespace FzLib.Control.Dialog
 {
@@ -59,10 +59,12 @@ namespace FzLib.Control.Dialog
 
         public void AddButton(string text, bool defaultButton = false, bool applyRegex = false)
         {
-            Button btn = new Button()
+            FlatStyle.Button btn = new FlatStyle.Button()
             {
                 Content = text,
-                Tag = stk.Children.Count ,
+                Tag = stk.Children.Count,
+                Padding = new Thickness(14, 4, 14, 4),
+                Margin = new Thickness(4, 2, 4, 2),
             };
             btn.Click += BtnClickEventHandler;
             if (defaultButton)
@@ -86,12 +88,12 @@ namespace FzLib.Control.Dialog
                 {
                     if (!Regex.IsMatch(txt.Text, regex))
                     {
-                        DialogBox.ShowError("输入的文本不符合要求！",this);
+                        MessageBox.ShowError("输入的文本不符合要求！",this);
                         return;
                     }
                 }
             }
-            ResultIndex = (int)((sender as Button).Tag);
+            ResultIndex = (int)(sender as Button).Tag;
             ResultText = txt.Text;
             Close();
         }
@@ -153,35 +155,65 @@ namespace FzLib.Control.Dialog
             get => txt.TextWrapping;
             set => txt.TextWrapping = value;
         }
-        public bool AllowEmpty { get => allowEmpty; set => allowEmpty = value; }
-
-        private bool allowEmpty=false;
+        public bool AllowEmpty { get; set; } = false;
 
         private void TextChangedEventHandler(object sender, TextChangedEventArgs e)
         {
-            if(defaultButtonIndex!=-1)
+            JudgeButtonsEnable();
+            //if (defaultButtonIndex != -1)
+            //{
+            //    if(!AllowEmpty)
+            //    {
+            //        (stk.Children[defaultButtonIndex] as Button).IsEnabled = txt.Text != "";
+            //    }
+            //}
+        }
+
+        private void JudgeButtonsEnable()
+        {
+            int index = 0;
+            foreach (Button button in stk.Children)
             {
-                if(!allowEmpty)
+                bool enable = true;
+                if (index == defaultButtonIndex)
                 {
-                    (stk.Children[defaultButtonIndex] as Button).IsEnabled = txt.Text != "";
+                    if (!AllowEmpty && string.IsNullOrEmpty(txt.Text))
+                    {
+                        enable = false;
+                    }
+                    if (applyRegexButtonIndex == index)
+                    {
+                        if (!Regex.IsMatch(txt.Text, regex))
+                        {
+                            enable = false;
+                        }
+                    }
+                    button.IsEnabled = enable;
+                    index++;
                 }
             }
         }
+
         public static Window DefaultDialogOwner { get; set; } = null;
 
 
         public static bool GetInput(string message, out string text, SolidColorBrush color = null, string defaultText = "", string regex = ".*", bool allowEmpty = true, Window owner = null)
         {
             var box = new InputBox(message, owner ?? DefaultDialogOwner, color, defaultText, regex) { AllowEmpty = allowEmpty };
-            box.AddButton("取消");
             box.AddButton("确定", true, true);
+            box.AddButton("取消");
             box.ShowDialog();
             text = box.ResultText;
-            if (box.ResultIndex == 1)
+            if (box.ResultIndex == 0)
             {
                 return true;
             }
             return false;
+        }
+
+        private void DialogLoaded(object sender, RoutedEventArgs e)
+        {
+            JudgeButtonsEnable();
         }
     }
     

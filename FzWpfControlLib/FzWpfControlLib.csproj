@@ -93,13 +93,13 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dialog\FileSystemDialog.cs" />
     <Compile Include="Extension\ExtendedUserControl.cs" />
     <Compile Include="Extension\ExtendedWindow.cs" />
     <Compile Include="Extension\SettingWindow.cs" />
     <Compile Include="Extension\WindowHelper.cs" />
     <Compile Include="Extension\ZoomableBorder.cs" />
     <Compile Include="DarkerBrushConverter.cs" />
-    <Compile Include="Dialog\CommonFileSystemDialog.cs" />
     <Compile Include="Dialog\SankeBar.cs" />
     <Compile Include="Extension\ExtendListView.cs" />
     <Compile Include="FileSystem\StorageOperationButton.cs" />
@@ -328,9 +328,9 @@
       <Project>{bb1b51a0-e157-44c0-80f9-b09594af6447}</Project>
       <Name>FzStandardLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FzWpfLib\FzWpfLib.csproj">
+    <ProjectReference Include="..\FzDesktopLib\FzDesktopLib.csproj">
       <Project>{260ea690-de17-4305-a42b-9fff41b7b079}</Project>
-      <Name>FzWpfLib</Name>
+      <Name>FzDesktopLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FzLib.Basic.Collection
+namespace FzLib.Basic
 {
     public static class Loop
     {
