@@ -417,6 +417,70 @@ namespace FzLib.Algorithm
             }
         }
 
+
+        public static SortResult<int> RadixSort(IList<int> source)
+        {
+            int[] array = source.ToArray();
+            int max = array[0];
+            for (int i = 1; i < array.Length; i++)
+            {
+                if (array[i] > max)
+                    max = array[i];
+            }
+            int digit = 1;
+            while (max / 10 != 0)
+            {
+                digit++;
+                max /= 10;
+            }
+            for (int i = 0; i < digit; i++)
+            {
+                int[] indexCounter = new int[10];
+                int[] tempList = array.ToArray();
+                for (int j = 0; j < array.Length; j++)
+                {
+                    int number = (array[j] % Convert.ToInt32(Math.Pow(10, i + 1))) / Convert.ToInt32(Math.Pow(10, i));  //得出i+1位上的数
+                    indexCounter[number]++;
+                }
+                int[] indexBegin = new int[10];
+                for (int k = 1; k < 10; k++)
+                {
+                    indexBegin[k] = indexBegin[k - 1] + indexCounter[k - 1];
+                }
+                for (int k = 0; k < array.Length; k++)
+                {
+                    int number = (array[k] % Convert.ToInt32(Math.Pow(10, i + 1))) / Convert.ToInt32(Math.Pow(10, i));
+                    tempList[indexBegin[number]++] = array[k];
+                }
+                array = tempList;
+            }
+
+            return new SortResult<int>(array);
+
+
+            void BucketSortOnlyUnitDigit()
+            {
+                int[] indexCounter = new int[10];
+                for (int i = 0; i < array.Length; i++)
+                {
+                    indexCounter[array[i]]++;
+                }
+                int[] indexBegin = new int[10];
+                for (int i = 1; i < 10; i++)
+                {
+                    indexBegin[i] = indexBegin[i - 1] + indexCounter[i - 1];
+                }
+                int[] tempList = array.ToArray();
+                for (int i = 0; i < array.Length; i++)
+                {
+                    int number = array[i];
+                    tempList[indexBegin[number]++] = array[i];
+                }
+                array = tempList;
+            }
+
+        }
+
         public static SortResult<T> QuickSort<T>(IList<T> source)
         {
             return QuickSort(source, Comparer<T>.Default);

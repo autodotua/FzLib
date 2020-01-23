@@ -1,0 +1,51 @@
+﻿<Window x:Class="FzLib.UI.Dialog.InputBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+       xmlns:flat="clr-namespace:FzLib.UI.FlatStyle"
+        mc:Ignorable="d"
+        ShowInTaskbar="False"
+        SizeToContent="WidthAndHeight"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        MinHeight="72"
+        Loaded="DialogLoaded"
+        WindowStartupLocation="CenterOwner"
+        PreviewMouseDoubleClick="WindowPreviewMouseDoubleClickEventHandler"
+        Background="{DynamicResource backgroundBrushColor}"
+        Title="DialogBox" >
+    <Window.Resources>
+        <DrawingBrush x:Key="backgroundBrushColor"  >White</DrawingBrush>
+        <DrawingBrush x:Key="darker1BrushColor"  >#FFEEEEEE</DrawingBrush>
+        <DrawingBrush x:Key="darker2BrushColor"  >#FFCCCCCC</DrawingBrush>
+        <DrawingBrush x:Key="darker3BrushColor"  >#FFAAAAAA</DrawingBrush>
+        <DrawingBrush x:Key="darker4BrushColor"  >#FF888888</DrawingBrush>
+
+    </Window.Resources>
+    
+    
+    <Grid Margin="12" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="tbkMessage"         PreviewMouseLeftButtonDown="WindowPreviewMouseLeftButtonDownEventHandler"/>
+        <TextBox x:Name="txt" BorderThickness="0,0,0,1" PreviewKeyDown="TxtPreviewKeyDownEventHandler" PreviewKeyUp="TxtPreviewKeyUpEventHandler" TextChanged="TextChangedEventHandler" Grid.Row="2" FontSize="18" Background="Transparent"/>
+       
+        <Grid  Grid.Row="4"  >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition  MinWidth="200"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel x:Name="stk" Grid.Column="1" Orientation="Horizontal">
+                <!--<Button Background="{DynamicResource darker1BrushColor}" Click="BtnCancelClickEventHandler">取消</Button>
+                <Button Background="{DynamicResource darker1BrushColor}" Click="BtnOkClickEventHandler">确定</Button>-->
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

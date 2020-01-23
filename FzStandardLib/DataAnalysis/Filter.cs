@@ -9,7 +9,10 @@ namespace FzLib.DataAnalysis
 {
     public static class Filter
     {
-        public static List<FilterResult<T>> MedianValueFilter<T>(IEnumerable<T> items, Func<T, IComparable> valueFunc, int sampleCount, int jump)
+        public static List<FilterResult<T>> MedianValueFilter<T>
+            (IEnumerable<T> items, 
+            Func<T, IComparable> valueFunc,
+            int sampleCount, int jump)
         {
             T[] itemArray = items.ToArray();
             if (itemArray.Length < sampleCount)

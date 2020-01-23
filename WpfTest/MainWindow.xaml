@@ -5,9 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfTest"
         xmlns:filesystem="clr-namespace:FzLib.Control.FileSystem;assembly=FzWpfControlLib"
+        xmlns:win10style="clr-namespace:FzLib.Control.Win10Style;assembly=FzWpfControlLib"
         mc:Ignorable="d"
+        Background="White"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Button HorizontalAlignment="Center" VerticalAlignment="Center" Content="按钮" Click="Button_Click"/>
+    <Grid x:Name="gm">
+        <Grid x:Name="grd">
+            
+            <Button HorizontalAlignment="Center" VerticalAlignment="Center" Content="按钮" Click="Button_Click"/>
+            <win10style:ModernDataGrid x:Name="dg">
+            </win10style:ModernDataGrid>
+        </Grid>
     </Grid>
 </Window>

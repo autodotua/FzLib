@@ -87,6 +87,10 @@ namespace FzLib.DataStorage.Serialization
             {
                 path = Path;
             }
+            if(!new FileInfo(path).Directory.Exists)
+            {
+                new FileInfo(path).Directory.Create();
+            }
             File.WriteAllText(path, GetJson(this, Settings));
         }
         public event PropertyChangedEventHandler PropertyChanged;

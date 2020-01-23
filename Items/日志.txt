@@ -115,3 +115,40 @@
 	【Control.FlatStyle.Button】IsEnable为False时降低透明度
 20190130
 	【Control.Dialog.FileSystemDialog】新增GetOpenFiles方法
+20190601
+	【Media.Converter】新增BitmapSourceToBitmap方法
+	【Control.Extension.PanelExport】新增GetBitmap方法
+20190602
+	【Control.Dialog.FileSystemDialog】移动到FzDesktopLib程序集
+	【Control.Dialog.FileSystemDialog】为方法新增otherSetting参数
+	【Control.Dialog】新增【WindowOwner】类，并将所有对话框类增加或修改到DefaultOwner静态属性
+	【Control.Extension.PanelExport】修复了获取图像后元素会移动到(0,0)的BUG
+20190605
+	【Control.Extension】修改【ListViewHelper】为更加通用的ItemControlHelper，并派生支持ListView、ListBox、DataGrid
+20190619
+	【Control】去除了Win10平台相关代码
+	【Control.Win10Style】新增首列不着色的普通DataGrid
+20190702
+	【Program.Information】改名为【App】
+
+20191027
+	重新加回了Geographiy库，汲取了GIS库的内容
+20191205
+	【Geographiy.CoordinateSystem】加上了漏掉的ChineseCoordinateTransformation类
+	修复了GpxPoint无法记录Z值的BUG
+20191207
+	【Basic】新增Math命名空间，迁移Math类到其中，并新增了之前的通过正则方法解析数学表达式的类，并修复了一些BUG、增加了阶乘
+20191210
+	【Basic.Math.Calculation】修改返回类型为新增的【Basic.Math.CalcResult】
+	【Basic.Math.Calculation】支持了度分秒的读取
+	【Basic.Math.Calculation】新增了角度和弧度的转换
+	【Basic.Math.Calculation】修复了乘法中第一个数是负数可能导致的计算错误BUG 
+20191216
+	【DataStorage.SQLite】进行了大幅度修改
+20191218
+	【DataStorage.SQLite】支持了使用SQL语句进行查询
+	【DataStorage.SQLite】修复了插入表时表名没有双引号引发警告的BUG
+20200116
+	【Program】移动部分到FzStandardLib中
+20200123
+	改名部又出发了，FzDesktopLib改名FzDesktopLib.Windows，FzWpfControlsLib改名FzUILib.WPF

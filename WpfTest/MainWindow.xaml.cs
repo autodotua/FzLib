@@ -1,8 +1,10 @@
-﻿using FzLib.Control.Dialog;
-using FzLib.Control.FlatStyle;
+﻿using FzLib.UI.Dialog;
+using FzLib.UI.Extension;
+using FzLib.UI.FlatStyle;
 using FzLib.Program.Runtime;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
@@ -29,29 +31,32 @@ namespace WpfTest
         {
             InitializeComponent();
             WindowHeader.CreatTitle(this);
-             icon = new TrayIcon(WpfTest.Properties.Resources.icon, "ads");
-            icon.Show();
-            DpiChanged += (p1, p2) =>
-              {
-                  System.Windows.MessageBox.Show(p2.NewDpi.ToString());
-              };
-            icon.ReShowWhenDisplayChanged = true;
-       
+            // icon = new TrayIcon(WpfTest.Properties.Resources.icon, "ads");
+            //icon.Show();
+            //DpiChanged += (p1, p2) =>
+            //  {
+            //      System.Windows.MessageBox.Show(p2.NewDpi.ToString());
+            //  };
+            //icon.ReShowWhenDisplayChanged = true;
+
+            dg.ItemsSource = new ObservableCollection<A>() { new A(), new A(), new A() };
+            new FzLib.UI.Extension.DataGridHelper<A>(dg).EnableDragAndDropItem();
         }
-        public class VisualBase : Visual
+
+        public class A
         {
-            protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)
-            {
-                base.OnDpiChanged(oldDpi, newDpi);
-            }
+            public string AA { get; set; } = "A";
+            public string BB { get; set; } = "B";
         }
-        public new event DpiChangedEventHandler DpiChanged;
+        //public new event DpiChangedEventHandler DpiChanged;
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            SnakeBar bar = new SnakeBar(this);
-            bar.ShowMessage("你好");
-            icon.Hide();
-            icon.Show();
+          //  PanelExport pe = new PanelExport(grd);
+          //new ImageBrush(pe.GetBitmap());
+            //SnakeBar bar = new SnakeBar(this);
+            //bar.ShowMessage("你好");
+            //icon.Hide();
+            //icon.Show();
         }
     }
 }

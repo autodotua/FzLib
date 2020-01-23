@@ -43,7 +43,7 @@ namespace FzLib.DataStorage.SQLite
             {
                 sql.Append(Select);
             }
-            sql.Append(" from ").Append(From);
+            sql.Append($" From \"{From}\" ");
             if (Where != null && Where != "")
             {
                 sql.Append(" where " + Where);

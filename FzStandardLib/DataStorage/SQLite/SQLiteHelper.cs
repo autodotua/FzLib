@@ -8,7 +8,7 @@ namespace FzLib.DataStorage.SQLite
 {
     public static class SQLiteHelper
     {
-        public static void ExecuteNonQuery(this SQLiteConnection dbConnection, string commandString)
+        public static int ExecuteNonQuery(this SQLiteConnection dbConnection, string commandString)
         {
             if (dbConnection == null)
             {
@@ -17,7 +17,7 @@ namespace FzLib.DataStorage.SQLite
 
             using (SQLiteCommand command = new SQLiteCommand(commandString, dbConnection))
             {
-                command.ExecuteNonQuery();
+                return command.ExecuteNonQuery();
             }
         }
 
@@ -26,11 +26,11 @@ namespace FzLib.DataStorage.SQLite
             return table.Rows.Cast<DataRow>().Select(p => p.ItemArray).ToArray();
         }
 
-        public static DataTable Query(this SQLiteConnection dbConnection,string tableName, QueryParameter para)
+        public static DataTable Query(this SQLiteConnection dbConnection, string tableName, QueryParameter para)
         {
             return dbConnection.Query(para.GetSql(tableName));
         }
-        public static DataTable Query(this SQLiteConnection dbConnection,string sql)
+        public static DataTable Query(this SQLiteConnection dbConnection, string sql)
         {
             SQLiteDataAdapter adapter = new SQLiteDataAdapter(sql, dbConnection);
             DataTable dt = new DataTable();

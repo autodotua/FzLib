@@ -121,13 +121,13 @@
       <Project>{bb1b51a0-e157-44c0-80f9-b09594af6447}</Project>
       <Name>FzStandardLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FzWpfControlLib\FzWpfControlLib.csproj">
+    <ProjectReference Include="..\FzUILib.WPF\FzUILib.WPF.csproj">
       <Project>{1c01c352-2660-44e2-8110-8e0a38bfa81f}</Project>
-      <Name>FzWpfControlLib</Name>
+      <Name>FzUILib.WPF</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FzDesktopLib\FzDesktopLib.csproj">
+    <ProjectReference Include="..\FzDesktopLib.Windows\FzDesktopLib.Windows.csproj">
       <Project>{260ea690-de17-4305-a42b-9fff41b7b079}</Project>
-      <Name>FzDesktopLib</Name>
+      <Name>FzDesktopLib.Windows</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
