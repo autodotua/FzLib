@@ -152,3 +152,7 @@
 	【Program】移动部分到FzStandardLib中
 20200123
 	改名部又出发了，FzDesktopLib改名FzDesktopLib.Windows，FzWpfControlsLib改名FzUILib.WPF
+	【FzLib.Extension.ExtendedINotifyPropertyChanged】修改为扩展方法
+20200126
+	【FzLib.Extension.ExtendedINotifyPropertyChanged】新增包含[CallerMemberName]特性的自动属性名填充方法
+	【FzLib.Extension.ExtendedINotifyPropertyChanged】修复了实现INotifyPropertyChanged接口的类的子类无法调用的BUG

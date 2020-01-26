@@ -21,13 +21,36 @@ using static FzLib.Basic.Loop;
 using FzLib.Basic.Math;
 using System.Threading.Tasks;
 using FzLib.DataStorage.SQLite;
+using System.ComponentModel;
 
 namespace ConsoleTest
 {
     class Program
     {
+        public class AB : INotifyPropertyChanged
+        {
+            public event PropertyChangedEventHandler PropertyChanged;
+        }
+        public class A:AB
+        {
+            string a = "";
+            public string B
+            {
+                get => a;
+                set =>a= this.NotifyAndReturnValue(value);
+            }
+
+        }
+
         static void Main(string[] args)
         {
+
+            A a = new A();
+            a.PropertyChanged += (p1, p2) =>
+            {
+
+            };
+            a.B="";
             //   Config config = FzLib.Data.JsonDataBase.OpenOrCreat<Config>();
             //   config.Save();
             //Config config = Config.OpenOrCreat<Config>();
@@ -395,12 +418,12 @@ namespace ConsoleTest
             //Console.ReadLine();
 
             SQLiteDatabaseHelper db = SQLiteDatabaseHelper.OpenOrCreate("test.db");
-            db.CreateTable("d"+Guid.NewGuid().ToString().Replace("-",""), "id", 
+            db.CreateTable("d" + Guid.NewGuid().ToString().Replace("-", ""), "id",
                 new SQLiteColumn("test", SQLiteDataType.Integer),
-                new SQLiteColumn("test2", SQLiteDataType.Text,true),
-                new SQLiteColumn("test3", SQLiteDataType.Text,true,"hello"),
-                new SQLiteColumn("test4", SQLiteDataType.Text,true)
-                
+                new SQLiteColumn("test2", SQLiteDataType.Text, true),
+                new SQLiteColumn("test3", SQLiteDataType.Text, true, "hello"),
+                new SQLiteColumn("test4", SQLiteDataType.Text, true)
+
                 );
         }
 

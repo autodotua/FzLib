@@ -63,8 +63,6 @@ namespace FzLib.UI.Extension
 
         public double Blood { get; set; }
 
-
-
         private void ArrangeSize()
         {
             pnl.LayoutTransform = null;

@@ -103,7 +103,7 @@
     <Compile Include="Extension\ZoomableBorder.cs" />
     <Compile Include="DarkerBrushConverter.cs" />
     <Compile Include="Dialog\SankeBar.cs" />
-    <Compile Include="Extension\ExtendedListView.cs" />
+    <Compile Include="Extension\ItemControlHelper.cs" />
     <Compile Include="FileSystem\StorageOperationButton.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="Extension\PanelExport.cs" />

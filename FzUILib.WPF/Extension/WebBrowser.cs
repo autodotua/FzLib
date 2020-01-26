@@ -96,7 +96,7 @@ namespace FzLib.UI.Extension
             BindingFlags.FlattenHierarchy |
             BindingFlags.CreateInstance;
 
-        public static object ReflectGetProperty(this object target, string propertyName)
+        internal static object ReflectGetProperty(this object target, string propertyName)
         {
             if (target == null)
                 throw new ArgumentNullException("target");
@@ -109,7 +109,7 @@ namespace FzLib.UI.Extension
             return propertyInfo.GetValue(target, null);
         }
 
-        public static object ReflectInvokeMethod(this object target, string methodName, Type[] argTypes, object[] parameters)
+        internal static object ReflectInvokeMethod(this object target, string methodName, Type[] argTypes, object[] parameters)
         {
             if (target == null)
                 throw new ArgumentNullException("target");
