@@ -182,12 +182,13 @@ namespace FzLib.UI.Dialog
             }
         }
 
-        public static void ShowWithCommandLinks(string text, string instructionText, IEnumerable<(string text, string instruction, Action click)> buttons, string detail = null, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None, bool cancelable = false, string expandedLabel = "查看详情")
+        public static string ShowWithCommandLinks(string text, string instructionText, IEnumerable<(string text, string instruction, Action click)> buttons, string detail = null, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None, bool cancelable = false, string expandedLabel = "查看详情")
         {
-            ShowWithCommandLinks(DefaultOwner.Owner, text, instructionText, buttons, detail, icon, cancelable, expandedLabel);
+            return ShowWithCommandLinks(DefaultOwner.Owner, text, instructionText, buttons, detail, icon, cancelable, expandedLabel);
         }
-        public static void ShowWithCommandLinks(Window window, string text, string instructionText, IEnumerable<(string text, string instruction, Action click)> buttons, string detail = null, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None, bool cancelable = false, string expandedLabel = "查看详情")
+        public static string ShowWithCommandLinks(Window window, string text, string instructionText, IEnumerable<(string text, string instruction, Action click)> buttons, string detail = null, TaskDialogStandardIcon icon = TaskDialogStandardIcon.None, bool cancelable = false, string expandedLabel = "查看详情")
         {
+            string result = null;
             using (TaskDialog task = new TaskDialog(window))
             {
                 task.Dialog.Text = text;
@@ -202,11 +203,13 @@ namespace FzLib.UI.Dialog
                     {
                         click?.Invoke();
                         task.Dialog.Close();
+                        result = button.Text;
                     };
                     task.Dialog.Controls.Add(button);
                 }
                 task.Show();
             }
+            return result;
         }
 
         public static void ShowException(Exception ex, string message = null, bool cancelable = false)

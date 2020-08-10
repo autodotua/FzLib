@@ -3,18 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfTest"
-        xmlns:filesystem="clr-namespace:FzLib.Control.FileSystem;assembly=FzWpfControlLib"
-        xmlns:win10style="clr-namespace:FzLib.Control.Win10Style;assembly=FzWpfControlLib"
         mc:Ignorable="d"
-        Background="White"
+        Background="White" Loaded="Window_Loaded"
         Title="MainWindow" Height="450" Width="800">
     <Grid x:Name="gm">
         <Grid x:Name="grd">
             
-            <Button HorizontalAlignment="Center" VerticalAlignment="Center" Content="按钮" Click="Button_Click"/>
-            <win10style:ModernDataGrid x:Name="dg">
-            </win10style:ModernDataGrid>
         </Grid>
     </Grid>
 </Window>

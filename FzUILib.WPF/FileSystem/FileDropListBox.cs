@@ -88,7 +88,7 @@ namespace FzLib.UI.FileSystem
                     }
                 }
 
-                FileDropped?.Invoke(this, new Common.StorageOperationEventArgs(files.ToArray(), Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.None));
+                FileDropped?.Invoke(this, new Common.StorageOperationEventArgs(files.ToArray()));
             }
         }
         public delegate void FileDroppedHandler(object sender, Common.StorageOperationEventArgs e);

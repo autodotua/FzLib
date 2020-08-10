@@ -24,7 +24,7 @@ namespace FzLib.IO
         {
             if (Directories == null || Directories.Length == 0)
             {
-                return new DirectoryInfo[0];
+                return Array.Empty<DirectoryInfo>();
             }
 
             return Directories.Select(p => new DirectoryInfo(p.Path)).ToArray();

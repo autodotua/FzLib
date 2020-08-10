@@ -67,12 +67,6 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.3.3, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft-WindowsAPICodePack-Core.1.1.3.3\lib\net452\Microsoft.WindowsAPICodePack.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.3.3, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft-WindowsAPICodePack-Shell.1.1.3.3\lib\net452\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="ReachFramework" />
@@ -110,10 +104,6 @@
     </Compile>
     <Compile Include="IO\FileProperty\Photo\TextHelper.cs" />
     <Compile Include="IO\FileSystem.cs" />
-    <Compile Include="IO\FileSystemTree.cs" />
-    <Compile Include="IO\FileSystemWatcher.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="IO\Shortcut.cs" />
     <Compile Include="Media\Converter.cs" />
     <Compile Include="Program\ConfigurationHelper.cs" />

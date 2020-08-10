@@ -126,6 +126,10 @@ namespace FzLib.UI.Extension
             }
             TView listview = sender as TView;
             TModel select = (TModel)listview.SelectedItem;
+            if (listview.SelectedIndex < 0)
+            {
+                return;
+            }
             if (e.LeftButton == MouseButtonState.Pressed && IsMouseOverTarget(GetItem(listview.SelectedIndex), new GetPositionDelegate(e.GetPosition)))
             {
                 DataObject data = new DataObject(typeof(TModel), select);
@@ -223,7 +227,13 @@ namespace FzLib.UI.Extension
         public TViewItem GetItem(int index)
         {
             if (View.ItemContainerGenerator.Status != GeneratorStatus.ContainersGenerated)
+            {
                 return null;
+            }
+            if(index<0)
+            {
+                return null;
+            }
             return View.ItemContainerGenerator.ContainerFromIndex(index) as TViewItem;
         }
 

@@ -26,4 +26,10 @@
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.112" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="IO\FileSystemWatcher.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>

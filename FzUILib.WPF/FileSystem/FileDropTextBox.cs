@@ -68,7 +68,7 @@ namespace FzLib.UI.FileSystem
                 if (files.Length == 1)
                 {
                     Text = files[0];
-                    FileDropped?.Invoke(this, new Common.StorageOperationEventArgs(files[0], Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.None));
+                    FileDropped?.Invoke(this, new Common.StorageOperationEventArgs(files[0]));
 
                     return;
                 }
@@ -99,7 +99,7 @@ namespace FzLib.UI.FileSystem
                     }
                 }
                 Text = string.Join(Splitter, result);
-                FileDropped?.Invoke(this, new Common.StorageOperationEventArgs(result.ToArray(), Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.None));
+                FileDropped?.Invoke(this, new Common.StorageOperationEventArgs(result.ToArray()));
             }
         }
 

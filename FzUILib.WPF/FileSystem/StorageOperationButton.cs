@@ -60,12 +60,12 @@ namespace FzLib.UI.FileSystem
                 var result = oepnDialog.ShowDialog();
                 if (result == CommonFileDialogResult.Ok)
                 {
-                    DialogComplete?.Invoke(this, new StorageOperationEventArgs(oepnDialog.FileNames.ToArray(), result));
+                    DialogComplete?.Invoke(this, new StorageOperationEventArgs(oepnDialog.FileNames.ToArray()));
 
                 }
                 else
                 {
-                    DialogFailed?.Invoke(this, new StorageOperationEventArgs(result));
+                    DialogFailed?.Invoke(this, new StorageOperationEventArgs());
                 }
             }
 
@@ -94,12 +94,12 @@ namespace FzLib.UI.FileSystem
                 var result = saveDialog.ShowDialog();
                 if (result == CommonFileDialogResult.Ok)
                 {
-                    DialogComplete?.Invoke(this, new StorageOperationEventArgs(saveDialog.FileName, result));
+                    DialogComplete?.Invoke(this, new StorageOperationEventArgs(saveDialog.FileName));
                 }
 
                 else
                 {
-                    DialogFailed?.Invoke(this, new StorageOperationEventArgs(result));
+                    DialogFailed?.Invoke(this, new StorageOperationEventArgs());
 
                 }
             }

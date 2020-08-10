@@ -61,16 +61,7 @@ namespace FzLib.Extension
             field = value;
             obj.Notify(name);
         }
-        public static T NotifyAndReturnValue<T>(this INotifyPropertyChanged obj,T value, params string[] names)
-        {
-            obj.Notify(names);
-            return value;
-        }   
-        public static T NotifyAndReturnValue<T>(this INotifyPropertyChanged obj,T value, [CallerMemberName] string name=null)
-        {
-            obj.Notify(name);
-            return value;
-        }
+      
 
     }
 }

@@ -18,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace WpfTest
 {
@@ -39,8 +40,6 @@ namespace WpfTest
             //  };
             //icon.ReShowWhenDisplayChanged = true;
 
-            dg.ItemsSource = new ObservableCollection<A>() { new A(), new A(), new A() };
-            new FzLib.UI.Extension.DataGridHelper<A>(dg).EnableDragAndDropItem();
         }
 
         public class A
@@ -57,6 +56,13 @@ namespace WpfTest
             //bar.ShowMessage("你好");
             //icon.Hide();
             //icon.Show();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            FileSystemDialog.GetSaveFile(new FileFilterCollection()
+                .Add("文本", "txt")
+                .Add("图片","png"),ensureExtension:true);
         }
     }
 }

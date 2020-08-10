@@ -26,7 +26,7 @@ namespace FzLib.UI.Dialog
             {
                 if(Auto)
                 {
-                    return Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.IsActive);
+                    return Application.Current?.Windows.OfType<Window>().SingleOrDefault(w => w.IsActive);
                 }
                 else
                 {

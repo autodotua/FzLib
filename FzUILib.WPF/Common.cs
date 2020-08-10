@@ -66,26 +66,33 @@ namespace FzLib.UI
         }
         public class StorageOperationEventArgs : EventArgs
         {
-            public StorageOperationEventArgs(string name, CommonFileDialogResult result)
+            public StorageOperationEventArgs()
             {
-                Name = name;
-                Names = new[] { name };
-                Result = result;
-            }
-            public StorageOperationEventArgs(CommonFileDialogResult result)
-            {
-                Result = result;
-            }
-            public StorageOperationEventArgs(string[] names, CommonFileDialogResult result)
-            {
-                Names = names;
-                Name = names[0];
-                Result = result;
             }
 
-            public string Name { get; private set; }
+            public StorageOperationEventArgs(string name)
+            {
+                Names = new[] { name };
+            }
+
+            public StorageOperationEventArgs(string[] names)
+            {
+                Names = names;
+            }
+
+            public string Name
+            {
+                get
+                {
+                    if (Names.Length == 1)
+                    {
+                        return Names[0];
+                    }
+                    throw new Exception("Number of files is not ONE");
+                }
+            }
             public string[] Names { get; private set; }
-            public CommonFileDialogResult Result { get; private set; }
+            //public CommonFileDialogResult Result { get; private set; }
         }
 
         public static T CloneXaml<T>(T source)
