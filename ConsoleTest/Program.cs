@@ -413,7 +413,7 @@ namespace ConsoleTest
 
             //    );
 
-            string path = @"C:\Users\autod\OneDrive\同步\开发";
+            string path = @"C:\Windows";
     var a=        FileSystem.EnumerateAccessibleFileSystemInfos(path).OrderBy(p => p.FullName).ToList();
             var b = new DirectoryInfo(path).EnumerateFileSystemInfos("*",SearchOption.AllDirectories).OrderBy(p => p.FullName).ToList();
             var c = a.SequenceEqual(b);

@@ -16,6 +16,9 @@
     <PackageReference Include="NetTopologySuite" Version="2.0.0" />
     <PackageReference Include="ProjNET4GeoAPI" Version="1.4.1" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FzStandardLib\FzStandardLib.csproj" />
+  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="FzStandardLib">

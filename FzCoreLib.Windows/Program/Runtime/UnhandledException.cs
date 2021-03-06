@@ -33,7 +33,6 @@ namespace FzLib.Program.Runtime
                     }
                     catch
                     {
-
                     }
                 }
             };
@@ -53,25 +52,24 @@ namespace FzLib.Program.Runtime
             var e = new UnhandledExceptionEventArgs(ex, source);
             UnhandledExceptionCatched?.Invoke(sender, e);
         }
+    }
 
-   
-    }     public class UnhandledExceptionEventArgs : EventArgs
+    public class UnhandledExceptionEventArgs : EventArgs
+    {
+        public UnhandledExceptionEventArgs(Exception exception, ExceptionSource source)
         {
-            public UnhandledExceptionEventArgs(Exception exception, ExceptionSource source)
-            {
-                Exception = exception ?? throw new ArgumentNullException(nameof(exception));
-                Source = source;
-            }
-
-            public Exception Exception { get; private set; }
-            public ExceptionSource Source { get; private set; }
-
-
+            Exception = exception ?? throw new ArgumentNullException(nameof(exception));
+            Source = source;
         }
-        public enum ExceptionSource
-        {
-            TaskScheduler,
-            AppDomain,
-            Application,
-        }
+
+        public Exception Exception { get; private set; }
+        public ExceptionSource Source { get; private set; }
+    }
+
+    public enum ExceptionSource
+    {
+        TaskScheduler,
+        AppDomain,
+        Application,
+    }
 }
