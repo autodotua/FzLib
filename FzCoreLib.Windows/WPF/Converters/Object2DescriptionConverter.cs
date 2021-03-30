@@ -6,13 +6,13 @@ using System.Windows.Data;
 
 namespace FzLib.WPF.Converters
 {
-    public class Enum2DescriptionConverter : IValueConverter
+    public class Object2DescriptionConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if (value == null) return DependencyProperty.UnsetValue;
 
-            return GetDescription((Enum)value);
+            return GetDescription(value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -20,7 +20,7 @@ namespace FzLib.WPF.Converters
             return value;
         }
 
-        public static string GetDescription(Enum en)
+        public static string GetDescription(object en)
         {
             Type type = en.GetType();
             MemberInfo[] memInfo = type.GetMember(en.ToString());

@@ -167,3 +167,16 @@
 20200810
 	将【FzLib.IO.FileSystemTree】、【FzLib.IO.FileSystemWatcher】、【FzLib.IO.FileSystem】的部分方法提取到了FzStandardLib中
 	删除了【FzLib.IO.FileProprety】命名空间及下属类
+
+20210305
+	对项目划分文件夹
+	【FzLib.WPF.Converters】增加一些Converter
+
+20210306
+	【FzLib.WPF.Converters】增加一些Converter
+
+20210328
+	【FzLib.WPF.Converters】增加一些Converter
+
+20210330
+	【FzLib.DataStorage.Serialization.JsonSerializationBase】增加JsonSerializerSettings参数支持

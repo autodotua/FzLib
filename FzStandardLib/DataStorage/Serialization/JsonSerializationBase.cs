@@ -12,49 +12,55 @@ namespace FzLib.DataStorage.Serialization
             Settings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
         }
 
-        public static T Create<T>(string path =null) where T : JsonSerializationBase, new()
+        public static T Create<T>(string path = null, JsonSerializerSettings settings = null) where T : JsonSerializationBase, new()
         {
             path = GetPath(path);
             T instance = new T
             {
                 Path = path,
-            }; 
-          instance.  Loaded = true;
+            };
+            instance.Loaded = true;
+            instance.Settings = settings;
             return instance;
         }
-        public static T TryOpenOrCreate<T>(string path =null) where T : JsonSerializationBase, new()
+
+        public static T TryOpenOrCreate<T>(string path = null, JsonSerializerSettings settings = null) where T : JsonSerializationBase, new()
         {
             path = GetPath(path);
             try
             {
-                return OpenOrCreate<T>(path);
+                return OpenOrCreate<T>(path, settings);
             }
             catch
             {
                 return Create<T>(path);
             }
         }
-        public static T OpenOrCreate<T>(string path =null) where T : JsonSerializationBase, new()
+
+        public static T OpenOrCreate<T>(string path = null, JsonSerializerSettings settings = null) where T : JsonSerializationBase, new()
         {
             path = GetPath(path);
             T instance;
             if (File.Exists(path))
             {
-                instance = GetObjectFromJson<T>(File.ReadAllText(path));
+                instance = GetObjectFromJson<T>(File.ReadAllText(path), settings);
             }
             else
             {
                 instance = new T();
             }
             instance.Path = path;
+            instance.Settings = settings;
             return instance;
         }
-        public static T Open<T>(string path = null) where T : JsonSerializationBase, new()
+
+        public static T Open<T>(string path = null, JsonSerializerSettings settings = null) where T : JsonSerializationBase, new()
         {
             path = GetPath(path);
-            T instance = GetObjectFromJson<T>(File.ReadAllText(path));
+            T instance = GetObjectFromJson<T>(File.ReadAllText(path), settings);
             instance.Path = path;
             instance.Loaded = true;
+            instance.Settings = settings;
             return instance;
         }
 
@@ -73,7 +79,7 @@ namespace FzLib.DataStorage.Serialization
 
         private static string GetPath(string path)
         {
-            if(path==null)
+            if (path == null)
             {
                 return System.IO.Path.Combine(Program.App.ProgramDirectoryPath, "config.json");
             }
@@ -82,7 +88,7 @@ namespace FzLib.DataStorage.Serialization
 
         protected bool Loaded { get; private set; } = false;
 
-        public string Path { get; protected set; } 
+        public string Path { get; protected set; }
 
         protected JsonSerializerSettings Settings { get; set; } = new JsonSerializerSettings();
 
@@ -97,14 +103,11 @@ namespace FzLib.DataStorage.Serialization
             {
                 path = Path;
             }
-            if(!new FileInfo(path).Directory.Exists)
+            if (!new FileInfo(path).Directory.Exists)
             {
                 new FileInfo(path).Directory.Create();
             }
             File.WriteAllText(path, GetJson(this, Settings));
         }
     }
-
 }
-
-

@@ -11,13 +11,23 @@ namespace FzLib.DataStorage
         {
             return JsonConvert.SerializeObject(obj, format ? Formatting.Indented : Formatting.None);
         }
+
         public static string GetJson(object obj, JsonSerializerSettings settings)
         {
+            if (settings == null)
+            {
+                settings = new JsonSerializerSettings();
+            }
             return JsonConvert.SerializeObject(obj, settings);
         }
-        public static T GetObjectFromJson<T>(string text)
+
+        public static T GetObjectFromJson<T>(string text, JsonSerializerSettings settings)
         {
-            return JsonConvert.DeserializeObject<T>(text);
+            if (settings == null)
+            {
+                settings = new JsonSerializerSettings();
+            }
+            return JsonConvert.DeserializeObject<T>(text, settings);
         }
 
         public static string ConvertXmlToJson(string text)
@@ -36,10 +46,12 @@ namespace FzLib.DataStorage
                 return sw.ToString();
             }
         }
+
         public static string GetXml<T>(T obj, JsonSerializerSettings settings)
         {
             return ConvertJsonToXml(GetJson(obj, settings));
         }
+
         public static string GetXml<T>(T obj)
         {
             return ConvertJsonToXml(GetJson(obj));
@@ -53,7 +65,7 @@ namespace FzLib.DataStorage
 
         public static T GetObjectFromXml<T>(string text)
         {
-            return GetObjectFromJson<T>(ConvertXmlToJson(text));
+            return GetObjectFromJson<T>(ConvertXmlToJson(text), null);
             //   T obj = default;
             //   using (StreamReader reader = new StreamReader(text))
             //   {
