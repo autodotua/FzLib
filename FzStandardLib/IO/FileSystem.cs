@@ -12,7 +12,6 @@ namespace FzLib.IO
 {
     public static class FileSystem
     {
-
         public static bool FileExistsCaseSensitive(string filename)
         {
             return new FileInfo(filename).ExistsCaseSensitive();
@@ -24,20 +23,20 @@ namespace FzLib.IO
 
             string directory = Path.GetDirectoryName(file.FullName);
 
-
             return directory != null && Directory.EnumerateFiles(directory).Any(p => p == fileFullName);
+        }
+
+        public static IReadOnlyList<string> EnumerateAccessibleFiles(string path, out IReadOnlyList<string> failedFiles, out IReadOnlyList<string> failedDirectories)
+        {
+            return EnumerateAccessibleFiles(path, "*", "*", false, out failedFiles, out failedDirectories);
         }
 
         public static IReadOnlyList<string> EnumerateAccessibleFiles(string path, string fileFilter = "*", string directoryFilter = "*", bool directoryFirst = false)
         {
             return EnumerateAccessibleFiles(path, fileFilter, directoryFilter, directoryFirst, out _, out _);
         }
-        public static IReadOnlyList<string> EnumerateAccessibleFiles(string path, out IReadOnlyList<string> failedFiles, out IReadOnlyList<string> failedDirectories)
-        {
-            return EnumerateAccessibleFiles(path, "*", "*", false, out failedFiles, out failedDirectories);
-        }
 
-        public static IReadOnlyList<string>EnumerateAccessibleFiles(string path, string fileFilter, string directoryFilter, bool directoryFirst, out IReadOnlyList<string> failedFiles, out IReadOnlyList<string> failedDirectories)
+        public static IReadOnlyList<string> EnumerateAccessibleFiles(string path, string fileFilter, string directoryFilter, bool directoryFirst, out IReadOnlyList<string> failedFiles, out IReadOnlyList<string> failedDirectories)
         {
             List<string> files = new List<string>();
             var failedFilesList = new List<string>();
@@ -85,10 +84,46 @@ namespace FzLib.IO
             }
         }
 
+        public static IReadOnlyList<string> EnumerateAccessibleDirectories(string path, string filter = "*")
+        {
+            return EnumerateAccessibleDirectories(path, filter, out _);
+        }
+
+        public static IReadOnlyList<string> EnumerateAccessibleDirectories(string path, string filter, out IReadOnlyList<string> failedDirectories)
+        {
+            List<string> files = new List<string>();
+            var failedDirectoriesList = new List<string>();
+            enumerateFolders(path);
+
+            failedDirectories = failedDirectoriesList.AsReadOnly();
+
+            return files.AsReadOnly();
+
+            void enumerateFolders(string directory)
+            {
+                try
+                {
+                    foreach (var sub in Directory.EnumerateDirectories(directory, filter))
+                    {
+                        files.Add(sub);
+                    }
+                    foreach (var sub in Directory.EnumerateDirectories(directory))
+                    {
+                        enumerateFolders(sub);
+                    }
+                }
+                catch
+                {
+                    failedDirectoriesList.Add(directory);
+                }
+            }
+        }
+
         public static IReadOnlyList<FileSystemInfo> EnumerateAccessibleFileSystemInfos(string path, string fileFilter = "*", string directoryFilter = "*", bool directoryFirst = false)
         {
             return EnumerateAccessibleFileSystemInfos(path, fileFilter, directoryFilter, directoryFirst, out _, out _);
         }
+
         public static IReadOnlyList<FileSystemInfo> EnumerateAccessibleFileSystemInfos(string path, out IReadOnlyList<FileSystemInfo> failedFileSystemInfos, out IReadOnlyList<FileSystemInfo> failedDirectories)
         {
             return EnumerateAccessibleFileSystemInfos(path, "*", "*", false, out failedFileSystemInfos, out failedDirectories);
@@ -147,7 +182,6 @@ namespace FzLib.IO
             }
         }
 
-
         public static long GetDirectoryLength(string path)
         {
             if (!Directory.Exists(path))
@@ -164,7 +198,6 @@ namespace FzLib.IO
                 throw new DirectoryNotFoundException(directory.FullName);
             }
             return Directory.GetFiles(directory.FullName, "*", SearchOption.AllDirectories).Sum(t => (new FileInfo(t).Length));
-
         }
 
         public static FileComparisonResult CompareFiles(string leftPath, string rightPath)
@@ -173,14 +206,17 @@ namespace FzLib.IO
             FileSystemTree right = GetFileSystemTree(rightPath);
             return FileSystemTree.CompareFiles(left, right);
         }
+
         public static void Copy(this DirectoryInfo directory, string destinationPath)
         {
             CopyDirectory(directory.FullName, destinationPath);
         }
+
         public async static Task CopyAsync(this DirectoryInfo directory, string destinationPath)
         {
             await CopyDirectoryAsync(directory.FullName, destinationPath);
         }
+
         public async static Task CopyDirectoryAsync(string sourcePath, string destinationPath)
         {
             await Task.Run(() => CopyDirectory(sourcePath, destinationPath));
@@ -205,6 +241,7 @@ namespace FzLib.IO
                 }
             }
         }
+
         ///// <summary>
         ///// 删除文件夹（及文件夹下所有子文件夹和文件）
         ///// </summary>
@@ -231,7 +268,7 @@ namespace FzLib.IO
         //                    throw new IOException("文件" + file.FullName + "是只读的");
         //                }
         //            }
-        //            File.Delete(d);     //删除文件   
+        //            File.Delete(d);     //删除文件
         //        }
         //        else
         //        {
@@ -249,7 +286,6 @@ namespace FzLib.IO
         //{
         //    await Task.Run(() => DeleteDirectory(directoryPath, forceDeleteReadOnly));
         //}
-
 
         public static string GetNoDuplicateFile(string path)
         {
@@ -271,9 +307,5 @@ namespace FzLib.IO
                 i++;
             }
         }
-
     }
-
 }
-
-

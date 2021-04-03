@@ -5,7 +5,6 @@ using FzLib.Basic.Collection;
 using FzLib.Extension;
 using FzLib.Geography.Analysis;
 using FzLib.Geography.IO.Gpx;
-using NetTopologySuite.Geometries;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
@@ -27,9 +26,9 @@ using FzLib.IO;
 
 namespace ConsoleTest
 {
-    class Program
-    { 
-        static void Main(string[] args)
+    internal class Program
+    {
+        private static void Main(string[] args)
         {
             //string a=   TaskDialog.ShowWithCommandLinks("请选择转换类型", "正在准备导入GPS轨迹文件",
             //  new (string, string, Action)[] {
@@ -75,7 +74,6 @@ namespace ConsoleTest
             //   list.Add(35);
             //   list.Add(210);
 
-
             //var a=   Filter.MedianValueFilter(list, p => p, 3, 1);
             //   foreach (var item in a)
             //   {
@@ -92,15 +90,12 @@ namespace ConsoleTest
 
             //新建任务
 
-
-
             //       foreach (var item in points.Split(new string[] {Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
             //       {
             //           var strs = item.Split(new string[] { " ","\t" }, StringSplitOptions.RemoveEmptyEntries);
             //           Console.WriteLine(FzLib.Geography.Coordinate.Convert.GeoCoordConverter.BD09ToGCJ02(new FzLib.Geography.Coordinate.GeoPoint(double.Parse(strs[1]), double.Parse(strs[0]))).ToString().Replace("(", "").Replace(")", ""));
             //       }
             //  var a=     FzLib.Geography.Coordinate.Convert.GeoCoordConverter.BD09ToGCJ02(new FzLib.Geography.Coordinate.GeoPoint(29.896044, 121.557295));
-
 
             //for (int large = 2; large <100; large++)
             //{
@@ -113,7 +108,6 @@ namespace ConsoleTest
             //        }
             //        catch
             //        {
-
             //        }
             //    }
             //    Console.WriteLine();
@@ -143,7 +137,6 @@ namespace ConsoleTest
             //Loop.ForRange(count, p => ints.Add(r.Next()));
             //sw.Stop();
             //Console.WriteLine("生成用时：" + sw.Elapsed);
-
 
             //BinarySortTree<int> tree = new BinarySortTree<int>();
             //sw.Restart();
@@ -175,7 +168,6 @@ namespace ConsoleTest
             //sw.Stop();
             //Console.WriteLine("SortedSet：" + sw.Elapsed);
 
-
             //RedBlackTree<int> rbt = new RedBlackTree<int>();
             //sw.Restart();
             //ints.ForEach(p => rbt.Add(p));
@@ -185,8 +177,6 @@ namespace ConsoleTest
             //set.ToArray();
             //sw.Stop();
             //Console.WriteLine("遍历RedBlackTree用时：" + sw.Elapsed);
-
-
 
             //AutoSortList<int> list = new AutoSortList<int>(p=>p);
             //sw.Restart();
@@ -259,8 +249,6 @@ namespace ConsoleTest
             //tree.Add(5);
             //tree.Add(1048);
             //tree.Add(2048);
-
-
 
             ////Console.WriteLine(tree.ToString(BinaryTreeBase<int, BinarySearchTree<int>.Node>.OrderType.InOrder, " "));
 
@@ -349,14 +337,11 @@ namespace ConsoleTest
             //    sw.Reset();
             //}
 
-
             //Gpx gpx = Gpx.FromFile(@"C:\Users\admin\Desktop\植物园轨迹\20191025_154822.gpx");
             //var a = gpx.Tracks.First().MaxSpeed;
 
             //FzLib.Cryptography.Hash h = new FzLib.Cryptography.Hash();
             //Console.WriteLine(h.GetString("md5", "admin"));
-
-
 
             //List<string> exps = new List<string>();
             //string exp = "sin(x)+cos(y)*log(x,y)^y";
@@ -372,7 +357,6 @@ namespace ConsoleTest
             //var sw = Stopwatch.StartNew();
             //foreach (var e in exps)
             //{
-
             //    c.Calc(e);
             //}
 
@@ -413,12 +397,12 @@ namespace ConsoleTest
 
             //    );
 
-            string path = @"C:\Windows";
-    var a=        FileSystem.EnumerateAccessibleFileSystemInfos(path).OrderBy(p => p.FullName).ToList();
-            var b = new DirectoryInfo(path).EnumerateFileSystemInfos("*",SearchOption.AllDirectories).OrderBy(p => p.FullName).ToList();
-            var c = a.SequenceEqual(b);
+            //        string path = @"C:\Windows";
+            //var a=        FileSystem.EnumerateAccessibleFileSystemInfos(path).OrderBy(p => p.FullName).ToList();
+            //        var b = new DirectoryInfo(path).EnumerateFileSystemInfos("*",SearchOption.AllDirectories).OrderBy(p => p.FullName).ToList();
+            //        var c = a.SequenceEqual(b);
+
+            var a = FileSystem.EnumerateAccessibleDirectories("O:", "临安专线公交");
         }
-
-
     }
 }

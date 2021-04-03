@@ -177,6 +177,7 @@
 
 20210328
 	【FzLib.WPF.Converters】增加一些Converter
-
 20210330
 	【FzLib.DataStorage.Serialization.JsonSerializationBase】增加JsonSerializerSettings参数支持
+20210403
+	【FzLib.IO.FileSystem】增加EnumerateAccessibleDirectories方法
