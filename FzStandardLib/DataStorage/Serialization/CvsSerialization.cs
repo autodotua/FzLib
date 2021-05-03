@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -15,27 +16,29 @@ namespace FzLib.DataStorage.Serialization
         {
             ExportByPropertyNames(objs, propertyNames, path, Encoding.UTF8);
         }
+
         public static void ExportByPropertyNames<T>(IEnumerable<T> objs, IEnumerable<string> propertyNames, string path, Encoding encoding)
         {
             Type type = typeof(T);
             ExportByPropertyNames(objs, type.GetProperties().Where(p => propertyNames.Contains(p.Name)), path, encoding);
-
         }
+
         public static void ExportByPropertyNames<T>(IEnumerable<T> objs, string path)
         {
             ExportByPropertyNames(objs, path, Encoding.UTF8);
         }
+
         public static void ExportByPropertyNames<T>(IEnumerable<T> objs, string path, Encoding encoding)
         {
             Type type = typeof(T);
             ExportByPropertyNames(objs, type.GetRuntimeProperties(), path, encoding);
-
         }
+
         public static void ExportByPropertyNames<T>(IEnumerable<T> objs, IEnumerable<PropertyInfo> properties, string path)
         {
             ExportByPropertyNames(objs, properties, path, Encoding.UTF8);
-
         }
+
         public static void ExportByPropertyNames<T>(IEnumerable<T> objs, IEnumerable<PropertyInfo> properties, string path, Encoding encoding)
         {
             if (!File.Exists(path))
@@ -57,25 +60,24 @@ namespace FzLib.DataStorage.Serialization
                 list.Add(target);
             }
 
-
-
             using (StreamWriter stream = new StreamWriter(File.Open(path, FileMode.Create), encoding))
             {
-                CsvHelper.CsvWriter writer = new CsvHelper.CsvWriter(stream);
+                CsvHelper.CsvWriter writer = new CsvHelper.CsvWriter(stream, CultureInfo.InvariantCulture);
                 writer.WriteRecords(list);
             }
         }
+
         public static void ExportByStringList(IEnumerable<IEnumerable<string>> stringLists, IEnumerable<string> header, string path)
         {
             ExportByStringList(stringLists, header, path, Encoding.UTF8);
         }
+
         public static void ExportByStringList(IEnumerable<IEnumerable<string>> stringLists, IEnumerable<string> header, string path, Encoding encoding)
         {
             if (!File.Exists(path))
             {
                 using (File.Create(path)) { }
             }
-
 
             int count = stringLists.First().Count();
             if (stringLists.Any(p => p.Count() != count))
@@ -101,25 +103,23 @@ namespace FzLib.DataStorage.Serialization
                 list.Add(target);
             }
 
-
-
             using (StreamWriter stream = new StreamWriter(File.Open(path, FileMode.Create), encoding))
             {
-                CsvHelper.CsvWriter writer = new CsvHelper.CsvWriter(stream);
+                CsvHelper.CsvWriter writer = new CsvHelper.CsvWriter(stream, CultureInfo.InvariantCulture);
                 writer.WriteRecords(list);
             }
         }
+
         public static void Export<T>(IEnumerable<T> objs, string path)
         {
-
             Export(objs, path, Encoding.UTF8);
         }
+
         public static void Export<T>(IEnumerable<T> objs, string path, Encoding encoding)
         {
-
             using (StreamWriter stream = new StreamWriter(File.Open(path, FileMode.Create), encoding))
             {
-                CsvHelper.CsvWriter writer = new CsvHelper.CsvWriter(stream);
+                CsvHelper.CsvWriter writer = new CsvHelper.CsvWriter(stream, CultureInfo.InvariantCulture);
                 writer.WriteRecords(objs);
             }
         }
@@ -134,13 +134,13 @@ namespace FzLib.DataStorage.Serialization
             T[] result = null;
             using (StreamReader stream = new StreamReader(File.Open(path, FileMode.Open), encoding))
             {
-                CsvHelper.CsvReader reader = new CsvHelper.CsvReader(stream);
+                CsvHelper.CsvReader reader = new CsvHelper.CsvReader(stream, CultureInfo.InvariantCulture);
                 result = reader.GetRecords<T>().ToArray();
             }
             return result;
         }
 
-        public static string StringListToString(IEnumerable<string> list,string separator)
+        public static string StringListToString(IEnumerable<string> list, string separator)
         {
             bool first = true;
             StringBuilder result = new StringBuilder();
@@ -158,6 +158,5 @@ namespace FzLib.DataStorage.Serialization
             }
             return result.ToString();
         }
-
     }
 }

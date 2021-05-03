@@ -38,6 +38,10 @@ namespace FzLib.IO
 
         public static IReadOnlyList<string> EnumerateAccessibleFiles(string path, string fileFilter, string directoryFilter, bool directoryFirst, out IReadOnlyList<string> failedFiles, out IReadOnlyList<string> failedDirectories)
         {
+            if (path.EndsWith(":"))
+            {
+                path = path + "\\";
+            }
             List<string> files = new List<string>();
             var failedFilesList = new List<string>();
             var failedDirectoriesList = new List<string>();
@@ -91,6 +95,10 @@ namespace FzLib.IO
 
         public static IReadOnlyList<string> EnumerateAccessibleDirectories(string path, string filter, out IReadOnlyList<string> failedDirectories)
         {
+            if (path.EndsWith(":"))
+            {
+                path = path + "\\";
+            }
             List<string> files = new List<string>();
             var failedDirectoriesList = new List<string>();
             enumerateFolders(path);

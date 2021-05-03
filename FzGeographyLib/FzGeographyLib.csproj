@@ -13,7 +13,7 @@
     <OutputPath>C:\Users\autod\OneDrive\同步\作品\GIS\Release\</OutputPath>
   </PropertyGroup>-->
   <ItemGroup>
-    <PackageReference Include="NetTopologySuite" Version="2.0.0" />
+    <PackageReference Include="NetTopologySuite" Version="2.2.0" />
     <PackageReference Include="ProjNET4GeoAPI" Version="1.4.1" />
   </ItemGroup>
   <ItemGroup>

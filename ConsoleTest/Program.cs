@@ -402,7 +402,8 @@ namespace ConsoleTest
             //        var b = new DirectoryInfo(path).EnumerateFileSystemInfos("*",SearchOption.AllDirectories).OrderBy(p => p.FullName).ToList();
             //        var c = a.SequenceEqual(b);
 
-            var a = FileSystem.EnumerateAccessibleDirectories("O:", "临安专线公交");
+            //var a = FileSystem.EnumerateAccessibleDirectories("O:", "临安专线公交");
+            var a = FileSystem.EnumerateAccessibleFiles("O:\\");
         }
     }
 }

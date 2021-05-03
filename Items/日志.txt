@@ -181,3 +181,5 @@
 	【FzLib.DataStorage.Serialization.JsonSerializationBase】增加JsonSerializerSettings参数支持
 20210403
 	【FzLib.IO.FileSystem】增加EnumerateAccessibleDirectories方法
+20210503
+	升级了部分Nuget包
