@@ -15,11 +15,11 @@ namespace FzLib.UI.Extension
         public DataGridHelper(DataGrid view) : base(view)
         {
             view.PreparingCellForEdit += CellEditBeginning;
-            view.CellEditEnding += CellEditEnding; 
-
+            view.CellEditEnding += CellEditEnding;
         }
 
         public bool IsCellEditing { get; private set; }
+
         private void CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             IsCellEditing = false;
@@ -34,15 +34,17 @@ namespace FzLib.UI.Extension
             EditingCell = e.EditingElement;
         }
 
-        public (DataGridRow Row,DataGridColumn Column)? EditingCellLocation { get; private set; }
+        public (DataGridRow Row, DataGridColumn Column)? EditingCellLocation { get; private set; }
         public FrameworkElement EditingCell { get; private set; }
 
         protected override IList GetSelectedItems()
         {
             return View.SelectedItems;
         }
+
         public bool IsEditing => GetEditingRow() != null;
         public override bool CanDragDrop => !IsCellEditing;
+
         public DataGridRow GetEditingRow()
         {
             var index = View.SelectedIndex;
@@ -61,8 +63,8 @@ namespace FzLib.UI.Extension
 
             return null;
         }
-
     }
+
     public class ListViewHelper<T> : ItemControlHelper<ListView, ListViewItem, T>
     {
         public ListViewHelper(ListView view) : base(view)
@@ -74,43 +76,47 @@ namespace FzLib.UI.Extension
             return View.SelectedItems;
         }
     }
+
     public class ListBoxHelper<T> : ItemControlHelper<ListBox, ListBoxItem, T>
     {
         public ListBoxHelper(ListBox view) : base(view)
         {
         }
+
         protected override IList GetSelectedItems()
         {
             return View.SelectedItems;
         }
     }
+
     public abstract class ItemControlHelper<TView, TViewItem, TModel> where TView : Selector where TViewItem : System.Windows.Controls.Control
     {
         public TView View { get; private set; }
+
         public ItemControlHelper(TView view)
         {
-
-
             if (!(view is MultiSelector
                 || view is ListBox))
             {
                 throw new Exception("不支持的View");
             }
             View = view;
-
         }
+
         public void EnableDragAndDropItem()
         {
             View.AllowDrop = true;
             View.MouseMove += SingleMouseMove;
             View.Drop += SingleDrop;
         }
+
         public void EnableDragAndDropItems()
         {
             View.AllowDrop = true;
             View.MouseMove += MultiMouseMove;
             View.Drop += MultiDrop;
         }
+
         public void DisableDragAndDropItems()
         {
             View.AllowDrop = true;
@@ -120,7 +126,7 @@ namespace FzLib.UI.Extension
 
         private void SingleMouseMove(object sender, MouseEventArgs e)
         {
-            if(!CanDragDrop)
+            if (!CanDragDrop)
             {
                 return;
             }
@@ -145,17 +151,17 @@ namespace FzLib.UI.Extension
             if (e.Data.GetDataPresent(typeof(TModel)))
             {
                 TModel item = (TModel)e.Data.GetData(typeof(TModel));
-                //index为放置时鼠标下元素项的索引  
+                //index为放置时鼠标下元素项的索引
                 int index = GetCurrentIndex(new GetPositionDelegate(e.GetPosition));
                 if (index > -1)
                 {
-                    //拖动元素集合的第一个元素索引  
+                    //拖动元素集合的第一个元素索引
                     int oldIndex = (View.ItemsSource as ObservableCollection<TModel>).IndexOf(item);
                     if (oldIndex == index)
                     {
                         return;
                     }
-                    //下边那个循环要求数据源必须为ObservableCollection<T>类型，T为对象  
+                    //下边那个循环要求数据源必须为ObservableCollection<T>类型，T为对象
 
                     (View.ItemsSource as ObservableCollection<TModel>).Move(oldIndex, index);
                     SingleItemDragDroped?.Invoke(this, new SingleItemDragDropedEventArgs(oldIndex, index));
@@ -164,6 +170,7 @@ namespace FzLib.UI.Extension
                 }
             }
         }
+
         private void MultiMouseMove(object sender, MouseEventArgs e)
         {
             //TView listview = sender as TView;
@@ -183,14 +190,14 @@ namespace FzLib.UI.Extension
             if (e.Data.GetDataPresent(typeof(IList)))
             {
                 IList peopleList = e.Data.GetData(typeof(IList)) as IList;
-                //index为放置时鼠标下元素项的索引  
+                //index为放置时鼠标下元素项的索引
                 int index = GetCurrentIndex(new GetPositionDelegate(e.GetPosition));
                 if (index > -1)
                 {
                     TModel Logmess = (TModel)peopleList[0];
-                    //拖动元素集合的第一个元素索引  
+                    //拖动元素集合的第一个元素索引
                     int OldFirstIndex = (View.ItemsSource as ObservableCollection<TModel>).IndexOf(Logmess);
-                    //下边那个循环要求数据源必须为ObservableCollection<T>类型，T为对象  
+                    //下边那个循环要求数据源必须为ObservableCollection<T>类型，T为对象
                     for (int i = 0; i < peopleList.Count; i++)
                     {
                         (View.ItemsSource as ObservableCollection<TModel>).Move(OldFirstIndex, index);
@@ -217,12 +224,16 @@ namespace FzLib.UI.Extension
 
         private bool IsMouseOverTarget(Visual target, GetPositionDelegate getPosition)
         {
+            if (target == null)
+            {
+                return false;
+            }
             Rect bounds = VisualTreeHelper.GetDescendantBounds(target);
             Point mousePos = getPosition((IInputElement)target);
             return bounds.Contains(mousePos);
         }
 
-        delegate Point GetPositionDelegate(IInputElement element);
+        private delegate Point GetPositionDelegate(IInputElement element);
 
         public TViewItem GetItem(int index)
         {
@@ -230,19 +241,17 @@ namespace FzLib.UI.Extension
             {
                 return null;
             }
-            if(index<0)
+            if (index < 0)
             {
                 return null;
             }
             return View.ItemContainerGenerator.ContainerFromIndex(index) as TViewItem;
         }
 
-
-
         protected abstract IList GetSelectedItems();
 
-
         public delegate void SingleItemDragDropedEventHandler(object sender, SingleItemDragDropedEventArgs e);
+
         public event SingleItemDragDropedEventHandler SingleItemDragDroped;
 
         public class SingleItemDragDropedEventArgs : EventArgs
@@ -257,149 +266,4 @@ namespace FzLib.UI.Extension
             public int NewIndex { get; private set; }
         }
     }
-    //public class ListViewHelper<T>
-    //{
-    //    public ListView ListView { get; private set; }
-    //    public ListViewHelper(ListView listView)
-    //    {
-    //        ListView = listView;
-
-    //    }
-    //    public void EnableDragAndDropItem()
-    //    {
-    //        ListView.AllowDrop = true;
-    //        ListView.MouseMove += SingleMouseMove;
-    //        ListView.Drop += SingleDrop;
-    //    }
-    //    public void EnableDragAndDropItems()
-    //    {
-    //        ListView.AllowDrop = true;
-    //        ListView.MouseMove += MultiMouseMove;
-    //        ListView.Drop += MultiDrop;
-    //    }
-    //    public void DisableDragAndDropItems()
-    //    {
-    //        ListView.AllowDrop = true;
-    //        ListView.MouseMove -= MultiMouseMove;
-    //        ListView.Drop -= MultiDrop;
-    //    }
-
-    //    private void SingleMouseMove(object sender, MouseEventArgs e)
-    //    {
-    //        ListView listview = sender as ListView;
-    //        T select = (T)listview.SelectedItem;
-    //        if (e.LeftButton == MouseButtonState.Pressed && IsMouseOverTarget(GetListViewItem(listview.SelectedIndex), new GetPositionDelegate(e.GetPosition)))
-    //        {
-    //            DataObject data = new DataObject(typeof(T), select);
-
-    //            DragDrop.DoDragDrop(listview, data, DragDropEffects.Move);
-    //        }
-    //    }
-
-    //    private void SingleDrop(object sender, DragEventArgs e)
-    //    {
-    //        if (e.Data.GetDataPresent(typeof(T)))
-    //        {
-    //            T item = (T)e.Data.GetData(typeof(T));
-    //            //index为放置时鼠标下元素项的索引  
-    //            int index = GetCurrentIndex(new GetPositionDelegate(e.GetPosition));
-    //            if (index > -1)
-    //            {
-    //                //拖动元素集合的第一个元素索引  
-    //                int oldIndex = (ListView.ItemsSource as ObservableCollection<T>).IndexOf(item);
-    //                if (oldIndex == index)
-    //                {
-    //                    return;
-    //                }
-    //                //下边那个循环要求数据源必须为ObservableCollection<T>类型，T为对象  
-
-    //                (ListView.ItemsSource as ObservableCollection<T>).Move(oldIndex, index);
-    //                SingleItemDragDroped?.Invoke(this, new SingleItemDragDropedEventArgs(oldIndex, index));
-    //                // lvw.SelectedItems.Clear();
-    //                //ListView.SelectedIndex = index;
-    //            }
-    //        }
-    //    }
-    //    private void MultiMouseMove(object sender, MouseEventArgs e)
-    //    {
-    //        ListView listview = sender as ListView;
-    //        if (e.LeftButton == MouseButtonState.Pressed)
-    //        {
-    //            IList list = listview.SelectedItems as IList;
-    //            DataObject data = new DataObject(typeof(IList), list);
-    //            if (list.Count > 0)
-    //            {
-    //                DragDrop.DoDragDrop(listview, data, DragDropEffects.Move);
-    //            }
-    //        }
-    //    }
-
-    //    private void MultiDrop(object sender, DragEventArgs e)
-    //    {
-    //        if (e.Data.GetDataPresent(typeof(IList)))
-    //        {
-    //            IList peopleList = e.Data.GetData(typeof(IList)) as IList;
-    //            //index为放置时鼠标下元素项的索引  
-    //            int index = GetCurrentIndex(new GetPositionDelegate(e.GetPosition));
-    //            if (index > -1)
-    //            {
-    //                T Logmess = (T)peopleList[0];
-    //                //拖动元素集合的第一个元素索引  
-    //                int OldFirstIndex = (ListView.ItemsSource as ObservableCollection<T>).IndexOf(Logmess);
-    //                //下边那个循环要求数据源必须为ObservableCollection<T>类型，T为对象  
-    //                for (int i = 0; i < peopleList.Count; i++)
-    //                {
-    //                    (ListView.ItemsSource as ObservableCollection<T>).Move(OldFirstIndex, index);
-    //                }
-    //                ListView.SelectedItems.Clear();
-    //            }
-    //        }
-    //    }
-
-    //    private int GetCurrentIndex(GetPositionDelegate getPosition)
-    //    {
-    //        int index = -1;
-    //        for (int i = 0; i < ListView.Items.Count; ++i)
-    //        {
-    //            ListViewItem item = GetListViewItem(i);
-    //            if (item != null && IsMouseOverTarget(item, getPosition))
-    //            {
-    //                index = i;
-    //                break;
-    //            }
-    //        }
-    //        return index;
-    //    }
-
-    //    private bool IsMouseOverTarget(Visual target, GetPositionDelegate getPosition)
-    //    {
-    //        Rect bounds = VisualTreeHelper.GetDescendantBounds(target);
-    //        System.Windows.Point mousePos = getPosition((IInputElement)target);
-    //        return bounds.Contains(mousePos);
-    //    }
-
-    //    delegate Point GetPositionDelegate(IInputElement element);
-
-    //    ListViewItem GetListViewItem(int index)
-    //    {
-    //        if (ListView.ItemContainerGenerator.Status != GeneratorStatus.ContainersGenerated)
-    //            return null;
-    //        return ListView.ItemContainerGenerator.ContainerFromIndex(index) as ListViewItem;
-    //    }
-
-    //    public delegate void SingleItemDragDropedEventHandler(object sender, SingleItemDragDropedEventArgs e);
-    //    public event SingleItemDragDropedEventHandler SingleItemDragDroped;
-
-    //    public class SingleItemDragDropedEventArgs : EventArgs
-    //    {
-    //        public SingleItemDragDropedEventArgs(int oldIndex, int newIndex)
-    //        {
-    //            OldIndex = oldIndex;
-    //            NewIndex = newIndex;
-    //        }
-
-    //        public int OldIndex { get; private set; }
-    //        public int NewIndex { get; private set; }
-    //    }
-    //}
 }
