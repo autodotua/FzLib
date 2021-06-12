@@ -17,6 +17,7 @@ namespace FzLib.Geography.CoordinateSystem
             var wgs84 = GCJ02ToWGS84(gcj);
             return wgs84;
         }
+
         public static Point BD09ToGCJ02(Point point)
         {
             var bd_lat = point.Y;
@@ -44,7 +45,7 @@ namespace FzLib.Geography.CoordinateSystem
             double num4 = Math.Sqrt(num3);
             num = num * 180.0 / (6335552.7170004258 / (num3 * num4) * 3.1415926535897931);
             num2 = num2 * 180.0 / (6378245.0 / num4 * Math.Cos(d) * 3.1415926535897931);
-            return new Point(wgLoc.X + num, wgLoc.Y + num2);
+            return new Point(wgLoc.X + num2, wgLoc.Y + num);
         }
 
         public static Point WGS84ToBD09(double gg_lat, double gg_lon)
@@ -115,8 +116,5 @@ namespace FzLib.Geography.CoordinateSystem
             latLng.X = num2;
             return latLng;
         }
-
-
     }
-
 }

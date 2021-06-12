@@ -185,3 +185,5 @@
 	升级了部分Nuget包
 20210526
 	【FzCoreLib.Windows】增加了一些原本位于.Net Framework的FzLib的功能
+20210612
+	【FzLib.Geography.CoordinateSystem】修复了WGS84转GCJ02错误的BUG
