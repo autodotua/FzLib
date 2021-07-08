@@ -5,7 +5,7 @@ using System.Windows.Data;
 
 namespace FzLib.WPF.Converters
 {
-    public class Null2InvisiableConverter : IValueConverter
+    public class NotNull2VisiableConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

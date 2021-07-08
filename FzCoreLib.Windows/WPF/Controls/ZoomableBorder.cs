@@ -8,8 +8,11 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace FzLib.WPF
+namespace FzLib.WPF.Controls
 {
+    /// <summary>
+    /// 可用鼠标缩放的Border
+    /// </summary>
     public class ZoomableBorder : Border
     {
         private UIElement child = null;
@@ -33,15 +36,15 @@ namespace FzLib.WPF
             get { return base.Child; }
             set
             {
-                if (value != null && value != this.Child)
-                    this.Initialize(value);
+                if (value != null && value != Child)
+                    Initialize(value);
                 base.Child = value;
             }
         }
 
         public void Initialize(UIElement element)
         {
-            this.child = element;
+            child = element;
             if (child != null)
             {
                 TransformGroup group = new TransformGroup();
@@ -51,11 +54,11 @@ namespace FzLib.WPF
                 group.Children.Add(tt);
                 child.RenderTransform = group;
                 child.RenderTransformOrigin = new Point(0.0, 0.0);
-                this.MouseWheel += child_MouseWheel;
-                this.MouseLeftButtonDown += child_MouseLeftButtonDown;
-                this.MouseLeftButtonUp += child_MouseLeftButtonUp;
-                this.MouseMove += child_MouseMove;
-                this.PreviewMouseRightButtonDown += new MouseButtonEventHandler(
+                MouseWheel += child_MouseWheel;
+                MouseLeftButtonDown += child_MouseLeftButtonDown;
+                MouseLeftButtonUp += child_MouseLeftButtonUp;
+                MouseMove += child_MouseMove;
+                PreviewMouseRightButtonDown += new MouseButtonEventHandler(
                   child_PreviewMouseRightButtonDown);
             }
         }
@@ -87,7 +90,7 @@ namespace FzLib.WPF
                 if (!(e.Delta > 0) && (st.ScaleX < .4 || st.ScaleY < .4))
                     return;
 
-                System.Windows.Point relative = e.GetPosition(child);
+                Point relative = e.GetPosition(child);
                 double abosuluteX;
                 double abosuluteY;
 
@@ -109,7 +112,7 @@ namespace FzLib.WPF
                 var tt = GetTranslateTransform(child);
                 start = e.GetPosition(this);
                 origin = new Point(tt.X, tt.Y);
-                this.Cursor = Cursors.Hand;
+                Cursor = Cursors.Hand;
                 child.CaptureMouse();
             }
         }
@@ -119,13 +122,13 @@ namespace FzLib.WPF
             if (child != null)
             {
                 child.ReleaseMouseCapture();
-                this.Cursor = Cursors.Arrow;
+                Cursor = Cursors.Arrow;
             }
         }
 
         private void child_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            this.Reset();
+            Reset();
         }
 
         private void child_MouseMove(object sender, MouseEventArgs e)

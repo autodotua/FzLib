@@ -6,6 +6,8 @@ using System.Numerics;
 using System.Security.Cryptography;
 using System.Text;
 using static System.Math;
+using static FzLib.Basic.Collection.DictionaryExtension;
+using System.Collections.ObjectModel;
 
 namespace FzLib.Basic.Math
 {
@@ -51,6 +53,7 @@ namespace FzLib.Basic.Math
                 y3 = t3;
             }
         }
+
         public static long GetCommonDivisor(long num1, long num2)
         {
             if (num1 < 0)
@@ -71,10 +74,12 @@ namespace FzLib.Basic.Math
             }
             return remainder;
         }
+
         public static bool AreMutualPrime(long num1, long num2)
         {
             return GetCommonDivisor(num1, num2) == 1;
         }
+
         public static bool IsPrime(long n)
         {
             bool b = true;
@@ -93,9 +98,10 @@ namespace FzLib.Basic.Math
 
             return b;
         }
-        public static IEnumerable<BigInteger> GetProbablePrimes(BigInteger from,BigInteger to)
+
+        public static IEnumerable<BigInteger> GetProbablePrimes(BigInteger from, BigInteger to)
         {
-            for(BigInteger i =from;i<=to;i++)
+            for (BigInteger i = from; i <= to; i++)
             {
                 if (IsProbablePrime(i))
                 {
@@ -103,6 +109,7 @@ namespace FzLib.Basic.Math
                 }
             }
         }
+
         public static bool IsProbablePrime(BigInteger num)
         {
             long certainty = 2;
@@ -165,9 +172,9 @@ namespace FzLib.Basic.Math
             return true;
         }
 
-        public static (long Factor,int Index)[] DecomposeFacter(long num)
+        public static IReadOnlyDictionary<long, int> DecomposeFacter(long num)
         {
-            ExtendedDictionary<long, int> result = new ExtendedDictionary<long, int>();
+            Dictionary<long, int> result = new Dictionary<long, int>();
             long sqrtNum = (long)Sqrt(num);
             for (long i = 2; i <= sqrtNum; i++)
             {
@@ -175,7 +182,7 @@ namespace FzLib.Basic.Math
                 {
                     if (num % i == 0)//能被整除
                     {
-                        result[i]++;
+                        result.AddOrSetValue(i, result.GetOrDefault(i) + 1);
                         num /= i;//模仿短除法
                         sqrtNum = (long)Sqrt(num);
                     }
@@ -187,32 +194,35 @@ namespace FzLib.Basic.Math
             }
             if (num != 1)
             {
-                result[num]++;
+                result.AddOrSetValue(num, result.GetOrDefault(num) + 1);
             }
-            return result.Select(p => (p.Key, p.Value)).ToArray();
-
+            return new ReadOnlyDictionary<long, int>(result);
         }
 
         public class FastRandom
         {
             public FastRandom(uint state)
             {
-                CurrentUInt32State  = state;
+                CurrentUInt32State = state;
                 CurrentUInt64State = state;
             }
+
             public FastRandom(ulong state)
             {
                 CurrentUInt32State = (uint)(state % uint.MaxValue);
                 CurrentUInt64State = state;
             }
+
             public FastRandom()
             {
                 Random r = new Random();
-                CurrentUInt32State =(uint) r.Next();
+                CurrentUInt32State = (uint)r.Next();
                 CurrentUInt64State = (uint)r.Next();
             }
+
             public uint CurrentUInt32State { get; private set; }
             public ulong CurrentUInt64State { get; private set; }
+
             public uint GetUInt32()
             {
                 /* Algorithm "xor" from p. 4 of Marsaglia, "Xorshift RNGs" */
@@ -233,7 +243,6 @@ namespace FzLib.Basic.Math
                 CurrentUInt64State = x;
                 return x;
             }
-
         }
     }
 }

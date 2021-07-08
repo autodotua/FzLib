@@ -64,5 +64,10 @@ namespace WpfTest
                 .Add("文本", "txt")
                 .Add("图片","png"),ensureExtension:true);
         }
+
+        private void Button_Click_1()
+        {
+
+        }
     }
 }

@@ -16,19 +16,6 @@ namespace FzLib.WPF.Extension
 {
     public class PanelExport
     {
-        //public PanelExport(Panel pnl) : this(pnl, Size.Empty)
-        //{
-        //}
-        //public PanelExport(Panel pnl, Size exportSize) : this(pnl, exportSize, 0)
-        //{
-        //}
-        //public PanelExport(Panel pnl, Size exportSize, double blood) : this(pnl, exportSize, blood, 1)
-        //{
-        //}
-        //public PanelExport(Panel pnl, Size exportSize, double blood, double magnification) : this(pnl, exportSize, blood, magnification, magnification)
-        //{
-        //}
-
         public PanelExport(Panel pnl, /*Size exportSize=Size.Empty, */double blood = 0, double magnification = 1) : this(pnl, blood, magnification, magnification)
         {
         }

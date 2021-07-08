@@ -6,9 +6,10 @@ using System.Windows;
 using static FzLib.Basic.Loop;
 using System.Reflection;
 using System.IO;
-using static FzLib.WPF.Common;
+using FzLib.WPF;
+using FzLib.WPF.Dialog;
 
-namespace FzLib.WPF.Dialog
+namespace Microsoft.WindowsAPICodePack.FzExtension
 {
     public static class FileSystemDialog
     {
@@ -36,7 +37,7 @@ namespace FzLib.WPF.Dialog
             if (ensureExtension && filters.Filters.Any())
             {
                 var filter = filters.Filters.ToArray()[dialog.SelectedFileTypeIndex - 1];
-                if (string.IsNullOrEmpty(System.IO.Path.GetExtension(dialog.FileName)))
+                if (string.IsNullOrEmpty(Path.GetExtension(dialog.FileName)))
                 {
                     string newName = dialog.FileName + "." + filter.Extensions.First();
                     filters.Raise(dialog, newName);

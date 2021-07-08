@@ -187,3 +187,9 @@
 	【FzCoreLib.Windows】增加了一些原本位于.Net Framework的FzLib的功能
 20210612
 	【FzLib.Geography.CoordinateSystem】修复了WGS84转GCJ02错误的BUG
+
+20210708
+	卸载了.NetFramework的项目、【FzAlgorithmLib】、【FzGeographyLib】，精简解决方案
+	将【FzCoreLib.Windows】中用到了WindowsAPICodePack的部分提取到新的项目【WindowsAPICodePack.FzExtension】
+	加入了由《地图画板》而来的【ModernWpf.FzExtension】
+	对【FzCoreLib.Windows】做了补充和修改

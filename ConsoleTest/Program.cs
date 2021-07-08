@@ -403,7 +403,9 @@ namespace ConsoleTest
             //        var c = a.SequenceEqual(b);
 
             //var a = FileSystem.EnumerateAccessibleDirectories("O:", "临安专线公交");
-            var a = FileSystem.EnumerateAccessibleFiles("O:\\");
+            //var a = FileSystem.EnumerateAccessibleFiles("O:\\");
+
+            var a = FzLib.Basic.Math.Math.DecomposeFacter(123456);
         }
     }
 }

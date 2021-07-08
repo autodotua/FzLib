@@ -7,7 +7,7 @@ using System.Windows.Data;
 
 namespace FzLib.WPF
 {
-    public static class BindingHelper
+    public static class BindingUtility
     {
         public static void PauseBinding(this FrameworkElement obj, DependencyProperty property, Action action)
         {
