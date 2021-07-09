@@ -8,7 +8,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace FzLib.WPF.Extension
+namespace FzLib.WPF.Controls
 {
     public class DataGridHelper<T> : ItemControlHelper<DataGrid, DataGridRow, T>
     {

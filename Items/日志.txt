@@ -193,3 +193,7 @@
 	将【FzCoreLib.Windows】中用到了WindowsAPICodePack的部分提取到新的项目【WindowsAPICodePack.FzExtension】
 	加入了由《地图画板》而来的【ModernWpf.FzExtension】
 	对【FzCoreLib.Windows】做了补充和修改
+20210709
+	更新了ModernWpf.FzExtension
+	新增Enum2StringConverter
+	解散FzLib.WPF.Utilities文件夹和命名空间

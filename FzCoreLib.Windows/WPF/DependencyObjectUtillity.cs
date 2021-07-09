@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace FzLib.WPF.Utilities
+namespace FzLib.WPF
 {
     public static class DependencyObjectUtillity
     {

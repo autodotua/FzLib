@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Drawing.Imaging;
 using System.Windows;
 
-namespace FzLib.WPF.Utilities
+namespace FzLib.WPF
 {
     public static class ColorUtility
     {

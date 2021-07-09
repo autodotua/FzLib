@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
 
-namespace FzLib.WPF.Utilities
+namespace FzLib.WPF.Controls
 {
     public class SmoothScrollViewerHelper
     {

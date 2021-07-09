@@ -7,7 +7,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Media;
 
-namespace FzLib.WPF.Bases
+namespace FzLib.WPF.Controls
 {
     public abstract class WindowBase : Window, INotifyPropertyChanged
     {

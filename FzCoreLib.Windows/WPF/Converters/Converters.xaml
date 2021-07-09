@@ -12,6 +12,7 @@
     <c:DataGridNewItemPlaceholder2InvisiableConverter x:Key="DataGridNewItemPlaceholder2InvisiableConverter" />
     <c:Enum2DescriptionConverter x:Key="Enum2DescriptionConverter" />
     <c:Enum2BoolConverter x:Key="Enum2BoolConverter" />
+    <c:Enum2StringConverter x:Key="Enum2StringConverter" />
     <c:Equal2VisiableConverter x:Key="Equal2VisiableConverter" />
     <c:FileLength2StringConverter x:Key="FileLength2StringConverter" />
     <c:Int2MarginConverter x:Key="Int2MarginConverter" />

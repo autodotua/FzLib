@@ -4,7 +4,6 @@ using System.Windows.Data;
 using DColor = System.Drawing.Color;
 using MColor = System.Windows.Media.Color;
 using SolidColorBrush = System.Windows.Media.SolidColorBrush;
-using FzLib.WPF.Utilities;
 
 namespace FzLib.WPF.Converters
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
-namespace FzLib.WPF.Bases
+namespace FzLib.WPF.Controls
 {
     public class DialogWindowBase : WindowBase
     {
