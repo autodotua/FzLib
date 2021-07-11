@@ -5,9 +5,9 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace FzLib.Extension
+namespace FzLib
 {
-    public static class ExtendedINotifyPropertyChanged
+    public static class INotifyPropertyChangedExtension
     {
         public static void Notify(this INotifyPropertyChanged obj, params string[] names)
         {

@@ -16,7 +16,7 @@ using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Text;
 using TaskScheduler;
-using static FzLib.Basic.Loop;
+using static FzLib.Basic.LoopExtension;
 using FzLib.Basic.Math;
 using System.Threading.Tasks;
 using FzLib.DataStorage.SQLite;
@@ -405,7 +405,7 @@ namespace ConsoleTest
             //var a = FileSystem.EnumerateAccessibleDirectories("O:", "临安专线公交");
             //var a = FileSystem.EnumerateAccessibleFiles("O:\\");
 
-            var a = FzLib.Basic.Math.Math.DecomposeFacter(123456);
+            var a = FzLib.Basic.Math.MathExtension.DecomposeFacter(123456);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using FzLib.Extension;
+﻿using FzLib;
 using ModernWpf.Controls;
 using System;
 using System.Collections.Generic;
@@ -49,11 +49,11 @@ namespace ModernWpf.FzExtension.CommonDialog
         }
 
         private Brush iconBrush;
+
         public Brush IconBrush
         {
             get => iconBrush;
             set => this.SetValueAndNotify(ref iconBrush, value, nameof(IconBrush));
         }
-
     }
 }

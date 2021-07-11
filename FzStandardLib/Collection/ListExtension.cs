@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FzLib.Basic.Collection
+namespace FzLib.Collection
 {
     public static class ListExtension
     {

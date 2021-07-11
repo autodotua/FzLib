@@ -73,6 +73,34 @@ namespace ModernWpf.FzExtension
               typeof(string),
               typeof(ProgressRingOverlay));
 
+        //public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register(
+        //      nameof(IsOpen),
+        //      typeof(bool),
+        //      typeof(ProgressRingOverlay),
+        //      new PropertyMetadata(false, new PropertyChangedCallback((s, e) =>
+        //      {
+        //          if (e.NewValue == e.OldValue)
+        //          {
+        //              return;
+        //          }
+        //          var obj = s as ProgressRingOverlay;
+        //          if (true.Equals(e.NewValue))
+        //          {
+        //              obj.Show();
+        //          }
+        //          else
+        //          {
+        //              obj.Hide();
+        //          }
+        //      }))
+        //    );
+
+        //public bool IsOpen
+        //{
+        //    get => (bool)GetValue(IsOpenProperty);
+        //    set => SetValue(IsOpenProperty, value);
+        //}
+
         public string Message
         {
             get => (string)GetValue(MessageProperty);
@@ -80,8 +108,6 @@ namespace ModernWpf.FzExtension
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        private TaskCompletionSource<bool> taskSource = null;
 
         public ProgressRingOverlayArgs TaskArgs { get; }
     }

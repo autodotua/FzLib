@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using static FzLib.Basic.Loop;
+using static FzLib.LoopExtension;
 using System.Reflection;
 using System.IO;
 using FzLib.WPF;

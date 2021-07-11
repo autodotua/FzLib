@@ -2,9 +2,9 @@
 using System.IO;
 using System.Text;
 
-namespace FzLib.Basic
+namespace FzLib
 {
-    public static class String
+    public static class StringExtension
     {
         /// <summary>
         /// 移除字符串头部指定字符串
@@ -38,6 +38,7 @@ namespace FzLib.Basic
             }
             return result;
         }
+
         /// <summary>
         /// 移除字符串尾部指定字符串
         /// </summary>
@@ -90,6 +91,7 @@ namespace FzLib.Basic
             }
             return e;
         }
+
         /// <summary>
         /// 通过给定的字节数组，判断文件编码
         /// </summary>
@@ -97,7 +99,7 @@ namespace FzLib.Basic
         /// <returns></returns>
         public static Encoding GetEncoding(byte[] bytes)
         {
-            if(bytes==null || bytes.Length==0)
+            if (bytes == null || bytes.Length == 0)
             {
                 return null;
             }
@@ -109,7 +111,6 @@ namespace FzLib.Basic
             return e;
         }
 
-
         /// <summary>
         /// 通过给定的流，判断文件的编码类型
         /// </summary>
@@ -117,7 +118,7 @@ namespace FzLib.Basic
         /// <returns>文件的编码类型</returns>
         public static Encoding GetEncoding(Stream stream)
         {
-            if(stream==null)
+            if (stream == null)
             {
                 throw new ArgumentNullException();
             }
@@ -129,7 +130,6 @@ namespace FzLib.Basic
             byte[] UnicodeBIG = new byte[] { 0xFE, 0xFF, 0x00 };
             byte[] UTF8 = new byte[] { 0xEF, 0xBB, 0xBF }; //带BOM
             Encoding reVal = Encoding.Default;
-
 
             BinaryReader r = new BinaryReader(stream, Encoding.Default);
             int.TryParse(stream.Length.ToString(), out int i);
@@ -148,10 +148,7 @@ namespace FzLib.Basic
             }
             r.Close();
             return reVal;
-
-
         }
-
 
         /// <summary>
         /// 判断是否是不带 BOM 的 UTF8 格式
@@ -174,7 +171,7 @@ namespace FzLib.Basic
                         {
                             charByteCounter++;
                         }
-                        //标记位首位若为非0 则至少以2个1开始 如:110XXXXX...........1111110X 
+                        //标记位首位若为非0 则至少以2个1开始 如:110XXXXX...........1111110X
                         if (charByteCounter == 1 || charByteCounter > 6)
                         {
                             return false;
@@ -197,6 +194,5 @@ namespace FzLib.Basic
             }
             return true;
         }
-
     }
 }

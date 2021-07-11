@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FzLib.Basic.Collection
+namespace FzLib.Collection
 {
     public class TwoWayDictionary<TKey, TValue> : Dictionary<TKey, TValue>
     {
         public TwoWayDictionary() : base()
         {
-
         }
+
         public TwoWayDictionary(IDictionary<TKey, TValue> dictionary)
         {
             foreach (var item in dictionary)
             {
-                Add(item.Key,item.Value);
+                Add(item.Key, item.Value);
             }
         }
-
 
         public new void Add(TKey value1, TValue value2)
         {
@@ -27,19 +26,20 @@ namespace FzLib.Basic.Collection
             }
             base.Add(value1, value2);
             ReverseDictionary.Add(value2, value1);
-
         }
-        
+
         public new void Remove(TKey item)
         {
             TValue value = this[item];
             base.Remove(item);
             ReverseDictionary.Remove(value);
         }
+
         public TKey GetKey(TValue value)
         {
             return ReverseDictionary[value];
         }
+
         public new bool ContainsValue(TValue value)
         {
             return ReverseDictionary.ContainsKey(value);

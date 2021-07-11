@@ -1,4 +1,4 @@
-﻿using FzLib.Extension;
+﻿using FzLib;
 using System;
 using System.ComponentModel;
 
@@ -76,7 +76,7 @@ namespace ModernWpf.FzExtension.CommonDialog
             set => this.SetValueAndNotify(ref isChecked, value, nameof(IsChecked));
         }
 
-        private bool isEnabled=true;
+        private bool isEnabled = true;
 
         public bool IsEnabled
         {

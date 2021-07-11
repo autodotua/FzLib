@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FzLib.Basic.Collection
+namespace FzLib.Collection
 {
     // 红黑树定义：
     // 性质1.节点是红色或黑色
@@ -14,16 +14,19 @@ namespace FzLib.Basic.Collection
     {
         //根节点
         private RedBlackTreeNode root;
+
         //比较器
         public Comparer<T> Comparer { get; private set; }
 
         public RedBlackSortCollection() : this(Comparer<T>.Default)
         {
         }
+
         public RedBlackSortCollection(Comparer<T> comparer)
         {
             Comparer = comparer;
         }
+
         public bool Contains(T value)
         {
             return Contain(value, out RedBlackTreeNode node);
@@ -85,14 +88,15 @@ namespace FzLib.Basic.Collection
                     case int i when i > 0:
                         node = node.RightChild;
                         break;
+
                     case int i when i < 0:
                         node = node.LeftChild;
                         break;
+
                     default:
                         node.Data = value;
                         return;
                 }
-
             }
             //找到插入位置，设置新插入节点的父节点为current
             newNode.Parent = parent;
@@ -102,6 +106,7 @@ namespace FzLib.Basic.Collection
                 case int i when i > 0:
                     parent.RightChild = newNode;
                     break;
+
                 case int i when i < 0:
                     parent.LeftChild = newNode;
                     break;
@@ -121,12 +126,12 @@ namespace FzLib.Basic.Collection
                 //获取祖父节点，这里不用判空，
                 //因为如果祖父节点为空，parent就是根节点，根节点是黑色，不会再次进入循环
                 gParent = parent.Parent;
-                //若父节点是祖父节点的左子节点 
+                //若父节点是祖父节点的左子节点
                 if (parent == gParent.LeftChild)
                 {
-                    RedBlackTreeNode uncle = gParent.RightChild; //获得叔叔节点  
+                    RedBlackTreeNode uncle = gParent.RightChild; //获得叔叔节点
 
-                    //case1: 叔叔节点也是红色  
+                    //case1: 叔叔节点也是红色
                     if (uncle != null && IsRed(uncle))
                     {
                         //把父节点和叔叔节点涂黑,祖父节点涂红
@@ -136,10 +141,10 @@ namespace FzLib.Basic.Collection
                         //把祖父节点作为插入节点，向上继续遍历
                         newNode = gParent;
                         parent = newNode.Parent;
-                        continue; //继续while，重新判断  
+                        continue; //继续while，重新判断
                     }
 
-                    //case2: 叔叔节点是黑色，且当前节点是右子节点  
+                    //case2: 叔叔节点是黑色，且当前节点是右子节点
                     if (newNode == parent.RightChild)
                     {
                         //从父节点处左旋
@@ -163,7 +168,7 @@ namespace FzLib.Basic.Collection
                     //若父节点是祖父节点的右子节点,与上面的完全相反
                     RedBlackTreeNode uncle = gParent.LeftChild;
 
-                    //case1: 叔叔节点也是红色  
+                    //case1: 叔叔节点也是红色
                     if (uncle != null & IsRed(uncle))
                     {
                         //把父节点和叔叔节点涂黑,祖父节点涂红
@@ -176,7 +181,7 @@ namespace FzLib.Basic.Collection
                         continue;//继续while，重新判断
                     }
 
-                    //case2: 叔叔节点是黑色的，且当前节点是左子节点  
+                    //case2: 叔叔节点是黑色的，且当前节点是左子节点
                     if (newNode == parent.LeftChild)
                     {
                         //从父节点处右旋
@@ -187,7 +192,7 @@ namespace FzLib.Basic.Collection
                         newNode = tmp;
                     }
 
-                    //case3: 叔叔节点是黑色的，且当前节点是右子节点  
+                    //case3: 叔叔节点是黑色的，且当前节点是右子节点
                     // 父亲和祖父节点变色，从祖父节点处右旋
                     parent.Color = RedBlackTreeNodeColor.Black;
                     gParent.Color = RedBlackTreeNodeColor.Red;
@@ -224,27 +229,26 @@ namespace FzLib.Basic.Collection
             return false;
         }
 
-
-
         // 左旋转,逆时针旋转
         /*************对红黑树节点x进行左旋操作 ******************/
-        /* 
-         * 左旋示意图：对节点x进行左旋 
-         *     p                       p 
-         *    /                       / 
-         *   x                       y 
-         *  / \                     / \ 
-         * lx  y      ----->       x  ry 
-         *    / \                 / \ 
-         *   ly ry               lx ly 
-         * 左旋做了三件事： 
-         * 1. 将y的左子节点赋给x的右子节点,并将x赋给y左子节点的父节点(y左子节点非空时) 
-         * 2. 将x的父节点p(非空时)赋给y的父节点，同时更新p的子节点为y(左或右) 
-         * 3. 将y的左子节点设为x，将x的父节点设为y 
+        /*
+         * 左旋示意图：对节点x进行左旋
+         *     p                       p
+         *    /                       /
+         *   x                       y
+         *  / \                     / \
+         * lx  y      ----->       x  ry
+         *    / \                 / \
+         *   ly ry               lx ly
+         * 左旋做了三件事：
+         * 1. 将y的左子节点赋给x的右子节点,并将x赋给y左子节点的父节点(y左子节点非空时)
+         * 2. 将x的父节点p(非空时)赋给y的父节点，同时更新p的子节点为y(左或右)
+         * 3. 将y的左子节点设为x，将x的父节点设为y
          */
+
         private void RotateLeft(RedBlackTreeNode x)
         {
-            //1. 将y的左子节点赋给x的右子节点，并将x赋给y左子节点的父节点(y左子节点非空时)  
+            //1. 将y的左子节点赋给x的右子节点，并将x赋给y左子节点的父节点(y左子节点非空时)
             RedBlackTreeNode y = x.RightChild;
             x.RightChild = y.LeftChild;
 
@@ -253,7 +257,7 @@ namespace FzLib.Basic.Collection
                 y.LeftChild.Parent = x;
             }
 
-            //2. 将x的父节点p(非空时)赋给y的父节点，同时更新p的子节点为y(左或右) 
+            //2. 将x的父节点p(非空时)赋给y的父节点，同时更新p的子节点为y(左或右)
             if (x.Parent != null)
             {
                 y.Parent = x.Parent;
@@ -261,44 +265,45 @@ namespace FzLib.Basic.Collection
 
             if (x.Parent == null)
             {
-                root = y; //如果x的父节点为空，则将y设为父节点  
+                root = y; //如果x的父节点为空，则将y设为父节点
             }
             else
             {
-                //如果x是左子节点  
+                //如果x是左子节点
                 if (x == x.Parent.LeftChild)
                 {
-                    //则也将y设为左子节点  
+                    //则也将y设为左子节点
                     x.Parent.LeftChild = y;
                 }
                 else
                 {
-                    //否则将y设为右子节点 
+                    //否则将y设为右子节点
                     x.Parent.RightChild = y;
                 }
             }
 
-            //3. 将y的左子节点设为x，将x的父节点设为y  
+            //3. 将y的左子节点设为x，将x的父节点设为y
             y.LeftChild = x;
             x.Parent = y;
         }
 
         // 右旋转,顺时针旋转
         /*************对红黑树节点y进行右旋操作 ******************/
-        /* 
-         * 左旋示意图：对节点y进行右旋 
-         *        p                   p 
-         *       /                   / 
-         *      y                   x 
-         *     / \                 / \ 
-         *    x  ry   ----->      lx  y 
-         *   / \                     / \ 
-         * lx  rx                   rx ry 
-         * 右旋做了三件事： 
-         * 1. 将x的右子节点赋给y的左子节点,并将y赋给x右子节点的父节点(x右子节点非空时) 
-         * 2. 将y的父节点p(非空时)赋给x的父节点，同时更新p的子节点为x(左或右) 
-         * 3. 将x的右子节点设为y，将y的父节点设为x 
+        /*
+         * 左旋示意图：对节点y进行右旋
+         *        p                   p
+         *       /                   /
+         *      y                   x
+         *     / \                 / \
+         *    x  ry   ----->      lx  y
+         *   / \                     / \
+         * lx  rx                   rx ry
+         * 右旋做了三件事：
+         * 1. 将x的右子节点赋给y的左子节点,并将y赋给x右子节点的父节点(x右子节点非空时)
+         * 2. 将y的父节点p(非空时)赋给x的父节点，同时更新p的子节点为x(左或右)
+         * 3. 将x的右子节点设为y，将y的父节点设为x
          */
+
         private void RotateRight(RedBlackTreeNode y)
         {
             //1.将x的右子节点赋值给y的左子节点，同时将y赋值给x的右子节点的父节点(如果x的右子节点非空)
@@ -325,7 +330,7 @@ namespace FzLib.Basic.Collection
                 //如果y是右子节点
                 if (y == y.Parent.RightChild)
                 {
-                    //则也将y设为右子节点  
+                    //则也将y设为右子节点
                     y.Parent.RightChild = x;
                 }
                 else
@@ -453,7 +458,7 @@ namespace FzLib.Basic.Collection
                 }
                 else
                 {
-                    // c.被删除的节点“左右子节点都不为空”的情况  
+                    // c.被删除的节点“左右子节点都不为空”的情况
                     RedBlackTreeNode child;
                     RedBlackTreeNode parent;
                     RedBlackTreeNodeColor color;
@@ -463,13 +468,13 @@ namespace FzLib.Basic.Collection
                     replace = GetMinNode(replace.RightChild);
 
                     // 2. 更新删除父节点及其子节点
-                    // 要删除的节点不是根节点  
+                    // 要删除的节点不是根节点
                     if (node.Parent != null)
                     {
-                        // 要删除的节点是：删除节点的父节点的左子节点 
+                        // 要删除的节点是：删除节点的父节点的左子节点
                         if (node == node.Parent.LeftChild)
                         {
-                            // 把“删除节点的右子树中的最小节点”赋值给“删除节点的父节点的左子节点” 
+                            // 把“删除节点的右子树中的最小节点”赋值给“删除节点的父节点的左子节点”
                             node.Parent.LeftChild = replace;
                         }
                         else
@@ -543,11 +548,11 @@ namespace FzLib.Basic.Collection
             {
                 if (parent.LeftChild == node)
                 {
-                    //node是左子节点，下面else与这里的刚好相反  
-                    brother = parent.RightChild; //node的兄弟节点  
+                    //node是左子节点，下面else与这里的刚好相反
+                    brother = parent.RightChild; //node的兄弟节点
                     if (IsRed(brother))
                     {
-                        //case1: node的兄弟节点brother是红色的 
+                        //case1: node的兄弟节点brother是红色的
                         brother.Color = RedBlackTreeNodeColor.Black;
                         parent.Color = RedBlackTreeNodeColor.Red;
                         RotateLeft(parent);
@@ -555,7 +560,7 @@ namespace FzLib.Basic.Collection
                     }
 
                     //case2: node的兄弟节点brother是黑色的，且brother的两个子节点也都是黑色的
-                    //继续向上遍历  
+                    //继续向上遍历
                     if ((brother.LeftChild == null || IsBlack(brother.LeftChild)) &&
                         (brother.RightChild == null || IsBlack(brother.RightChild)))
                     {
@@ -566,7 +571,7 @@ namespace FzLib.Basic.Collection
                     }
                     else
                     {
-                        //case3: node的兄弟节点brother是黑色的，且brother的左子节点是红色，右子节点是黑色  
+                        //case3: node的兄弟节点brother是黑色的，且brother的左子节点是红色，右子节点是黑色
                         if (brother.RightChild == null || IsBlack(brother.RightChild))
                         {
                             brother.LeftChild.Color = RedBlackTreeNodeColor.Black;
@@ -575,7 +580,7 @@ namespace FzLib.Basic.Collection
                             brother = parent.RightChild;
                         }
 
-                        //case4: node的兄弟节点brother是黑色的，且brother的右子节点是红色，左子节点任意颜色  
+                        //case4: node的兄弟节点brother是黑色的，且brother的右子节点是红色，左子节点任意颜色
                         brother.Color = parent.Color;
                         parent.Color = RedBlackTreeNodeColor.Black;
                         brother.RightChild.Color = RedBlackTreeNodeColor.Black;
@@ -586,17 +591,17 @@ namespace FzLib.Basic.Collection
                 }
                 else
                 {
-                    //与上面的对称  
+                    //与上面的对称
                     brother = parent.LeftChild;
                     if (IsRed(brother))
                     {
-                        // Case 1: node的兄弟brother是红色的   
+                        // Case 1: node的兄弟brother是红色的
                         brother.Color = RedBlackTreeNodeColor.Black;
                         parent.Color = RedBlackTreeNodeColor.Red;
                         RotateRight(parent);
                         brother = parent.LeftChild;
                     }
-                    // Case 2: node的兄弟brother是黑色，且brother的俩个子节点都是黑色的 
+                    // Case 2: node的兄弟brother是黑色，且brother的俩个子节点都是黑色的
                     if ((brother.LeftChild == null || IsBlack(brother.LeftChild)) &&
                         (brother.RightChild == null || IsBlack(brother.RightChild)))
                     {
@@ -616,7 +621,7 @@ namespace FzLib.Basic.Collection
                             brother = parent.LeftChild;
                         }
 
-                        // Case 4: node的兄弟brother是黑色的；并且brother的左子节点是红色的，右子节点任意颜色  
+                        // Case 4: node的兄弟brother是黑色的；并且brother的左子节点是红色的，右子节点任意颜色
                         brother.Color = parent.Color;
                         parent.Color = RedBlackTreeNodeColor.Black;
                         brother.LeftChild.Color = RedBlackTreeNodeColor.Black;
@@ -641,8 +646,6 @@ namespace FzLib.Basic.Collection
             }
             return node;
         }
-
-
 
         public T[] ToArray()
         {
@@ -693,5 +696,4 @@ namespace FzLib.Basic.Collection
             Black,
         }
     }
-
 }

@@ -1,5 +1,4 @@
-﻿using FzLib.Extension;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -11,6 +10,7 @@ namespace FzLib.Program.Runtime
         public string Name { get; private set; }
         public bool ExistAnotherInstance { get; private set; }
         private static Mutex mutex;
+
         public SingleInstance(string name)
         {
             Name = name;
@@ -36,7 +36,6 @@ namespace FzLib.Program.Runtime
         //        Process[] runningProc = Process.GetProcesses();
 
         //        var searchResult = runningProc.Where(p => p.ProcessName == currProc.ProcessName);
-
 
         //        //选出和当前进程进程名相同，但是id不同的那个进程
         //        Process firstProc = searchResult.FirstOrDefault(a => a.Id != currProc.Id);
@@ -76,6 +75,7 @@ namespace FzLib.Program.Runtime
                 return false;
             }
         }
+
         public async Task<bool> CheckAndOpenWindow<T>(Application app, ISingleObject<T> obj) where T : Window, new()
         {
             if (ExistAnotherInstance)
@@ -85,7 +85,7 @@ namespace FzLib.Program.Runtime
             }
             else
             {
-                RegistClient<T>(app,obj);
+                RegistClient<T>(app, obj);
                 return false;
             }
         }
@@ -98,6 +98,7 @@ namespace FzLib.Program.Runtime
             pipe.Dispose();
             Environment.Exit(-1);
         }
+
         private void RegistClient<T>(Application app) where T : Window, new()
         {
             SimplePipe.Clinet pipe = new SimplePipe.Clinet(Name + "_Mutex");
@@ -114,7 +115,6 @@ namespace FzLib.Program.Runtime
                         }
                         try
                         {
-
                             app.MainWindow.Show();
                         }
                         catch (InvalidOperationException)
@@ -153,13 +153,12 @@ namespace FzLib.Program.Runtime
                 {
                     app.Dispatcher.Invoke(() =>
                     {
-                        if (obj.SingleObject== null)
+                        if (obj.SingleObject == null)
                         {
                             obj.SingleObject = new T();
                         }
                         try
                         {
-
                             obj.SingleObject.Show();
                         }
                         catch (InvalidOperationException)

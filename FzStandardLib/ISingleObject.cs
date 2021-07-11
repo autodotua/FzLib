@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FzLib.Extension
+namespace FzLib
 {
-   public interface ISingleObject<T>
+    public interface ISingleObject<T>
     {
         T SingleObject { get; set; }
     }

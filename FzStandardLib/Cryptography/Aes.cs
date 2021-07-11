@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
-using FzLib.Basic;
 
 namespace FzLib.Cryptography
 {
     public class Aes : CryptographyBase
     {
-
-
         #region 字段
+
         public RijndaelManaged Manager { get; } = new RijndaelManaged();
-        #endregion
 
-
+        #endregion 字段
 
         #region 可修改属性
+
         private string encryptedExtention = ".encrypted";
+
         public string EncryptedFileExtention
         {
             get => encryptedExtention;
@@ -30,15 +29,12 @@ namespace FzLib.Cryptography
                 encryptedExtention = value;
             }
         }
+
         public long VolumeSize { get; set; } = 0;
         public bool CoverExistFiles { get; set; } = false;
         public bool DeleteSourceFile { get; set; } = false;
-        #endregion
 
-
-
-
-
+        #endregion 可修改属性
 
         /// <summary>
         /// 加密
@@ -54,6 +50,7 @@ namespace FzLib.Cryptography
 
             return Convert.ToBase64String(result);
         }
+
         /// <summary>
         /// 加密
         /// </summary>
@@ -65,6 +62,7 @@ namespace FzLib.Cryptography
             var encryptor = Manager.CreateEncryptor();
             return encryptor.TransformFinalBlock(array, 0, array.Length);
         }
+
         /// <summary>
         /// 解密
         /// </summary>
@@ -79,6 +77,7 @@ namespace FzLib.Cryptography
 
             return StringEncoding.GetString(result);
         }
+
         /// <summary>
         /// 解密
         /// </summary>
@@ -89,8 +88,8 @@ namespace FzLib.Cryptography
         {
             var decryptor = Manager.CreateDecryptor();
             return decryptor.TransformFinalBlock(array, 0, array.Length);
-
         }
+
         public string SetStringKey(string key, char fill = (char)0)
         {
             if (key == null)
@@ -131,7 +130,6 @@ namespace FzLib.Cryptography
 
         private void CheckFileAndDirectoryExist(string path)
         {
-
             if (File.Exists(path))
             {
                 if (CoverExistFiles)
@@ -140,7 +138,7 @@ namespace FzLib.Cryptography
                 }
                 else
                 {
-                    throw new Exception("文件"+path+"已存在");
+                    throw new Exception("文件" + path + "已存在");
                 }
             }
             if (!Directory.Exists(Path.GetDirectoryName(path)))
@@ -161,7 +159,6 @@ namespace FzLib.Cryptography
             }
             using (var encryptor = Manager.CreateEncryptor())
             {
-
                 byte[] input = new byte[BufferLength];
                 byte[] output = new byte[BufferLength];
                 int size;
@@ -178,10 +175,8 @@ namespace FzLib.Cryptography
                     }
                     streamOutput.Write(output, 0, output.Length);
                     streamOutput.Flush();
-
                 }
             }
-
         }
 
         public void DecryptStreamToStream(Stream streamInput, Stream streamOutput)
@@ -196,7 +191,6 @@ namespace FzLib.Cryptography
             }
             using (var encryptor = Manager.CreateDecryptor())
             {
-
                 byte[] input = new byte[BufferLength];
                 byte[] output = new byte[BufferLength];
                 int size;
@@ -215,12 +209,9 @@ namespace FzLib.Cryptography
                     }
                     streamOutput.Write(output, 0, outputSize);
                     streamOutput.Flush();
-
                 }
             }
-
         }
-
 
         public void EncryptFile(string sourcePath, string targetPath, RefreshFileProgress refreshFileProgress = null)
         {
@@ -235,7 +226,6 @@ namespace FzLib.Cryptography
 
             try
             {
-
                 using (FileStream streamSource = new FileStream(sourcePath, FileMode.Open, FileAccess.Read))
                 {
                     FileStream streamTarget = new FileStream(encryptedFileName, FileMode.OpenOrCreate, FileAccess.Write);
@@ -264,12 +254,10 @@ namespace FzLib.Cryptography
                             streamTarget.Write(output, 0, output.Length);
                             streamTarget.Flush();
                             refreshFileProgress?.Invoke(sourcePath, encryptedFileName, fileLength, currentSize); //更新进度
-
                         }
                         streamTarget.Close();
                         streamTarget.Dispose();
                     }
-
                 }
                 FileInfo encryptedFile = new FileInfo(targetPath + encryptedExtention)
                 {
@@ -279,7 +267,6 @@ namespace FzLib.Cryptography
                 {
                     File.Delete(sourcePath);
                 }
-
             }
             catch (Exception ex)
             {
@@ -295,7 +282,6 @@ namespace FzLib.Cryptography
             }
             catch
             {
-
             }
             for (int i = 1; i <= fileCount; i++)
             {
@@ -305,7 +291,6 @@ namespace FzLib.Cryptography
                 }
                 catch
                 {
-
                 }
             }
             throw ex;
@@ -322,13 +307,11 @@ namespace FzLib.Cryptography
                 encryptedFileName = targetPath + encryptedExtention + fileCount;
                 CheckFileAndDirectoryExist(encryptedFileName);
                 fsnew = new FileStream(encryptedFileName, FileMode.OpenOrCreate, FileAccess.Write);
-
             }
         }
 
         public void DecryptFile(string sourcePath, string targetPath, RefreshFileProgress refreshFileProgress = null)
         {
-
             string target = targetPath.RemoveEnd(encryptedExtention);
             CheckFileAndDirectoryExist(target);
             List<string> encryptedFileNames = new List<string>() { sourcePath };
@@ -374,18 +357,15 @@ namespace FzLib.Cryptography
                                 streamTarget.Write(output, 0, outputSize);
                                 streamTarget.Flush();
                                 refreshFileProgress?.Invoke(sourcePath, encryptedFileName, fileLength, currentSize); //更新进度
-
                             }
                             streamSource.Close();
                             streamSource.Dispose();
                         }
-
                     }
 
                     streamTarget.Close();
                     streamTarget.Dispose();
                 }
-
 
                 FileInfo rawFile = new FileInfo(target)
                 {
@@ -398,7 +378,6 @@ namespace FzLib.Cryptography
                         File.Delete(file);
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -414,7 +393,6 @@ namespace FzLib.Cryptography
             }
             catch
             {
-
             }
             throw ex;
         }
@@ -428,10 +406,5 @@ namespace FzLib.Cryptography
         /// 更新文件加密进度
         /// </summary>
         public delegate void RefreshFileProgress(string source, string target, long max, long value);
-
     }
-
-
-
-
 }

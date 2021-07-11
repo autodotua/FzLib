@@ -1,0 +1,101 @@
+﻿<UserControl
+    x:Class="FzLib.WpfDemo.BasicPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:FzLib.WpfDemo"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
+    d:DesignHeight="450" d:DesignWidth="800"
+    mc:Ignorable="d">
+    <Grid>
+        <TabControl TabStripPlacement="Left">
+            <TabItem Header="数学">
+                <ScrollViewer>
+                    <local:DemoVerticleStackPanel>
+                        <GroupBox Header="表达式计算">
+                            <local:DemoHorizontalStackPanel>
+                                <TextBlock Text="数学表达式：" />
+                                <local:DemoTextBox Text="{Binding Calc}" />
+                                <Button
+                                    Command="{Binding ButtonCommand}"
+                                    CommandParameter="calc" Content="计算" />
+                                <TextBlock Text="{Binding CalcR}" />
+                            </local:DemoHorizontalStackPanel>
+                        </GroupBox>
+                        <GroupBox Header="函数计算">
+                            <local:DemoHorizontalStackPanel>
+                                <TextBlock Text="函数：" />
+                                <local:DemoTextBox Text="{Binding Func}" />
+                                <TextBlock Text="x=" />
+                                <local:DemoNumberTextBox Value="{Binding FuncX}" />
+                                <Button
+                                    Command="{Binding ButtonCommand}"
+                                    CommandParameter="func" Content="计算" />
+                                <TextBlock Text="{Binding FuncR}" />
+                            </local:DemoHorizontalStackPanel>
+                        </GroupBox>
+                        <GroupBox Header="扩展欧几里得">
+                            <local:DemoHorizontalStackPanel>
+                                <TextBlock Text="数1=" />
+                                <local:DemoNumberTextBox Value="{Binding Euclid1}" />
+                                <TextBlock Text="数2=" />
+                                <local:DemoNumberTextBox Value="{Binding Euclid2}" />
+                                <Button
+                                    Command="{Binding ButtonCommand}"
+                                    CommandParameter="euclid" Content="计算" />
+                                <TextBlock Text="{Binding EuclidR}" />
+                            </local:DemoHorizontalStackPanel>
+                        </GroupBox>
+                        <GroupBox Header="最大公因数">
+                            <local:DemoHorizontalStackPanel>
+                                <TextBlock Text="数1=" />
+                                <local:DemoNumberTextBox Value="{Binding CommonDivisor1}" />
+                                <TextBlock Text="数2=" />
+                                <local:DemoNumberTextBox Value="{Binding CommonDivisor2}" />
+                                <Button
+                                    Command="{Binding ButtonCommand}"
+                                    CommandParameter="divisor" Content="计算" />
+                                <TextBlock Text="{Binding CommonDivisorR}" />
+                            </local:DemoHorizontalStackPanel>
+                        </GroupBox>
+                        <GroupBox Header="质数判定">
+                            <local:DemoHorizontalStackPanel>
+                                <TextBlock Text="准确判定：" />
+                                <local:DemoNumberTextBox Value="{Binding Prime}" />
+                                <Button
+                                    Command="{Binding ButtonCommand}"
+                                    CommandParameter="prime" Content="判定" />
+                                <TextBlock Text="{Binding PrimeR}" />
+                                <TextBlock Text="大数近似判定：" />
+                                <local:DemoTextBox Text="{Binding PPrime}" />
+                                <Button
+                                    Command="{Binding ButtonCommand}"
+                                    CommandParameter="pprime" Content="判定" />
+                                <TextBlock Text="{Binding PPrimeR}" />
+                            </local:DemoHorizontalStackPanel>
+                        </GroupBox>
+                        <GroupBox Header="分解质因数">
+                            <local:DemoHorizontalStackPanel>
+                                <TextBlock Text="数字：" />
+                                <local:DemoNumberTextBox Value="{Binding Facter}" />
+                                <Button
+                                    Command="{Binding ButtonCommand}"
+                                    CommandParameter="factor" Content="计算" />
+                                <TextBlock Text="{Binding FacterR}" />
+                            </local:DemoHorizontalStackPanel>
+                        </GroupBox>
+                    </local:DemoVerticleStackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="加密">
+                <ScrollViewer>
+                    <local:DemoVerticleStackPanel />
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="数据" />
+            <TabItem Header="IO" />
+            <TabItem Header="程序" />
+        </TabControl>
+    </Grid>
+</UserControl>

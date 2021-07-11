@@ -197,3 +197,6 @@
 	更新了ModernWpf.FzExtension
 	新增Enum2StringConverter
 	解散FzLib.WPF.Utilities文件夹和命名空间
+20210710
+	解散了【FzLib.Basic】
+	新增WpfDemo项目，基本完成数学模块和ModernWpfExtension的对话框和覆盖层

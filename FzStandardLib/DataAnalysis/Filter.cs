@@ -1,5 +1,4 @@
-﻿using FzLib.Basic.Collection;
-using FzLib.Extension;
+﻿using FzLib.Collection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +9,7 @@ namespace FzLib.DataAnalysis
     public static class Filter
     {
         public static List<FilterResult<T>> MedianValueFilter<T>
-            (IEnumerable<T> items, 
+            (IEnumerable<T> items,
             Func<T, IComparable> valueFunc,
             int sampleCount, int jump)
         {
@@ -22,7 +21,6 @@ namespace FzLib.DataAnalysis
                 return new List<FilterResult<T>>() { new FilterResult<T>(item, itemArray, valueFunc(item)) };
             }
             List<FilterResult<T>> results = new List<FilterResult<T>>();
-
 
             for (int i = sampleCount - 1; i < itemArray.Length; i += jump)
             {
