@@ -19,7 +19,9 @@
             <TabItem Header="ModernWpf扩展">
                 <local:ModernWpfExtensionPanel />
             </TabItem>
-            <TabItem Header="WindowsAPICodePack扩展" />
+            <TabItem Header="WindowsAPICodePack扩展">
+                <local:WindowsAPICodePackExtensionPanel />
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

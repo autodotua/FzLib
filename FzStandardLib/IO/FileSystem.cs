@@ -315,5 +315,15 @@ namespace FzLib.IO
                 i++;
             }
         }
+
+        public static FileInfo ToFileInfo(this string str)
+        {
+            return new FileInfo(str);
+        }
+
+        public static DirectoryInfo ToDirectoryInfo(this string str)
+        {
+            return new DirectoryInfo(str);
+        }
     }
 }

@@ -8,13 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using static FzLib.IO.FileSystemTree;
 using SearchOption = System.IO.SearchOption;
+
 using vbFile = Microsoft.VisualBasic.FileIO;
 
 namespace FzLib.IO
 {
     public static class WindowsFileSystem
     {
-
         private static readonly IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
@@ -28,8 +28,10 @@ namespace FzLib.IO
             public uint nFileSizeLow;
             public uint dwReserved0;
             public uint dwReserved1;
+
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
             public string cFileName;
+
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 14)]
             public string cAlternateFileName;
         }
@@ -87,6 +89,7 @@ namespace FzLib.IO
             }
             throw new DirectoryNotFoundException();
         }
+
         public static bool IsEmpty(this DirectoryInfo directory)
         {
             return IsDirectoryEmpty(directory.FullName);
@@ -102,6 +105,7 @@ namespace FzLib.IO
             GetShortPathName(longName, s, (uint)s.Capacity);
             return s.ToString();
         }
+
         public static void DeleteFileOrFolder(string path, bool ui = false, bool toRecycleBin = true)
         {
             if (global::System.IO.File.Exists(path))
@@ -109,17 +113,13 @@ namespace FzLib.IO
                 vbFile.FileSystem.DeleteFile(path,
                     ui ? UIOption.AllDialogs : UIOption.OnlyErrorDialogs,
                     toRecycleBin ? RecycleOption.SendToRecycleBin : RecycleOption.DeletePermanently);
-
             }
             else if (Directory.Exists(path))
             {
-
                 vbFile.FileSystem.DeleteDirectory(path,
                      ui ? UIOption.AllDialogs : UIOption.OnlyErrorDialogs,
                      toRecycleBin ? RecycleOption.SendToRecycleBin : RecycleOption.DeletePermanently);
-
             }
-
         }
 
         public static void Delete(this FileInfo file, bool ui, bool toRecycleBin)
@@ -135,9 +135,5 @@ namespace FzLib.IO
                 ui ? UIOption.AllDialogs : UIOption.OnlyErrorDialogs,
                 toRecycleBin ? RecycleOption.SendToRecycleBin : RecycleOption.DeletePermanently);
         }
-
     }
-
 }
-
-
