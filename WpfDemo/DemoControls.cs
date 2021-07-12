@@ -25,6 +25,14 @@ namespace FzLib.WpfDemo
         }
     }
 
+    public class DemoWrapPanel : WrapPanel
+    {
+        public DemoWrapPanel()
+        {
+            ItemWidth = 128;
+        }
+    }
+
     public class DemoTextBox : TextBox
     {
         public DemoTextBox()
@@ -32,6 +40,15 @@ namespace FzLib.WpfDemo
             Width = 120;
         }
     }
+
+    public class DemoComboBox : ComboBox
+    {
+        public DemoComboBox()
+        {
+            Width = 120;
+        }
+    }
+
     public class DemoNumberTextBox : NumberBox
     {
         public DemoNumberTextBox()

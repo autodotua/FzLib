@@ -28,12 +28,15 @@ namespace FzLib.WpfDemo
                  {
                      action();
                  });
-                canExecute = true;
-                CanExecuteChanged?.Invoke(this, new EventArgs());
             }
             catch (Exception ex)
             {
                 await CommonDialog.ShowErrorDialogAsync(ex);
+            }
+            finally
+            {
+                canExecute = true;
+                CanExecuteChanged?.Invoke(this, new EventArgs());
             }
         }
 
@@ -44,12 +47,16 @@ namespace FzLib.WpfDemo
                 canExecute = false;
                 CanExecuteChanged?.Invoke(this, new EventArgs());
                 await task();
-                canExecute = true;
-                CanExecuteChanged?.Invoke(this, new EventArgs());
             }
             catch (Exception ex)
             {
                 await CommonDialog.ShowErrorDialogAsync(ex);
+            }
+            finally
+            {
+
+                canExecute = true;
+                CanExecuteChanged?.Invoke(this, new EventArgs());
             }
         }
     }

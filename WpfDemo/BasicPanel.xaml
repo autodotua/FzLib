@@ -18,7 +18,7 @@
                                 <TextBlock Text="数学表达式：" />
                                 <local:DemoTextBox Text="{Binding Calc}" />
                                 <Button
-                                    Command="{Binding ButtonCommand}"
+                                    Command="{Binding MathButtonCommand}"
                                     CommandParameter="calc" Content="计算" />
                                 <TextBlock Text="{Binding CalcR}" />
                             </local:DemoHorizontalStackPanel>
@@ -30,7 +30,7 @@
                                 <TextBlock Text="x=" />
                                 <local:DemoNumberTextBox Value="{Binding FuncX}" />
                                 <Button
-                                    Command="{Binding ButtonCommand}"
+                                    Command="{Binding MathButtonCommand}"
                                     CommandParameter="func" Content="计算" />
                                 <TextBlock Text="{Binding FuncR}" />
                             </local:DemoHorizontalStackPanel>
@@ -42,7 +42,7 @@
                                 <TextBlock Text="数2=" />
                                 <local:DemoNumberTextBox Value="{Binding Euclid2}" />
                                 <Button
-                                    Command="{Binding ButtonCommand}"
+                                    Command="{Binding MathButtonCommand}"
                                     CommandParameter="euclid" Content="计算" />
                                 <TextBlock Text="{Binding EuclidR}" />
                             </local:DemoHorizontalStackPanel>
@@ -54,7 +54,7 @@
                                 <TextBlock Text="数2=" />
                                 <local:DemoNumberTextBox Value="{Binding CommonDivisor2}" />
                                 <Button
-                                    Command="{Binding ButtonCommand}"
+                                    Command="{Binding MathButtonCommand}"
                                     CommandParameter="divisor" Content="计算" />
                                 <TextBlock Text="{Binding CommonDivisorR}" />
                             </local:DemoHorizontalStackPanel>
@@ -64,13 +64,13 @@
                                 <TextBlock Text="准确判定：" />
                                 <local:DemoNumberTextBox Value="{Binding Prime}" />
                                 <Button
-                                    Command="{Binding ButtonCommand}"
+                                    Command="{Binding MathButtonCommand}"
                                     CommandParameter="prime" Content="判定" />
                                 <TextBlock Text="{Binding PrimeR}" />
                                 <TextBlock Text="大数近似判定：" />
                                 <local:DemoTextBox Text="{Binding PPrime}" />
                                 <Button
-                                    Command="{Binding ButtonCommand}"
+                                    Command="{Binding MathButtonCommand}"
                                     CommandParameter="pprime" Content="判定" />
                                 <TextBlock Text="{Binding PPrimeR}" />
                             </local:DemoHorizontalStackPanel>
@@ -80,7 +80,7 @@
                                 <TextBlock Text="数字：" />
                                 <local:DemoNumberTextBox Value="{Binding Facter}" />
                                 <Button
-                                    Command="{Binding ButtonCommand}"
+                                    Command="{Binding MathButtonCommand}"
                                     CommandParameter="factor" Content="计算" />
                                 <TextBlock Text="{Binding FacterR}" />
                             </local:DemoHorizontalStackPanel>
@@ -90,7 +90,66 @@
             </TabItem>
             <TabItem Header="加密">
                 <ScrollViewer>
-                    <local:DemoVerticleStackPanel />
+                    <local:DemoVerticleStackPanel>
+                        <GroupBox Header="AES">
+                            <local:DemoVerticleStackPanel>
+                                <local:DemoWrapPanel>
+                                    <local:DemoTextBox ui:ControlHelper.Header="密钥" Text="{Binding AesKey}" />
+                                    <local:DemoTextBox ui:ControlHelper.Header="初始向量IV" Text="{Binding AesIV}" />
+                                    <local:DemoComboBox
+                                        ui:ControlHelper.Header="加密方法"
+                                        ItemsSource="{Binding AesModes}"
+                                        SelectedItem="{Binding AesMode}" />
+                                    <local:DemoComboBox
+                                        ui:ControlHelper.Header="填充方法"
+                                        ItemsSource="{Binding AesPaddings}"
+                                        SelectedItem="{Binding AesPadding}" />
+                                </local:DemoWrapPanel>
+                                <local:DemoHorizontalStackPanel>
+                                    <local:DemoTextBox ui:ControlHelper.Header="待加密文本" Text="{Binding AesText}" />
+                                    <Button
+                                        VerticalAlignment="Bottom"
+                                        Command="{Binding CryptographyButtonCommand}"
+                                        CommandParameter="aesStr" Content="加密文本" />
+                                </local:DemoHorizontalStackPanel>
+                                <local:DemoHorizontalStackPanel>
+                                    <local:DemoTextBox ui:ControlHelper.Header="加密后文件后缀" Text="{Binding AesSuffix}" />
+                                    <CheckBox
+                                        VerticalAlignment="Bottom"
+                                        Content="分卷（以64MB为例）"
+                                        IsChecked="{Binding AesVolume}" />
+                                </local:DemoHorizontalStackPanel>
+                                <local:DemoHorizontalStackPanel>
+                                    <local:DemoTextBox ui:ControlHelper.Header="源文件" Text="{Binding AesFileSource}" />
+                                    <Button
+                                        VerticalAlignment="Bottom"
+                                        Command="{Binding CryptographyButtonCommand}"
+                                        CommandParameter="aesBrowseSource"
+                                        Content="浏览" />
+                                    <local:DemoTextBox ui:ControlHelper.Header="目标文件" Text="{Binding AesFileTarget}" />
+                                    <Button
+                                        VerticalAlignment="Bottom"
+                                        Command="{Binding CryptographyButtonCommand}"
+                                        CommandParameter="aesBrowseTarget"
+                                        Content="浏览" />
+
+                                </local:DemoHorizontalStackPanel>
+                                <local:DemoHorizontalStackPanel>
+                                    <Button
+                                        VerticalAlignment="Bottom"
+                                        Command="{Binding CryptographyButtonCommand}"
+                                        CommandParameter="aesEnFile"
+                                        Content="加密文件" />
+                                    <Button
+                                        VerticalAlignment="Bottom"
+                                        Command="{Binding CryptographyButtonCommand}"
+                                        CommandParameter="aesDeFile"
+                                        Content="解密文件" />
+                                </local:DemoHorizontalStackPanel>
+                                <TextBlock Text="{Binding AesR}" />
+                            </local:DemoVerticleStackPanel>
+                        </GroupBox>
+                    </local:DemoVerticleStackPanel>
                 </ScrollViewer>
             </TabItem>
             <TabItem Header="数据" />

@@ -11,6 +11,12 @@ using System.Windows.Shapes;
 using static FzLib.INotifyPropertyChangedExtension;
 using System.Numerics;
 using System.Linq;
+using FzLib.Cryptography;
+using System;
+using System.Security.Cryptography;
+using System.Collections;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using Microsoft.WindowsAPICodePack.FzExtension;
 
 namespace FzLib.WpfDemo
 {
@@ -18,7 +24,8 @@ namespace FzLib.WpfDemo
     {
         public BasicPanelViewModel()
         {
-            ButtonCommand = new BasicPanelButtonCommand(this);
+            MathButtonCommand = new BasicPanelMathButtonCommand(this);
+            CryptographyButtonCommand = new BasicPanelCryptographyButtonCommand(this);
         }
 
         private string calc;
@@ -108,14 +115,115 @@ namespace FzLib.WpfDemo
             set => this.SetValueAndNotify(ref facterR, value, nameof(FacterR));
         }
 
+        public string AesKey { get; set; } = "1234";
+        public string AesIV { get; set; } = "1234";
+        public string AesText { get; set; }
+        private string aesR;
+        public string AesSuffix { get; set; } = ".aes";
+        public bool AesVolume { get; set; } = false;
+
+        public string AesR
+        {
+            get => aesR;
+            set => this.SetValueAndNotify(ref aesR, value, nameof(AesR));
+        }
+
+        private string aesFileSource;
+
+        public string AesFileSource
+        {
+            get => aesFileSource;
+            set => this.SetValueAndNotify(ref aesFileSource, value, nameof(AesFileSource));
+        }
+
+        private string aesFileTarget;
+
+        public string AesFileTarget
+        {
+            get => aesFileTarget;
+            set => this.SetValueAndNotify(ref aesFileTarget, value, nameof(AesFileTarget));
+        }
+
+        public CipherMode AesMode { get; set; } = CipherMode.CBC;
+        public PaddingMode AesPadding { get; set; } = PaddingMode.PKCS7;
+        public IEnumerable AesModes { get; } = Enum.GetValues(typeof(CipherMode));
+        public IEnumerable AesPaddings { get; } = Enum.GetValues(typeof(PaddingMode));
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public BasicPanelButtonCommand ButtonCommand { get; }
+        public BasicPanelMathButtonCommand MathButtonCommand { get; }
+        public BasicPanelCryptographyButtonCommand CryptographyButtonCommand { get; }
     }
 
-    public class BasicPanelButtonCommand : PanelButtonCommandBase
+    public class BasicPanelCryptographyButtonCommand : PanelButtonCommandBase
     {
-        public BasicPanelButtonCommand(BasicPanelViewModel viewModel)
+        public BasicPanelCryptographyButtonCommand(BasicPanelViewModel viewModel)
+        {
+            ViewModel = viewModel;
+        }
+
+        public BasicPanelViewModel ViewModel { get; }
+
+        public override void Execute(object parameter)
+        {
+            Do(() =>
+            {
+                switch (parameter as string)
+                {
+                    case "aesStr":
+                        ViewModel.AesR = AesExtension.CreateManager(ViewModel.AesMode, ViewModel.AesPadding)
+                        .SetStringKey(ViewModel.AesKey)
+                        .SetStringIV(ViewModel.AesIV)
+                       .Encrypt(ViewModel.AesText);
+                        break;
+
+                    case "aesBrowseSource":
+
+                        ViewModel.AesFileSource = App.Current.Dispatcher.Invoke(() =>
+                        new FileFilterCollection().AddAll().CreateDialog<CommonOpenFileDialog>().GetFilePath());
+                        break;
+
+                    case "aesBrowseTarget":
+                        ViewModel.AesFileTarget = App.Current.Dispatcher.Invoke(() =>
+                        new FileFilterCollection().AddAll().CreateDialog<CommonSaveFileDialog>().GetFilePath());
+                        break;
+
+                    case "aesEnFile":
+                        AesExtension.CreateManager(ViewModel.AesMode, ViewModel.AesPadding)
+                    .SetStringKey(ViewModel.AesKey)
+                    .SetStringIV(ViewModel.AesIV)
+                    .EncryptFile(ViewModel.AesFileSource,
+                                 ViewModel.AesFileTarget,
+                                 suffix: ViewModel.AesSuffix,
+                                 volumeSize: ViewModel.AesVolume ? 1024 * 1024 * 64 : 0,
+                                 refreshFileProgress: (source, target, max, value) =>
+                                 {
+                                     ViewModel.AesR = $"{source}=>{target}  {1.0 * value / max:0.00%}  {value}/{max}";
+                                 });
+                        ViewModel.AesR = "完成";
+                        break;
+
+                    case "aesDeFile":
+                        AesExtension.CreateManager(ViewModel.AesMode, ViewModel.AesPadding)
+                    .SetStringKey(ViewModel.AesKey)
+                    .SetStringIV(ViewModel.AesIV)
+                    .DecryptFile(ViewModel.AesFileSource,
+                                 ViewModel.AesFileTarget,
+                                 suffix: ViewModel.AesSuffix,
+                                 refreshFileProgress: (source, target, max, value) =>
+                                 {
+                                     ViewModel.AesR = $"{source}=>{target}  {1.0 * value / max:0.00%}  {value}/{max}";
+                                 });
+                        ViewModel.AesR = "完成";
+                        break;
+                }
+            });
+        }
+    }
+
+    public class BasicPanelMathButtonCommand : PanelButtonCommandBase
+    {
+        public BasicPanelMathButtonCommand(BasicPanelViewModel viewModel)
         {
             ViewModel = viewModel;
         }
