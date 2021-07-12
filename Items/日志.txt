@@ -200,3 +200,7 @@
 20210710
 	解散了【FzLib.Basic】
 	新增WpfDemo项目，基本完成数学模块和ModernWpfExtension的对话框和覆盖层
+20210711
+	大幅修改了FileSystemDialolg类，改为扩展方法形式，并完成了Demo
+20210712
+	大幅修改了TaskDialog类，改为扩展方法形式，并完成了Demo

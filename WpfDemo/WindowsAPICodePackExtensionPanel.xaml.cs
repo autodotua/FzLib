@@ -20,6 +20,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Collections.ObjectModel;
 using Microsoft.WindowsAPICodePack.FzExtension;
 using Microsoft.WindowsAPICodePack.Dialogs.Controls;
+using TaskDialog = Microsoft.WindowsAPICodePack.Dialogs.TaskDialog;
 
 namespace FzLib.WpfDemo
 {
@@ -27,28 +28,109 @@ namespace FzLib.WpfDemo
     {
         public WindowsAPICodePackExtensionPanelViewModel()
         {
-            ButtonCommand = new WindowsAPICodePackExtensionPanelButtonCommand(this);
+            FileButtonCommand = new WindowsAPICodePackExtensionPanelFileButtonCommand(this);
+            TaskDialogButtonCommand = new WindowsAPICodePackExtensionPanelTDButtonCommand(this);
         }
 
         public bool UnionFilter { get; set; }
         public bool AllFilter { get; set; }
         public string DefaultName { get; set; }
-        private string result;
+        private string fileResult;
 
-        public string Result
+        public string FileResult
         {
-            get => result;
-            set => this.SetValueAndNotify(ref result, value, nameof(Result));
+            get => fileResult;
+            set => this.SetValueAndNotify(ref fileResult, value, nameof(FileResult));
+        }
+
+        private string taskResult;
+
+        public string TaskResult
+        {
+            get => taskResult;
+            set => this.SetValueAndNotify(ref taskResult, value, nameof(TaskResult));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public WindowsAPICodePackExtensionPanelButtonCommand ButtonCommand { get; }
+        public WindowsAPICodePackExtensionPanelFileButtonCommand FileButtonCommand { get; }
+        public WindowsAPICodePackExtensionPanelTDButtonCommand TaskDialogButtonCommand { get; }
     }
 
-    public class WindowsAPICodePackExtensionPanelButtonCommand : PanelButtonCommandBase
+    public class WindowsAPICodePackExtensionPanelTDButtonCommand : PanelButtonCommandBase
     {
-        public WindowsAPICodePackExtensionPanelButtonCommand(WindowsAPICodePackExtensionPanelViewModel viewModel)
+        public WindowsAPICodePackExtensionPanelTDButtonCommand(WindowsAPICodePackExtensionPanelViewModel viewModel)
+        {
+            ViewModel = viewModel;
+        }
+
+        public WindowsAPICodePackExtensionPanelViewModel ViewModel { get; }
+
+        public override void Execute(object parameter)
+        {
+            ViewModel.TaskResult = "";
+
+            switch (parameter as string)
+            {
+                case "msg":
+                    new TaskDialog().SetText("Text").SetInstructionText("InstructionText").Show();
+                    break;
+
+                case "detail":
+                    new TaskDialog().SetText("Text").SetInstructionText("InstructionText").SetDetail("这里是详细信息").Show();
+                    break;
+
+                case "yesno":
+                    ViewModel.TaskResult = new TaskDialog().SetText("Text").SetInstructionText("InstructionText").ShowYesNo().ToString();
+                    break;
+
+                case "yesnocancel":
+                    ViewModel.TaskResult = new TaskDialog().SetText("Text").SetInstructionText("InstructionText").ShowYesNo(true)?.ToString() ?? "取消";
+                    break;
+
+                case "check":
+                    bool isChecked = new TaskDialog().SetText("Text").SetInstructionText("InstructionText")
+                                   .SetCheckBox("CheckBox描述").ShowAndGetCheckBoxChecked();
+                    ViewModel.TaskResult = $"选择框状态：" + isChecked.ToString();
+                    break;
+
+                case "select":
+                    new TaskDialog().SetText("Text").SetInstructionText("InstructionText")
+                        .AddCommandLink("选项1", "这是选项1", l => ViewModel.TaskResult = "选择了选项1")
+                        .AddCommandLink("选项2", "这是选项2", l => ViewModel.TaskResult = "选择了选项2")
+                        .Show();
+                    break;
+
+                case "buttons":
+                    new TaskDialog().SetText("Text").SetInstructionText("InstructionText")
+                        .AddButton("按钮1", b => ViewModel.TaskResult = "选择了按钮1")
+                        .AddButton("按钮2", b => ViewModel.TaskResult = "选择了按钮2")
+                        .AddButton("不会关闭的按钮", b => b.Enabled =false,false)
+                        .Show();
+                    break;
+
+                case "error":
+                    new TaskDialog()
+                        .ShowError("错误信息", details: "可选错误详情");
+                    break;
+
+                case "exception":
+                    try
+                    {
+                        int a = 1 / new List<int>().Count;
+                    }
+                    catch (Exception ex)
+                    {
+                        new TaskDialog().ShowError(ex);
+                    }
+                    break;
+            }
+        }
+    }
+
+    public class WindowsAPICodePackExtensionPanelFileButtonCommand : PanelButtonCommandBase
+    {
+        public WindowsAPICodePackExtensionPanelFileButtonCommand(WindowsAPICodePackExtensionPanelViewModel viewModel)
         {
             ViewModel = viewModel;
         }
@@ -91,7 +173,7 @@ namespace FzLib.WpfDemo
                 "folder" => new CommonOpenFileDialog().GetFolderPath(),
                 _ => throw new ArgumentException()
             };
-            ViewModel.Result = result switch
+            ViewModel.FileResult = result switch
             {
                 string str => str,
                 IEnumerable<string> strs => string.Join("， ", strs),

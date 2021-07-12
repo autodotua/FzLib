@@ -17,7 +17,7 @@
                         Margin="8" DockPanel.Dock="Bottom"
                         TextWrapping="Wrap">
                         <Run>结果是：</Run>
-                        <Run Text="{Binding Result, Mode=OneWay}" />
+                        <Run Text="{Binding FileResult, Mode=OneWay}" />
                     </TextBlock>
                     <ScrollViewer VerticalAlignment="Stretch">
                         <local:DemoVerticleStackPanel>
@@ -27,19 +27,19 @@
                                     <CheckBox Content="添加所有格式筛选项" IsChecked="{Binding AllFilter}" />
                                     <local:DemoHorizontalStackPanel>
                                         <Button
-                                            Command="{Binding ButtonCommand}"
+                                            Command="{Binding FileButtonCommand}"
                                             CommandParameter="open" Content="选择一个文件" />
 
                                         <Button
-                                            Command="{Binding ButtonCommand}"
+                                            Command="{Binding FileButtonCommand}"
                                             CommandParameter="opens"
                                             Content="选择多个文件" />
                                         <Button
-                                            Command="{Binding ButtonCommand}"
+                                            Command="{Binding FileButtonCommand}"
                                             CommandParameter="opend"
                                             Content="选择一个文件（更多信息）" />
                                         <Button
-                                            Command="{Binding ButtonCommand}"
+                                            Command="{Binding FileButtonCommand}"
                                             CommandParameter="openc"
                                             Content="一些可自定义内容" />
                                     </local:DemoHorizontalStackPanel>
@@ -50,15 +50,15 @@
                                     <CheckBox Content="添加所有格式筛选项" IsChecked="{Binding AllFilter}" />
                                     <local:DemoHorizontalStackPanel>
                                         <Button
-                                            Command="{Binding ButtonCommand}"
+                                            Command="{Binding FileButtonCommand}"
                                             CommandParameter="save" Content="保存一个文件" />
 
                                         <Button
-                                            Command="{Binding ButtonCommand}"
+                                            Command="{Binding FileButtonCommand}"
                                             CommandParameter="savei"
                                             Content="保存一个文件（输入的源文件名）" />
                                         <Button
-                                            Command="{Binding ButtonCommand}"
+                                            Command="{Binding FileButtonCommand}"
                                             CommandParameter="saved"
                                             Content="保存一个文件（更多信息）" />
                                     </local:DemoHorizontalStackPanel>
@@ -67,7 +67,7 @@
                             <GroupBox Header="保存文件">
                                 <local:DemoVerticleStackPanel>
                                     <Button
-                                        Command="{Binding ButtonCommand}"
+                                        Command="{Binding FileButtonCommand}"
                                         CommandParameter="folder"
                                         Content="选择文件夹" />
                                 </local:DemoVerticleStackPanel>
@@ -76,7 +76,62 @@
                     </ScrollViewer>
                 </DockPanel>
             </TabItem>
-            <TabItem Header="任务对话框" />
+            <TabItem Header="任务对话框">
+                <ScrollViewer VerticalAlignment="Stretch">
+                    <DockPanel LastChildFill="True">
+                        <TextBlock
+                            Margin="8" DockPanel.Dock="Bottom"
+                            TextWrapping="Wrap">
+                            <Run>结果是：</Run>
+                            <Run Text="{Binding TaskResult, Mode=OneWay}" />
+                        </TextBlock>
+                        <local:DemoVerticleStackPanel>
+                            <local:DemoHorizontalStackPanel>
+                                <Button
+                                    Command="{Binding TaskDialogButtonCommand}"
+                                    CommandParameter="msg" Content="一般消息框" />
+                                <Button
+                                    Command="{Binding TaskDialogButtonCommand}"
+                                    CommandParameter="detail"
+                                    Content="带有详细信息的消息框" />
+                            </local:DemoHorizontalStackPanel>
+                            <local:DemoHorizontalStackPanel>
+                                <Button
+                                    Command="{Binding TaskDialogButtonCommand}"
+                                    CommandParameter="yesno"
+                                    Content="是/否消息框" />
+                                <Button
+                                    Command="{Binding TaskDialogButtonCommand}"
+                                    CommandParameter="yesnocancel"
+                                    Content="是/否消息框（可以取消）" />
+                            </local:DemoHorizontalStackPanel>
+                            <local:DemoHorizontalStackPanel>
+                                <Button
+                                    Command="{Binding TaskDialogButtonCommand}"
+                                    CommandParameter="check"
+                                    Content="带选择框的对话框" />
+                                <Button
+                                    Command="{Binding TaskDialogButtonCommand}"
+                                    CommandParameter="select"
+                                    Content="选择对话框" />
+                                <Button
+                                    Command="{Binding TaskDialogButtonCommand}"
+                                    CommandParameter="buttons"
+                                    Content="自定义按钮" />
+                            </local:DemoHorizontalStackPanel>
+                            <local:DemoHorizontalStackPanel>
+                                <Button
+                                    Command="{Binding TaskDialogButtonCommand}"
+                                    CommandParameter="error" Content="错误提示框" />
+                                <Button
+                                    Command="{Binding TaskDialogButtonCommand}"
+                                    CommandParameter="exception"
+                                    Content="带异常信息的错误提示框" />
+                            </local:DemoHorizontalStackPanel>
+                        </local:DemoVerticleStackPanel>
+                    </DockPanel>
+                </ScrollViewer>
+            </TabItem>
         </TabControl>
     </Grid>
 </UserControl>

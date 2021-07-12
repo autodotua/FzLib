@@ -9,6 +9,7 @@ using WinDialog = Microsoft.WindowsAPICodePack.Dialogs.TaskDialog;
 
 namespace Microsoft.WindowsAPICodePack.FzExtension
 {
+    [Obsolete]
     public class TaskDialog : IDisposable
     {
         private WinDialog Dialog = new WinDialog();
@@ -251,6 +252,158 @@ namespace Microsoft.WindowsAPICodePack.FzExtension
         public void Dispose()
         {
             Dialog.Dispose();
+        }
+    }
+
+    public static class TaskDialogExtension
+    {
+        public static WinDialog SetOwner(this WinDialog dialog, Window window)
+        {
+            if (window == null)
+            {
+                throw new ArgumentNullException(nameof(window));
+            }
+            var handle = new WindowInteropHelper(window).Handle;
+            dialog.OwnerWindowHandle = handle;
+            return dialog;
+        }
+
+        public static WinDialog SetText(this WinDialog dialog, string text)
+        {
+            dialog.Text = text;
+            return dialog;
+        }
+
+        public static WinDialog SetInstructionText(this WinDialog dialog, string instructionText)
+        {
+            dialog.InstructionText = instructionText;
+            return dialog;
+        }
+
+        public static WinDialog SetTitle(this WinDialog dialog, string title)
+        {
+            dialog.Caption = title;
+            return dialog;
+        }
+
+        public static WinDialog SetDetail(this WinDialog dialog, string details, string detailsExpandedLabel = null, string detailsCollapsedLabel = null)
+        {
+            dialog.DetailsExpandedText = details;
+            if (detailsExpandedLabel != null)
+            {
+                dialog.DetailsExpandedLabel = detailsExpandedLabel;
+            }
+            if (detailsCollapsedLabel != null)
+            {
+                dialog.DetailsCollapsedLabel = detailsCollapsedLabel;
+            }
+            return dialog;
+        }
+
+        public static WinDialog AddCommandLink(this WinDialog dialog, string text, string instruction, Action<TaskDialogCommandLink> click, bool closeDialogWhenClick = true)
+        {
+            TaskDialogCommandLink link = new TaskDialogCommandLink(text, text, instruction);
+            if (click != null)
+            {
+                link.Click += (s, e) =>
+                 {
+                     if (closeDialogWhenClick)
+                     {
+                         dialog.Close();
+                     }
+                     click(s as TaskDialogCommandLink);
+                 };
+            }
+            dialog.Controls.Add(link);
+            return dialog;
+        }
+
+        public static WinDialog AddButton(this WinDialog dialog, string text, Action<TaskDialogButton> click, bool closeDialogWhenClick = true)
+        {
+            TaskDialogButton btn = new TaskDialogButton(text, text);
+            if (click != null)
+            {
+                btn.Click += (s, e) =>
+                 {
+                     if (closeDialogWhenClick)
+                     {
+                         dialog.Close();
+                     }
+                     click(s as TaskDialogButton);
+                 };
+            }
+            dialog.Controls.Add(btn);
+            return dialog;
+        }
+
+        public static WinDialog SetCancelButton(this WinDialog dialog)
+        {
+            dialog.StandardButtons = TaskDialogStandardButtons.Cancel;
+            return dialog;
+        }
+
+        public static WinDialog SetCheckBox(this WinDialog dialog, string checkBoxText)
+        {
+            dialog.FooterCheckBoxText = checkBoxText;
+            return dialog;
+        }
+
+        public static WinDialog ShowThen(this WinDialog dialog, out TaskDialogResult result)
+        {
+            result = dialog.Show();
+            return dialog;
+        }
+
+        public static WinDialog ShowThen(this WinDialog dialog)
+        {
+            dialog.Show();
+            return dialog;
+        }
+
+        public static bool ShowAndGetCheckBoxChecked(this WinDialog dialog)
+        {
+            dialog.Show();
+            return dialog.FooterCheckBoxChecked == true;
+        }
+
+        public static bool ShowYesNo(this WinDialog dialog)
+        {
+            return dialog.ShowYesNo(false) == true;
+        }
+
+        public static bool? ShowYesNo(this WinDialog dialog, bool cancelable)
+        {
+            dialog.StandardButtons = TaskDialogStandardButtons.Yes | TaskDialogStandardButtons.No;
+            dialog.Icon = TaskDialogStandardIcon.Information;
+            dialog.Cancelable = cancelable;
+            var result = dialog.Show();
+            return result switch
+            {
+                TaskDialogResult.Yes => true,
+                TaskDialogResult.No => false,
+                _ => null
+            };
+        }
+
+        public static void ShowError(this WinDialog dialog, string message, string title = "错误", string details = null)
+        {
+            dialog.Text = message;
+            dialog.InstructionText = title;
+            dialog.Icon = TaskDialogStandardIcon.Error;
+            if (details != null)
+            {
+                dialog.DetailsExpandedText = details;
+            }
+            dialog.Show();
+        }
+
+        public static void ShowError(this WinDialog dialog, Exception ex, string title = "错误")
+        {
+            dialog.Text = ex.Message;
+            dialog.InstructionText = title;
+            dialog.DetailsExpandedText = ex.ToString();
+            dialog.Icon = TaskDialogStandardIcon.Error;
+            dialog.Show();
         }
     }
 }
