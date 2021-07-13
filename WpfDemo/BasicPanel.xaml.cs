@@ -18,6 +18,7 @@ using System.Collections;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Microsoft.WindowsAPICodePack.FzExtension;
 using ModernWpf.FzExtension.CommonDialog;
+using System.IO;
 
 namespace FzLib.WpfDemo
 {
@@ -185,10 +186,33 @@ namespace FzLib.WpfDemo
             set => this.SetValueAndNotify(ref rsaR, value, nameof(RsaR));
         }
 
+        public bool OAEP { get; set; }
+
+        public Hashs Hash { get; set; } = FzLib.Cryptography.Hashs.SHA256;
+        public string HashText { get; set; }
+        private string hashFile;
+
+        public string HashFile
+        {
+            get => hashFile;
+            set => this.SetValueAndNotify(ref hashFile, value, nameof(HashFile));
+        }
+
+        private string hashR;
+        public string HashSeparator { get; set; } = "";
+        public string HashFormat { get; set; } = "X2";
+
+        public string HashR
+        {
+            get => hashR;
+            set => this.SetValueAndNotify(ref hashR, value, nameof(HashR));
+        }
+
         public CipherMode AesMode { get; set; } = CipherMode.CBC;
         public PaddingMode AesPadding { get; set; } = PaddingMode.PKCS7;
         public IEnumerable AesModes { get; } = Enum.GetValues(typeof(CipherMode));
         public IEnumerable AesPaddings { get; } = Enum.GetValues(typeof(PaddingMode));
+        public IEnumerable Hashs { get; } = Enum.GetValues(typeof(Hashs));
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -277,7 +301,7 @@ namespace FzLib.WpfDemo
                             }
                             catch (Exception)
                             {
-                                await CommonDialog.ShowOkDialogAsync("该密钥只有公钥","只能进行加密，不可用于解密");
+                                await CommonDialog.ShowOkDialogAsync("该密钥只有公钥", "只能进行加密，不可用于解密");
                             }
                         }
                         break;
@@ -294,18 +318,60 @@ namespace FzLib.WpfDemo
                         break;
 
                     case "rsaEn":
-                        ViewModel.RsaR = rsa.Encrypt(ViewModel.RsaText.ToUTF8Bytes(), false).ToBase64String();
+                        ViewModel.RsaR = rsa.Encrypt(ViewModel.RsaText.ToUTF8Bytes(), ViewModel.OAEP).ToBase64String();
                         break;
 
                     case "rsaDe":
-                        ViewModel.RsaR = rsa.Decrypt(ViewModel.RsaText.ToBase64Bytes(), false).ToUTF8String();
+                        ViewModel.RsaR = rsa.Decrypt(ViewModel.RsaText.ToBase64Bytes(), ViewModel.OAEP).ToUTF8String();
                         break;
+
                     case "rsaEnLong":
-                        ViewModel.RsaR = rsa.EncryptLong(ViewModel.RsaText.ToUTF8Bytes(), false).ToBase64String();
+                        ViewModel.RsaR = rsa.EncryptLong(ViewModel.RsaText.ToUTF8Bytes(), ViewModel.OAEP).ToBase64String();
                         break;
 
                     case "rsaDeLong":
-                        ViewModel.RsaR = rsa.DecryptLong(ViewModel.RsaText.ToBase64Bytes(), false).ToUTF8String();
+                        ViewModel.RsaR = rsa.DecryptLong(ViewModel.RsaText.ToBase64Bytes(), ViewModel.OAEP).ToUTF8String();
+                        break;
+
+                    case "hashText":
+                        ViewModel.HashR = new Hash()
+                        {
+                            HexStringFormat = ViewModel.HashFormat,
+                            HexStringSeparator = ViewModel.HashSeparator
+                        }.GetString(ViewModel.Hash, ViewModel.HashText);
+                        break;
+
+                    case "hashBrowse":
+                        ViewModel.HashFile = App.Current.Dispatcher.Invoke(() =>
+                     new FileFilterCollection().AddAll().CreateDialog<CommonOpenFileDialog>().GetFilePath());
+                        break;
+
+                    case "hashFile":
+                        if (string.IsNullOrEmpty(ViewModel.HashFile))
+                        {
+                            throw new Exception("需要先设置文件地址");
+                        }
+                        ViewModel.HashR = new Hash()
+                        {
+                            HexStringFormat = ViewModel.HashFormat,
+                            HexStringSeparator = ViewModel.HashSeparator
+                        }.GetStringFromFile(ViewModel.Hash, ViewModel.HashFile);
+                        break;
+
+                    case "hashFileAll":
+                        using (var stream = File.OpenRead(ViewModel.HashFile))
+                        {
+                            var hashs = Enum.GetValues(typeof(Hashs)).Cast<Hashs>().ToArray();
+                            ViewModel.HashR =
+                                  string.Join(Environment.NewLine,
+                                  new Hash()
+                                  {
+                                      HexStringFormat = ViewModel.HashFormat,
+                                      HexStringSeparator = ViewModel.HashSeparator
+                                  }.GetString(hashs, stream)
+                                  .Select(p => p.Key.ToString() +"："+ p.Value));
+                        }
+
                         break;
                 }
             });

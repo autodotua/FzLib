@@ -3,85 +3,75 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FzLib.Cryptography
 {
-    public class Hash: CryptographyBase
+    public class Hash
     {
-
-        public byte[] GetArray(string hashName, byte[] bytes)
+        public byte[] GetArray(Hashs hashName, byte[] bytes)
         {
             if (stoping)
             {
                 stoping = false;
             }
-            byte[] array;
-            using (var hash = HashAlgorithm.Create(hashName))
-            {
-                array = hash.ComputeHash(bytes);
-            }
+            byte[] array = hashName.Compute(bytes);
             return array;
         }
 
-        public async Task<byte[]> GetArrayAsync(string hashName, byte[] bytes)
+        public async Task<byte[]> GetArrayAsync(Hashs hashName, byte[] bytes)
         {
             if (stoping)
             {
                 stoping = false;
             }
-            byte[] array=null;
-          await  Task.Run(() =>
-            {
-                using (var hash = HashAlgorithm.Create(hashName))
-                {
-                    array = hash.ComputeHash(bytes);
-                }
-            });
+            byte[] array = null;
+            await Task.Run(() =>
+             {
+                 array = hashName.Compute(bytes);
+             });
             return array;
         }
-        public byte[] GetArray(string hashName, Stream stream)
+
+        public byte[] GetArray(Hashs hashName, Stream stream)
         {
             if (stoping)
             {
                 stoping = false;
             }
-            byte[] array;
-            using (var hash = HashAlgorithm.Create(hashName))
-            {
-                array = hash.ComputeHash(stream);
-            }
+            byte[] array = hashName.Compute(stream);
+
             return array;
         }
-        public async Task<byte[]> GetArrayAsync(string hashName, Stream stream)
+
+        public async Task<byte[]> GetArrayAsync(Hashs hashName, Stream stream)
         {
             if (stoping)
             {
                 stoping = false;
             }
-            byte[] array=null; await Task.Run(() =>
-            {
-                using (var hash = HashAlgorithm.Create(hashName))
-                {
-                    array = hash.ComputeHash(stream);
-                }
-            });
+            byte[] array = null;
+            await Task.Run(() =>
+              {
+                  array = hashName.Compute(stream);
+              });
             return array;
         }
-        public byte[][] GetArray(IEnumerable<string> hashNames, Stream stream, string separator = "", string format = "X2")
+
+        public Dictionary<Hashs, byte[]> GetArray(IEnumerable<Hashs> hashNames, Stream stream)
         {
-            if(stoping)
+            if (stoping)
             {
                 stoping = false;
             }
-            HashAlgorithm[] hashes = hashNames.Select(p => HashAlgorithm.Create(p)).ToArray();
-            foreach (var hash in hashes)
+            if (hashNames.Count() != hashNames.Distinct().Count())
             {
-                if (hash == null)
-                {
-                    throw new Exception("不存在" + hash);
-                }
+                throw new ArgumentException("存在重复的哈希名");
             }
+            var hashNameArray = hashNames.ToArray();
+            HashAlgorithm[] hashes = hashNames.Select(p => p.Create()).ToArray();
+
             int hashCount = hashes.Length;
 
             byte[] buffer = new byte[BufferLength];
@@ -105,7 +95,6 @@ namespace FzLib.Cryptography
                     Parallel.For(0, hashCount, i =>
                     {
                         offsets[i] += hashes[i].TransformBlock(buffer, 0, length, buffer, 0);
-
                     });
                 }
                 else
@@ -115,29 +104,26 @@ namespace FzLib.Cryptography
                         hashes[i].TransformFinalBlock(buffer, 0, length);
                     });
                 }
-
             }
-            byte[][] results = hashes.Select(p => p.Hash).ToArray();
+            Dictionary<Hashs, byte[]> results = new Dictionary<Hashs, byte[]>();
+            for (int i = 0; i < hashNameArray.Length; i++)
+            {
+                results.Add(hashNameArray[i], hashes[i].Hash);
+            }
             foreach (var hash in hashes)
             {
                 hash.Dispose();
             }
             return results;
         }
-        public async Task<byte[][]> GetArrayAsync(IEnumerable<string> hashNames, Stream stream, string separator = "", string format = "X2")
+
+        public async Task<byte[][]> GetArrayAsync(IEnumerable<Hashs> hashNames, Stream stream)
         {
             if (stoping)
             {
                 stoping = false;
             }
-            HashAlgorithm[] hashes = hashNames.Select(p => HashAlgorithm.Create(p)).ToArray();
-            foreach (var hash in hashes)
-            {
-                if (hash == null)
-                {
-                    throw new Exception("不存在" + hash);
-                }
-            }
+            HashAlgorithm[] hashes = hashNames.Select(p => p.Create()).ToArray();
             int hashCount = hashes.Length;
 
             byte[] buffer = new byte[BufferLength];
@@ -157,14 +143,13 @@ namespace FzLib.Cryptography
                             hash.Dispose();
                         }
                         HashAborted?.Invoke(this, new EventArgs());
-                        return ;
+                        return;
                     }
                     if (stream.Position < totalLength)
                     {
                         Parallel.For(0, hashCount, i =>
                         {
                             offsets[i] += hashes[i].TransformBlock(buffer, 0, length, buffer, 0);
-
                         });
                     }
                     else
@@ -174,9 +159,8 @@ namespace FzLib.Cryptography
                             hashes[i].TransformFinalBlock(buffer, 0, length);
                         });
                     }
-
                 }
-                 results = hashes.Select(p => p.Hash).ToArray();
+                results = hashes.Select(p => p.Hash).ToArray();
                 foreach (var hash in hashes)
                 {
                     hash.Dispose();
@@ -185,33 +169,36 @@ namespace FzLib.Cryptography
             return results;
         }
 
-        public string[] GetString(IEnumerable<string> hashNames, Stream stream, string separator = "", string format = "X2")
+        public Dictionary<Hashs, string> GetString(IEnumerable<Hashs> hashNames, Stream stream)
         {
-            byte[][] array = GetArray(hashNames, stream);
+            var array = GetArray(hashNames, stream);
 
-            return array.Select(p => string.Join(separator, p.Select(q => q.ToString(format)))).ToArray();
+            return array.ToDictionary(p => p.Key, p => Bytes2String(p.Value));
         }
-        public async Task<string[]> GetStringAsync(IEnumerable<string> hashNames, Stream stream, string separator = "", string format = "X2")
+
+        public async Task<Dictionary<Hashs, string>> GetStringAsync(IEnumerable<Hashs> hashNames, Stream stream)
         {
-            byte[][] array = null;
+            Dictionary<Hashs, byte[]> array = null;
             await Task.Run(() => array = GetArray(hashNames, stream));
 
-            return array?.Select(p => string.Join(separator, p.Select(q => q.ToString(format)))).ToArray();
+            return array?.ToDictionary(p => p.Key, p => Bytes2String(p.Value));
         }
-        public string GetString(string hashName, Stream stream, string separator = "", string format = "X2")
+
+        public string GetString(Hashs hashName, Stream stream)
         {
             byte[] array = GetArray(hashName, stream);
 
-            return string.Join(separator, array.Select(p => p.ToString(format)));
+            return string.Join(HexStringSeparator, array.Select(p => p.ToString(HexStringFormat)));
         }
-        public async Task<string> GetStringAsync(string hashName, Stream stream, string separator = "", string format = "X2")
+
+        public async Task<string> GetStringAsync(Hashs hashName, Stream stream)
         {
             byte[] array = await GetArrayAsync(hashName, stream);
 
-            return string.Join(separator, array.Select(p => p.ToString(format)));
+            return string.Join(HexStringSeparator, array.Select(p => p.ToString(HexStringFormat)));
         }
 
-        public string GetStringFromFile(string hashName, string filePath, string separator = "", string format = "X2")
+        public string GetStringFromFile(Hashs hashName, string filePath)
         {
             byte[] array;
             using (FileStream stream = File.Open(filePath, FileMode.Open))
@@ -219,51 +206,54 @@ namespace FzLib.Cryptography
                 array = GetArray(hashName, stream);
             }
 
-            return string.Join(separator, array.Select(p => p.ToString(format)));
+            return string.Join(HexStringSeparator, array.Select(p => p.ToString(HexStringFormat)));
         }
-        public async Task<string> GetStringFromFileAsync(string hashName, string filePath, string separator = "", string format = "X2")
+
+        public async Task<string> GetStringFromFileAsync(Hashs hashName, string filePath)
         {
-            byte[] array=null;
+            byte[] array = null;
             using (FileStream stream = File.Open(filePath, FileMode.Open))
             {
                 array = await GetArrayAsync(hashName, stream);
             }
 
-            return string.Join(separator, array.Select(p => p.ToString(format)));
+            return string.Join(HexStringSeparator, array.Select(p => p.ToString(HexStringFormat)));
         }
 
-        public string GetString(string hashName, string content, string separator = "", string format = "X2")
+        public string GetString(Hashs hashName, string content)
         {
             byte[] array = GetArray(hashName, StringEncoding.GetBytes(content));
-            return string.Join(separator, array.Select(p => p.ToString(format)));
+            return string.Join(HexStringSeparator, array.Select(p => p.ToString(HexStringFormat)));
         }
 
-        public async Task<string> GetStringAsync(string hashName, string content, string separator = "", string format = "X2")
+        public async Task<string> GetStringAsync(Hashs hashName, string content)
         {
-            byte[] array =await GetArrayAsync(hashName, StringEncoding.GetBytes(content));
-            return string.Join(separator, array.Select(p => p.ToString(format)));
+            byte[] array = await GetArrayAsync(hashName, StringEncoding.GetBytes(content));
+            return string.Join(HexStringSeparator, array.Select(p => p.ToString(HexStringFormat)));
         }
 
-        public string[] GetStringFromFile(IEnumerable<string> hashNames, string filePath, string separator = "", string format = "X2")
+        public Dictionary<Hashs, string> GetStringFromFile(IEnumerable<Hashs> hashNames, string filePath)
         {
-            FileStream stream = File.Open(filePath, FileMode.Open);
-            var result = GetString(hashNames, stream, separator, format);
-            stream.Dispose();
+            Dictionary<Hashs, string> result = null;
+            using (FileStream stream = File.Open(filePath, FileMode.Open))
+            {
+                result = GetString(hashNames, stream);
+            }
             return result;
-
         }
 
-        public async Task<string[]> GetStringFromFileAsync(IEnumerable<string> hashNames, string filePath, string separator = "", string format = "X2")
+        public async Task<Dictionary<Hashs, string>> GetStringFromFileAsync(IEnumerable<Hashs> hashNames, string filePath)
         {
-            FileStream stream = File.Open(filePath, FileMode.Open);
-            var result =await GetStringAsync(hashNames, stream, separator, format);
-            stream.Dispose();
+            Dictionary<Hashs, string> result = null;
+            using (FileStream stream = File.Open(filePath, FileMode.Open))
+            {
+                result = await GetStringAsync(hashNames, stream);
+            }
             return result;
-
         }
-
 
         private bool stoping = false;
+
         public void TryStop()
         {
             stoping = true;
@@ -279,9 +269,48 @@ namespace FzLib.Cryptography
 
         public event EventHandler HashAborted;
 
-        public override void Dispose()
+        public Encoding StringEncoding { get; set; } = Encoding.UTF8;
+
+        public int BufferLength { get; set; } = 1024 * 1024;
+        public string HexStringFormat { get; set; } = "X2";
+        public string HexStringSeparator { get; set; } = "";
+
+        private string Bytes2String(byte[] bytes)
         {
+            return string.Join(HexStringSeparator, bytes.Select(q => q.ToString(HexStringFormat)));
+        }
+    }
+
+    internal static class HashExtension
+    {
+        public static HashAlgorithm Create(this Hashs hash)
+        {
+            return HashAlgorithm.Create(hash.ToString());
         }
 
+        public static byte[] Compute(this Hashs hash, byte[] array)
+        {
+            using (var h = hash.Create())
+            {
+                return h.ComputeHash(array);
+            }
+        }
+
+        public static byte[] Compute(this Hashs hash, Stream array)
+        {
+            using (var h = hash.Create())
+            {
+                return h.ComputeHash(array);
+            }
+        }
+    }
+
+    public enum Hashs
+    {
+        MD5,
+        SHA1,
+        SHA256,
+        SHA384,
+        SHA512
     }
 }
