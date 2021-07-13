@@ -53,12 +53,14 @@ namespace ModernWpf.FzExtension.CommonDialog
             return null;
         }
 
-        public async static Task<string> ShowInputDialogAsync(string title,string defaultText="")
+        public async static Task<string> ShowInputDialogAsync(string title,string defaultText="",bool multiLines=false,int maxLines=1)
         {
             InputDialog dialog = new InputDialog()
             {
                 Title = title,
-                InputContent= defaultText
+                InputContent = defaultText,
+                MultiLines = multiLines,
+                MaxLines = maxLines
             };
             if (await dialog.ShowAsync() == ContentDialogResult.Primary)
             {

@@ -24,6 +24,8 @@
         </Grid.ColumnDefinitions>
         <TextBox
             x:Name="txt" VerticalAlignment="Center"
+            AcceptsReturn="{Binding MultiLines}"
+            MaxLines="{Binding MaxLines}"
             PreviewTextInput="txt_TextInput"
             Text="{Binding InputContent, UpdateSourceTrigger=PropertyChanged}" />
         <ui:FontIcon

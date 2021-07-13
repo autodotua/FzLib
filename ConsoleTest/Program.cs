@@ -1,11 +1,4 @@
-﻿using FzLib.Algorithm;
-using FzLib.Algorithm.DataStructure.Tree;
-using FzLib.Basic;
-using FzLib.Basic.Collection;
-using FzLib.Extension;
-using FzLib.Geography.Analysis;
-using FzLib.Geography.IO.Gpx;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,13 +9,11 @@ using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Text;
 using TaskScheduler;
-using static FzLib.Basic.LoopExtension;
-using FzLib.Basic.Math;
 using System.Threading.Tasks;
 using FzLib.DataStorage.SQLite;
 using System.ComponentModel;
-using FzLib.UI.Dialog;
 using FzLib.IO;
+using FzLib.Cryptography;
 
 namespace ConsoleTest
 {
@@ -405,7 +396,7 @@ namespace ConsoleTest
             //var a = FileSystem.EnumerateAccessibleDirectories("O:", "临安专线公交");
             //var a = FileSystem.EnumerateAccessibleFiles("O:\\");
 
-            var a = FzLib.Basic.Math.MathExtension.DecomposeFacter(123456);
+            var a = RsaExtension.Create().ToPemPublicKey();
         }
     }
 }

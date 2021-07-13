@@ -194,5 +194,24 @@ namespace FzLib
             }
             return true;
         }
+
+        public static byte[] ToUTF8Bytes(this string str, bool bom = false)
+        {
+            return new UTF8Encoding(bom).GetBytes(str);
+        }
+
+        public static string ToUTF8String(this byte[] bytes, bool bom = false)
+        {
+            return new UTF8Encoding(bom).GetString(bytes);
+        }
+        public static string ToBase64String(this byte[] bytes)
+        {
+            return Convert.ToBase64String(bytes);
+        }
+
+        public static byte[] ToBase64Bytes(this string str)
+        {
+            return Convert.FromBase64String(str);
+        }
     }
 }

@@ -17,6 +17,7 @@ using System.Security.Cryptography;
 using System.Collections;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Microsoft.WindowsAPICodePack.FzExtension;
+using ModernWpf.FzExtension.CommonDialog;
 
 namespace FzLib.WpfDemo
 {
@@ -144,6 +145,46 @@ namespace FzLib.WpfDemo
             set => this.SetValueAndNotify(ref aesFileTarget, value, nameof(AesFileTarget));
         }
 
+        private string rsaPublicXml;
+
+        public string RsaPublicXml
+        {
+            get => rsaPublicXml;
+            set => this.SetValueAndNotify(ref rsaPublicXml, value, nameof(RsaPublicXml));
+        }
+
+        private string rsaPrivateXml;
+
+        public string RsaPrivateXml
+        {
+            get => rsaPrivateXml;
+            set => this.SetValueAndNotify(ref rsaPrivateXml, value, nameof(RsaPrivateXml));
+        }
+
+        private string rsaPublicPem;
+
+        public string RsaPublicPem
+        {
+            get => rsaPublicPem;
+            set => this.SetValueAndNotify(ref rsaPublicPem, value, nameof(RsaPublicPem));
+        }
+
+        private string rsaText;
+
+        public string RsaText
+        {
+            get => rsaText;
+            set => this.SetValueAndNotify(ref rsaText, value, nameof(RsaText));
+        }
+
+        private string rsaR;
+
+        public string RsaR
+        {
+            get => rsaR;
+            set => this.SetValueAndNotify(ref rsaR, value, nameof(RsaR));
+        }
+
         public CipherMode AesMode { get; set; } = CipherMode.CBC;
         public PaddingMode AesPadding { get; set; } = PaddingMode.PKCS7;
         public IEnumerable AesModes { get; } = Enum.GetValues(typeof(CipherMode));
@@ -160,13 +201,18 @@ namespace FzLib.WpfDemo
         public BasicPanelCryptographyButtonCommand(BasicPanelViewModel viewModel)
         {
             ViewModel = viewModel;
+            rsa.PersistKeyInCsp = false;
+            ViewModel.RsaPublicXml = rsa.ToXmlString(false);
+            ViewModel.RsaPrivateXml = rsa.ToXmlString(true);
+            viewModel.RsaPublicPem = rsa.ToPemPublicKey();
         }
 
         public BasicPanelViewModel ViewModel { get; }
+        private RSACryptoServiceProvider rsa = RsaExtension.Create();
 
         public override void Execute(object parameter)
         {
-            Do(() =>
+            Do(async () =>
             {
                 switch (parameter as string)
                 {
@@ -215,6 +261,51 @@ namespace FzLib.WpfDemo
                                      ViewModel.AesR = $"{source}=>{target}  {1.0 * value / max:0.00%}  {value}/{max}";
                                  });
                         ViewModel.AesR = "完成";
+                        break;
+
+                    case "setRsaXml":
+                        string xml = await CommonDialog.ShowInputDialogAsync("请输入XML格式的密钥", multiLines: true, maxLines: 4);
+                        if (xml != null)
+                        {
+                            rsa.ImportXmlKey(xml);
+                            ViewModel.RsaPublicXml = rsa.ToXmlString(false);
+                            ViewModel.RsaPublicPem = rsa.ToPemPublicKey();
+                            try
+                            {
+                                ViewModel.RsaPrivateXml = rsa.ToXmlString(true);
+                                ViewModel.RsaPublicPem = "";
+                            }
+                            catch (Exception)
+                            {
+                                await CommonDialog.ShowOkDialogAsync("该密钥只有公钥","只能进行加密，不可用于解密");
+                            }
+                        }
+                        break;
+
+                    case "setRsaPem":
+                        string pem = await CommonDialog.ShowInputDialogAsync("请输入PEM格式的密钥", multiLines: true, maxLines: 4);
+                        if (pem != null)
+                        {
+                            rsa.ImportPemKey(pem);
+                            ViewModel.RsaPublicXml = rsa.ToXmlString(false);
+                            ViewModel.RsaPublicPem = rsa.ToPemPublicKey();
+                            ViewModel.RsaPublicPem = "";
+                        }
+                        break;
+
+                    case "rsaEn":
+                        ViewModel.RsaR = rsa.Encrypt(ViewModel.RsaText.ToUTF8Bytes(), false).ToBase64String();
+                        break;
+
+                    case "rsaDe":
+                        ViewModel.RsaR = rsa.Decrypt(ViewModel.RsaText.ToBase64Bytes(), false).ToUTF8String();
+                        break;
+                    case "rsaEnLong":
+                        ViewModel.RsaR = rsa.EncryptLong(ViewModel.RsaText.ToUTF8Bytes(), false).ToBase64String();
+                        break;
+
+                    case "rsaDeLong":
+                        ViewModel.RsaR = rsa.DecryptLong(ViewModel.RsaText.ToBase64Bytes(), false).ToUTF8String();
                         break;
                 }
             });

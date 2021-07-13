@@ -28,6 +28,20 @@ namespace ModernWpf.FzExtension.CommonDialog
             InitializeComponent();
         }
 
+        private bool multiLines;
+        public bool MultiLines
+        {
+            get => multiLines;
+            set => this.SetValueAndNotify(ref multiLines, value, nameof(MultiLines));
+        }
+        private int maxLines;
+        public int MaxLines
+        {
+            get => maxLines;
+            set => this.SetValueAndNotify(ref maxLines, value, nameof(MaxLines));
+        }
+
+
         private string inputContent;
 
         public string InputContent

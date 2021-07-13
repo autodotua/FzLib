@@ -132,7 +132,6 @@
                                         Command="{Binding CryptographyButtonCommand}"
                                         CommandParameter="aesBrowseTarget"
                                         Content="浏览" />
-
                                 </local:DemoHorizontalStackPanel>
                                 <local:DemoHorizontalStackPanel>
                                     <Button
@@ -148,6 +147,83 @@
                                 </local:DemoHorizontalStackPanel>
                                 <TextBlock Text="{Binding AesR}" />
                             </local:DemoVerticleStackPanel>
+                        </GroupBox>
+                        <GroupBox Header="RSA">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="80" />
+                                    <RowDefinition Height="8" />
+                                    <RowDefinition Height="80" />
+                                    <RowDefinition Height="8" />
+                                    <RowDefinition Height="80" />
+                                    <RowDefinition Height="8" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="8" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox
+                                    VerticalAlignment="Stretch"
+                                    ui:ControlHelper.Header="仅公钥（XML）"
+                                    AcceptsReturn="True" IsReadOnly="True"
+                                    Text="{Binding RsaPublicXml}"
+                                    TextWrapping="Wrap" />
+                                <TextBox
+                                    Grid.Column="2"
+                                    VerticalAlignment="Stretch"
+                                    ui:ControlHelper.Header="带私钥（XML）"
+                                    AcceptsReturn="True" IsReadOnly="True"
+                                    Text="{Binding RsaPrivateXml}"
+                                    TextWrapping="Wrap" />
+                                <TextBox
+                                    Grid.Row="2" VerticalAlignment="Stretch"
+                                    ui:ControlHelper.Header="公钥（PEM）"
+                                    AcceptsReturn="True" IsReadOnly="True"
+                                    Text="{Binding RsaPublicPem}"
+                                    TextWrapping="Wrap" />
+
+                                <local:DemoHorizontalStackPanel Grid.Row="2" Grid.Column="2">
+                                    <Button
+                                        Command="{Binding CryptographyButtonCommand}"
+                                        CommandParameter="setRsaXml"
+                                        Content="设置XML格式密钥" />
+                                    <Button
+                                        Command="{Binding CryptographyButtonCommand}"
+                                        CommandParameter="setRsaPem"
+                                        Content="设置PEM格式公钥" />
+                                </local:DemoHorizontalStackPanel>
+                                <TextBox
+                                    Grid.Row="4" VerticalAlignment="Stretch"
+                                    ui:ControlHelper.Header="待加密/解密"
+                                    AcceptsReturn="True"
+                                    Text="{Binding RsaText}"
+                                    TextWrapping="Wrap" />
+                                <TextBox
+                                    Grid.Row="4" Grid.Column="2"
+                                    VerticalAlignment="Stretch"
+                                    ui:ControlHelper.Header="加密/解密后"
+                                    AcceptsReturn="True" IsReadOnly="True"
+                                    Text="{Binding RsaR}"
+                                    TextWrapping="Wrap" />
+                                <local:DemoHorizontalStackPanel Grid.Row="6">
+                                    <Button
+                                        Command="{Binding CryptographyButtonCommand}"
+                                        CommandParameter="rsaEn" Content="加密" />
+                                    <Button
+                                        Command="{Binding CryptographyButtonCommand}"
+                                        CommandParameter="rsaDe" Content="解密" />
+                                    <Button
+                                        Command="{Binding CryptographyButtonCommand}"
+                                        CommandParameter="rsaEnLong"
+                                        Content="加密（超长）" />
+                                    <Button
+                                        Command="{Binding CryptographyButtonCommand}"
+                                        CommandParameter="rsaDeLong"
+                                        Content="解密（超长）" />
+                                </local:DemoHorizontalStackPanel>
+                            </Grid>
                         </GroupBox>
                     </local:DemoVerticleStackPanel>
                 </ScrollViewer>
