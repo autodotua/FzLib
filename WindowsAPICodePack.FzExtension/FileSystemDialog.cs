@@ -69,6 +69,16 @@ namespace Microsoft.WindowsAPICodePack.FzExtension
             return t.SetFilters(filters);
         }
 
+        public static CommonOpenFileDialog CreateOpenFileDialog(this FileFilterCollection filters)
+        {
+            return CreateDialog<CommonOpenFileDialog>(filters);
+        }
+
+        public static CommonSaveFileDialog CreateSaveFileDialog(this FileFilterCollection filters)
+        {
+            return CreateDialog<CommonSaveFileDialog>(filters);
+        }
+
         public static T SetFilters<T>(this T dialog, FileFilterCollection filters) where T : CommonFileDialog
         {
             dialog.Filters.Clear();
@@ -107,14 +117,14 @@ namespace Microsoft.WindowsAPICodePack.FzExtension
             return dialog.GetResult()?.ReadInputFilePath();
         }
 
-        public static IEnumerable<string> GetFilePaths(this CommonOpenFileDialog dialog)
+        public static string[] GetFilePaths(this CommonOpenFileDialog dialog)
         {
             dialog.Multiselect = true;
             if (dialog.ShowDialog() != CommonFileDialogResult.Ok)
             {
                 return null;
             }
-            return dialog.FileNames;
+            return dialog.FileNames.ToArray();
         }
 
         public static string GetFolderPath(this CommonOpenFileDialog dialog)

@@ -13,7 +13,7 @@ namespace FzLib.Collection
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <returns>如果是true，表示增加了值；否则表示值已存在并重新赋值</returns>
-        public static bool AddOrSetValue<TKey, TValue>(this Dictionary<TKey, TValue> dic, TKey key, TValue value)
+        public static bool AddOrSetValue<TKey, TValue>(this IDictionary<TKey, TValue> dic, TKey key, TValue value)
         {
             if (!dic.ContainsKey(key))
             {
@@ -27,7 +27,7 @@ namespace FzLib.Collection
             }
         }
 
-        public static TValue GetOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dic, TKey key)
+        public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dic, TKey key)
         {
             if (!dic.ContainsKey(key))
             {

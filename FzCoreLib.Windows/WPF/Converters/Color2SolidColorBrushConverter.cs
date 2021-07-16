@@ -42,7 +42,7 @@ namespace FzLib.WPF.Converters
             }
             if (value is SolidColorBrush b)
             {
-                if (parameter.Equals("d") || parameter == null)
+                if ("d".Equals(parameter) || parameter == null)
                 {
                     return b.Color.ToDrawingColor();
                 }

@@ -25,13 +25,16 @@ namespace ModernWpf.FzExtension.CommonDialog
             return dialog.ShowAsync();
         }
 
-        public async static Task<int?> ShowIntInputDialogAsync(string title,int defaultValue)
+        public async static Task<int?> ShowIntInputDialogAsync(string title, int? defaultValue = null)
         {
             InputDialog dialog = new InputDialog(p => int.TryParse(p, out int _), "1234567890")
             {
                 Title = title,
-                InputContent= defaultValue.ToString()
             };
+            if (defaultValue.HasValue)
+            {
+                dialog.InputContent = defaultValue.ToString();
+            }
             if (await dialog.ShowAsync() == ContentDialogResult.Primary)
             {
                 return int.Parse(dialog.InputContent);
@@ -39,13 +42,16 @@ namespace ModernWpf.FzExtension.CommonDialog
             return null;
         }
 
-        public async static Task<double?> ShowDoubleInputDialogAsync(string title,double defaultValue)
+        public async static Task<double?> ShowDoubleInputDialogAsync(string title, double? defaultValue = null)
         {
             InputDialog dialog = new InputDialog(p => double.TryParse(p, out double _), "1234567890.")
             {
                 Title = title,
-                InputContent = defaultValue.ToString()
             };
+            if (defaultValue.HasValue)
+            {
+                dialog.InputContent = defaultValue.ToString();
+            }
             if (await dialog.ShowAsync() == ContentDialogResult.Primary)
             {
                 return double.Parse(dialog.InputContent);
@@ -53,7 +59,7 @@ namespace ModernWpf.FzExtension.CommonDialog
             return null;
         }
 
-        public async static Task<string> ShowInputDialogAsync(string title,string defaultText="",bool multiLines=false,int maxLines=1)
+        public async static Task<string> ShowInputDialogAsync(string title, string defaultText = "", bool multiLines = false, int maxLines = 1)
         {
             InputDialog dialog = new InputDialog()
             {
@@ -97,7 +103,8 @@ namespace ModernWpf.FzExtension.CommonDialog
             };
             return dialog.ShowAsync();
         }
-        public static Task ShowErrorDialogAsync(string title, string message ,string detail)
+
+        public static Task ShowErrorDialogAsync(string title, string message, string detail)
         {
             DetailTextDialog dialog = new DetailTextDialog()
             {
@@ -105,8 +112,8 @@ namespace ModernWpf.FzExtension.CommonDialog
                 PrimaryButtonText = "确定",
                 IsPrimaryButtonEnabled = true,
                 Icon = "\uEA39",
-                Title=title,
-                Message=message,
+                Title = title,
+                Message = message,
                 IconBrush = System.Windows.Media.Brushes.Red
             };
             return dialog.ShowAsync();
