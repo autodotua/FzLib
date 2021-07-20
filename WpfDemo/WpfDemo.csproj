@@ -21,6 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="WpfPanel.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="WindowsAPICodePackExtensionPanel.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -30,6 +33,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="WpfPanel.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="WindowsAPICodePackExtensionPanel.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

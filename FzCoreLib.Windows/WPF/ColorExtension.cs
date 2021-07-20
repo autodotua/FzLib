@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace FzLib.WPF
 {
-    public static class ColorUtility
+    public static class ColorExtension
     {
         public static BitmapImage ToBitmapImage(this Bitmap bitmap)
         {

@@ -17,6 +17,7 @@ namespace ModernWpf.FzExtension
         {
             TaskArgs = new ProgressRingOverlayArgs(this);
             InitializeComponent();
+            grd.DataContext = this;
         }
 
         private bool showing = false;

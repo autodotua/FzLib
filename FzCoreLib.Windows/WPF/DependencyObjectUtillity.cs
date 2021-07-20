@@ -10,7 +10,7 @@ using System.Windows.Media;
 
 namespace FzLib.WPF
 {
-    public static class DependencyObjectUtillity
+    public static class DependencyObjectExtension
     {
         public static T GetChild<T>(this DependencyObject obj) where T : DependencyObject
         {

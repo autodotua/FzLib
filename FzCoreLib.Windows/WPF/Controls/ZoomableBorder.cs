@@ -112,7 +112,7 @@ namespace FzLib.WPF.Controls
                 var tt = GetTranslateTransform(child);
                 start = e.GetPosition(this);
                 origin = new Point(tt.X, tt.Y);
-                Cursor = Cursors.Hand;
+                Cursor = Cursors.ScrollAll;
                 child.CaptureMouse();
             }
         }

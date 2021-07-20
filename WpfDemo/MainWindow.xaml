@@ -15,7 +15,9 @@
             <TabItem Header="基本">
                 <local:BasicPanel />
             </TabItem>
-            <TabItem Header="WPF" />
+            <TabItem Header="WPF">
+                <local:WpfPanel />
+            </TabItem>
             <TabItem Header="ModernWpf扩展">
                 <local:ModernWpfExtensionPanel />
             </TabItem>

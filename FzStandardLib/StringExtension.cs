@@ -204,6 +204,7 @@ namespace FzLib
         {
             return new UTF8Encoding(bom).GetString(bytes);
         }
+
         public static string ToBase64String(this byte[] bytes)
         {
             return Convert.ToBase64String(bytes);

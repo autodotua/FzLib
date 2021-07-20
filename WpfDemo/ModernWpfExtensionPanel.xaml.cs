@@ -81,8 +81,11 @@ namespace FzLib.WpfDemo
                 switch (parameter as string)
                 {
                     case "3s":
+                        ViewModel.RingOverlay.Message = "请稍后";
                         ViewModel.RingOverlay.Show();
-                        await Task.Delay(3000);
+                        await Task.Delay(2000);
+                        ViewModel.RingOverlay.Message = "马上就好";
+                        await Task.Delay(1000);
                         ViewModel.RingOverlay.Hide();
                         break;
 
