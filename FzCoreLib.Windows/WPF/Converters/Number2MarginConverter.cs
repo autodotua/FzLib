@@ -5,11 +5,11 @@ using System.Windows.Data;
 
 namespace FzLib.WPF.Converters
 {
-    public class Int2MarginConverter : IValueConverter
+    public class Number2MarginConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return new Thickness((int)value);
+            return new Thickness((double)value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

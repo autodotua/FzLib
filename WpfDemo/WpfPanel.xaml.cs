@@ -22,6 +22,21 @@ using System.Collections.ObjectModel;
 
 namespace FzLib.WpfDemo
 {
+    public enum EnumWithDescription
+    {
+        [Description("上")]
+        Up,
+
+        [Description("下")]
+        Down,
+
+        [Description("左")]
+        Left,
+
+        [Description("右")]
+        Right
+    }
+
     public class WpfPanelViewModel : INotifyPropertyChanged
     {
         public WpfPanelViewModel()
@@ -49,6 +64,19 @@ namespace FzLib.WpfDemo
             get => mColor;
             set => this.SetValueAndNotify(ref mColor, value, nameof(MColor));
         }
+
+        public Array DayOfWeeks => Enum.GetValues(typeof(DayOfWeek));
+
+        public Array EnumWithDescriptions => Enum.GetValues(typeof(EnumWithDescription));
+        public Array DateTimeKinds => Enum.GetValues(typeof(DateTimeKind));
+
+        private long fileLength = 12345;
+        public long FileLength
+        {
+            get => fileLength;
+            set => this.SetValueAndNotify(ref fileLength, value, nameof(FileLength));
+        }
+
 
         public ObservableCollection<int> IntList { get; } = new ObservableCollection<int>();
 

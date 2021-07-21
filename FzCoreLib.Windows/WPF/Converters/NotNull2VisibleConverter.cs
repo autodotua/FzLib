@@ -5,22 +5,24 @@ using System.Windows.Data;
 
 namespace FzLib.WPF.Converters
 {
-    public class Num2AlignmentConverter : IValueConverter
+    public class NotNull2VisibleConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((int)value) switch
+            if (value == null)
             {
-                1 => HorizontalAlignment.Left,
-                2 => HorizontalAlignment.Center,
-                3 => HorizontalAlignment.Right,
-                _ => throw new ArgumentOutOfRangeException(),
-            };
+                return Visibility.Collapsed;
+            }
+            if (value is string s && string.IsNullOrEmpty(s))
+            {
+                return Visibility.Collapsed;
+            }
+            return Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotSupportedException();
+            throw new NotImplementedException();
         }
     }
 }

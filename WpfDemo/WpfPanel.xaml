@@ -154,6 +154,13 @@
                         <Style BasedOn="{StaticResource DefaultTextBoxStyle}" TargetType="{x:Type TextBox}">
                             <Setter Property="VerticalAlignment" Value="Center" />
                         </Style>
+                        <Style
+                            x:Key="tbkTitle"
+                            BasedOn="{StaticResource SubtitleTextBlockStyle}"
+                            TargetType="{x:Type TextBlock}">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="Margin" Value="0,16,0,0" />
+                        </Style>
                         <sys:Double x:Key="w">240</sys:Double>
                         <sys:Double x:Key="w3">80</sys:Double>
                     </ResourceDictionary>
@@ -169,14 +176,34 @@
                                 Width="{StaticResource w}"
                                 FontWeight="Bold" Text="目标" />
                         </local:DemoHorizontalStackPanel>
+                        <TextBlock Style="{DynamicResource tbkTitle}" Text="字体" />
+
                         <local:DemoHorizontalStackPanel>
-                            <Label>粗体转换</Label>
-                            <CheckBox
-                                x:Name="chkBold"
-                                Width="{StaticResource w}"
-                                Content="粗体" />
-                            <TextBlock FontWeight="{Binding ElementName=chkBold, Path=IsChecked, Converter={StaticResource BoldBool2FontWeightConverter}}" Text="示例文字" />
+                            <Label>粗体、斜体、下划线</Label>
+
+                            <local:DemoVerticleStackPanel>
+                                <CheckBox
+                                    x:Name="chkBold"
+                                    Width="{StaticResource w}"
+                                    Content="粗体" />
+                                <CheckBox
+                                    x:Name="chkItalic"
+                                    Width="{StaticResource w}"
+                                    Content="斜体" />
+                                <CheckBox
+                                    x:Name="chkUnderline"
+                                    Width="{StaticResource w}"
+                                    Content="下划线" />
+                            </local:DemoVerticleStackPanel>
+
+                            <TextBlock
+                                FontStyle="{Binding ElementName=chkItalic, Path=IsChecked, Converter={StaticResource ItalicBool2FontStyleConverter}}"
+                                FontWeight="{Binding ElementName=chkBold, Path=IsChecked, Converter={StaticResource BoldBool2FontWeightConverter}}"
+                                Text="示例文字"
+                                TextDecorations="{Binding ElementName=chkUnderline, Path=IsChecked, Converter={StaticResource UnderlineBool2TextDecorationConverter}}" />
                         </local:DemoHorizontalStackPanel>
+
+                        <TextBlock Style="{DynamicResource tbkTitle}" Text="Bool转换" />
                         <local:DemoHorizontalStackPanel>
                             <Label>Bool转字符串</Label>
                             <CheckBox
@@ -186,20 +213,21 @@
                             <TextBlock Text="{Binding ElementName=chkBool2String, Path=IsChecked, Converter={StaticResource Bool2StringConverter}, ConverterParameter=勾选:未勾选}" />
                         </local:DemoHorizontalStackPanel>
                         <local:DemoHorizontalStackPanel>
-                            <Label>Bool转可见性</Label>
-                            <CheckBox
-                                x:Name="chkBool2Visibility"
+                            <Label>非空转True</Label>
+                            <TextBox
+                                x:Name="chkNutNull2True"
                                 Width="{StaticResource w}"
-                                Content="可见性" />
-                            <TextBlock Text="可见" Visibility="{Binding ElementName=chkBool2Visibility, Path=IsChecked, Converter={StaticResource Bool2VisibilityConverter}}" />
+                                Text="删除这些" />
+                            <CheckBox Content="非空则为True" IsChecked="{Binding ElementName=chkNutNull2True, Path=Text, Converter={StaticResource NotNull2BoolConverter}}" />
                         </local:DemoHorizontalStackPanel>
+                        <TextBlock Style="{DynamicResource tbkTitle}" Text="Bool逻辑" />
                         <local:DemoHorizontalStackPanel>
                             <Label>多Bool运算（与）</Label>
-                            <local:DemoVerticleStackPanel Width="{StaticResource w}">
+                            <StackPanel Width="{StaticResource w}">
                                 <CheckBox x:Name="chkLogic1" Content="逻辑1" />
                                 <CheckBox x:Name="chkLogic2" Content="逻辑2" />
                                 <CheckBox x:Name="chkLogic3" Content="逻辑3" />
-                            </local:DemoVerticleStackPanel>
+                            </StackPanel>
                             <CheckBox Content="结果" IsHitTestVisible="False">
                                 <CheckBox.IsChecked>
                                     <MultiBinding Converter="{StaticResource BoolLogicConverter}" ConverterParameter="and">
@@ -211,11 +239,11 @@
                             </CheckBox>
                         </local:DemoHorizontalStackPanel>
                         <local:DemoHorizontalStackPanel>
-                            <Label>多Bool运算（与）</Label>
-                            <local:DemoVerticleStackPanel Width="{StaticResource w}">
+                            <Label>多Bool运算（或）</Label>
+                            <StackPanel Width="{StaticResource w}">
                                 <CheckBox x:Name="chkLogic4" Content="逻辑1" />
                                 <CheckBox x:Name="chkLogic5" Content="逻辑2" />
-                            </local:DemoVerticleStackPanel>
+                            </StackPanel>
                             <CheckBox Content="结果" IsHitTestVisible="False">
                                 <CheckBox.IsChecked>
                                     <MultiBinding Converter="{StaticResource BoolLogicConverter}" ConverterParameter="or">
@@ -225,6 +253,80 @@
                                 </CheckBox.IsChecked>
                             </CheckBox>
                         </local:DemoHorizontalStackPanel>
+                        <local:DemoHorizontalStackPanel>
+                            <Label>反转Bool</Label>
+                            <CheckBox
+                                x:Name="chkInverseBool"
+                                Width="{StaticResource w}"
+                                Content="选择框" />
+                            <CheckBox
+                                Content="相反的结果"
+                                IsChecked="{Binding ElementName=chkInverseBool, Path=IsChecked, Converter={StaticResource InverseBoolConverter}}"
+                                IsHitTestVisible="False" />
+                        </local:DemoHorizontalStackPanel>
+
+                        <TextBlock Style="{DynamicResource tbkTitle}" Text="枚举转换" />
+                        <local:DemoHorizontalStackPanel>
+                            <Label>枚举转Bool</Label>
+                            <ComboBox
+                                x:Name="cbbEnum2Bool"
+                                Width="{StaticResource w}"
+                                ItemsSource="{Binding DayOfWeeks}" />
+                            <CheckBox
+                                Content="是双休日"
+                                IsChecked="{Binding ElementName=cbbEnum2Bool, Path=SelectedItem, Converter={StaticResource Enum2BoolConverter}, ConverterParameter=Saturday/Sunday:True}"
+                                IsHitTestVisible="False" />
+                        </local:DemoHorizontalStackPanel>
+                        <local:DemoHorizontalStackPanel>
+                            <Label>枚举转字符串</Label>
+                            <ComboBox
+                                x:Name="cbbEnum2String"
+                                Width="{StaticResource w}"
+                                ItemsSource="{Binding DateTimeKinds}" />
+                            <TextBlock>
+                                <Run Text="描述为：" />
+                                <Run Text="{Binding ElementName=cbbEnum2String, Path=SelectedItem, Converter={StaticResource Enum2StringConverter}, ConverterParameter=Unspecified:未指定;Utc:世界时;Local:本地时间}" />
+                            </TextBlock>
+                        </local:DemoHorizontalStackPanel>
+                        <local:DemoHorizontalStackPanel>
+                            <Label>枚举转描述文本</Label>
+                            <ComboBox
+                                x:Name="cbbEnum2Desc"
+                                Width="{StaticResource w}"
+                                ItemsSource="{Binding EnumWithDescriptions}" />
+                            <TextBlock>
+                                <Run Text="描述为：" />
+                                <Run Text="{Binding ElementName=cbbEnum2Desc, Path=SelectedItem, Converter={StaticResource Enum2DescriptionConverter}}" />
+                            </TextBlock>
+                        </local:DemoHorizontalStackPanel>
+
+                        <TextBlock Style="{DynamicResource tbkTitle}" Text="可见性转换" />
+                        <local:DemoHorizontalStackPanel>
+                            <Label>相等转可见性</Label>
+                            <TextBox
+                                x:Name="txtEqual2Bool"
+                                Width="{StaticResource w}"
+                                ui:ControlHelper.Description="输入123" />
+                            <TextBlock Text="值等于123" Visibility="{Binding ElementName=txtEqual2Bool, Path=Text, Converter={StaticResource Equal2VisiableConverter}, ConverterParameter=123}" />
+                        </local:DemoHorizontalStackPanel>
+                        <local:DemoHorizontalStackPanel>
+                            <Label>Bool转可见性</Label>
+                            <CheckBox
+                                x:Name="chkBool2Visibility"
+                                Width="{StaticResource w}"
+                                Content="可见性" />
+                            <TextBlock Text="可见" Visibility="{Binding ElementName=chkBool2Visibility, Path=IsChecked, Converter={StaticResource Bool2VisibilityConverter}}" />
+                        </local:DemoHorizontalStackPanel>
+                        <local:DemoHorizontalStackPanel>
+                            <Label>非空转可见</Label>
+                            <TextBox
+                                x:Name="chkNutNull2Visible"
+                                Width="{StaticResource w}"
+                                Text="删除这些" />
+                            <TextBlock Text="可见" Visibility="{Binding ElementName=chkNutNull2Visible, Path=Text, Converter={StaticResource NotNull2VisibleConverter}}" />
+                        </local:DemoHorizontalStackPanel>
+
+                        <TextBlock Style="{DynamicResource tbkTitle}" Text="颜色转换" />
                         <local:DemoHorizontalStackPanel>
                             <Label>
                                 <TextBlock TextWrapping="Wrap">System.Drawing.Color转SolidColorBrush</TextBlock>
@@ -245,10 +347,59 @@
                                 VerticalAlignment="Center"
                                 Background="{Binding MColor, Converter={StaticResource Color2SolidColorBrushConverter}}" />
                         </local:DemoHorizontalStackPanel>
+
+
+                        <TextBlock Style="{DynamicResource tbkTitle}" Text="布局相关" />
+
                         <local:DemoHorizontalStackPanel>
-                            <Label>
-                                集合数量&gt;0转True
-                            </Label>
+                            <Label>对齐与边距</Label>
+                            <StackPanel Width="{StaticResource w}">
+                                <Slider
+                                    x:Name="sldHA"
+                                    ui:ControlHelper.Header="水平对齐"
+                                    AutoToolTipPlacement="TopLeft"
+                                    IsSnapToTickEnabled="True" Maximum="3"
+                                    Minimum="0" TickPlacement="BottomRight"
+                                    Ticks="0 1 2 3" />
+                                <Slider
+                                    x:Name="sldVA"
+                                    ui:ControlHelper.Header="垂直对齐"
+                                    AutoToolTipPlacement="TopLeft"
+                                    IsSnapToTickEnabled="True" Maximum="3"
+                                    Minimum="0" TickPlacement="BottomRight"
+                                    Ticks="0 1 2 3" />
+                                <Slider
+                                    x:Name="sldMargin"
+                                    ui:ControlHelper.Header="边距"
+                                    AutoToolTipPlacement="TopLeft"
+                                    Maximum="48" Minimum="0"
+                                    TickFrequency="5"
+                                    TickPlacement="BottomRight" />
+                            </StackPanel>
+                            <Border
+                                Width="128" Height="128"
+                                BorderBrush="Gray" BorderThickness="2">
+                                <Border
+                                    Margin="{Binding ElementName=sldMargin, Path=Value, Converter={StaticResource Number2MarginConverter}}"
+                                    HorizontalAlignment="{Binding ElementName=sldHA, Path=Value, Converter={StaticResource Number2AlignmentConverter}}"
+                                    VerticalAlignment="{Binding ElementName=sldVA, Path=Value, Converter={StaticResource Number2AlignmentConverter}}"
+                                    Background="Green">
+                                    <Rectangle
+                                        Width="16" Height="16"
+                                        Fill="Red" />
+                                </Border>
+                            </Border>
+                        </local:DemoHorizontalStackPanel>
+
+
+                        <TextBlock Style="{DynamicResource tbkTitle}" Text="其它" />
+                        <local:DemoHorizontalStackPanel>
+                            <Label>字节转合适的容量单位</Label>
+                            <TextBox Width="{StaticResource w}" Text="{Binding FileLength, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock Text="{Binding FileLength, Converter={StaticResource FileLength2StringConverter}}" />
+                        </local:DemoHorizontalStackPanel>
+                        <local:DemoHorizontalStackPanel>
+                            <Label>集合数量&gt;0转True</Label>
                             <local:DemoHorizontalStackPanel Width="{StaticResource w}">
                                 <TextBlock Text="当前数量：" />
                                 <TextBlock Text="{Binding IntList.Count}" />
@@ -266,11 +417,6 @@
                                 Content="集合数量&gt;0"
                                 IsChecked="{Binding IntList, Mode=OneWay, Converter={StaticResource CountMoreThanZeroConverter}}"
                                 IsHitTestVisible="False" />
-                        </local:DemoHorizontalStackPanel>
-                        <local:DemoHorizontalStackPanel>
-                            <Label>枚举转Bool</Label>
-                            <local:DemoHorizontalStackPanel Width="{StaticResource w}" />
-                            <CheckBox Content="集合数量&gt;0" IsHitTestVisible="False" />
                         </local:DemoHorizontalStackPanel>
                     </local:DemoVerticleStackPanel>
                 </ScrollViewer>

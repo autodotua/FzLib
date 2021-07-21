@@ -9,10 +9,16 @@ namespace FzLib.WPF.Converters
     /// 通过参数将enum转换为bool。
     /// 参数格式示例：Pausing/Stop/Start:false
     /// </summary>
-    public class Enum2BoolConverter : IValueConverter
+    public class Enum2BoolConverter : IValueConverter, IDefaultNullValue<bool>
     {
+        public bool DefaultNullValue { get; set; } = false;
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == null)
+            {
+                return DefaultNullValue;
+            }
             string[] parts = (parameter as string).Split(':');
 
             if (parts.Length != 2)

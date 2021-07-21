@@ -11,7 +11,7 @@
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     mc:Ignorable="d">
     <local:CommonDialog.Resources>
-        <cvt:NotNull2VisiableConverter x:Key="n2ic" />
+        <cvt:NotNull2VisibleConverter x:Key="n2ic" />
     </local:CommonDialog.Resources>
     <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <ItemsControl ItemsSource="{Binding Items}">
