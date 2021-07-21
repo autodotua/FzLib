@@ -19,6 +19,8 @@ using System.Threading.Tasks;
 using FzLib.WPF.Controls;
 using Microsoft.WindowsAPICodePack.FzExtension;
 using System.Collections.ObjectModel;
+using System.Windows.Media.Animation;
+using FzLib.WPF;
 
 namespace FzLib.WpfDemo
 {
@@ -71,12 +73,12 @@ namespace FzLib.WpfDemo
         public Array DateTimeKinds => Enum.GetValues(typeof(DateTimeKind));
 
         private long fileLength = 12345;
+
         public long FileLength
         {
             get => fileLength;
             set => this.SetValueAndNotify(ref fileLength, value, nameof(FileLength));
         }
-
 
         public ObservableCollection<int> IntList { get; } = new ObservableCollection<int>();
 
@@ -168,8 +170,64 @@ namespace FzLib.WpfDemo
             ViewModel.ExportPanel = grdPanel;
         }
 
-        private void ExportPanel_Click(object sender, RoutedEventArgs e)
+        private async void AnimationButton_Click(object sender, RoutedEventArgs e)
         {
+            IsEnabled = false;
+            Storyboard storyboard = new Storyboard();
+            new DoubleAnimation(200, TimeSpan.FromSeconds(1))
+                .SetInOutCubicEase()
+                .StopWhenComplete()
+                .SetStoryboard(WidthProperty, rect)
+                .AddTo(storyboard);
+            new DoubleAnimation(200, TimeSpan.FromSeconds(1))
+                .SetInOutCubicEase()
+                .StopWhenComplete()
+                .SetStoryboard("(Rectangle.RenderTransform).(TranslateTransform.X)", rect)
+                .AddTo(storyboard);
+            new ColorAnimation(Colors.Green, TimeSpan.FromSeconds(1))
+                .StopWhenComplete()
+                .SetStoryboard("Fill.(SolidColorBrush.Color)", rect)
+                .AddTo(storyboard);
+            await storyboard.BeginAsync();
+            IsEnabled = true;
+        }
+
+        private async void Animation2Button_Click(object sender, RoutedEventArgs e)
+        {
+            IsEnabled = false;
+            Storyboard storyboard = new Storyboard();
+            new DoubleAnimation(200, TimeSpan.FromSeconds(1))
+                .SetInOutCubicEase()
+                .EnableAutoReverse()
+                .SetRepeat(3)//重复3遍
+                .SetStoryboard(WidthProperty, rect)
+                .AddTo(storyboard);
+            new DoubleAnimation(200, TimeSpan.FromSeconds(1))
+                .SetInOutCubicEase()
+                .SetRepeat(TimeSpan.FromSeconds(10))//重复到10s时结束
+                .EnableAutoReverse()
+                .SetStoryboard("(Rectangle.RenderTransform).(TranslateTransform.X)", rect)
+                .AddTo(storyboard);
+            new ColorAnimation(Colors.Green, TimeSpan.FromSeconds(1))
+                .EnableAutoReverse()
+                .SetRepeat(3)
+                .SetStoryboard("Fill.(SolidColorBrush.Color)", rect)
+                .AddTo(storyboard);
+            await storyboard.BeginAsync();
+            IsEnabled = true;
+        }
+
+        private async void Animation3Button_Click(object sender, RoutedEventArgs e)
+        {
+            IsEnabled = false;
+
+            await new DoubleAnimation(200, TimeSpan.FromSeconds(1))
+                      .SetInOutCubicEase()
+                      .EnableAutoReverse()
+                      .SetRepeat(3)//重复3遍
+                      .BeginAsync(rect, WidthProperty);
+
+            IsEnabled = true;
         }
     }
 }

@@ -348,7 +348,6 @@
                                 Background="{Binding MColor, Converter={StaticResource Color2SolidColorBrushConverter}}" />
                         </local:DemoHorizontalStackPanel>
 
-
                         <TextBlock Style="{DynamicResource tbkTitle}" Text="布局相关" />
 
                         <local:DemoHorizontalStackPanel>
@@ -391,7 +390,6 @@
                             </Border>
                         </local:DemoHorizontalStackPanel>
 
-
                         <TextBlock Style="{DynamicResource tbkTitle}" Text="其它" />
                         <local:DemoHorizontalStackPanel>
                             <Label>字节转合适的容量单位</Label>
@@ -420,6 +418,21 @@
                         </local:DemoHorizontalStackPanel>
                     </local:DemoVerticleStackPanel>
                 </ScrollViewer>
+            </TabItem>
+            <TabItem Header="动画">
+                <local:DemoVerticleStackPanel>
+                    <Rectangle
+                        x:Name="rect" Width="12"
+                        Height="12" HorizontalAlignment="Left"
+                        Fill="Red">
+                        <Rectangle.RenderTransform>
+                            <TranslateTransform />
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
+                    <Button Click="AnimationButton_Click" Content="开始示例动画" />
+                    <Button Click="Animation2Button_Click" Content="自动逆转和重复" />
+                    <Button Click="Animation3Button_Click" Content="单动画" />
+                </local:DemoVerticleStackPanel>
             </TabItem>
         </TabControl>
     </Grid>

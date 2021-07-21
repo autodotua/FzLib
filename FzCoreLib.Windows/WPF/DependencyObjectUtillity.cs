@@ -12,6 +12,12 @@ namespace FzLib.WPF
 {
     public static class DependencyObjectExtension
     {
+        /// <summary>
+        /// 寻找对象中第一个属于该类型的子元素
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public static T GetChild<T>(this DependencyObject obj) where T : DependencyObject
         {
             DependencyObject child = null;
@@ -34,6 +40,12 @@ namespace FzLib.WPF
             return child as T;
         }
 
+        /// <summary>
+        /// 寻找对象中所有属于该类型的子元素
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public static List<T> GetChilds<T>(this DependencyObject obj) where T : DependencyObject
         {
             List<T> results = new List<T>();
@@ -57,6 +69,12 @@ namespace FzLib.WPF
             return results;
         }
 
+        /// <summary>
+        /// 寻找该对象的第一个属于该类型的父元素
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public static T GetParent<T>([NotNull] this FrameworkElement obj) where T : DependencyObject
         {
             DependencyObject result = obj.Parent;
