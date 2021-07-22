@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using static FzLib.WPF.ThemeMode;
 
 //using Windows.UI.ViewManagement;
 
@@ -22,7 +23,7 @@ namespace FzLib.WPF
         [DllImport("uxtheme.dll", EntryPoint = "#98")]
         public static extern int GetImmersiveUserColorSetPreference(bool bForceCheckRegistry, bool bSkipCheckOnFail);
 
-        public static Color GetSystemThemeColor()
+        public static Color GetColor()
         {
             var colorSetEx = GetImmersiveColorFromColorSetEx(
                 (uint)GetImmersiveUserColorSetPreference(false, false),
@@ -34,5 +35,34 @@ namespace FzLib.WPF
 
             return colour;
         }
+
+        public static ThemeMode GetAppMode()
+        {
+            var v = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", "1");
+            if (v == null)
+            {
+                return Unkown;
+            }
+
+            return 1.Equals(v) ? Light : Dark;
+        }
+
+        public static ThemeMode GetSystemMode()
+        {
+            var v = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", "0");
+            if (v == null)
+            {
+                return Unkown;
+            }
+
+            return 1.Equals(v) ? Light : Dark;
+        }
+    }
+
+    public enum ThemeMode
+    {
+        Unkown,
+        Light,
+        Dark
     }
 }

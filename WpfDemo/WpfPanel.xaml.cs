@@ -80,6 +80,11 @@ namespace FzLib.WpfDemo
             set => this.SetValueAndNotify(ref fileLength, value, nameof(FileLength));
         }
 
+        public Color SystemColor => SystemTheme.GetColor();
+
+        public ThemeMode SystemThemeMode => SystemTheme.GetSystemMode();
+        public ThemeMode AppThemeMode => SystemTheme.GetAppMode();
+
         public ObservableCollection<int> IntList { get; } = new ObservableCollection<int>();
 
         public event PropertyChangedEventHandler PropertyChanged;
