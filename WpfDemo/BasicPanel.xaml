@@ -272,7 +272,58 @@
                     </local:DemoVerticleStackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="数据" />
+            <TabItem Header="数据序列化">
+                <local:DemoVerticleStackPanel>
+                    <WrapPanel>
+                        <TextBox
+                            Width="120" VerticalAlignment="Center"
+                            ui:ControlHelper.Header="文本" Margin="8,0"
+                            Text="{Binding SerializationData.Text}" />
+                        <Slider Margin="8,0"
+                            Width="120" VerticalAlignment="Center"
+                            ui:ControlHelper.Header="数字"
+                            AutoToolTipPlacement="BottomRight"
+                            Maximum="100" Minimum="0"
+                            TickFrequency="1"
+                            Value="{Binding SerializationData.Num}" />
+                        <CheckBox Margin="8,0"
+                            Width="120" VerticalAlignment="Center"
+                            Content="Bool"
+                            IsChecked="{Binding SerializationData.Bool}" />
+                        <DatePicker Margin="8,0"
+                            Width="120" VerticalAlignment="Center"
+                            ui:ControlHelper.Header="日期"
+                            SelectedDate="{Binding SerializationData.Date}" />
+                        <ComboBox Margin="8,0"
+                            ui:ControlHelper.Header="枚举"
+                            ItemsSource="{Binding Hashs}"
+                            SelectedItem="{Binding SerializationData.Hash}" />
+                        <DataGrid Margin="8,0"
+                            AutoGenerateColumns="False"
+                            CanUserAddRows="True"
+                            ItemsSource="{Binding SerializationData.Childrens}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Text}" Header="文本" />
+                                <DataGridTextColumn Binding="{Binding Num}" Header="数字" />
+                                <DataGridCheckBoxColumn Binding="{Binding Bool}" Header="Bool" />
+                                <DataGridTextColumn Binding="{Binding Date, StringFormat=yyyy-MM-dd}" Header="日期" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </WrapPanel>
+                    <local:DemoHorizontalStackPanel>
+                        <Button
+                            Command="{Binding SerializationButtonCommand}"
+                            CommandParameter="save" Content="保存" />
+                        <Button
+                            Command="{Binding SerializationButtonCommand}"
+                            CommandParameter="load" Content="加载" />
+                        <Button
+                            Command="{Binding SerializationButtonCommand}"
+                            CommandParameter="browse"
+                            Content="浏览保存的配置文件" />
+                    </local:DemoHorizontalStackPanel>
+                </local:DemoVerticleStackPanel>
+            </TabItem>
             <TabItem Header="IO" />
             <TabItem Header="程序" />
         </TabControl>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -325,5 +326,27 @@ namespace FzLib.IO
         {
             return new DirectoryInfo(str);
         }
+
+        public static void OpenFileOrFolder(string path)
+        {
+            new Process()
+            {
+                StartInfo = new ProcessStartInfo(Path.GetFullPath(path))
+                {
+                    UseShellExecute = true
+                }
+            }.Start();
+        }
+        public static void OpenFileOrFolder(string useProgram, string path)
+        {
+            new Process()
+            {
+                StartInfo = new ProcessStartInfo(useProgram,Path.GetFullPath(path))
+                {
+                    UseShellExecute = true
+                }
+            }.Start();
+        }
+
     }
 }

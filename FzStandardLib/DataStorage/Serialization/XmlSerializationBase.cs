@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -7,9 +8,12 @@ using static FzLib.DataStorage.Converter;
 
 namespace FzLib.DataStorage.Serialization
 {
+    [Obsolete]
     public abstract class XmlSerializationBase : INotifyPropertyChanged
     {
-        protected XmlSerializationBase() { }
+        protected XmlSerializationBase()
+        {
+        }
 
         public static T Create<T>(string path = "config.xml") where T : XmlSerializationBase, new()
         {
@@ -19,6 +23,7 @@ namespace FzLib.DataStorage.Serialization
             };
             return instance;
         }
+
         public static T TryOpenOrCreate<T>(string path = "config.xml") where T : XmlSerializationBase, new()
         {
             try
@@ -30,6 +35,7 @@ namespace FzLib.DataStorage.Serialization
                 return Create<T>(path);
             }
         }
+
         public static T OpenOrCreate<T>(string path = "config.xml") where T : XmlSerializationBase, new()
         {
             T instance;
@@ -44,16 +50,13 @@ namespace FzLib.DataStorage.Serialization
             instance.Path = path;
             return instance;
         }
+
         public static T Open<T>(string path = "config.xml") where T : XmlSerializationBase, new()
         {
             T instance = GetObjectFromXml<T>(File.ReadAllText(path));
             instance.Path = path;
             return instance;
         }
-
-
-
-
 
         public static bool Reset(string path)
         {
@@ -68,12 +71,10 @@ namespace FzLib.DataStorage.Serialization
             }
         }
 
-
-
         protected string Path { get; private set; } = "config.xml";
 
-
         protected JsonSerializerSettings Settings { get; set; } = new JsonSerializerSettings();
+
         public virtual void Save(bool format = false)
         {
             Save(Path, format);
@@ -91,6 +92,7 @@ namespace FzLib.DataStorage.Serialization
             }
             File.WriteAllText(path, GetXml(this, Settings));
         }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void Notify(params string[] names)
@@ -107,7 +109,4 @@ namespace FzLib.DataStorage.Serialization
             Notify(names);
         }
     }
-
 }
-
-

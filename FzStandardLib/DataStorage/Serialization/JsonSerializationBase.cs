@@ -1,10 +1,11 @@
 ﻿using Newtonsoft.Json;
-using System.ComponentModel;
+using System;
 using System.IO;
 using static FzLib.DataStorage.Converter;
 
 namespace FzLib.DataStorage.Serialization
 {
+    [Obsolete]
     public abstract class JsonSerializationBase
     {
         protected JsonSerializationBase()

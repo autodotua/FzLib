@@ -19,15 +19,86 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using Microsoft.WindowsAPICodePack.FzExtension;
 using ModernWpf.FzExtension.CommonDialog;
 using System.IO;
+using FzLib.DataStorage.Serialization;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace FzLib.WpfDemo
 {
+    public class SerializationData : IJsonSerializable, INotifyPropertyChanged
+    {
+        public SerializationData()
+        {
+            Path = System.IO.Path.GetTempFileName();
+        }
+
+        public string Path { get; }
+        public JsonSerializerSettings Settings { get; set; }
+        private string text = "文字";
+
+        public string Text
+        {
+            get => text;
+            set => this.SetValueAndNotify(ref text, value, nameof(Text));
+        }
+
+        private DateTime date = DateTime.Now;
+
+        public DateTime Date
+        {
+            get => date;
+            set => this.SetValueAndNotify(ref date, value, nameof(Date));
+        }
+
+        private bool @bool = true;
+
+        public bool Bool
+        {
+            get => @bool;
+            set => this.SetValueAndNotify(ref @bool, value, nameof(Bool));
+        }
+
+        private double num = 12.34;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public double Num
+        {
+            get => num;
+            set => this.SetValueAndNotify(ref num, value, nameof(Num));
+        }
+
+        private Hashs hash = Hashs.SHA1;
+
+        public Hashs Hash
+        {
+            get => hash;
+            set => this.SetValueAndNotify(ref hash, value, nameof(Hash));
+        }
+
+        private ObservableCollection<SerializationData> childrens;
+
+        public ObservableCollection<SerializationData> Childrens
+        {
+            get => childrens;
+            set => this.SetValueAndNotify(ref childrens, value, nameof(Childrens));
+        }
+    }
+
     public class BasicPanelViewModel : INotifyPropertyChanged
     {
         public BasicPanelViewModel()
         {
             MathButtonCommand = new BasicPanelMathButtonCommand(this);
             CryptographyButtonCommand = new BasicPanelCryptographyButtonCommand(this);
+            SerializationButtonCommand = new BasicPanelSerializationButtonCommand(this);
+            SerializationData = new SerializationData();
+            SerializationData.Childrens = new ObservableCollection<SerializationData>()
+        { new SerializationData(), new SerializationData() };
+            SerializationData.SetDateTimeFormat("yyyy-MM-dd")
+                .SetIndented()
+                .UseStringEnumValue();
         }
 
         private string calc;
@@ -214,10 +285,63 @@ namespace FzLib.WpfDemo
         public IEnumerable AesPaddings { get; } = Enum.GetValues(typeof(PaddingMode));
         public IEnumerable Hashs { get; } = Enum.GetValues(typeof(Hashs));
 
+        private SerializationData serializationData;
+
+        public SerializationData SerializationData
+        {
+            get => serializationData;
+            set => this.SetValueAndNotify(ref serializationData, value, nameof(SerializationData));
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public BasicPanelMathButtonCommand MathButtonCommand { get; }
         public BasicPanelCryptographyButtonCommand CryptographyButtonCommand { get; }
+        public BasicPanelSerializationButtonCommand SerializationButtonCommand { get; }
+    }
+
+    public class BasicPanelSerializationButtonCommand : PanelButtonCommandBase
+    {
+        public BasicPanelSerializationButtonCommand(BasicPanelViewModel viewModel)
+        {
+            ViewModel = viewModel;
+        }
+
+        public BasicPanelViewModel ViewModel { get; }
+
+        public override void Execute(object parameter)
+        {
+            Do(() =>
+           {
+               switch (parameter as string)
+               {
+                   case "save":
+                       ViewModel.SerializationData.Save();
+                       break;
+
+                   case "load":
+                       App.Current.Dispatcher.Invoke(() =>
+                       {
+                           if (!ViewModel.SerializationData.TryLoadFromJsonFile())
+                           {
+                               CommonDialog.ShowErrorDialogAsync("不存在已保存的配置文件");
+                           }
+                       });
+                       break;
+
+                   case "browse":
+                       if (!File.Exists(ViewModel.SerializationData.Path))
+                       {
+                           CommonDialog.ShowErrorDialogAsync("不存在已保存的配置文件");
+                       }
+                       else
+                       {
+                           IO.FileSystem.OpenFileOrFolder("notepad.exe", ViewModel.SerializationData.Path);
+                       }
+                       break;
+               }
+           });
+        }
     }
 
     public class BasicPanelCryptographyButtonCommand : PanelButtonCommandBase
@@ -369,7 +493,7 @@ namespace FzLib.WpfDemo
                                       HexStringFormat = ViewModel.HashFormat,
                                       HexStringSeparator = ViewModel.HashSeparator
                                   }.GetString(hashs, stream)
-                                  .Select(p => p.Key.ToString() +"："+ p.Value));
+                                  .Select(p => p.Key.ToString() + "：" + p.Value));
                         }
 
                         break;

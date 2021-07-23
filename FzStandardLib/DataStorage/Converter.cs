@@ -1,11 +1,13 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.IO;
 using System.Xml;
 using Formatting = Newtonsoft.Json.Formatting;
 
 namespace FzLib.DataStorage
 {
-    public static class Converter
+    [Obsolete]
+    internal static class Converter
     {
         public static string GetJson(object obj, bool format = false)
         {
