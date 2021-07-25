@@ -23,9 +23,59 @@ using FzLib.DataStorage.Serialization;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace FzLib.WpfDemo
 {
+    public class NumberValueConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string s = value as string;
+            double d;
+            long l;
+            switch (parameter as string)
+            {
+                case "bytes":
+                    if (!long.TryParse(s, out l) || l < 0)
+                    {
+                        return "请输入一个正整数";
+                    }
+                    return NumberConverter.ByteToFitString(l);
+
+                case "time":
+                    if (!long.TryParse(s, out l) || l < 0)
+                    {
+                        return "请输入一个正整数";
+                    }
+                    return NumberConverter.SecondToFitString(l);
+
+                case "length":
+                    if (!double.TryParse(s, out d) || d < 0)
+                    {
+                        return "请输入一个正数";
+                    }
+                    return NumberConverter.MeterToFitString(d);
+
+                case "area":
+                    if (!double.TryParse(s, out d) || d < 0)
+                    {
+                        return "请输入一个正数";
+                    }
+                    return NumberConverter.SquareMeterToFitString(d);
+
+                default:
+                    return "";
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [Serializable]
     public class SerializationData : IJsonSerializable, INotifyPropertyChanged
     {
         public SerializationData()
@@ -90,6 +140,7 @@ namespace FzLib.WpfDemo
     {
         public BasicPanelViewModel()
         {
+            ButtonCommand = new BasicPanelButtonCommand(this);
             MathButtonCommand = new BasicPanelMathButtonCommand(this);
             CryptographyButtonCommand = new BasicPanelCryptographyButtonCommand(this);
             SerializationButtonCommand = new BasicPanelSerializationButtonCommand(this);
@@ -293,11 +344,45 @@ namespace FzLib.WpfDemo
             set => this.SetValueAndNotify(ref serializationData, value, nameof(SerializationData));
         }
 
+        public DateTime Time1 { get; set; } = DateTime.Now - TimeSpan.FromHours(24);
+        public DateTime Time2 { get; set; } = DateTime.Now;
+        private DateTime timeR;
+
+        public DateTime TimeR
+        {
+            get => timeR;
+            set => this.SetValueAndNotify(ref timeR, value, nameof(TimeR));
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public BasicPanelButtonCommand ButtonCommand { get; }
         public BasicPanelMathButtonCommand MathButtonCommand { get; }
         public BasicPanelCryptographyButtonCommand CryptographyButtonCommand { get; }
         public BasicPanelSerializationButtonCommand SerializationButtonCommand { get; }
+    }
+
+    public class BasicPanelButtonCommand : PanelButtonCommandBase
+    {
+        public BasicPanelButtonCommand(BasicPanelViewModel viewModel)
+        {
+            ViewModel = viewModel;
+        }
+
+        public BasicPanelViewModel ViewModel { get; }
+
+        public override void Execute(object parameter)
+        {
+            Do(() =>
+            {
+                switch (parameter as string)
+                {
+                    case "timeAve":
+                        ViewModel.TimeR = DateTimeExtension.GetAverageDateTime(ViewModel.Time1, ViewModel.Time2);
+                        break;
+                }
+            });
+        }
     }
 
     public class BasicPanelSerializationButtonCommand : PanelButtonCommandBase
@@ -308,6 +393,7 @@ namespace FzLib.WpfDemo
         }
 
         public BasicPanelViewModel ViewModel { get; }
+        private string binPath = System.IO.Path.GetTempFileName();
 
         public override void Execute(object parameter)
         {
@@ -315,11 +401,11 @@ namespace FzLib.WpfDemo
            {
                switch (parameter as string)
                {
-                   case "save":
+                   case "saveJSON":
                        ViewModel.SerializationData.Save();
                        break;
 
-                   case "load":
+                   case "loadJSON":
                        App.Current.Dispatcher.Invoke(() =>
                        {
                            if (!ViewModel.SerializationData.TryLoadFromJsonFile())
@@ -329,7 +415,7 @@ namespace FzLib.WpfDemo
                        });
                        break;
 
-                   case "browse":
+                   case "browseJSON":
                        if (!File.Exists(ViewModel.SerializationData.Path))
                        {
                            CommonDialog.ShowErrorDialogAsync("不存在已保存的配置文件");
@@ -337,6 +423,23 @@ namespace FzLib.WpfDemo
                        else
                        {
                            IO.FileSystem.OpenFileOrFolder("notepad.exe", ViewModel.SerializationData.Path);
+                       }
+                       break;
+
+                   case "saveBin":
+                       var bin = BinarySerialization.Serialize(ViewModel.SerializationData);
+                       File.WriteAllBytes(binPath, bin);
+                       break;
+
+                   case "openBin":
+                       if (!File.Exists(binPath))
+                       {
+                           CommonDialog.ShowErrorDialogAsync("不存在已保存的配置文件");
+                       }
+                       else
+                       {
+                           var obj = BinarySerialization.Deserialize<SerializationData>(File.ReadAllBytes(binPath));
+                           ViewModel.SerializationData = obj;
                        }
                        break;
                }

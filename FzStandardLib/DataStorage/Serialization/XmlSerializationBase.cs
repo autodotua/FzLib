@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
-using static FzLib.DataStorage.Converter;
+using static FzLib.DataStorage.Serialization.Converter;
 
 namespace FzLib.DataStorage.Serialization
 {

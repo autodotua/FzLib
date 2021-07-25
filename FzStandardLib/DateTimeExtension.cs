@@ -18,5 +18,10 @@ namespace FzLib
             }
             return new DateTime((long)(totalTicks / count));
         }
+
+        public static DateTime GetAverageDateTime(params DateTime[] dateTimes)
+        {
+            return GetAverageDateTime(dateTimes as IEnumerable<DateTime>);
+        }
     }
 }

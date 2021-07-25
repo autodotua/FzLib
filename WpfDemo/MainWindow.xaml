@@ -15,6 +15,9 @@
             <TabItem Header="基本">
                 <local:BasicPanel />
             </TabItem>
+            <TabItem Header="编程辅助">
+                <local:ProgrammingPanel />
+            </TabItem>
             <TabItem Header="WPF">
                 <local:WpfPanel />
             </TabItem>

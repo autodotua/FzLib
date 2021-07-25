@@ -6,7 +6,8 @@
     xmlns:local="clr-namespace:FzLib.WpfDemo"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.modernwpf.com/2019"
-    d:DesignHeight="450" d:DesignWidth="800"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
     mc:Ignorable="d">
     <Grid>
         <TabControl TabStripPlacement="Left">
@@ -19,7 +20,8 @@
                                 <local:DemoTextBox Text="{Binding Calc}" />
                                 <Button
                                     Command="{Binding MathButtonCommand}"
-                                    CommandParameter="calc" Content="计算" />
+                                    CommandParameter="calc"
+                                    Content="计算" />
                                 <TextBlock Text="{Binding CalcR}" />
                             </local:DemoHorizontalStackPanel>
                         </GroupBox>
@@ -31,7 +33,8 @@
                                 <local:DemoNumberTextBox Value="{Binding FuncX}" />
                                 <Button
                                     Command="{Binding MathButtonCommand}"
-                                    CommandParameter="func" Content="计算" />
+                                    CommandParameter="func"
+                                    Content="计算" />
                                 <TextBlock Text="{Binding FuncR}" />
                             </local:DemoHorizontalStackPanel>
                         </GroupBox>
@@ -43,7 +46,8 @@
                                 <local:DemoNumberTextBox Value="{Binding Euclid2}" />
                                 <Button
                                     Command="{Binding MathButtonCommand}"
-                                    CommandParameter="euclid" Content="计算" />
+                                    CommandParameter="euclid"
+                                    Content="计算" />
                                 <TextBlock Text="{Binding EuclidR}" />
                             </local:DemoHorizontalStackPanel>
                         </GroupBox>
@@ -55,7 +59,8 @@
                                 <local:DemoNumberTextBox Value="{Binding CommonDivisor2}" />
                                 <Button
                                     Command="{Binding MathButtonCommand}"
-                                    CommandParameter="divisor" Content="计算" />
+                                    CommandParameter="divisor"
+                                    Content="计算" />
                                 <TextBlock Text="{Binding CommonDivisorR}" />
                             </local:DemoHorizontalStackPanel>
                         </GroupBox>
@@ -65,13 +70,15 @@
                                 <local:DemoNumberTextBox Value="{Binding Prime}" />
                                 <Button
                                     Command="{Binding MathButtonCommand}"
-                                    CommandParameter="prime" Content="判定" />
+                                    CommandParameter="prime"
+                                    Content="判定" />
                                 <TextBlock Text="{Binding PrimeR}" />
                                 <TextBlock Text="大数近似判定：" />
                                 <local:DemoTextBox Text="{Binding PPrime}" />
                                 <Button
                                     Command="{Binding MathButtonCommand}"
-                                    CommandParameter="pprime" Content="判定" />
+                                    CommandParameter="pprime"
+                                    Content="判定" />
                                 <TextBlock Text="{Binding PPrimeR}" />
                             </local:DemoHorizontalStackPanel>
                         </GroupBox>
@@ -81,7 +88,8 @@
                                 <local:DemoNumberTextBox Value="{Binding Facter}" />
                                 <Button
                                     Command="{Binding MathButtonCommand}"
-                                    CommandParameter="factor" Content="计算" />
+                                    CommandParameter="factor"
+                                    Content="计算" />
                                 <TextBlock Text="{Binding FacterR}" />
                             </local:DemoHorizontalStackPanel>
                         </GroupBox>
@@ -94,8 +102,12 @@
                         <GroupBox Header="AES">
                             <local:DemoVerticleStackPanel>
                                 <local:DemoWrapPanel>
-                                    <local:DemoTextBox ui:ControlHelper.Header="密钥" Text="{Binding AesKey}" />
-                                    <local:DemoTextBox ui:ControlHelper.Header="初始向量IV" Text="{Binding AesIV}" />
+                                    <local:DemoTextBox
+                                        ui:ControlHelper.Header="密钥"
+                                        Text="{Binding AesKey}" />
+                                    <local:DemoTextBox
+                                        ui:ControlHelper.Header="初始向量IV"
+                                        Text="{Binding AesIV}" />
                                     <local:DemoComboBox
                                         ui:ControlHelper.Header="加密方法"
                                         ItemsSource="{Binding AesModes}"
@@ -106,27 +118,36 @@
                                         SelectedItem="{Binding AesPadding}" />
                                 </local:DemoWrapPanel>
                                 <local:DemoHorizontalStackPanel>
-                                    <local:DemoTextBox ui:ControlHelper.Header="待加密文本" Text="{Binding AesText}" />
+                                    <local:DemoTextBox
+                                        ui:ControlHelper.Header="待加密文本"
+                                        Text="{Binding AesText}" />
                                     <Button
                                         VerticalAlignment="Bottom"
                                         Command="{Binding CryptographyButtonCommand}"
-                                        CommandParameter="aesStr" Content="加密文本" />
+                                        CommandParameter="aesStr"
+                                        Content="加密文本" />
                                 </local:DemoHorizontalStackPanel>
                                 <local:DemoHorizontalStackPanel>
-                                    <local:DemoTextBox ui:ControlHelper.Header="加密后文件后缀" Text="{Binding AesSuffix}" />
+                                    <local:DemoTextBox
+                                        ui:ControlHelper.Header="加密后文件后缀"
+                                        Text="{Binding AesSuffix}" />
                                     <CheckBox
                                         VerticalAlignment="Bottom"
                                         Content="分卷（以64MB为例）"
                                         IsChecked="{Binding AesVolume}" />
                                 </local:DemoHorizontalStackPanel>
                                 <local:DemoHorizontalStackPanel>
-                                    <local:DemoTextBox ui:ControlHelper.Header="源文件" Text="{Binding AesFileSource}" />
+                                    <local:DemoTextBox
+                                        ui:ControlHelper.Header="源文件"
+                                        Text="{Binding AesFileSource}" />
                                     <Button
                                         VerticalAlignment="Bottom"
                                         Command="{Binding CryptographyButtonCommand}"
                                         CommandParameter="aesBrowseSource"
                                         Content="浏览" />
-                                    <local:DemoTextBox ui:ControlHelper.Header="目标文件" Text="{Binding AesFileTarget}" />
+                                    <local:DemoTextBox
+                                        ui:ControlHelper.Header="目标文件"
+                                        Text="{Binding AesFileTarget}" />
                                     <Button
                                         VerticalAlignment="Bottom"
                                         Command="{Binding CryptographyButtonCommand}"
@@ -168,24 +189,30 @@
                                 <TextBox
                                     VerticalAlignment="Stretch"
                                     ui:ControlHelper.Header="仅公钥（XML）"
-                                    AcceptsReturn="True" IsReadOnly="True"
+                                    AcceptsReturn="True"
+                                    IsReadOnly="True"
                                     Text="{Binding RsaPublicXml}"
                                     TextWrapping="Wrap" />
                                 <TextBox
                                     Grid.Column="2"
                                     VerticalAlignment="Stretch"
                                     ui:ControlHelper.Header="带私钥（XML）"
-                                    AcceptsReturn="True" IsReadOnly="True"
+                                    AcceptsReturn="True"
+                                    IsReadOnly="True"
                                     Text="{Binding RsaPrivateXml}"
                                     TextWrapping="Wrap" />
                                 <TextBox
-                                    Grid.Row="2" VerticalAlignment="Stretch"
+                                    Grid.Row="2"
+                                    VerticalAlignment="Stretch"
                                     ui:ControlHelper.Header="公钥（PEM）"
-                                    AcceptsReturn="True" IsReadOnly="True"
+                                    AcceptsReturn="True"
+                                    IsReadOnly="True"
                                     Text="{Binding RsaPublicPem}"
                                     TextWrapping="Wrap" />
 
-                                <local:DemoHorizontalStackPanel Grid.Row="2" Grid.Column="2">
+                                <local:DemoHorizontalStackPanel
+                                    Grid.Row="2"
+                                    Grid.Column="2">
                                     <Button
                                         Command="{Binding CryptographyButtonCommand}"
                                         CommandParameter="setRsaXml"
@@ -196,25 +223,30 @@
                                         Content="设置PEM格式公钥" />
                                 </local:DemoHorizontalStackPanel>
                                 <TextBox
-                                    Grid.Row="4" VerticalAlignment="Stretch"
+                                    Grid.Row="4"
+                                    VerticalAlignment="Stretch"
                                     ui:ControlHelper.Header="待加密/解密"
                                     AcceptsReturn="True"
                                     Text="{Binding RsaText}"
                                     TextWrapping="Wrap" />
                                 <TextBox
-                                    Grid.Row="4" Grid.Column="2"
+                                    Grid.Row="4"
+                                    Grid.Column="2"
                                     VerticalAlignment="Stretch"
                                     ui:ControlHelper.Header="加密/解密后"
-                                    AcceptsReturn="True" IsReadOnly="True"
+                                    AcceptsReturn="True"
+                                    IsReadOnly="True"
                                     Text="{Binding RsaR}"
                                     TextWrapping="Wrap" />
                                 <local:DemoHorizontalStackPanel Grid.Row="6">
                                     <Button
                                         Command="{Binding CryptographyButtonCommand}"
-                                        CommandParameter="rsaEn" Content="加密" />
+                                        CommandParameter="rsaEn"
+                                        Content="加密" />
                                     <Button
                                         Command="{Binding CryptographyButtonCommand}"
-                                        CommandParameter="rsaDe" Content="解密" />
+                                        CommandParameter="rsaDe"
+                                        Content="解密" />
                                     <Button
                                         Command="{Binding CryptographyButtonCommand}"
                                         CommandParameter="rsaEnLong"
@@ -233,8 +265,12 @@
                                         ui:ControlHelper.Header="哈希算法"
                                         ItemsSource="{Binding Hashs}"
                                         SelectedItem="{Binding Hash}" />
-                                    <local:DemoTextBox ui:ControlHelper.Header="十六进制格式" Text="{Binding HashFormat}" />
-                                    <local:DemoTextBox ui:ControlHelper.Header="分隔符" Text="{Binding HashSeparator}" />
+                                    <local:DemoTextBox
+                                        ui:ControlHelper.Header="十六进制格式"
+                                        Text="{Binding HashFormat}" />
+                                    <local:DemoTextBox
+                                        ui:ControlHelper.Header="分隔符"
+                                        Text="{Binding HashSeparator}" />
                                 </local:DemoHorizontalStackPanel>
                                 <TextBox
                                     Height="80"
@@ -276,54 +312,168 @@
                 <local:DemoVerticleStackPanel>
                     <WrapPanel>
                         <TextBox
-                            Width="120" VerticalAlignment="Center"
-                            ui:ControlHelper.Header="文本" Margin="8,0"
+                            Width="120"
+                            Margin="8,0"
+                            VerticalAlignment="Center"
+                            ui:ControlHelper.Header="文本"
                             Text="{Binding SerializationData.Text}" />
-                        <Slider Margin="8,0"
-                            Width="120" VerticalAlignment="Center"
+                        <Slider
+                            Width="120"
+                            Margin="8,0"
+                            VerticalAlignment="Center"
                             ui:ControlHelper.Header="数字"
                             AutoToolTipPlacement="BottomRight"
-                            Maximum="100" Minimum="0"
+                            Maximum="100"
+                            Minimum="0"
                             TickFrequency="1"
                             Value="{Binding SerializationData.Num}" />
-                        <CheckBox Margin="8,0"
-                            Width="120" VerticalAlignment="Center"
+                        <CheckBox
+                            Width="120"
+                            Margin="8,0"
+                            VerticalAlignment="Center"
                             Content="Bool"
                             IsChecked="{Binding SerializationData.Bool}" />
-                        <DatePicker Margin="8,0"
-                            Width="120" VerticalAlignment="Center"
+                        <DatePicker
+                            Width="120"
+                            Margin="8,0"
+                            VerticalAlignment="Center"
                             ui:ControlHelper.Header="日期"
                             SelectedDate="{Binding SerializationData.Date}" />
-                        <ComboBox Margin="8,0"
+                        <ComboBox
+                            Margin="8,0"
                             ui:ControlHelper.Header="枚举"
                             ItemsSource="{Binding Hashs}"
                             SelectedItem="{Binding SerializationData.Hash}" />
-                        <DataGrid Margin="8,0"
+                        <DataGrid
+                            Margin="8,0"
                             AutoGenerateColumns="False"
                             CanUserAddRows="True"
                             ItemsSource="{Binding SerializationData.Childrens}">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding Text}" Header="文本" />
-                                <DataGridTextColumn Binding="{Binding Num}" Header="数字" />
-                                <DataGridCheckBoxColumn Binding="{Binding Bool}" Header="Bool" />
-                                <DataGridTextColumn Binding="{Binding Date, StringFormat=yyyy-MM-dd}" Header="日期" />
+                                <DataGridTextColumn
+                                    Binding="{Binding Text}"
+                                    Header="文本" />
+                                <DataGridTextColumn
+                                    Binding="{Binding Num}"
+                                    Header="数字" />
+                                <DataGridCheckBoxColumn
+                                    Binding="{Binding Bool}"
+                                    Header="Bool" />
+                                <DataGridTextColumn
+                                    Binding="{Binding Date, StringFormat=yyyy-MM-dd}"
+                                    Header="日期" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </WrapPanel>
                     <local:DemoHorizontalStackPanel>
                         <Button
                             Command="{Binding SerializationButtonCommand}"
-                            CommandParameter="save" Content="保存" />
+                            CommandParameter="saveJSON"
+                            Content="保存为JSON" />
                         <Button
                             Command="{Binding SerializationButtonCommand}"
-                            CommandParameter="load" Content="加载" />
+                            CommandParameter="loadJSON"
+                            Content="加载JSON" />
                         <Button
                             Command="{Binding SerializationButtonCommand}"
-                            CommandParameter="browse"
-                            Content="浏览保存的配置文件" />
+                            CommandParameter="browseJSON"
+                            Content="浏览保存的JSON配置文件" />
                     </local:DemoHorizontalStackPanel>
+                    <!--<local:DemoHorizontalStackPanel>
+
+                        <Button
+                            Command="{Binding SerializationButtonCommand}"
+                            CommandParameter="saveBin" Content="保存为二进制" />
+
+                        <Button
+                            Command="{Binding SerializationButtonCommand}"
+                            CommandParameter="loadBin" Content="从二进制加载" />
+                    </local:DemoHorizontalStackPanel>-->
                 </local:DemoVerticleStackPanel>
             </TabItem>
+            <TabItem Header="日期时间">
+                <ScrollViewer>
+                    <local:DemoVerticleStackPanel>
+                        <GroupBox Header="获取平均值">
+                            <local:DemoHorizontalStackPanel>
+                                <TextBox
+                                    ui:ControlHelper.Header="时间1"
+                                    Text="{Binding Time1, StringFormat=yyyy-MM-dd HH:mm:ss}" />
+                                <TextBox
+                                    ui:ControlHelper.Header="时间2"
+                                    Text="{Binding Time2, StringFormat=yyyy-MM-dd HH:mm:ss}" />
+                                <Button
+                                    VerticalAlignment="Bottom"
+                                    Command="{Binding ButtonCommand}"
+                                    CommandParameter="timeAve"
+                                    Content="求平均时间" />
+                                <TextBox
+                                    ui:ControlHelper.Header="平均时间"
+                                    IsReadOnly="True"
+                                    Text="{Binding TimeR, StringFormat=yyyy-MM-dd HH:mm:ss}" />
+                            </local:DemoHorizontalStackPanel>
+                        </GroupBox>
+                    </local:DemoVerticleStackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="数字转换">
+                <TabItem.Resources>
+                    <local:NumberValueConverter x:Key="NumberValueConverter" />
+                </TabItem.Resources>
+                <ScrollViewer>
+                    <local:DemoVerticleStackPanel>
+                        <GroupBox Header="字节转合适的容量单位">
+                            <local:DemoHorizontalStackPanel>
+                                <local:DemoTextBox
+                                    x:Name="txtBytes"
+                                    ui:ControlHelper.Header="字节"
+                                    Text="1234567" />
+                                <local:DemoTextBox
+                                    ui:ControlHelper.Header="结果"
+                                    IsReadOnly="True"
+                                    Text="{Binding ElementName=txtBytes, Converter={StaticResource NumberValueConverter}, Path=Text, ConverterParameter=bytes}" />
+                            </local:DemoHorizontalStackPanel>
+                        </GroupBox>
+                        <GroupBox Header="秒转合适的时间文本">
+                            <local:DemoHorizontalStackPanel>
+                                <local:DemoTextBox
+                                    x:Name="txtSeconds"
+                                    ui:ControlHelper.Header="秒"
+                                    Text="1234567" />
+                                <local:DemoTextBox
+                                    ui:ControlHelper.Header="结果"
+                                    IsReadOnly="True"
+                                    Text="{Binding ElementName=txtSeconds, Converter={StaticResource NumberValueConverter}, Path=Text, ConverterParameter=time}" />
+                            </local:DemoHorizontalStackPanel>
+                        </GroupBox>
+                        <GroupBox Header="米转合适的长度单位">
+                            <local:DemoHorizontalStackPanel>
+                                <local:DemoTextBox
+                                    x:Name="txtM"
+                                    ui:ControlHelper.Header="米"
+                                    Text="1234567" />
+                                <local:DemoTextBox
+                                    ui:ControlHelper.Header="结果"
+                                    IsReadOnly="True"
+                                    Text="{Binding ElementName=txtM, Converter={StaticResource NumberValueConverter}, Path=Text, ConverterParameter=length}" />
+                            </local:DemoHorizontalStackPanel>
+                        </GroupBox>
+                        <GroupBox Header="平方米转合适的面积单位">
+                            <local:DemoHorizontalStackPanel>
+                                <local:DemoTextBox
+                                    x:Name="txtM2"
+                                    ui:ControlHelper.Header="米²"
+                                    Text="1234567" />
+                                <local:DemoTextBox
+                                    ui:ControlHelper.Header="结果"
+                                    IsReadOnly="True"
+                                    Text="{Binding ElementName=txtM2, Converter={StaticResource NumberValueConverter}, Path=Text, ConverterParameter=area}" />
+                            </local:DemoHorizontalStackPanel>
+                        </GroupBox>
+                    </local:DemoVerticleStackPanel>
+                </ScrollViewer>
+            </TabItem>
+
             <TabItem Header="IO" />
             <TabItem Header="程序" />
         </TabControl>

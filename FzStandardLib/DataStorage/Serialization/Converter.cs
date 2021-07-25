@@ -4,7 +4,7 @@ using System.IO;
 using System.Xml;
 using Formatting = Newtonsoft.Json.Formatting;
 
-namespace FzLib.DataStorage
+namespace FzLib.DataStorage.Serialization
 {
     [Obsolete]
     internal static class Converter

@@ -4,10 +4,12 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace FzLib.DataStorage.Serialization
 {
+    [Obsolete]
     public class BinarySerialization
-    { /// <summary>
-      /// 把对象序列化为字节数组
-      /// </summary>
+    {
+        /// <summary>
+        /// 把对象序列化为字节数组
+        /// </summary>
         public static byte[] Serialize<T>(T obj)
         {
             object[] attributes = obj.GetType().GetCustomAttributes(typeof(SerializableAttribute), true);

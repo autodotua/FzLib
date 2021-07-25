@@ -21,6 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="ProgrammingPanel.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="WpfPanel.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -33,6 +36,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="ProgrammingPanel.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="WpfPanel.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

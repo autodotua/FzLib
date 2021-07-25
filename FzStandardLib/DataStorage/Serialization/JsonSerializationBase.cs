@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.IO;
-using static FzLib.DataStorage.Converter;
+using static FzLib.DataStorage.Serialization.Converter;
 
 namespace FzLib.DataStorage.Serialization
 {
