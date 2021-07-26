@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,8 +15,8 @@ namespace FzLib.IO
             Path = path;
             Parent = parent;
         }
-        public string Path { get; private set; }
 
+        public string Path { get; private set; }
 
         public string[] Files { get; private set; }
         public FileSystemTree[] Directories { get; private set; }
@@ -29,6 +30,7 @@ namespace FzLib.IO
 
             return Directories.Select(p => new DirectoryInfo(p.Path)).ToArray();
         }
+
         public async Task<DirectoryInfo[]> GetDirectoryInfoDictionaryAsync()
         {
             DirectoryInfo[] infos = null;
@@ -45,13 +47,13 @@ namespace FzLib.IO
 
             return Files.Select(p => new FileInfo(p)).ToArray();
         }
+
         public async Task<FileInfo[]> GetFileInfoDictionaryAsync()
         {
             FileInfo[] infos = null;
             await Task.Run(() => infos = GetFileInfoDictionary());
             return infos;
         }
-
 
         public bool CanAccessChildren { get; private set; } = true;
 
@@ -134,9 +136,10 @@ namespace FzLib.IO
         }
 
         public FileSystemTree Parent { get; private set; }
-        public IEnumerator<FileSystemTree> GetEnumerator() => new FileSystemTreeEnumerator(Directories);
-        IEnumerator IEnumerable.GetEnumerator() => new FileSystemTreeEnumerator(Directories);
 
+        public IEnumerator<FileSystemTree> GetEnumerator() => new FileSystemTreeEnumerator(Directories);
+
+        IEnumerator IEnumerable.GetEnumerator() => new FileSystemTreeEnumerator(Directories);
 
         public class FileSystemTreeEnumerator : IEnumerator<FileSystemTree>
         {
@@ -144,7 +147,8 @@ namespace FzLib.IO
             {
                 Directories = directories;
             }
-            int currentIndex = -1;
+
+            private int currentIndex = -1;
             public FileSystemTree[] Directories { get; private set; }
             public FileSystemTree Current => Directories[currentIndex];
 
@@ -155,23 +159,30 @@ namespace FzLib.IO
                 currentIndex++;
                 return currentIndex < Directories.Length;
             }
+
             public void Reset() => currentIndex = -1;
-            public void Dispose() { }
+
+            public void Dispose()
+            {
+            }
         }
 
+        public static Task<FileComparisonResult> CompareFilesAsync(FileSystemTree left, FileSystemTree right)
+        {
+            return Task.Run(() => CompareFiles(left, right));
+        }
 
         public static FileComparisonResult CompareFiles(FileSystemTree left, FileSystemTree right)
         {
-            List<(string, string)> same = new List<(string, string)>();
-            List<(string, string)> leftNew = new List<(string, string)>();
-            List<(string, string)> rightNew = new List<(string, string)>();
+            List<FileComparisonItem> same = new List<FileComparisonItem>();
+            List<FileComparisonItem> leftNew = new List<FileComparisonItem>();
+            List<FileComparisonItem> rightNew = new List<FileComparisonItem>();
             List<string> leftIsolated = new List<string>();
             List<string> rightIsolated = new List<string>();
 
             CompareDirectories(left, right);
 
             return new FileComparisonResult(same.ToArray(), leftNew.ToArray(), rightNew.ToArray(), leftIsolated.ToArray(), rightIsolated.ToArray());
-
 
             void CompareFiles(FileSystemTree leftSubTree, FileSystemTree rightSubTree)
             {
@@ -195,15 +206,15 @@ namespace FzLib.IO
                         DateTime rightTime = File.GetLastWriteTime(rightFileNameAndFullNames[fileName]);
                         if (leftTime == rightTime)//修改时间相同
                         {
-                            same.Add((leftFileNameAndFullNames[fileName], rightFileNameAndFullNames[fileName]));
+                            same.Add(new FileComparisonItem(leftFileNameAndFullNames[fileName], rightFileNameAndFullNames[fileName]));
                         }
                         else if (leftTime > rightTime)//修改时间左侧更晚
                         {
-                            leftNew.Add((leftFileNameAndFullNames[fileName], rightFileNameAndFullNames[fileName]));
+                            leftNew.Add(new FileComparisonItem(leftFileNameAndFullNames[fileName], rightFileNameAndFullNames[fileName]));
                         }
                         else//修改时间右侧更晚
                         {
-                            rightNew.Add((leftFileNameAndFullNames[fileName], rightFileNameAndFullNames[fileName]));
+                            rightNew.Add(new FileComparisonItem(leftFileNameAndFullNames[fileName], rightFileNameAndFullNames[fileName]));
                         }
                         leftFileNameAndFullNames.Remove(fileName);
                         rightFileNameAndFullNames.Remove(fileName);
@@ -229,8 +240,6 @@ namespace FzLib.IO
                     rightFolderNameAndFullNames.Add(System.IO.Path.GetFileName(rightFolder.Path), rightFolder);
                 }
 
-
-
                 foreach (string folderName in leftFolderNameAndFullNames.Keys.ToArray())
                 {
                     if (rightFolderNameAndFullNames.ContainsKey(folderName))//存在同一个文件名的文件
@@ -249,25 +258,112 @@ namespace FzLib.IO
                     rightIsolated.AddRange(tree.GetAllFiles());
                 }
             }
-
-
         }
-        public class FileComparisonResult
+    }
+
+    public class FileComparisonResult
+    {
+        public FileComparisonResult(FileComparisonItem[] sameFiles,
+                                    FileComparisonItem[] leftNewFiles,
+                                    FileComparisonItem[] rightNewFiles,
+                                    string[] leftIsolatedFiles,
+                                    string[] rightIsolatedFiles)
         {
-            public FileComparisonResult((string left, string right)[] sameFiles, (string left, string right)[] leftNewFiles, (string left, string right)[] rightNewFiles, string[] leftIsolatedFiles, string[] rightIsolatedFiles)
-            {
-                SameFiles = sameFiles ?? throw new ArgumentNullException(nameof(sameFiles));
-                LeftNewFiles = leftNewFiles ?? throw new ArgumentNullException(nameof(leftNewFiles));
-                RightNewFiles = rightNewFiles ?? throw new ArgumentNullException(nameof(rightNewFiles));
-                LeftIsolatedFiles = leftIsolatedFiles ?? throw new ArgumentNullException(nameof(leftIsolatedFiles));
-                RightIsolatedFiles = rightIsolatedFiles ?? throw new ArgumentNullException(nameof(rightIsolatedFiles));
-            }
-
-            public (string left, string right)[] SameFiles { get; internal set; }
-            public (string left, string right)[] LeftNewFiles { get; internal set; }
-            public (string left, string right)[] RightNewFiles { get; internal set; }
-            public string[] LeftIsolatedFiles { get; internal set; }
-            public string[] RightIsolatedFiles { get; internal set; }
+            SameFiles = sameFiles ?? throw new ArgumentNullException(nameof(sameFiles));
+            LeftNewFiles = leftNewFiles ?? throw new ArgumentNullException(nameof(leftNewFiles));
+            RightNewFiles = rightNewFiles ?? throw new ArgumentNullException(nameof(rightNewFiles));
+            LeftIsolatedFiles = leftIsolatedFiles ?? throw new ArgumentNullException(nameof(leftIsolatedFiles));
+            RightIsolatedFiles = rightIsolatedFiles ?? throw new ArgumentNullException(nameof(rightIsolatedFiles));
         }
+
+        public FileComparisonItem[] SameFiles { get; internal set; }
+        public FileComparisonItem[] LeftNewFiles { get; internal set; }
+        public FileComparisonItem[] RightNewFiles { get; internal set; }
+        public string[] LeftIsolatedFiles { get; internal set; }
+        public string[] RightIsolatedFiles { get; internal set; }
+
+        public IEnumerable<FileComparisonTableItem> ToTable()
+        {
+            foreach (var item in SameFiles)
+            {
+                yield return new FileComparisonTableItem(item, FileComparisonResultType.Same);
+            }
+            foreach (var item in LeftNewFiles)
+            {
+                yield return new FileComparisonTableItem(item, FileComparisonResultType.LeftNew);
+            }
+            foreach (var item in RightNewFiles)
+            {
+                yield return new FileComparisonTableItem(item, FileComparisonResultType.RightNew);
+            }
+            foreach (var item in LeftIsolatedFiles)
+            {
+                yield return new FileComparisonTableItem(item, null, FileComparisonResultType.LeftIsolated);
+            }
+            foreach (var item in RightIsolatedFiles)
+            {
+                yield return new FileComparisonTableItem(null, item, FileComparisonResultType.RightIsolated);
+            }
+        }
+    }
+
+    public class FileComparisonTableItem : FileComparisonItem
+    {
+        public FileComparisonTableItem(FileComparisonItem item, FileComparisonResultType type) : this(item.LeftFile, item.RightFile,type)
+        {
+        }
+
+        public FileComparisonTableItem(string leftFile, string rightFile, FileComparisonResultType type) : base(leftFile, rightFile)
+        {
+            Type = type;
+        }
+
+        public FileComparisonResultType Type { get; } = FileComparisonResultType.None;
+    }
+
+    public class FileComparisonItem
+    {
+        public FileComparisonItem()
+        {
+        }
+
+        public FileComparisonItem(string leftFile, string rightFile)
+        {
+            LeftFile = leftFile;
+            RightFile = rightFile;
+        }
+
+        public string LeftFile { get; set; }
+        public string RightFile { get; set; }
+    }
+
+    public enum FileComparisonResultType
+    {
+        None,
+
+        /// <summary>
+        /// 两侧文件相同
+        /// </summary>
+        Same,
+
+        /// <summary>
+        /// 左侧文件较新
+        /// </summary>
+        LeftNew,
+
+        /// <summary>
+        /// 右侧文件较新
+        /// </summary>
+        RightNew,
+
+        /// <summary>
+        /// 左侧文件孤立
+        /// </summary>
+        LeftIsolated,
+
+        /// <summary>
+        /// 右侧文件孤立
+        /// </summary>
+        RightIsolated
     }
 }

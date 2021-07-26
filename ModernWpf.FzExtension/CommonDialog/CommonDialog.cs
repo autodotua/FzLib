@@ -104,7 +104,7 @@ namespace ModernWpf.FzExtension.CommonDialog
             return dialog.ShowAsync();
         }
 
-        public static Task ShowErrorDialogAsync(string title, string message, string detail)
+        public static Task ShowErrorDialogAsync(string message, string detail, string title = "错误")
         {
             DetailTextDialog dialog = new DetailTextDialog()
             {

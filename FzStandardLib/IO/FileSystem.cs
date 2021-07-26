@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -8,16 +9,12 @@ using System.Text;
 using System.Threading.Tasks;
 using static FzLib.IO.FileSystemTree;
 using SearchOption = System.IO.SearchOption;
+using static FzLib.IO.FileSystem;
 
 namespace FzLib.IO
 {
-    public static class FileSystem
+    public static class FileSystemInfoExtension
     {
-        public static bool FileExistsCaseSensitive(string filename)
-        {
-            return new FileInfo(filename).ExistsCaseSensitive();
-        }
-
         public static bool ExistsCaseSensitive(this FileInfo file)
         {
             string fileFullName = file.FullName;
@@ -27,29 +24,60 @@ namespace FzLib.IO
             return directory != null && Directory.EnumerateFiles(directory).Any(p => p == fileFullName);
         }
 
-        public static IReadOnlyList<string> EnumerateAccessibleFiles(string path, out IReadOnlyList<string> failedFiles, out IReadOnlyList<string> failedDirectories)
+        public static Task<long> GetLengthAsync(this DirectoryInfo directory)
         {
-            return EnumerateAccessibleFiles(path, "*", "*", false, out failedFiles, out failedDirectories);
+            return Task.Run(() => directory.GetLength());
+        }
+
+        public static long GetLength(this DirectoryInfo directory)
+        {
+            if (!directory.Exists)
+            {
+                throw new DirectoryNotFoundException(directory.FullName);
+            }
+            return directory.GetFiles("*", SearchOption.AllDirectories).Sum(p => p.Length);
+        }
+
+        public static FileInfo ToFileInfo(this string str)
+        {
+            return new FileInfo(str);
+        }
+
+        public static DirectoryInfo ToDirectoryInfo(this string str)
+        {
+            return new DirectoryInfo(str);
+        }
+    }
+
+    public static class FileSystem
+    {
+        public static bool FileExistsCaseSensitive(string filename)
+        {
+            return new FileInfo(filename).ExistsCaseSensitive();
+        }
+
+        public static IReadOnlyList<string> EnumerateAccessibleFiles(string path, out IReadOnlyList<string> failedDirectories)
+        {
+            return EnumerateAccessibleFiles(path, "*", "*", false, out failedDirectories);
         }
 
         public static IReadOnlyList<string> EnumerateAccessibleFiles(string path, string fileFilter = "*", string directoryFilter = "*", bool directoryFirst = false)
         {
-            return EnumerateAccessibleFiles(path, fileFilter, directoryFilter, directoryFirst, out _, out _);
+            return EnumerateAccessibleFiles(path, fileFilter, directoryFilter, directoryFirst, out _);
         }
 
-        public static IReadOnlyList<string> EnumerateAccessibleFiles(string path, string fileFilter, string directoryFilter, bool directoryFirst, out IReadOnlyList<string> failedFiles, out IReadOnlyList<string> failedDirectories)
+        public static IReadOnlyList<string> EnumerateAccessibleFiles(string path, string fileFilter, string directoryFilter, bool directoryFirst, out IReadOnlyList<string> failedDirectories)
         {
+            _ = path ?? throw new ArgumentNullException(nameof(path));
             if (path.EndsWith(":"))
             {
                 path = path + "\\";
             }
             List<string> files = new List<string>();
-            var failedFilesList = new List<string>();
-            var failedDirectoriesList = new List<string>();
+            var faileds = new HashSet<string>();
             enumerateFolders(path);
 
-            failedFiles = failedFilesList.AsReadOnly();
-            failedDirectories = failedDirectoriesList.AsReadOnly();
+            failedDirectories = faileds.ToList().AsReadOnly();
 
             return files.AsReadOnly();
 
@@ -61,7 +89,7 @@ namespace FzLib.IO
                 }
                 catch
                 {
-                    failedFilesList.Add(directory);
+                    faileds.Add(directory);
                 }
             }
 
@@ -80,7 +108,7 @@ namespace FzLib.IO
                 }
                 catch
                 {
-                    failedDirectoriesList.Add(directory);
+                    faileds.Add(directory);
                 }
                 if (directoryFirst)
                 {
@@ -130,24 +158,22 @@ namespace FzLib.IO
 
         public static IReadOnlyList<FileSystemInfo> EnumerateAccessibleFileSystemInfos(string path, string fileFilter = "*", string directoryFilter = "*", bool directoryFirst = false)
         {
-            return EnumerateAccessibleFileSystemInfos(path, fileFilter, directoryFilter, directoryFirst, out _, out _);
+            return EnumerateAccessibleFileSystemInfos(path, fileFilter, directoryFilter, directoryFirst, out _);
         }
 
-        public static IReadOnlyList<FileSystemInfo> EnumerateAccessibleFileSystemInfos(string path, out IReadOnlyList<FileSystemInfo> failedFileSystemInfos, out IReadOnlyList<FileSystemInfo> failedDirectories)
+        public static IReadOnlyList<FileSystemInfo> EnumerateAccessibleFileSystemInfos(string path, out IReadOnlyList<FileSystemInfo> failedDirectories)
         {
-            return EnumerateAccessibleFileSystemInfos(path, "*", "*", false, out failedFileSystemInfos, out failedDirectories);
+            return EnumerateAccessibleFileSystemInfos(path, "*", "*", false, out failedDirectories);
         }
 
-        public static IReadOnlyList<FileSystemInfo> EnumerateAccessibleFileSystemInfos(string path, string fileFilter, string directoryFilter, bool directoryFirst, out IReadOnlyList<FileSystemInfo> failedFileSystemInfos, out IReadOnlyList<FileSystemInfo> failedDirectories)
+        public static IReadOnlyList<FileSystemInfo> EnumerateAccessibleFileSystemInfos(string path, string fileFilter, string directoryFilter, bool directoryFirst, out IReadOnlyList<FileSystemInfo> failedDirectories)
         {
             List<FileSystemInfo> FileSystemInfos = new List<FileSystemInfo>();
-            var failedFileSystemInfosList = new List<FileSystemInfo>();
-            var failedDirectoriesList = new List<FileSystemInfo>();
+            var faileds = new HashSet<FileSystemInfo>();
             DirectoryInfo root = new DirectoryInfo(path);
             enumerateFolders(root);
 
-            failedFileSystemInfos = failedFileSystemInfosList.AsReadOnly();
-            failedDirectories = failedDirectoriesList.AsReadOnly();
+            failedDirectories = faileds.ToList().AsReadOnly();
 
             return FileSystemInfos.AsReadOnly();
 
@@ -159,7 +185,7 @@ namespace FzLib.IO
                 }
                 catch
                 {
-                    failedFileSystemInfosList.Add(di);
+                    faileds.Add(di);
                 }
             }
 
@@ -182,7 +208,7 @@ namespace FzLib.IO
                 }
                 catch
                 {
-                    failedDirectoriesList.Add(di);
+                    faileds.Add(di);
                 }
                 if (directoryFirst)
                 {
@@ -191,22 +217,19 @@ namespace FzLib.IO
             }
         }
 
+        public static Task<long> GetDirectoryLengthAsync(string path)
+        {
+            return Task.Run(() => GetDirectoryLength(path));
+        }
+
         public static long GetDirectoryLength(string path)
         {
+            _ = path ?? throw new ArgumentNullException(nameof(path));
             if (!Directory.Exists(path))
             {
                 throw new DirectoryNotFoundException(path);
             }
             return Directory.GetFiles(path, "*", SearchOption.AllDirectories).Sum(t => (new FileInfo(t).Length));
-        }
-
-        public static long GetLength(this DirectoryInfo directory)
-        {
-            if (!directory.Exists)
-            {
-                throw new DirectoryNotFoundException(directory.FullName);
-            }
-            return Directory.GetFiles(directory.FullName, "*", SearchOption.AllDirectories).Sum(t => (new FileInfo(t).Length));
         }
 
         public static FileComparisonResult CompareFiles(string leftPath, string rightPath)
@@ -216,23 +239,22 @@ namespace FzLib.IO
             return FileSystemTree.CompareFiles(left, right);
         }
 
-        public static void Copy(this DirectoryInfo directory, string destinationPath)
+        public static async Task<FileComparisonResult> CompareFilesAsync(string leftPath, string rightPath)
         {
-            CopyDirectory(directory.FullName, destinationPath);
+            FileSystemTree left = await GetFileSystemTreeAsync(leftPath);
+            FileSystemTree right = await GetFileSystemTreeAsync(rightPath);
+            return await FileSystemTree.CompareFilesAsync(left, right);
         }
 
-        public async static Task CopyAsync(this DirectoryInfo directory, string destinationPath)
+        public async static Task CopyDirectoryAsync(string sourcePath, string destinationPath, EventHandler<FileCopyEventArgs> e = null)
         {
-            await CopyDirectoryAsync(directory.FullName, destinationPath);
+            await Task.Run(() => CopyDirectory(sourcePath, destinationPath, e));
         }
 
-        public async static Task CopyDirectoryAsync(string sourcePath, string destinationPath)
+        public static void CopyDirectory(string sourcePath, string destinationPath, EventHandler<FileCopyEventArgs> e = null)
         {
-            await Task.Run(() => CopyDirectory(sourcePath, destinationPath));
-        }
-
-        public static void CopyDirectory(string sourcePath, string destinationPath)
-        {
+            _ = sourcePath ?? throw new ArgumentNullException(nameof(sourcePath));
+            _ = destinationPath ?? throw new ArgumentNullException(nameof(destinationPath));
             DirectoryInfo info = new DirectoryInfo(sourcePath);
             Directory.CreateDirectory(destinationPath);
             foreach (FileSystemInfo fsi in info.GetFileSystemInfos())
@@ -242,11 +264,12 @@ namespace FzLib.IO
                 if (fsi is FileInfo)          //如果是文件，复制文件
                 {
                     File.Copy(fsi.FullName, destName);
+                    e?.Invoke(null, new FileCopyEventArgs(fsi.FullName, destName));
                 }
                 else                                    //如果是文件夹，新建文件夹，递归
                 {
                     Directory.CreateDirectory(destName);
-                    CopyDirectory(fsi.FullName, destName);
+                    CopyDirectory(fsi.FullName, destName, e);
                 }
             }
         }
@@ -296,11 +319,15 @@ namespace FzLib.IO
         //    await Task.Run(() => DeleteDirectory(directoryPath, forceDeleteReadOnly));
         //}
 
-        public static string GetNoDuplicateFile(string path)
+        public static string GetNoDuplicateFile(string path, string suffixFormat = " ({i})")
         {
             if (!File.Exists(path))
             {
                 return path;
+            }
+            if (!suffixFormat.Contains("{i}"))
+            {
+                throw new ArgumentException("后缀应包含“{i}”以表示索引");
             }
             int i = 2;
             string directoryName = Path.GetDirectoryName(path);
@@ -308,23 +335,13 @@ namespace FzLib.IO
             string fileExtension = Path.GetExtension(path);
             while (true)
             {
-                string newName = Path.Combine(directoryName, $"{fileNameWithoutExtension} ({i.ToString()}){fileExtension}");
+                string newName = Path.Combine(directoryName, $"{fileNameWithoutExtension}{suffixFormat.Replace("{i}", i.ToString())}{fileExtension}");
                 if (!File.Exists(newName))
                 {
                     return newName;
                 }
                 i++;
             }
-        }
-
-        public static FileInfo ToFileInfo(this string str)
-        {
-            return new FileInfo(str);
-        }
-
-        public static DirectoryInfo ToDirectoryInfo(this string str)
-        {
-            return new DirectoryInfo(str);
         }
 
         public static void OpenFileOrFolder(string path)
@@ -337,16 +354,28 @@ namespace FzLib.IO
                 }
             }.Start();
         }
+
         public static void OpenFileOrFolder(string useProgram, string path)
         {
             new Process()
             {
-                StartInfo = new ProcessStartInfo(useProgram,Path.GetFullPath(path))
+                StartInfo = new ProcessStartInfo(useProgram, Path.GetFullPath(path))
                 {
                     UseShellExecute = true
                 }
             }.Start();
         }
+    }
 
+    public class FileCopyEventArgs : EventArgs
+    {
+        public FileCopyEventArgs(string pathFrom, string pathTo)
+        {
+            PathFrom = pathFrom ?? throw new ArgumentNullException(nameof(pathFrom));
+            PathTo = pathTo ?? throw new ArgumentNullException(nameof(pathTo));
+        }
+
+        public string PathFrom { get; set; }
+        public string PathTo { get; set; }
     }
 }

@@ -474,7 +474,166 @@
                 </ScrollViewer>
             </TabItem>
 
-            <TabItem Header="IO" />
+            <TabItem Header="文件系统">
+                <ScrollViewer>
+                    <local:DemoVerticleStackPanel>
+                        <local:DemoHorizontalStackPanel>
+                            <TextBox
+                                MinWidth="360"
+                                ui:ControlHelper.Header="文件"
+                                Text="{Binding File}" />
+                            <Button
+                                VerticalAlignment="Bottom"
+                                Command="{Binding IOButtonCommand}"
+                                CommandParameter="browseFile"
+                                Content="浏览" />
+                        </local:DemoHorizontalStackPanel>
+                        <local:DemoHorizontalStackPanel>
+                            <TextBox
+                                MinWidth="360"
+                                ui:ControlHelper.Header="文件夹1"
+                                Text="{Binding Folder1}" />
+                            <Button
+                                VerticalAlignment="Bottom"
+                                Command="{Binding IOButtonCommand}"
+                                CommandParameter="browseFolder1"
+                                Content="浏览" />
+                        </local:DemoHorizontalStackPanel>
+                        <local:DemoHorizontalStackPanel>
+                            <TextBox
+                                MinWidth="360"
+                                ui:ControlHelper.Header="文件夹2"
+                                Text="{Binding Folder2}" />
+                            <Button
+                                VerticalAlignment="Bottom"
+                                Command="{Binding IOButtonCommand}"
+                                CommandParameter="browseFolder2"
+                                Content="浏览" />
+                        </local:DemoHorizontalStackPanel>
+                        <GroupBox Header="文件">
+                            <local:DemoVerticleStackPanel>
+                                <local:DemoHorizontalStackPanel>
+                                    <Button
+                                    Command="{Binding IOButtonCommand}"
+                                    CommandParameter="exist"
+                                    Content="大小写敏感的文件存在检查" />
+                                    <TextBlock Text="{Binding IsFileExist}" />
+                                </local:DemoHorizontalStackPanel>
+                                <local:DemoHorizontalStackPanel>
+                                    <Button
+                                    Command="{Binding IOButtonCommand}"
+                                    CommandParameter="dup"
+                                    Content="查找第一个与文件不重名的文件名" />
+                                    <TextBlock Text="{Binding DupR}" />
+                                </local:DemoHorizontalStackPanel>
+                            </local:DemoVerticleStackPanel>
+                        </GroupBox>
+                        <GroupBox Header="枚举">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="8" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <local:DemoVerticleStackPanel>
+                                    <local:DemoTextBox
+                                        ui:ControlHelper.Header="文件名筛选器"
+                                        Text="{Binding FileFilter}" />
+                                    <local:DemoTextBox
+                                        ui:ControlHelper.Header="目录名筛选器"
+                                        Text="{Binding FolderFilter}" />
+                                    <Button
+                                        HorizontalAlignment="Center"
+                                        Command="{Binding IOButtonCommand}"
+                                        CommandParameter="enFiles"
+                                        Content="枚举文件夹1中可访问的文件" />
+                                    <Button
+                                        HorizontalAlignment="Center"
+                                        Command="{Binding IOButtonCommand}"
+                                        CommandParameter="enFolders"
+                                        Content="枚举文件夹1中可访问的文件夹" />
+                                    <Button
+                                        HorizontalAlignment="Center"
+                                        Command="{Binding IOButtonCommand}"
+                                        CommandParameter="enFileFolders"
+                                        Content="枚举文件夹1中可访问的文件和文件夹" />
+                                </local:DemoVerticleStackPanel>
+                                <ListView
+                                    Grid.Column="2"
+                                    Height="260"
+                                    Margin="0,0,16,0"
+                                    ui:ControlHelper.CornerRadius="4"
+                                    BorderBrush="Gray"
+                                    BorderThickness="2"
+                                    ItemsSource="{Binding Files}"
+                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                    ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock
+                                                Text="{Binding .}"
+                                                TextWrapping="Wrap" />
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                    <ListView.ItemContainerStyle>
+                                        <Style
+                                            BasedOn="{StaticResource DefaultListViewItemStyle}"
+                                            TargetType="ListViewItem">
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                            <Setter Property="Margin" Value="4" />
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                </ListView>
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Header="文件夹操作">
+                            <local:DemoVerticleStackPanel>
+                                <local:DemoHorizontalStackPanel>
+                                    <Button
+                                        HorizontalAlignment="Center"
+                                        Command="{Binding IOButtonCommand}"
+                                        CommandParameter="dirLength"
+                                        Content="获取文件夹1的大小" />
+                                    <TextBlock Text="{Binding DirLengthR}" />
+                                </local:DemoHorizontalStackPanel>
+                                <local:DemoHorizontalStackPanel>
+                                    <Button
+                                        HorizontalAlignment="Center"
+                                        Command="{Binding IOButtonCommand}"
+                                        CommandParameter="dirCopy"
+                                        Content="复制文件夹1里的内容到文件夹2" />
+                                    <TextBlock Text="{Binding DirCopyR}" />
+                                </local:DemoHorizontalStackPanel>
+                            </local:DemoVerticleStackPanel>
+                        </GroupBox>
+                        <GroupBox Header="文件夹比较">
+                            <local:DemoVerticleStackPanel>
+                                <Button
+                                    Command="{Binding IOButtonCommand}"
+                                    CommandParameter="compare"
+                                    Content="比较文件夹1和文件夹2的内容" />
+                                <ListView Margin="0,0,16,0"
+                                    MaxHeight="360"
+                                    ItemsSource="{Binding CompareR}">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn
+                                                DisplayMemberBinding="{Binding LeftFile}"
+                                                Header="左边文件" />
+                                            <GridViewColumn
+                                                DisplayMemberBinding="{Binding RightFile}"
+                                                Header="右边文件" />
+                                            <GridViewColumn
+                                                DisplayMemberBinding="{Binding Type}"
+                                                Header="类别" />
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </local:DemoVerticleStackPanel>
+                        </GroupBox>
+                    </local:DemoVerticleStackPanel>
+                </ScrollViewer>
+            </TabItem>
             <TabItem Header="程序" />
         </TabControl>
     </Grid>

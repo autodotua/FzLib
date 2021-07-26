@@ -24,6 +24,7 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using FzLib.IO;
 
 namespace FzLib.WpfDemo
 {
@@ -141,6 +142,7 @@ namespace FzLib.WpfDemo
         public BasicPanelViewModel()
         {
             ButtonCommand = new BasicPanelButtonCommand(this);
+            IOButtonCommand = new BasicPanelIOButtonCommand(this);
             MathButtonCommand = new BasicPanelMathButtonCommand(this);
             CryptographyButtonCommand = new BasicPanelCryptographyButtonCommand(this);
             SerializationButtonCommand = new BasicPanelSerializationButtonCommand(this);
@@ -354,12 +356,87 @@ namespace FzLib.WpfDemo
             set => this.SetValueAndNotify(ref timeR, value, nameof(TimeR));
         }
 
+        private string file;
+
+        public string File
+        {
+            get => file;
+            set => this.SetValueAndNotify(ref file, value, nameof(File));
+        }
+
+        private string folder2;
+
+        public string Folder2
+        {
+            get => folder2;
+            set => this.SetValueAndNotify(ref folder2, value, nameof(Folder2));
+        }
+
+        private string folder1;
+
+        public string Folder1
+        {
+            get => folder1;
+            set => this.SetValueAndNotify(ref folder1, value, nameof(Folder1));
+        }
+
+        private bool? isFileExist;
+
+        public bool? IsFileExist
+        {
+            get => isFileExist;
+            set => this.SetValueAndNotify(ref isFileExist, value, nameof(IsFileExist));
+        }
+
+        public string FileFilter { get; set; } = "*";
+        public string FolderFilter { get; set; } = "*";
+        private IReadOnlyList<string> files;
+
+        public IReadOnlyList<string> Files
+        {
+            get => files;
+            set => this.SetValueAndNotify(ref files, value, nameof(Files));
+        }
+
+        private string dirLengthR;
+
+        public string DirLengthR
+        {
+            get => dirLengthR;
+            set => this.SetValueAndNotify(ref dirLengthR, value, nameof(DirLengthR));
+        }
+
+        private string dirCopyR;
+
+        public string DirCopyR
+        {
+            get => dirCopyR;
+            set => this.SetValueAndNotify(ref dirCopyR, value, nameof(DirCopyR));
+        }
+
+        private string dupR;
+
+        public string DupR
+        {
+            get => dupR;
+            set => this.SetValueAndNotify(ref dupR, value, nameof(DupR));
+        }
+
+        private IEnumerable<FileComparisonTableItem> compareR;
+
+        public IEnumerable<FileComparisonTableItem> CompareR
+        {
+            get => compareR;
+            set => this.SetValueAndNotify(ref compareR, value, nameof(CompareR));
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public BasicPanelButtonCommand ButtonCommand { get; }
         public BasicPanelMathButtonCommand MathButtonCommand { get; }
         public BasicPanelCryptographyButtonCommand CryptographyButtonCommand { get; }
         public BasicPanelSerializationButtonCommand SerializationButtonCommand { get; }
+        public BasicPanelIOButtonCommand IOButtonCommand { get; }
     }
 
     public class BasicPanelButtonCommand : PanelButtonCommandBase
@@ -382,6 +459,106 @@ namespace FzLib.WpfDemo
                         break;
                 }
             });
+        }
+    }
+
+    public class BasicPanelIOButtonCommand : PanelButtonCommandBase
+    {
+        public BasicPanelIOButtonCommand(BasicPanelViewModel viewModel)
+        {
+            ViewModel = viewModel;
+        }
+
+        public BasicPanelViewModel ViewModel { get; }
+
+        public override void Execute(object parameter)
+        {
+            IReadOnlyList<string> fDirs = null;
+            Do(async () =>
+           {
+               string path = null;
+               switch (parameter as string)
+               {
+                   case "browseFile":
+                       if ((path = new CommonOpenFileDialog().GetFilePath()) != null)
+                       {
+                           ViewModel.File = path;
+                       }
+                       break;
+
+                   case "browseFolder1":
+                       if ((path = new CommonOpenFileDialog().GetFolderPath()) != null)
+                       {
+                           ViewModel.Folder1 = path;
+                       }
+                       break;
+
+                   case "browseFolder2":
+                       if ((path = new CommonOpenFileDialog().GetFolderPath()) != null)
+                       {
+                           ViewModel.Folder2 = path;
+                       }
+                       break;
+
+                   case "exist":
+                       ViewModel.IsFileExist = FileSystem.FileExistsCaseSensitive(ViewModel.File);
+                       break;
+
+                   case "enFiles":
+                       await Task.Run(() =>
+                       {
+                           ViewModel.Files = FileSystem.EnumerateAccessibleFiles(ViewModel.Folder1, ViewModel.FileFilter, ViewModel.FolderFilter, true, out fDirs);
+                       });
+
+                       break;
+
+                   case "enFolders":
+                       await Task.Run(() =>
+                       {
+                           ViewModel.Files = FileSystem.EnumerateAccessibleDirectories(ViewModel.Folder1, ViewModel.FolderFilter, out fDirs);
+                       });
+
+                       break;
+
+                   case "enFileFolders":
+                       await Task.Run(() =>
+                       {
+                           ViewModel.Files = FileSystem.EnumerateAccessibleFiles(ViewModel.Folder1, ViewModel.FileFilter, ViewModel.FolderFilter, true, out fDirs);
+                       });
+
+                       break;
+
+                   case "dirLength":
+                       {
+                           ViewModel.DirLengthR = NumberConverter.ByteToFitString(await FileSystem.GetDirectoryLengthAsync(ViewModel.Folder1));
+                       }
+                       break;
+
+                   case "dirCopy":
+                       {
+                           ViewModel.DirCopyR = "正在复制";
+                           await FileSystem.CopyDirectoryAsync(ViewModel.Folder1, ViewModel.Folder2, (s, e) =>
+                           {
+                               ViewModel.DirCopyR = $"正在复制 {e.PathFrom} 到 {e.PathTo}";
+                           });
+                           ViewModel.DirCopyR = "复制完成";
+                       }
+                       break;
+
+                   case "compare":
+                       FileComparisonResult result = await FileSystem.CompareFilesAsync(ViewModel.Folder1, ViewModel.Folder2);
+                       ViewModel.CompareR = result.ToTable();
+                       break;
+
+                   case "dup":
+                       ViewModel.DupR = FileSystem.GetNoDuplicateFile(ViewModel.File);
+                       break;
+               }
+               if (fDirs != null && fDirs.Count > 0)
+               {
+                   await CommonDialog.ShowErrorDialogAsync($"共有{fDirs.Count}个目录无法访问", string.Join(Environment.NewLine, fDirs));
+               }
+           });
         }
     }
 

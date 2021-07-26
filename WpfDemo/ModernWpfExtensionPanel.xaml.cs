@@ -126,7 +126,7 @@ namespace FzLib.WpfDemo
                     break;
 
                 case "errorD":
-                    await CommonDialog.ShowErrorDialogAsync("详细的错误信息错误信息", "错误描述", "错误详情");
+                    await CommonDialog.ShowErrorDialogAsync("错误描述", "详细的错误信息错误信息", "错误标题");
                     break;
 
                 case "exception":
