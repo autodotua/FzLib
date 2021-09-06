@@ -10,18 +10,27 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:ui="http://schemas.modernwpf.com/2019"
-    d:DesignHeight="450" d:DesignWidth="800"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <StackPanel x:Key="ManyTexts" x:Shared="False">
+        <StackPanel
+            x:Key="ManyTexts"
+            x:Shared="False">
             <TextBlock TextWrapping="Wrap">
                 中华人民共和国，简称中国，是一个位于亚洲东部由中国共产党领导的社会主义国家，成立于1949年10月1日，首都为北京市。中华人民共和国领土陆地面积估约960万平方千米，是世界上陆地面积第三大的国家，分为23个省份、5个自治区、4个直辖市和2个特别行政区。中华人民共和国地势西高东低而呈现三级阶梯分布，大部分地区属于温带、副热带季风气候，地理景致与气候型态丰富多样，有冰川、丹霞、黄土、沙漠、喀斯特等多种地貌，中华人民共和国北方分布有干草原和荒漠，南方有热带雨林，西部至西南部则有天山山脉、帕米尔高原、青藏高原、喀喇昆仑山脉和喜马拉雅山脉，东临太平洋。领海由渤海（内海）以及黄海、东海、南海三大边海组成，水域面积约470万平方千米，分布有大小岛屿7600个。中华人民共和国疆域东至黑龙江省佳木斯市抚远市的黑瞎子岛中部，西至新疆境内的帕米尔高原，北至黑龙江省大兴安岭地区的漠河县，南至南海曾母暗沙。
             </TextBlock>
             <Viewbox Width="300">
                 <Grid>
-                    <Path Data="M11.321867 1017.710074h1520.904177V6.289926H11.321867v1011.420148z m1524.678133 3.773955v-3.773955 3.773955zM5.031941 1024V0h1533.48403v1024H5.031941z" Fill="#353636" />
-                    <Path Data="M8.805897 2.515971h1527.194103V1020.226044H8.805897z" Fill="#D64B24" />
-                    <Path Data="M264.176904 118.250614l32.707617 99.380836h104.412776L317.012285 278.014742l31.449631 99.380835L264.176904 315.7543l-84.285012 61.641277 32.707617-99.380835-84.285013-60.383292h104.412777zM535.90172 65.415233l-1.257985 35.223588 31.449631 12.579852-33.965602 8.805897-1.257985 33.965602-18.869779-28.933661-32.707617 7.547912 21.38575-26.417691-17.611794-28.933661 31.449632 13.837838zM652.894349 177.375921l-15.095823 30.191647 23.90172 23.901719-33.965602-5.031941-15.095823 30.191647-5.031941-33.965602-33.965602-5.031941L603.832924 202.535627l-5.031941-33.965602 23.90172 23.901719zM617.670762 315.7543l11.321867 32.707616h33.965602l-27.675676 20.127765 10.063882 32.707616-27.675675-20.127764-27.675676 20.127764 11.321867-32.707616-27.675675-20.127765h33.965602zM535.90172 421.425061l-2.515971 33.965602 32.707617 12.579853-33.965602 8.805897-2.51597 33.965602-17.611794-28.933661-33.965602 8.805897 22.643735-26.417691-18.869779-28.933661 32.707617 12.579853z" Fill="#FBDC00" />
+                    <Path
+                        Data="M11.321867 1017.710074h1520.904177V6.289926H11.321867v1011.420148z m1524.678133 3.773955v-3.773955 3.773955zM5.031941 1024V0h1533.48403v1024H5.031941z"
+                        Fill="#353636" />
+                    <Path
+                        Data="M8.805897 2.515971h1527.194103V1020.226044H8.805897z"
+                        Fill="#D64B24" />
+                    <Path
+                        Data="M264.176904 118.250614l32.707617 99.380836h104.412776L317.012285 278.014742l31.449631 99.380835L264.176904 315.7543l-84.285012 61.641277 32.707617-99.380835-84.285013-60.383292h104.412777zM535.90172 65.415233l-1.257985 35.223588 31.449631 12.579852-33.965602 8.805897-1.257985 33.965602-18.869779-28.933661-32.707617 7.547912 21.38575-26.417691-17.611794-28.933661 31.449632 13.837838zM652.894349 177.375921l-15.095823 30.191647 23.90172 23.901719-33.965602-5.031941-15.095823 30.191647-5.031941-33.965602-33.965602-5.031941L603.832924 202.535627l-5.031941-33.965602 23.90172 23.901719zM617.670762 315.7543l11.321867 32.707616h33.965602l-27.675676 20.127765 10.063882 32.707616-27.675675-20.127764-27.675676 20.127764 11.321867-32.707616-27.675675-20.127765h33.965602zM535.90172 421.425061l-2.515971 33.965602 32.707617 12.579853-33.965602 8.805897-2.51597 33.965602-17.611794-28.933661-33.965602 8.805897 22.643735-26.417691-18.869779-28.933661 32.707617 12.579853z"
+                        Fill="#FBDC00" />
                 </Grid>
             </Viewbox>
             <TextBlock TextWrapping="Wrap">
@@ -55,7 +64,9 @@
                             <ContentControl Content="{StaticResource ManyTexts}" />
                         </ScrollViewer>
                     </GroupBox>
-                    <GroupBox Grid.Column="2" Header="其它可滚动控件">
+                    <GroupBox
+                        Grid.Column="2"
+                        Header="其它可滚动控件">
                         <ListView c:SmoothScrollViewerHelper.SmoothScroll="True">
                             <ListBoxItem>1</ListBoxItem>
                             <ListBoxItem>2</ListBoxItem>
@@ -79,7 +90,9 @@
                             <ListBoxItem>10</ListBoxItem>
                         </ListView>
                     </GroupBox>
-                    <GroupBox Grid.Column="4" Header="对比普通滚动">
+                    <GroupBox
+                        Grid.Column="4"
+                        Header="对比普通滚动">
                         <ListView>
                             <ListBoxItem>1</ListBoxItem>
                             <ListBoxItem>2</ListBoxItem>
@@ -107,19 +120,25 @@
             </TabItem>
             <TabItem Header="截图和导出">
                 <DockPanel LastChildFill="True">
-                    <Grid Margin="4" DockPanel.Dock="Bottom">
+                    <Grid
+                        Margin="4"
+                        DockPanel.Dock="Bottom">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="8" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <local:DemoWrapPanel>
-                            <local:DemoTextBox ui:ControlHelper.Header="出血" Text="{Binding ExportPanelBlood}" />
+                            <local:DemoTextBox
+                                ui:ControlHelper.Header="出血"
+                                Text="{Binding ExportPanelBlood}" />
                             <Slider
                                 ui:ControlHelper.Header="缩放倍率"
                                 AutoToolTipPlacement="TopLeft"
-                                AutoToolTipPrecision="1" LargeChange="1"
-                                Maximum="5" Minimum="0.1"
+                                AutoToolTipPrecision="1"
+                                LargeChange="1"
+                                Maximum="5"
+                                Minimum="0.1"
                                 SmallChange="0.1"
                                 Value="{Binding ExportPanelMagnification}" />
                             <local:DemoComboBox
@@ -130,7 +149,8 @@
                         <WrapPanel Grid.Row="2">
                             <Button
                                 Command="{Binding ButtonCommand}"
-                                CommandParameter="export" Content="导出" />
+                                CommandParameter="export"
+                                Content="导出" />
                             <Button
                                 Command="{Binding ButtonCommand}"
                                 CommandParameter="exportBlack"
@@ -145,14 +165,15 @@
             <TabItem Header="值转换器">
                 <TabItem.Resources>
                     <ResourceDictionary>
-                        <ResourceDictionary.MergedDictionaries>
-                            <ResourceDictionary Source="pack://application:,,,/FzCoreLib.Windows;component/WPF/Converters/Converters.xaml" />
-                        </ResourceDictionary.MergedDictionaries>
-                        <Style BasedOn="{StaticResource DefaultLabelStyle}" TargetType="{x:Type Label}">
+                        <Style
+                            BasedOn="{StaticResource DefaultLabelStyle}"
+                            TargetType="{x:Type Label}">
                             <Setter Property="Width" Value="240" />
                             <Setter Property="VerticalAlignment" Value="Center" />
                         </Style>
-                        <Style BasedOn="{StaticResource DefaultTextBoxStyle}" TargetType="{x:Type TextBox}">
+                        <Style
+                            BasedOn="{StaticResource DefaultTextBoxStyle}"
+                            TargetType="{x:Type TextBox}">
                             <Setter Property="VerticalAlignment" Value="Center" />
                         </Style>
                         <Style
@@ -172,12 +193,16 @@
                             <Label />
                             <TextBlock
                                 Width="{StaticResource w}"
-                                FontWeight="Bold" Text="源" />
+                                FontWeight="Bold"
+                                Text="源" />
                             <TextBlock
                                 Width="{StaticResource w}"
-                                FontWeight="Bold" Text="目标" />
+                                FontWeight="Bold"
+                                Text="目标" />
                         </local:DemoHorizontalStackPanel>
-                        <TextBlock Style="{DynamicResource tbkTitle}" Text="字体" />
+                        <TextBlock
+                            Style="{DynamicResource tbkTitle}"
+                            Text="字体" />
 
                         <local:DemoHorizontalStackPanel>
                             <Label>粗体、斜体、下划线</Label>
@@ -204,7 +229,9 @@
                                 TextDecorations="{Binding ElementName=chkUnderline, Path=IsChecked, Converter={StaticResource UnderlineBool2TextDecorationConverter}}" />
                         </local:DemoHorizontalStackPanel>
 
-                        <TextBlock Style="{DynamicResource tbkTitle}" Text="Bool转换" />
+                        <TextBlock
+                            Style="{DynamicResource tbkTitle}"
+                            Text="Bool转换" />
                         <local:DemoHorizontalStackPanel>
                             <Label>Bool转字符串</Label>
                             <CheckBox
@@ -219,22 +246,42 @@
                                 x:Name="chkNutNull2True"
                                 Width="{StaticResource w}"
                                 Text="删除这些" />
-                            <CheckBox Content="非空则为True" IsChecked="{Binding ElementName=chkNutNull2True, Path=Text, Converter={StaticResource NotNull2BoolConverter}}" />
+                            <CheckBox
+                                Content="非空则为True"
+                                IsChecked="{Binding ElementName=chkNutNull2True, Path=Text, Converter={StaticResource NotNull2BoolConverter}}" />
                         </local:DemoHorizontalStackPanel>
-                        <TextBlock Style="{DynamicResource tbkTitle}" Text="Bool逻辑" />
+                        <TextBlock
+                            Style="{DynamicResource tbkTitle}"
+                            Text="Bool逻辑" />
                         <local:DemoHorizontalStackPanel>
                             <Label>多Bool运算（与）</Label>
                             <StackPanel Width="{StaticResource w}">
-                                <CheckBox x:Name="chkLogic1" Content="逻辑1" />
-                                <CheckBox x:Name="chkLogic2" Content="逻辑2" />
-                                <CheckBox x:Name="chkLogic3" Content="逻辑3" />
+                                <CheckBox
+                                    x:Name="chkLogic1"
+                                    Content="逻辑1" />
+                                <CheckBox
+                                    x:Name="chkLogic2"
+                                    Content="逻辑2" />
+                                <CheckBox
+                                    x:Name="chkLogic3"
+                                    Content="逻辑3" />
                             </StackPanel>
-                            <CheckBox Content="结果" IsHitTestVisible="False">
+                            <CheckBox
+                                Content="结果"
+                                IsHitTestVisible="False">
                                 <CheckBox.IsChecked>
-                                    <MultiBinding Converter="{StaticResource BoolLogicConverter}" ConverterParameter="and">
-                                        <Binding ElementName="chkLogic1" Path="IsChecked" />
-                                        <Binding ElementName="chkLogic2" Path="IsChecked" />
-                                        <Binding ElementName="chkLogic3" Path="IsChecked" />
+                                    <MultiBinding
+                                        Converter="{StaticResource BoolLogicConverter}"
+                                        ConverterParameter="and">
+                                        <Binding
+                                            ElementName="chkLogic1"
+                                            Path="IsChecked" />
+                                        <Binding
+                                            ElementName="chkLogic2"
+                                            Path="IsChecked" />
+                                        <Binding
+                                            ElementName="chkLogic3"
+                                            Path="IsChecked" />
                                     </MultiBinding>
                                 </CheckBox.IsChecked>
                             </CheckBox>
@@ -242,14 +289,26 @@
                         <local:DemoHorizontalStackPanel>
                             <Label>多Bool运算（或）</Label>
                             <StackPanel Width="{StaticResource w}">
-                                <CheckBox x:Name="chkLogic4" Content="逻辑1" />
-                                <CheckBox x:Name="chkLogic5" Content="逻辑2" />
+                                <CheckBox
+                                    x:Name="chkLogic4"
+                                    Content="逻辑1" />
+                                <CheckBox
+                                    x:Name="chkLogic5"
+                                    Content="逻辑2" />
                             </StackPanel>
-                            <CheckBox Content="结果" IsHitTestVisible="False">
+                            <CheckBox
+                                Content="结果"
+                                IsHitTestVisible="False">
                                 <CheckBox.IsChecked>
-                                    <MultiBinding Converter="{StaticResource BoolLogicConverter}" ConverterParameter="or">
-                                        <Binding ElementName="chkLogic4" Path="IsChecked" />
-                                        <Binding ElementName="chkLogic5" Path="IsChecked" />
+                                    <MultiBinding
+                                        Converter="{StaticResource BoolLogicConverter}"
+                                        ConverterParameter="or">
+                                        <Binding
+                                            ElementName="chkLogic4"
+                                            Path="IsChecked" />
+                                        <Binding
+                                            ElementName="chkLogic5"
+                                            Path="IsChecked" />
                                     </MultiBinding>
                                 </CheckBox.IsChecked>
                             </CheckBox>
@@ -266,7 +325,9 @@
                                 IsHitTestVisible="False" />
                         </local:DemoHorizontalStackPanel>
 
-                        <TextBlock Style="{DynamicResource tbkTitle}" Text="枚举转换" />
+                        <TextBlock
+                            Style="{DynamicResource tbkTitle}"
+                            Text="枚举转换" />
                         <local:DemoHorizontalStackPanel>
                             <Label>枚举转Bool</Label>
                             <ComboBox
@@ -286,7 +347,7 @@
                                 ItemsSource="{Binding DateTimeKinds}" />
                             <TextBlock>
                                 <Run Text="描述为：" />
-                                <Run Text="{Binding ElementName=cbbEnum2String, Path=SelectedItem, Converter={StaticResource Enum2StringConverter}, ConverterParameter=Unspecified:未指定;Utc:世界时;Local:本地时间}" />
+                                <Run Text="{Binding ElementName=cbbEnum2String, Path=SelectedItem, Converter={StaticResource StringReplaceConverter}, ConverterParameter=Unspecified:未指定;Utc:世界时;Local:本地时间}" />
                             </TextBlock>
                         </local:DemoHorizontalStackPanel>
                         <local:DemoHorizontalStackPanel>
@@ -297,18 +358,22 @@
                                 ItemsSource="{Binding EnumWithDescriptions}" />
                             <TextBlock>
                                 <Run Text="描述为：" />
-                                <Run Text="{Binding ElementName=cbbEnum2Desc, Path=SelectedItem, Converter={StaticResource Enum2DescriptionConverter}}" />
+                                <Run Text="{Binding ElementName=cbbEnum2Desc, Path=SelectedItem, Converter={StaticResource DescriptionConverter}}" />
                             </TextBlock>
                         </local:DemoHorizontalStackPanel>
 
-                        <TextBlock Style="{DynamicResource tbkTitle}" Text="可见性转换" />
+                        <TextBlock
+                            Style="{DynamicResource tbkTitle}"
+                            Text="可见性转换" />
                         <local:DemoHorizontalStackPanel>
                             <Label>相等转可见性</Label>
                             <TextBox
                                 x:Name="txtEqual2Bool"
                                 Width="{StaticResource w}"
                                 ui:ControlHelper.Description="输入123" />
-                            <TextBlock Text="值等于123" Visibility="{Binding ElementName=txtEqual2Bool, Path=Text, Converter={StaticResource Equal2VisiableConverter}, ConverterParameter=123}" />
+                            <TextBlock
+                                Text="值等于123"
+                                Visibility="{Binding ElementName=txtEqual2Bool, Path=Text, Converter={StaticResource Equal2VisibleConverter}, ConverterParameter=123}" />
                         </local:DemoHorizontalStackPanel>
                         <local:DemoHorizontalStackPanel>
                             <Label>Bool转可见性</Label>
@@ -316,7 +381,9 @@
                                 x:Name="chkBool2Visibility"
                                 Width="{StaticResource w}"
                                 Content="可见性" />
-                            <TextBlock Text="可见" Visibility="{Binding ElementName=chkBool2Visibility, Path=IsChecked, Converter={StaticResource Bool2VisibilityConverter}}" />
+                            <TextBlock
+                                Text="可见"
+                                Visibility="{Binding ElementName=chkBool2Visibility, Path=IsChecked, Converter={StaticResource Bool2VisibilityConverter}}" />
                         </local:DemoHorizontalStackPanel>
                         <local:DemoHorizontalStackPanel>
                             <Label>非空转可见</Label>
@@ -324,17 +391,24 @@
                                 x:Name="chkNutNull2Visible"
                                 Width="{StaticResource w}"
                                 Text="删除这些" />
-                            <TextBlock Text="可见" Visibility="{Binding ElementName=chkNutNull2Visible, Path=Text, Converter={StaticResource NotNull2VisibleConverter}}" />
+                            <TextBlock
+                                Text="可见"
+                                Visibility="{Binding ElementName=chkNutNull2Visible, Path=Text, Converter={StaticResource NotNull2VisibleConverter}}" />
                         </local:DemoHorizontalStackPanel>
 
-                        <TextBlock Style="{DynamicResource tbkTitle}" Text="颜色转换" />
+                        <TextBlock
+                            Style="{DynamicResource tbkTitle}"
+                            Text="颜色转换" />
                         <local:DemoHorizontalStackPanel>
                             <Label>
                                 <TextBlock TextWrapping="Wrap">System.Drawing.Color转SolidColorBrush</TextBlock>
                             </Label>
-                            <TextBox Width="{StaticResource w}" Text="{Binding DColor, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBox
+                                Width="{StaticResource w}"
+                                Text="{Binding DColor, UpdateSourceTrigger=PropertyChanged}" />
                             <Border
-                                Width="48" Height="16"
+                                Width="48"
+                                Height="16"
                                 VerticalAlignment="Center"
                                 Background="{Binding DColor, Converter={StaticResource Color2SolidColorBrushConverter}}" />
                         </local:DemoHorizontalStackPanel>
@@ -342,14 +416,19 @@
                             <Label>
                                 <TextBlock TextWrapping="Wrap">System.Windows.Media.Color转SolidColorBrush</TextBlock>
                             </Label>
-                            <TextBox Width="{StaticResource w}" Text="{Binding MColor, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBox
+                                Width="{StaticResource w}"
+                                Text="{Binding MColor, UpdateSourceTrigger=PropertyChanged}" />
                             <Border
-                                Width="48" Height="16"
+                                Width="48"
+                                Height="16"
                                 VerticalAlignment="Center"
                                 Background="{Binding MColor, Converter={StaticResource Color2SolidColorBrushConverter}}" />
                         </local:DemoHorizontalStackPanel>
 
-                        <TextBlock Style="{DynamicResource tbkTitle}" Text="布局相关" />
+                        <TextBlock
+                            Style="{DynamicResource tbkTitle}"
+                            Text="布局相关" />
 
                         <local:DemoHorizontalStackPanel>
                             <Label>对齐与边距</Label>
@@ -358,43 +437,55 @@
                                     x:Name="sldHA"
                                     ui:ControlHelper.Header="水平对齐"
                                     AutoToolTipPlacement="TopLeft"
-                                    IsSnapToTickEnabled="True" Maximum="3"
-                                    Minimum="0" TickPlacement="BottomRight"
+                                    IsSnapToTickEnabled="True"
+                                    Maximum="3"
+                                    Minimum="0"
+                                    TickPlacement="BottomRight"
                                     Ticks="0 1 2 3" />
                                 <Slider
                                     x:Name="sldVA"
                                     ui:ControlHelper.Header="垂直对齐"
                                     AutoToolTipPlacement="TopLeft"
-                                    IsSnapToTickEnabled="True" Maximum="3"
-                                    Minimum="0" TickPlacement="BottomRight"
+                                    IsSnapToTickEnabled="True"
+                                    Maximum="3"
+                                    Minimum="0"
+                                    TickPlacement="BottomRight"
                                     Ticks="0 1 2 3" />
                                 <Slider
                                     x:Name="sldMargin"
                                     ui:ControlHelper.Header="边距"
                                     AutoToolTipPlacement="TopLeft"
-                                    Maximum="48" Minimum="0"
+                                    Maximum="48"
+                                    Minimum="0"
                                     TickFrequency="5"
                                     TickPlacement="BottomRight" />
                             </StackPanel>
                             <Border
-                                Width="128" Height="128"
-                                BorderBrush="Gray" BorderThickness="2">
+                                Width="128"
+                                Height="128"
+                                BorderBrush="Gray"
+                                BorderThickness="2">
                                 <Border
-                                    Margin="{Binding ElementName=sldMargin, Path=Value, Converter={StaticResource Number2MarginConverter}}"
+                                    Margin="{Binding ElementName=sldMargin, Path=Value, Converter={StaticResource Number2ThicknessConverter}}"
                                     HorizontalAlignment="{Binding ElementName=sldHA, Path=Value, Converter={StaticResource Number2AlignmentConverter}}"
                                     VerticalAlignment="{Binding ElementName=sldVA, Path=Value, Converter={StaticResource Number2AlignmentConverter}}"
                                     Background="Green">
                                     <Rectangle
-                                        Width="16" Height="16"
+                                        Width="16"
+                                        Height="16"
                                         Fill="Red" />
                                 </Border>
                             </Border>
                         </local:DemoHorizontalStackPanel>
 
-                        <TextBlock Style="{DynamicResource tbkTitle}" Text="其它" />
+                        <TextBlock
+                            Style="{DynamicResource tbkTitle}"
+                            Text="其它" />
                         <local:DemoHorizontalStackPanel>
                             <Label>字节转合适的容量单位</Label>
-                            <TextBox Width="{StaticResource w}" Text="{Binding FileLength, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBox
+                                Width="{StaticResource w}"
+                                Text="{Binding FileLength, UpdateSourceTrigger=PropertyChanged}" />
                             <TextBlock Text="{Binding FileLength, Converter={StaticResource FileLength2StringConverter}}" />
                         </local:DemoHorizontalStackPanel>
                         <local:DemoHorizontalStackPanel>
@@ -423,27 +514,36 @@
             <TabItem Header="动画">
                 <local:DemoVerticleStackPanel>
                     <Rectangle
-                        x:Name="rect" Width="12"
-                        Height="12" HorizontalAlignment="Left"
+                        x:Name="rect"
+                        Width="12"
+                        Height="12"
+                        HorizontalAlignment="Left"
                         Fill="Red">
                         <Rectangle.RenderTransform>
                             <TranslateTransform />
                         </Rectangle.RenderTransform>
                     </Rectangle>
-                    <Button Click="AnimationButton_Click" Content="开始示例动画" />
-                    <Button Click="Animation2Button_Click" Content="自动逆转和重复" />
-                    <Button Click="Animation3Button_Click" Content="单动画" />
+                    <Button
+                        Click="AnimationButton_Click"
+                        Content="开始示例动画" />
+                    <Button
+                        Click="Animation2Button_Click"
+                        Content="自动逆转和重复" />
+                    <Button
+                        Click="Animation3Button_Click"
+                        Content="单动画" />
                 </local:DemoVerticleStackPanel>
             </TabItem>
             <TabItem Header="系统主题">
                 <TabItem.Resources>
-                    <cv:Enum2StringConverter x:Key="Enum2StringConverter" />
                     <sys:String x:Key="themeDesc">Light:亮色模式;Dark:暗色模式;Unkown:位置</sys:String>
                 </TabItem.Resources>
                 <local:DemoVerticleStackPanel>
                     <local:DemoHorizontalStackPanel>
                         <TextBlock Text="系统主题色：" />
-                        <Border Width="128" Height="18">
+                        <Border
+                            Width="128"
+                            Height="18">
                             <Border.Background>
                                 <SolidColorBrush Color="{Binding SystemColor}" />
                             </Border.Background>
@@ -451,12 +551,12 @@
                     </local:DemoHorizontalStackPanel>
                     <local:DemoHorizontalStackPanel>
                         <TextBlock Text="系统亮色/暗色模式：" />
-                        <TextBlock Text="{Binding SystemThemeMode, Converter={StaticResource Enum2StringConverter}, ConverterParameter={StaticResource themeDesc}}" />
+                        <TextBlock Text="{Binding SystemThemeMode, Converter={StaticResource StringReplaceConverter}, ConverterParameter={StaticResource themeDesc}}" />
                     </local:DemoHorizontalStackPanel>
 
                     <local:DemoHorizontalStackPanel>
                         <TextBlock Text="应用亮色/暗色模式：" />
-                        <TextBlock Text="{Binding AppThemeMode, Converter={StaticResource Enum2StringConverter}, ConverterParameter={StaticResource themeDesc}}" />
+                        <TextBlock Text="{Binding AppThemeMode, Converter={StaticResource StringReplaceConverter}, ConverterParameter={StaticResource themeDesc}}" />
                     </local:DemoHorizontalStackPanel>
                 </local:DemoVerticleStackPanel>
             </TabItem>

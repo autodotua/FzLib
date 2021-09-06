@@ -5,10 +5,17 @@ using System.Windows.Data;
 
 namespace FzLib.WPF.Converters
 {
-    public class Equal2VisiableConverter : IValueConverter
+    /// <summary>
+    /// 绑定值和参数相等，则Visible，否则Collapsed
+    /// </summary>
+    public class Equal2VisibleConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (parameter == null)
+            {
+                throw new ArgumentNullException();
+            }
             if (value.Equals(parameter) || value.ToString().Equals(parameter.ToString()))
             {
                 return Visibility.Visible;

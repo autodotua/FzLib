@@ -5,16 +5,23 @@ using System.Windows.Data;
 
 namespace FzLib.WPF.Converters
 {
-    public class Number2MarginConverter : IValueConverter
+    /// <summary>
+    /// 隐藏DataGrid的新项占位
+    /// </summary>
+    public class DataGridNewItemPlaceholder2InvisibleConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return new Thickness((double)value);
+            if (value.GetType().Name == "NamedObject")
+            {
+                return Visibility.Collapsed;
+            }
+            return Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotSupportedException();
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,31 +1,26 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Globalization;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Data;
 
 namespace FzLib.WPF.Converters
 {
-    public class Enum2DescriptionConverter : IValueConverter, IDefaultNullValue<string>
+    public class DescriptionConverter : IValueConverter
     {
-        public string DefaultNullValue { get; set; } = "";
-
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value == null)
-            {
-                return DefaultNullValue;
-            }
-            return GetDescription((Enum)value);
+            if (value == null) return DependencyProperty.UnsetValue;
+
+            return GetDescription(value);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             return value;
         }
 
-        public static string GetDescription(Enum en)
+        public static string GetDescription(object en)
         {
             Type type = en.GetType();
             MemberInfo[] memInfo = type.GetMember(en.ToString());

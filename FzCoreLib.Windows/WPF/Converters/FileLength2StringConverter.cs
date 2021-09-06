@@ -4,6 +4,9 @@ using System.Windows.Data;
 
 namespace FzLib.WPF.Converters
 {
+    /// <summary>
+    /// 将字节（long）转换为合适的文件大小字符串
+    /// </summary>
     public class FileLength2StringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

@@ -1,5 +1,4 @@
-﻿using FzLib.Extension;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Windows;
@@ -9,8 +8,7 @@ namespace FzLib.Program.Runtime
 {
     public class TrayIcon : IDisposable
     {
-        NotifyIcon trayIcon = new NotifyIcon();
-
+        private NotifyIcon trayIcon = new NotifyIcon();
 
         private TrayIcon()
         {
@@ -39,7 +37,6 @@ namespace FzLib.Program.Runtime
             {
                 trayIcon.MouseClick += mouseClick;
             }
-
         }
 
         public TrayIcon(System.Drawing.Icon icon, string text, Action mouseLeftClick, Action mouseRightClick) : this(icon, text)
@@ -70,7 +67,7 @@ namespace FzLib.Program.Runtime
                     return;
                 }
 
-                  reShowWhenDpiChanged= value;
+                reShowWhenDpiChanged = value;
                 if (value)
                 {
                     Microsoft.Win32.SystemEvents.DisplaySettingsChanged += DisplaySettingsChanged;
@@ -100,16 +97,13 @@ namespace FzLib.Program.Runtime
                     {
                         mouseLeftClick?.Invoke();
                     }
-
                 };
             }
 
             if (mouseRightClickMenu != null && mouseRightClickMenu.Count != 0)
             {
                 AddContextMenuItems(mouseRightClickMenu);
-
             }
-
         }
 
         public void AddContextMenuItems(Dictionary<string, Action> mouseRightClickMenu)
@@ -131,6 +125,7 @@ namespace FzLib.Program.Runtime
                 trayIcon.ContextMenu.MenuItems.Add(item.Key, new EventHandler((p1, p2) => item.Value()));
             }
         }
+
         public void AddContextMenuItem(string text, Action action)
         {
             if (text == null || action == null)
@@ -142,8 +137,8 @@ namespace FzLib.Program.Runtime
                 trayIcon.ContextMenu = new ContextMenu();
             }
             trayIcon.ContextMenu.MenuItems.Add(text, new EventHandler((p1, p2) => action()));
-
         }
+
         public void InsertContextMenuItem(string text, Action action, int index)
         {
             if (text == null || action == null)
@@ -155,7 +150,6 @@ namespace FzLib.Program.Runtime
                 trayIcon.ContextMenu = new ContextMenu();
             }
             trayIcon.ContextMenu.MenuItems.Add(index, new MenuItem(text, new EventHandler((p1, p2) => action())));
-
         }
 
         public void DeleteContextMenuItem(string text)
@@ -188,6 +182,7 @@ namespace FzLib.Program.Runtime
                 }
             };
         }
+
         public void ClickToOpenOrHideWindow<T>(ISingleObject<T> obj) where T : Window, new()
         {
             MouseLeftClick += (p1, p2) =>
@@ -216,11 +211,11 @@ namespace FzLib.Program.Runtime
                 window = new T();
                 obj.SingleObject = window;
                 window.Show();
-
             };
         }
 
         public event MouseEventHandler MouseLeftClick;
+
         public event MouseEventHandler MouseRightClick;
 
         public void ShowMessage(string message, int ms = 2000)
@@ -228,6 +223,7 @@ namespace FzLib.Program.Runtime
             trayIcon.BalloonTipText = message;
             trayIcon.ShowBalloonTip(ms);
         }
+
         public void Show()
         {
             trayIcon.Visible = true;
@@ -242,10 +238,5 @@ namespace FzLib.Program.Runtime
         {
             trayIcon.Dispose();
         }
-
-
-
-
-
     }
 }

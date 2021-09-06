@@ -4,10 +4,17 @@ using System.Windows.Data;
 
 namespace FzLib.WPF.Converters
 {
+    /// <summary>
+    /// 例如：values={true,true,false}，parameter=or，返回true。参数支持or、and、nor。
+    /// </summary>
     public class BoolLogicConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
+            if (parameter == null)
+            {
+                throw new ArgumentNullException();
+            }
             switch (parameter as string)
             {
                 case "or":

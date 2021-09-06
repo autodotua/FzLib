@@ -8,18 +8,22 @@
     <c:Bool2StringConverter x:Key="Bool2StringConverter" />
     <c:Color2SolidColorBrushConverter x:Key="Color2SolidColorBrushConverter" />
     <c:CountMoreThanZeroConverter x:Key="CountMoreThanZeroConverter" />
-    <c:DataGridNewItemPlaceholder2InvisiableConverter x:Key="DataGridNewItemPlaceholder2InvisiableConverter" />
-    <c:Enum2DescriptionConverter x:Key="Enum2DescriptionConverter" />
+    <c:DataGridNewItemPlaceholder2InvisibleConverter x:Key="DataGridNewItemPlaceholder2InvisibleConverter" />
     <c:Enum2BoolConverter x:Key="Enum2BoolConverter" />
-    <c:Enum2StringConverter x:Key="Enum2StringConverter" />
-    <c:Equal2VisiableConverter x:Key="Equal2VisiableConverter" />
+    <c:StringReplaceConverter x:Key="StringReplaceConverter" />
+    <c:Equal2VisibleConverter x:Key="Equal2VisibleConverter" />
     <c:FileLength2StringConverter x:Key="FileLength2StringConverter" />
-    <c:Number2MarginConverter x:Key="Number2MarginConverter" />
+    <c:Number2ThicknessConverter x:Key="Number2ThicknessConverter" />
     <c:InverseBoolConverter x:Key="InverseBoolConverter" />
     <c:ItalicBool2FontStyleConverter x:Key="ItalicBool2FontStyleConverter" />
     <c:NotNull2BoolConverter x:Key="NotNull2BoolConverter" />
     <c:NotNull2VisibleConverter x:Key="NotNull2VisibleConverter" />
     <c:Number2AlignmentConverter x:Key="Number2AlignmentConverter" />
-    <c:Object2DescriptionConverter x:Key="Object2DescriptionConverter" />
+    <c:DescriptionConverter x:Key="DescriptionConverter" />
     <c:UnderlineBool2TextDecorationConverter x:Key="UnderlineBool2TextDecorationConverter" />
+    <c:TimeSpanConverter x:Key="TimeSpanConverter" />
+    <!--
+    引用：
+    <ResourceDictionary Source="pack://application:,,,/FzCoreLib.Windows;component/WPF/Converters/Converters.xaml" />
+    -->
 </ResourceDictionary>

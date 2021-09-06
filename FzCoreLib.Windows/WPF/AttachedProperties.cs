@@ -3,14 +3,13 @@ using System.Windows.Media;
 
 namespace FzLib.WPF
 {
-    public static class AttachedProperties
+    public static class EasyTransform
     {
         public static DependencyProperty EasyRotateProperty = DependencyProperty.RegisterAttached(
-            "EasyRotate", typeof(double), typeof(AttachedProperties),
+            "EasyRotate", typeof(double), typeof(EasyTransform),
             new PropertyMetadata(new PropertyChangedCallback((s, e) =>
             {
-                UIElement element = s as UIElement;
-                if (element == null)
+                if (!(s is UIElement element))
                 {
                     return;
                 }

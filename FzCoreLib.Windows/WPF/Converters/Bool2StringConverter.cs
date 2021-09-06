@@ -5,12 +5,16 @@ using System.Windows.Data;
 namespace FzLib.WPF.Converters
 {
     /// <summary>
-    /// 布尔类型转字符串，格式：true:false；true:fa\:lse
+    /// 布尔类型转字符串，格式：true:false。包含冒号：true:fa\:lse
     /// </summary>
     public class Bool2StringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (parameter == null)
+            {
+                throw new ArgumentNullException();
+            }
             string[] parts = (parameter as string).Replace("\\:", "{colon}").Split(':');
             if (parts.Length != 2)
             {
@@ -22,7 +26,7 @@ namespace FzLib.WPF.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotSupportedException("Two-way binding not supported by IsNotNullToBoolConverter");
+            throw new NotSupportedException();
         }
     }
 }

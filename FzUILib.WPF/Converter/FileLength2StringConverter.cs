@@ -1,5 +1,4 @@
-﻿using FzLib.Basic;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Windows.Data;
 
@@ -9,7 +8,7 @@ namespace FzLib.UI.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return Number.ByteToFitString((long)value);
+            return NumberConverter.ByteToFitString((long)value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

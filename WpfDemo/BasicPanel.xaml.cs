@@ -79,13 +79,6 @@ namespace FzLib.WpfDemo
     [Serializable]
     public class SerializationData : IJsonSerializable, INotifyPropertyChanged
     {
-        public SerializationData()
-        {
-            Path = System.IO.Path.GetTempFileName();
-        }
-
-        public string Path { get; }
-        public JsonSerializerSettings Settings { get; set; }
         private string text = "文字";
 
         public string Text
@@ -149,9 +142,6 @@ namespace FzLib.WpfDemo
             SerializationData = new SerializationData();
             SerializationData.Childrens = new ObservableCollection<SerializationData>()
         { new SerializationData(), new SerializationData() };
-            SerializationData.SetDateTimeFormat("yyyy-MM-dd")
-                .SetIndented()
-                .UseStringEnumValue();
         }
 
         private string calc;
@@ -571,6 +561,12 @@ namespace FzLib.WpfDemo
 
         public BasicPanelViewModel ViewModel { get; }
         private string binPath = System.IO.Path.GetTempFileName();
+        private string jsonPath = System.IO.Path.GetTempFileName();
+
+        private JsonSerializerSettings jsonSettings = new JsonSerializerSettings()
+               .SetDateTimeFormat("yyyy-MM-dd")
+                   .SetIndented()
+                   .UseStringEnumValue();
 
         public override void Execute(object parameter)
         {
@@ -579,13 +575,13 @@ namespace FzLib.WpfDemo
                switch (parameter as string)
                {
                    case "saveJSON":
-                       ViewModel.SerializationData.Save();
+                       ViewModel.SerializationData.Save(jsonPath, jsonSettings);
                        break;
 
                    case "loadJSON":
                        App.Current.Dispatcher.Invoke(() =>
                        {
-                           if (!ViewModel.SerializationData.TryLoadFromJsonFile())
+                           if (!ViewModel.SerializationData.TryLoadFromJsonFile(jsonPath, jsonSettings))
                            {
                                CommonDialog.ShowErrorDialogAsync("不存在已保存的配置文件");
                            }
@@ -593,13 +589,13 @@ namespace FzLib.WpfDemo
                        break;
 
                    case "browseJSON":
-                       if (!File.Exists(ViewModel.SerializationData.Path))
+                       if (!File.Exists(jsonPath))
                        {
                            CommonDialog.ShowErrorDialogAsync("不存在已保存的配置文件");
                        }
                        else
                        {
-                           IO.FileSystem.OpenFileOrFolder("notepad.exe", ViewModel.SerializationData.Path);
+                           IO.FileSystem.OpenFileOrFolder("notepad.exe", jsonPath);
                        }
                        break;
 

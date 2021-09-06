@@ -5,6 +5,9 @@ using System.Windows.Data;
 
 namespace FzLib.WPF.Converters
 {
+    /// <summary>
+    /// 若绑定值为true，则返回斜体，否则为普通
+    /// </summary>
     public class ItalicBool2FontStyleConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

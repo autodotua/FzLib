@@ -41,7 +41,11 @@
                                         <Button
                                             Command="{Binding FileButtonCommand}"
                                             CommandParameter="openc"
-                                            Content="一些可自定义内容" />
+                                            Content="自定义" />
+                                        <Button
+                                            Command="{Binding FileButtonCommand}"
+                                            CommandParameter="openw"
+                                            Content="父窗口" />
                                     </local:DemoHorizontalStackPanel>
                                 </local:DemoVerticleStackPanel>
                             </GroupBox>

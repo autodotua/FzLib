@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
+using System.Windows.Input;
 
 namespace FzLib.WPF.Controls
 {
@@ -87,11 +88,7 @@ namespace FzLib.WPF.Controls
         {
             Debug.Assert(scrollViewer != null);
 
-            scrollViewer.PreviewMouseWheel += (p1, p2) =>
-            {
-                p2.Handled = true;
-                HandleMouseWheel(p1 as ScrollViewer, p2.Delta);
-            };
+            scrollViewer.PreviewMouseWheel += HandleMouseWheel;
             ScrollViewer = scrollViewer;
             CompositionTarget.Rendering += CompositionTarget_Rendering;
         }
@@ -104,6 +101,7 @@ namespace FzLib.WPF.Controls
         public void Stop()
         {
             CompositionTarget.Rendering -= CompositionTarget_Rendering;
+            ScrollViewer.PreviewMouseWheel -= HandleMouseWheel;
         }
 
         private int i = 0;
@@ -112,7 +110,6 @@ namespace FzLib.WPF.Controls
         {
             if (remainsDelta != 0)
             {
-                Debug.WriteLine(ScrollViewer.VerticalOffset);
                 var target = ScrollViewer.VerticalOffset
                     - (remainsDelta > 0 ? 1 : -1) * Math.Sqrt(Math.Abs(remainsDelta)) / 1.5d //这个控制滑动的距离，值越大距离越短
                     * System.Windows.Forms.SystemInformation.MouseWheelScrollLines;
@@ -132,12 +129,12 @@ namespace FzLib.WPF.Controls
 
         public ScrollViewer ScrollViewer { get; }
 
-        public void HandleMouseWheel(ScrollViewer scr, int delta)
+        public void HandleMouseWheel(object scr, MouseWheelEventArgs e)
         {
             Debug.Assert(scr != null);
 
-            remainsDelta = remainsDelta * 1.5 + delta;//乘一个系数，那么滚轮越快页面滑动也将越快
-            if (remainsDelta != delta)
+            remainsDelta = remainsDelta * 1.5 + e.Delta;//乘一个系数，那么滚轮越快页面滑动也将越快
+            if (remainsDelta != e.Delta)
             {
                 //如果滚动正在进行，那么把滚动交给之前的方法即可
                 return;

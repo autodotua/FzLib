@@ -105,7 +105,7 @@ namespace FzLib.WpfDemo
                     new TaskDialog().SetText("Text").SetInstructionText("InstructionText")
                         .AddButton("按钮1", b => ViewModel.TaskResult = "选择了按钮1")
                         .AddButton("按钮2", b => ViewModel.TaskResult = "选择了按钮2")
-                        .AddButton("不会关闭的按钮", b => b.Enabled =false,false)
+                        .AddButton("不会关闭的按钮", b => b.Enabled = false, false)
                         .Show();
                     break;
 
@@ -148,12 +148,18 @@ namespace FzLib.WpfDemo
             {
                 filter.AddUnion();
             }
+            Window tempWin = null;
+            if (parameter.Equals("openw"))
+            {
+                tempWin = new Window();
+                tempWin.Show();
+            }
             object result = (parameter as string) switch
             {
-                "open" => filter.CreateDialog<CommonOpenFileDialog>().GetFilePath(),
-                "opens" => filter.CreateDialog<CommonOpenFileDialog>().GetFilePaths(),
-                "opend" => filter.CreateDialog<CommonOpenFileDialog>().GetResult(false),
-                "openc" => filter.CreateDialog<CommonOpenFileDialog>()
+                "open" => filter.CreateOpenFileDialog().GetFilePath(),
+                "opens" => filter.CreateOpenFileDialog().GetFilePaths(),
+                "opend" => filter.CreateOpenFileDialog().GetResult(false),
+                "openc" => filter.CreateOpenFileDialog()
                 .SetDefault("C:\\Windows", "默认名称.ini", "ini")
                 .Apply(d =>
                 {
@@ -167,9 +173,10 @@ namespace FzLib.WpfDemo
                     d.Controls.Add(new CommonFileDialogMenu("自定义菜单"));
                 })
                 .GetResult(false),
-                "save" => filter.CreateDialog<CommonSaveFileDialog>().GetFilePath(),
-                "savei" => filter.CreateDialog<CommonSaveFileDialog>().GetInputFilePath(),
-                "saved" => filter.CreateDialog<CommonSaveFileDialog>().GetResult(),
+                "openw" => filter.CreateOpenFileDialog().SetParent(tempWin).GetFilePath(),
+                "save" => filter.CreateSaveFileDialog().GetFilePath(),
+                "savei" => filter.CreateSaveFileDialog().GetInputFilePath(),
+                "saved" => filter.CreateSaveFileDialog().GetResult(),
                 "folder" => new CommonOpenFileDialog().GetFolderPath(),
                 _ => throw new ArgumentException()
             };

@@ -6,6 +6,9 @@ using System.Linq;
 
 namespace FzLib.WPF.Converters
 {
+    /// <summary>
+    /// 集合的数量>0则返回true
+    /// </summary>
     public class CountMoreThanZeroConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

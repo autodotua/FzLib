@@ -19,6 +19,10 @@ namespace FzLib.WPF.Converters
             {
                 return DefaultNullValue;
             }
+            if (parameter == null)
+            {
+                throw new ArgumentNullException();
+            }
             string[] parts = (parameter as string).Split(':');
 
             if (parts.Length != 2)

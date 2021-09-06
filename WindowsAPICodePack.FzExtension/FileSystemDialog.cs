@@ -9,6 +9,8 @@ using System.IO;
 using FzLib.WPF;
 using FzLib.WPF.Dialog;
 using Microsoft.WindowsAPICodePack.Shell;
+using System.Runtime.CompilerServices;
+using System.Windows.Interop;
 
 namespace Microsoft.WindowsAPICodePack.FzExtension
 {
@@ -67,6 +69,36 @@ namespace Microsoft.WindowsAPICodePack.FzExtension
         {
             T t = new T();
             return t.SetFilters(filters);
+        }
+
+        public static T SetParent<T>(this T dialog, Window window) where T : CommonFileDialog
+        {
+            if (window == null)
+            {
+                throw new ArgumentNullException(nameof(window));
+            }
+
+            return dialog.SetParent(new WindowInteropHelper(window).Handle);
+        }
+
+        public static T SetParent<T>(this T dialog, IntPtr handle) where T : CommonFileDialog
+        {
+            if(dialog==null)
+            {
+                throw new ArgumentNullException(nameof(dialog));
+            }
+            if (handle == IntPtr.Zero)
+            {
+                throw new ArgumentNullException(nameof(handle));
+            }
+
+            var field = typeof(CommonFileDialog).GetField("parentWindow",BindingFlags.Instance|BindingFlags.NonPublic);
+            if (field == null)
+            {
+                throw new Exception("找不到字段parentWindow");
+            }
+            field.SetValue(dialog, handle);
+            return dialog;
         }
 
         public static CommonOpenFileDialog CreateOpenFileDialog(this FileFilterCollection filters)

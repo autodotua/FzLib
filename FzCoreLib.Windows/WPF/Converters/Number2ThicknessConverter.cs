@@ -5,20 +5,19 @@ using System.Windows.Data;
 
 namespace FzLib.WPF.Converters
 {
-    public class DataGridNewItemPlaceholder2InvisiableConverter : IValueConverter
+    /// <summary>
+    /// 数字转四边等宽的Thickness
+    /// </summary>
+    public class Number2ThicknessConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value.GetType().Name == "NamedObject")
-            {
-                return Visibility.Collapsed;
-            }
-            return Visibility.Visible;
+            return new Thickness((double)value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

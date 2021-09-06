@@ -10,127 +10,74 @@ namespace FzLib.DataStorage.Serialization
 {
     public interface IJsonSerializable
     {
-        string Path { get; }
-        JsonSerializerSettings Settings { get; set; }
-    }
-
-    internal class ShouldSerializeContractResolver : DefaultContractResolver
-    {
-        public static ShouldSerializeContractResolver Instance { get; } = new ShouldSerializeContractResolver();
-
-        protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
-        {
-            JsonProperty property = base.CreateProperty(member, memberSerialization);
-            if (member.Name == nameof(IJsonSerializable.Path) || member.Name == nameof(IJsonSerializable.Settings))
-            {
-                property.Ignored = true;
-            }
-            return property;
-        }
     }
 
     public static class JsonSerializationExtension
     {
-        public static bool TryLoadFromJsonFile<T>(this T obj) where T : IJsonSerializable
-        {
-            return TryLoadFromJsonFile(obj, obj.Path);
-        }
-
-        public static bool TryLoadFromJsonFile<T>(this T obj, string path) where T : IJsonSerializable
+        public static bool TryLoadFromJsonFile<T>(this T obj, string path, JsonSerializerSettings settings = null) where T : IJsonSerializable
         {
             if (File.Exists(path))
             {
-                obj.LoadFromJsonFile(path);
+                obj.LoadFromJsonFile(path, settings);
                 return true;
             }
             return false;
         }
 
-        public static void LoadFromJsonFile<T>(this T obj) where T : IJsonSerializable
-        {
-            LoadFromJsonFile(obj, obj.Path);
-        }
-
-        public static void LoadFromJsonFile<T>(this T obj, string path) where T : IJsonSerializable
+        public static void LoadFromJsonFile<T>(this T obj, string path, JsonSerializerSettings settings = null) where T : IJsonSerializable
         {
             if (!File.Exists(path))
             {
                 throw new FileNotFoundException("找不到" + path);
             }
             string json = File.ReadAllText(path);
-            T template = JsonConvert.DeserializeObject<T>(json, obj.Settings);
+            T template = JsonConvert.DeserializeObject<T>(json, settings);
             new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<T, T>();
             }).CreateMapper().Map(template, obj);
         }
 
-        public static bool DelectConfigFile<T>(this T obj) where T : IJsonSerializable
+        public static void Save(this IJsonSerializable obj, string path, JsonSerializerSettings settings = null)
         {
-            if (File.Exists(obj.Path))
-            {
-                File.Delete(obj.Path);
-                return true;
-            }
-            return false;
-        }
-
-        public static void Save(this IJsonSerializable obj)
-        {
-            obj.Save(obj.Path);
-        }
-
-        public static void Save(this IJsonSerializable obj, string path)
-        {
-            var settings = obj.Settings ?? new JsonSerializerSettings();
-            settings.ContractResolver = ShouldSerializeContractResolver.Instance;
             string json = JsonConvert.SerializeObject(obj, settings);
             File.WriteAllText(path, json);
         }
 
-        private static IJsonSerializable EnsureSettings(this IJsonSerializable obj)
+        public static JsonSerializerSettings SetIndented(this JsonSerializerSettings settings)
         {
-            if (obj.Settings == null)
-            {
-                obj.Settings = new JsonSerializerSettings();
-            }
-            return obj;
+            settings.Formatting = Formatting.Indented;
+            return settings;
         }
 
-        public static IJsonSerializable SetIndented(this IJsonSerializable obj)
+        public static JsonSerializerSettings IgnoreDefaultValue(this JsonSerializerSettings settings)
         {
-            obj.EnsureSettings().Settings.Formatting = Formatting.Indented;
-            return obj;
+            settings.DefaultValueHandling = DefaultValueHandling.Ignore;
+            return settings;
         }
 
-        public static IJsonSerializable IgnoreDefaultValue(this IJsonSerializable obj)
+        public static JsonSerializerSettings IgnoreNullValue(this JsonSerializerSettings settings)
         {
-            obj.EnsureSettings().Settings.DefaultValueHandling = DefaultValueHandling.Ignore;
-            return obj;
+            settings.NullValueHandling = NullValueHandling.Ignore;
+            return settings;
         }
 
-        public static IJsonSerializable IgnoreNullValue(this IJsonSerializable obj)
+        public static JsonSerializerSettings SetDateTimeFormat(this JsonSerializerSettings settings, string format)
         {
-            obj.EnsureSettings().Settings.NullValueHandling = NullValueHandling.Ignore;
-            return obj;
+            settings.DateFormatString = format;
+            return settings;
         }
 
-        public static IJsonSerializable SetDateTimeFormat(this IJsonSerializable obj, string format)
+        public static JsonSerializerSettings UseStringEnumValue(this JsonSerializerSettings settings)
         {
-            obj.EnsureSettings().Settings.DateFormatString = format;
-            return obj;
+            settings.Converters.Add(new StringEnumConverter());
+            return settings;
         }
 
-        public static IJsonSerializable UseStringEnumValue(this IJsonSerializable obj)
+        public static JsonSerializerSettings IgnoreReferenceLoop(this JsonSerializerSettings settings)
         {
-            obj.EnsureSettings().Settings.Converters.Add(new StringEnumConverter());
-            return obj;
-        }
-
-        public static IJsonSerializable IgnoreReferenceLoop(this IJsonSerializable obj)
-        {
-            obj.EnsureSettings().Settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            return obj;
+            settings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return settings;
         }
     }
 }

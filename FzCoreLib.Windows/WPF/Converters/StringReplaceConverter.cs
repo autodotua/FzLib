@@ -8,7 +8,7 @@ namespace FzLib.WPF.Converters
     /// 通过参数将enum转换为string。
     /// 参数格式示例：Downloading:暂停下载;Paused:继续下载;Stop:开始下载;Pausing:正在暂停
     /// </summary>
-    public class Enum2StringConverter : IValueConverter, IDefaultNullValue<string>
+    public class StringReplaceConverter : IValueConverter, IDefaultNullValue<string>
     {
         public string DefaultNullValue { get; set; } = "";
 
@@ -17,6 +17,10 @@ namespace FzLib.WPF.Converters
             if (value == null)
             {
                 return DefaultNullValue;
+            }
+            if (parameter == null)
+            {
+                throw new ArgumentNullException();
             }
             string[] paras = (parameter as string).Split(';');
             foreach (var item in paras)
@@ -38,7 +42,7 @@ namespace FzLib.WPF.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotSupportedException("Two-way binding not supported by IsNotNullToBoolConverter");
+            throw new NotSupportedException();
         }
     }
 }

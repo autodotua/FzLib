@@ -10,11 +10,14 @@
             <ResourceDictionary.MergedDictionaries>
                 <ui:ThemeResources />
                 <ui:XamlControlsResources />
-                <!--  Other merged dictionaries here  -->
+                <ResourceDictionary Source="pack://application:,,,/FzCoreLib.Windows;component/WPF/Converters/Converters.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <!--  Other app resources here  -->
-            <Style BasedOn="{StaticResource DefaultTextBoxStyle}" TargetType="{x:Type local:DemoTextBox}" />
-            <Style BasedOn="{StaticResource DefaultComboBoxStyle}" TargetType="{x:Type local:DemoComboBox}" />
+            <Style
+                BasedOn="{StaticResource DefaultTextBoxStyle}"
+                TargetType="{x:Type local:DemoTextBox}" />
+            <Style
+                BasedOn="{StaticResource DefaultComboBoxStyle}"
+                TargetType="{x:Type local:DemoComboBox}" />
             <Style TargetType="{x:Type TextBlock}">
                 <Setter Property="VerticalAlignment" Value="Center" />
             </Style>

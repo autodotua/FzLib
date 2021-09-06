@@ -7,6 +7,9 @@ using SolidColorBrush = System.Windows.Media.SolidColorBrush;
 
 namespace FzLib.WPF.Converters
 {
+    /// <summary>
+    /// 从System.Drawing.Color或System.Windows.Media.Color转换到System.Windows.Media.SolidColorBrush
+    /// </summary>
     public class Color2SolidColorBrushConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

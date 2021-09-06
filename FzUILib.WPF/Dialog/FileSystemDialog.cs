@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using static FzLib.UI.Common;
-using static FzLib.Basic.Loop;
 using System.Reflection;
 using System.IO;
 
@@ -13,6 +12,7 @@ namespace FzLib.UI.Dialog
     public static class FileSystemDialog
     {
         public static WindowOwner DefaultOwner { get; set; } = new WindowOwner();
+
         public static string GetSaveFile(
            FileFilterCollection filters, bool ensureExtension = true,
             string defaultFileName = "",
@@ -63,7 +63,6 @@ namespace FzLib.UI.Dialog
             return dialog.FileNames.ToArray();
         }
 
-
         public static string GetOpenFile(
             FileFilterCollection filters = null, string defaultFileName = "",
              Action<CommonOpenFileDialog> otherSetting = null,
@@ -88,6 +87,7 @@ namespace FzLib.UI.Dialog
             filters.Filters.ForEach(p => dialog.Filters.Add(p));
             return dialog;
         }
+
         private static string TryAttachExtension(IList<(string display, string extension)> filters, bool ensureExtension, CommonOpenFileDialog dialog, string fileName)
         {
             if (ensureExtension && filters != null && dialog.SelectedFileTypeIndex <= filters.Count)
@@ -106,7 +106,6 @@ namespace FzLib.UI.Dialog
             return fileName;
         }
 
-
         public static string GetFolder(Action<CommonOpenFileDialog> otherSetting = null, Window owner = null)
         {
             var dialog = new CommonOpenFileDialog
@@ -120,8 +119,8 @@ namespace FzLib.UI.Dialog
             }
             return null;
         }
-
     }
+
     public class FileFilterCollection
     {
         public static string AllFilesDisplay { get; set; } = "所有文件";
@@ -130,6 +129,7 @@ namespace FzLib.UI.Dialog
         private List<EventHandler<StorageOperationEventArgs>> events = new List<EventHandler<StorageOperationEventArgs>>();
         public IReadOnlyCollection<CommonFileDialogFilter> Filters => filters.AsReadOnly();
         private int unionIndex = -1;
+
         internal void Raise(CommonFileDialog dialog, string newName = null)
         {
             if (dialog.SelectedFileTypeIndex >= 0)
@@ -165,6 +165,7 @@ namespace FzLib.UI.Dialog
                 }
             }
         }
+
         public FileFilterCollection Add(CommonFileDialogFilter filter, EventHandler<StorageOperationEventArgs> e = null)
         {
             CheckUnionIndex();
@@ -172,12 +173,14 @@ namespace FzLib.UI.Dialog
             events.Add(e);
             return this;
         }
+
         public FileFilterCollection Add(string display, string extensions, EventHandler<StorageOperationEventArgs> e = null)
         {
             filters.Add(new CommonFileDialogFilter(display, extensions));
             events.Add(e);
             return this;
         }
+
         public FileFilterCollection AddAllFiles(EventHandler<StorageOperationEventArgs> e = null)
         {
             CheckUnionIndex();
@@ -185,6 +188,7 @@ namespace FzLib.UI.Dialog
             events.Add(e);
             return this;
         }
+
         /// <summary>
         /// 添加所有支持的格式
         /// </summary>
@@ -199,24 +203,26 @@ namespace FzLib.UI.Dialog
             List<string> allExtensions = new List<string>();
             //将所有已经添加的格式进行结合
             filters.ForEach(p => allExtensions.AddRange(p.Extensions));
-            filters.Insert(0,new CommonFileDialogFilter(UnionExtensionsDisplay, string.Join(",", allExtensions)));
+            filters.Insert(0, new CommonFileDialogFilter(UnionExtensionsDisplay, string.Join(",", allExtensions)));
             return this;
         }
+
         private void CheckUnionIndex()
         {
-            if(unionIndex>=0)
+            if (unionIndex >= 0)
             {
                 throw new Exception("Call AddUnion Method Last");
             }
         }
     }
+
     //public class FileOkEventArgs
     //{
     //    public FileOkEventArgs(string fileName, IEnumerable<string> fileNames)
     //    {
     //        FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
     //        FileNames =( fileNames ?? throw new ArgumentNullException(nameof(fileNames))).ToArray();
-    //    }  
+    //    }
     //    public FileOkEventArgs(string fileName)
     //    {
     //        FileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
