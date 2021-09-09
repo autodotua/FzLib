@@ -12,7 +12,7 @@ namespace FzLib.WPF.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var str = value as string;
+            var str = parameter as string;
             if (value is bool b)
             {
                 if (str != null && str.Contains('i'))
