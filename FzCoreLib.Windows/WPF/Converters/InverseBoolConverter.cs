@@ -15,7 +15,7 @@ namespace FzLib.WPF.Converters
             {
                 return !b;
             }
-            throw new ArgumentException();
+            throw new ArgumentException(nameof(value));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

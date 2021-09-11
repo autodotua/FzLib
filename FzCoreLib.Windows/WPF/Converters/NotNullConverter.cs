@@ -1,30 +1,27 @@
 ﻿using System;
-using System.Collections;
 using System.Globalization;
-using System.Windows.Data;
-using System.Linq;
 using System.Windows;
+using System.Windows.Data;
 
 namespace FzLib.WPF.Converters
 {
     /// <summary>
-    /// 集合的数量>0则返回true/Visiable。支持参数i反转，参数h使用Hidden代替Collapse。
+    /// 若值为非空或字符串不为空，则返回true/Visible，否则返回false/Collapse/Hidden。支持'h'切换到Hidden以及'i‘反转。
     /// </summary>
-    public class CountMoreThanZeroConverter : IValueConverter
+    public class NotNullConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            bool result = false;
-            if (value is ICollection c)
+            bool result = true;
+            if (value == null)
             {
-                result = c.Count > 0;
+                result = false;
             }
-            else if (value is IEnumerable e)
+            if (value is string && string.IsNullOrEmpty(value as string))
             {
-                result = e.Cast<object>().Any();
+                result = false;
             }
             result = ConverterHelper.GetInverseResult(result, parameter);
-
             if (targetType == typeof(bool) || targetType == typeof(bool?))
             {
                 return result;

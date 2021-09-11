@@ -16,8 +16,7 @@
     <c:Number2ThicknessConverter x:Key="Number2ThicknessConverter" />
     <c:InverseBoolConverter x:Key="InverseBoolConverter" />
     <c:ItalicBool2FontStyleConverter x:Key="ItalicBool2FontStyleConverter" />
-    <c:NotNull2BoolConverter x:Key="NotNull2BoolConverter" />
-    <c:NotNull2VisibleConverter x:Key="NotNull2VisibleConverter" />
+    <c:NotNullConverter x:Key="NotNullConverter" />
     <c:Number2AlignmentConverter x:Key="Number2AlignmentConverter" />
     <c:DescriptionConverter x:Key="DescriptionConverter" />
     <c:UnderlineBool2TextDecorationConverter x:Key="UnderlineBool2TextDecorationConverter" />

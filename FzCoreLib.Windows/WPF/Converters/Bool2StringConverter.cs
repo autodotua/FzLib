@@ -11,9 +11,9 @@ namespace FzLib.WPF.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (parameter == null)
+            if (parameter == null || !(parameter is string))
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(parameter));
             }
             string[] parts = (parameter as string).Replace("\\:", "{colon}").Split(':');
             if (parts.Length != 2)

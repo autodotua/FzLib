@@ -248,7 +248,7 @@
                                 Text="删除这些" />
                             <CheckBox
                                 Content="非空则为True"
-                                IsChecked="{Binding ElementName=chkNutNull2True, Path=Text, Converter={StaticResource NotNull2BoolConverter}}" />
+                                IsChecked="{Binding ElementName=chkNutNull2True, Path=Text, Converter={StaticResource NotNullConverter}}" />
                         </local:DemoHorizontalStackPanel>
                         <TextBlock
                             Style="{DynamicResource tbkTitle}"
@@ -393,7 +393,7 @@
                                 Text="删除这些" />
                             <TextBlock
                                 Text="可见"
-                                Visibility="{Binding ElementName=chkNutNull2Visible, Path=Text, Converter={StaticResource NotNull2VisibleConverter}}" />
+                                Visibility="{Binding ElementName=chkNutNull2Visible, Path=Text, Converter={StaticResource NotNullConverter}}" />
                         </local:DemoHorizontalStackPanel>
 
                         <TextBlock

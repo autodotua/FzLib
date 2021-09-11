@@ -7,12 +7,10 @@
     xmlns:local="clr-namespace:ModernWpf.FzExtension.CommonDialog"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.modernwpf.com/2019"
-    CloseButtonText="取消" PrimaryButtonText="确定"
+    CloseButtonText="取消"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
+    PrimaryButtonText="确定"
     mc:Ignorable="d">
-    <local:CommonDialog.Resources>
-        <cvt:NotNull2VisibleConverter x:Key="n2ic" />
-    </local:CommonDialog.Resources>
     <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <ItemsControl ItemsSource="{Binding Items}">
             <ItemsControl.ItemTemplate>
@@ -39,11 +37,13 @@
                                     Style="{DynamicResource BaseTextBlockStyle}"
                                     Text="{Binding Title}" />
                                 <TextBlock
-                                    Grid.Row="2" Margin="0,4"
-                                    VerticalAlignment="Center" Opacity="0.8"
+                                    Grid.Row="2"
+                                    Margin="0,4"
+                                    VerticalAlignment="Center"
+                                    Opacity="0.8"
                                     Text="{Binding Detail}"
                                     TextWrapping="Wrap"
-                                    Visibility="{Binding Detail, Converter={StaticResource n2ic}}" />
+                                    Visibility="{Binding Detail, Converter={StaticResource NotNullConverter}}" />
                             </Grid>
                         </CheckBox>
                     </Border>

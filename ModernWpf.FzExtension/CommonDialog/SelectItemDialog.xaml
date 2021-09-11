@@ -10,9 +10,6 @@
     CloseButtonText="取消"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     mc:Ignorable="d">
-    <local:CommonDialog.Resources>
-        <cvt:NotNull2VisibleConverter x:Key="n2ic" />
-    </local:CommonDialog.Resources>
     <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <ListView ItemsSource="{Binding Items}" SelectionChanged="ListView_SelectionChanged">
             <ListView.ItemTemplate>
@@ -34,7 +31,7 @@
                                 VerticalAlignment="Center" Opacity="0.8"
                                 Text="{Binding Detail}"
                                 TextWrapping="Wrap"
-                                Visibility="{Binding Detail, Converter={StaticResource n2ic}}" />
+                                Visibility="{Binding Detail, Converter={StaticResource NotNullConverter}}" />
                         </Grid>
                     </Border>
                 </DataTemplate>

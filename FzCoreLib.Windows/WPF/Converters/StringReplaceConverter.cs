@@ -18,7 +18,7 @@ namespace FzLib.WPF.Converters
             {
                 return DefaultNullValue;
             }
-            if (parameter == null)
+            if (parameter == null || !(parameter is string))
             {
                 throw new ArgumentNullException();
             }

@@ -11,7 +11,7 @@ namespace FzLib.WPF.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (parameter == null)
+            if (parameter == null || !(parameter is string))
             {
                 throw new ArgumentNullException();
             }

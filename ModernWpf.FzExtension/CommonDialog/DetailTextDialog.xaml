@@ -9,9 +9,6 @@
     xmlns:ui="http://schemas.modernwpf.com/2019"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     mc:Ignorable="d">
-    <local:CommonDialog.Resources>
-        <cvt:NotNull2VisibleConverter x:Key="n2ic" />
-    </local:CommonDialog.Resources>
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
@@ -25,12 +22,12 @@
         <TextBlock
             Text="{Binding Message}"
             TextWrapping="Wrap"
-            Visibility="{Binding Message, Converter={StaticResource n2ic}}" />
+            Visibility="{Binding Message, Converter={StaticResource NotNullConverter}}" />
         <Expander
             Grid.Row="2" Margin="0,16,0,0"
             HorizontalAlignment="Stretch"
             Header="详情"
-            Visibility="{Binding Detail, Converter={StaticResource n2ic}}">
+            Visibility="{Binding Detail, Converter={StaticResource NotNullConverter}}">
             <ScrollViewer
                 MaxHeight="320"
                 HorizontalScrollBarVisibility="Disabled"
@@ -47,6 +44,6 @@
             VerticalAlignment="Top" FontSize="30"
             Foreground="{Binding IconBrush}"
             Glyph="{Binding Icon}"
-            Visibility="{Binding Icon, Converter={StaticResource n2ic}}" />
+            Visibility="{Binding Icon, Converter={StaticResource NotNullConverter}}" />
     </Grid>
 </local:CommonDialog>

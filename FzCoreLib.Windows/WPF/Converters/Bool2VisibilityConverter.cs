@@ -12,18 +12,10 @@ namespace FzLib.WPF.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var str = parameter as string;
             if (value is bool b)
             {
-                if (str != null && str.Contains('i'))
-                {
-                    b = !b;
-                }
-                if (str != null && str.Contains('h'))
-                {
-                    return b ? Visibility.Collapsed : Visibility.Visible;
-                }
-                return b ? Visibility.Visible : Visibility.Collapsed;
+                b = ConverterHelper.GetInverseResult(b, parameter);
+                return b ? Visibility.Visible : ConverterHelper.GetHiddenMode(parameter);
             }
             throw new ArgumentException("绑定值必须为Bool类型");
         }

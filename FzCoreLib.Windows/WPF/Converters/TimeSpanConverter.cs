@@ -5,6 +5,9 @@ using System.Windows.Data;
 
 namespace FzLib.WPF.Converters
 {
+    /// <summary>
+    /// TimeSpan和String互转，默认支持的格式：12:34:56，12s，34m，56h
+    /// </summary>
     public class TimeSpanConverter : IValueConverter
     {
         public string Format { get; set; } = "hh\\:mm\\:ss";

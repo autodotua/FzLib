@@ -11,6 +11,13 @@ namespace ModernWpf.FzExtension.CommonDialog
 {
     public abstract class CommonDialog : ContentDialog, INotifyPropertyChanged
     {
+        internal CommonDialog()
+        {
+            ResourceDictionary resources = new ResourceDictionary();
+            resources.Source = new Uri("pack://application:,,,/FzCoreLib.Windows;component/WPF/Converters/Converters.xaml", UriKind.RelativeOrAbsolute);
+            Resources.MergedDictionaries.Add(resources);
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public static Task ShowOkDialogAsync(string title, string message = null)

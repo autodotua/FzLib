@@ -6,7 +6,7 @@ using System.Windows.Data;
 namespace FzLib.WPF.Converters
 {
     /// <summary>
-    /// 绑定值和参数相等，则Visible，否则Collapsed
+    /// 绑定值和参数相等，则Visible，否则Collapsed。参数以"#h"结尾，则为Hidden。
     /// </summary>
     public class Equal2VisibleConverter : IValueConverter
     {
@@ -16,11 +16,11 @@ namespace FzLib.WPF.Converters
             {
                 throw new ArgumentNullException();
             }
-            if (value.Equals(parameter) || value.ToString().Equals(parameter.ToString()))
+            if (value.Equals(parameter) || value.ToString().Equals(parameter.ToString().RemoveEnd("#h")))
             {
                 return Visibility.Visible;
             }
-            return Visibility.Collapsed;
+            return ConverterHelper.GetEndHiddenMode(parameter);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
