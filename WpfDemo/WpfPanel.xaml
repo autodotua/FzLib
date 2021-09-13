@@ -368,12 +368,23 @@
                         <local:DemoHorizontalStackPanel>
                             <Label>相等转可见性</Label>
                             <TextBox
-                                x:Name="txtEqual2Bool"
+                                x:Name="txtEqual2Visibility"
                                 Width="{StaticResource w}"
                                 ui:ControlHelper.Description="输入123" />
                             <TextBlock
                                 Text="值等于123"
-                                Visibility="{Binding ElementName=txtEqual2Bool, Path=Text, Converter={StaticResource Equal2VisibleConverter}, ConverterParameter=123}" />
+                                Visibility="{Binding ElementName=txtEqual2Visibility, Path=Text, Converter={StaticResource EqualConverter}, ConverterParameter=123}" />
+                        </local:DemoHorizontalStackPanel>
+                        <local:DemoHorizontalStackPanel>
+                            <Label>相等转Bool（反）</Label>
+                            <TextBox
+                                x:Name="txtEqual2False"
+                                Width="{StaticResource w}"
+                                ui:ControlHelper.Description="输入123" />
+                            <CheckBox
+                                Content="值不等于123"
+                                IsChecked="{Binding ElementName=txtEqual2False, Path=Text, Converter={StaticResource EqualConverter}, ConverterParameter=123#i#}"
+                                IsHitTestVisible="False" />
                         </local:DemoHorizontalStackPanel>
                         <local:DemoHorizontalStackPanel>
                             <Label>Bool转可见性</Label>
