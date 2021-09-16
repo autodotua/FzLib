@@ -12,12 +12,12 @@ namespace FzLib.WPF.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (!(parameter is string))
+            if (parameter==null)
             {
                 throw new ArgumentNullException();
             }
             bool result = false;
-            if (value.Equals(parameter) || value.ToString().Equals(ConverterHelper.RemoveEndFlags(parameter.ToString())))
+            if (parameter.Equals(value) || value != null && value.ToString().Equals(ConverterHelper.RemoveEndFlags(parameter.ToString())))
             {
                 result = true;
             }
