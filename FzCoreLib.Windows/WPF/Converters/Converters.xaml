@@ -21,6 +21,7 @@
     <c:DescriptionConverter x:Key="DescriptionConverter" />
     <c:UnderlineBool2TextDecorationConverter x:Key="UnderlineBool2TextDecorationConverter" />
     <c:TimeSpanConverter x:Key="TimeSpanConverter" />
+    <c:ValueTupleConverter x:Key="ValueTupleConverter" />
     <!--
     引用：
     <ResourceDictionary Source="pack://application:,,,/FzCoreLib.Windows;component/WPF/Converters/Converters.xaml" />

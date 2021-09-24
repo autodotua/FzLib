@@ -11,7 +11,7 @@ namespace ModernWpf.FzExtension.CommonDialog
 {
     public abstract class CommonDialog : ContentDialog, INotifyPropertyChanged
     {
-        internal CommonDialog()
+        public CommonDialog()
         {
             ResourceDictionary resources = new ResourceDictionary();
             resources.Source = new Uri("pack://application:,,,/FzCoreLib.Windows;component/WPF/Converters/Converters.xaml", UriKind.RelativeOrAbsolute);
