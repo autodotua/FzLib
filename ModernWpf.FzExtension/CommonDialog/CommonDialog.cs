@@ -32,7 +32,7 @@ namespace ModernWpf.FzExtension.CommonDialog
             return dialog.ShowAsync();
         }
 
-        public async static Task<int?> ShowIntInputDialogAsync(string title, int? defaultValue = null)
+        public static async Task<int?> ShowIntInputDialogAsync(string title, int? defaultValue = null)
         {
             InputDialog dialog = new InputDialog(p => int.TryParse(p, out int _), "1234567890")
             {
@@ -49,7 +49,7 @@ namespace ModernWpf.FzExtension.CommonDialog
             return null;
         }
 
-        public async static Task<double?> ShowDoubleInputDialogAsync(string title, double? defaultValue = null)
+        public static async Task<double?> ShowDoubleInputDialogAsync(string title, double? defaultValue = null)
         {
             InputDialog dialog = new InputDialog(p => double.TryParse(p, out double _), "1234567890.")
             {
@@ -66,7 +66,7 @@ namespace ModernWpf.FzExtension.CommonDialog
             return null;
         }
 
-        public async static Task<string> ShowInputDialogAsync(string title, string defaultText = "", bool multiLines = false, int maxLines = 1)
+        public static async Task<string> ShowInputDialogAsync(string title, string defaultText = "", bool multiLines = false, int maxLines = 1)
         {
             InputDialog dialog = new InputDialog()
             {
@@ -158,7 +158,7 @@ namespace ModernWpf.FzExtension.CommonDialog
             return ShowErrorDialogAsync(null, message);
         }
 
-        public async static Task<int> ShowSelectItemDialogAsync(string title, IEnumerable<SelectDialogItem> items, string extraButtonText = null, Action extraButtonAction = null)
+        public static async Task<int> ShowSelectItemDialogAsync(string title, IEnumerable<SelectDialogItem> items, string extraButtonText = null, Action extraButtonAction = null)
         {
             SelectItemDialog dialog = new SelectItemDialog()
             {
@@ -175,7 +175,7 @@ namespace ModernWpf.FzExtension.CommonDialog
             return dialog.SelectedIndex;
         }
 
-        public async static Task<IReadOnlyList<CheckDialogItem>> ShowCheckBoxDialogAsync(string title,
+        public static async Task<IReadOnlyList<CheckDialogItem>> ShowCheckBoxDialogAsync(string title,
             IEnumerable<CheckDialogItem> items,
             bool needAtLeastOneCheck,
             string extraButtonText = null,
@@ -207,7 +207,7 @@ namespace ModernWpf.FzExtension.CommonDialog
         /// “重写”方法，使弹窗能够依次弹出来而不会报错
         /// </summary>
         /// <returns></returns>
-        public async new Task<ContentDialogResult> ShowAsync()
+        public new async Task<ContentDialogResult> ShowAsync()
         {
             if (CurrentDialog != null)
             {
@@ -219,6 +219,11 @@ namespace ModernWpf.FzExtension.CommonDialog
             ShowTask = null;
             CurrentDialog = null;
             return result;
+        }
+
+        protected void OnPropertyChanged(PropertyChangedEventArgs eventArgs)
+        {
+            PropertyChanged?.Invoke(this, eventArgs);
         }
     }
 }
