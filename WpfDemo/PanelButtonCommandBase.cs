@@ -18,7 +18,7 @@ namespace FzLib.WpfDemo
 
         public abstract void Execute(object parameter);
 
-        protected async void Do(Action action)
+        protected async void Do(Action action,bool catchExceptions=true)
         {
             try
             {
@@ -31,6 +31,10 @@ namespace FzLib.WpfDemo
             }
             catch (Exception ex)
             {
+                if(!catchExceptions)
+                {
+                    throw;
+                }
                 await CommonDialog.ShowErrorDialogAsync(ex);
             }
             finally

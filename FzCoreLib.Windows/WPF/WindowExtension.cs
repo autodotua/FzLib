@@ -34,7 +34,7 @@ namespace FzLib.WPF
             return Window.GetWindow(obj);
         }
 
-        public static Window GetWindow<T>(this DependencyObject obj) where T : Window
+        public static T GetWindow<T>(this DependencyObject obj) where T : Window
         {
             return Window.GetWindow(obj) as T;
         }

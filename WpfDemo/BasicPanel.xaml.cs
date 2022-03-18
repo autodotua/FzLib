@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using FzLib.IO;
+using FzLib.Program.Runtime;
 
 namespace FzLib.WpfDemo
 {
@@ -139,6 +140,7 @@ namespace FzLib.WpfDemo
             MathButtonCommand = new BasicPanelMathButtonCommand(this);
             CryptographyButtonCommand = new BasicPanelCryptographyButtonCommand(this);
             SerializationButtonCommand = new BasicPanelSerializationButtonCommand(this);
+            ProgramButtonCommand = new BasicPanelProgramButtonCommand(this);
             SerializationData = new SerializationData();
             SerializationData.Childrens = new ObservableCollection<SerializationData>()
         { new SerializationData(), new SerializationData() };
@@ -412,6 +414,14 @@ namespace FzLib.WpfDemo
             set => this.SetValueAndNotify(ref dupR, value, nameof(DupR));
         }
 
+        private bool canRegisterUnhandledExceptionCatcher = true;
+        public bool CanRegisterUnhandledExceptionCatcher
+        {
+            get => canRegisterUnhandledExceptionCatcher;
+            set => this.SetValueAndNotify(ref canRegisterUnhandledExceptionCatcher, value, nameof(CanRegisterUnhandledExceptionCatcher));
+        }
+
+
         private IEnumerable<FileComparisonTableItem> compareR;
 
         public IEnumerable<FileComparisonTableItem> CompareR
@@ -427,6 +437,7 @@ namespace FzLib.WpfDemo
         public BasicPanelCryptographyButtonCommand CryptographyButtonCommand { get; }
         public BasicPanelSerializationButtonCommand SerializationButtonCommand { get; }
         public BasicPanelIOButtonCommand IOButtonCommand { get; }
+        public BasicPanelProgramButtonCommand ProgramButtonCommand { get; }
     }
 
     public class BasicPanelButtonCommand : PanelButtonCommandBase
@@ -549,6 +560,44 @@ namespace FzLib.WpfDemo
                    await CommonDialog.ShowErrorDialogAsync($"共有{fDirs.Count}个目录无法访问", string.Join(Environment.NewLine, fDirs));
                }
            });
+        }
+    }
+
+    public class BasicPanelProgramButtonCommand : PanelButtonCommandBase
+    {
+        public BasicPanelProgramButtonCommand(BasicPanelViewModel viewModel)
+        {
+            ViewModel = viewModel;
+        }
+
+        public BasicPanelViewModel ViewModel { get; }
+
+        public override void Execute(object parameter)
+        {
+            switch (parameter as string)
+            {
+                case "register":
+                    TestUnhandledExceptionCatcher.Register();
+                    ViewModel.CanRegisterUnhandledExceptionCatcher = false;
+                    break;
+                case "task":
+                    var task = Task.Run(() => throw new NotImplementedException());
+
+                    ((IAsyncResult)task).AsyncWaitHandle.WaitOne();
+                    task = null;
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+                    GC.Collect();
+                    break;
+                case "thread":
+                    new System.Threading.Thread(() =>
+                    {
+                        throw new InvalidOperationException();
+                    }).Start();
+                    break;
+                case "ui":
+                    throw new InvalidOperationException();
+            }
         }
     }
 
@@ -859,4 +908,20 @@ namespace FzLib.WpfDemo
             InitializeComponent();
         }
     }
+
+    public static class TestUnhandledExceptionCatcher
+    {
+        public static void Register()
+        {
+            WPFUnhandledExceptionCatcher.RegistAll().UnhandledExceptionCatched += (s, e) =>
+            {
+                MessageBox.Show($"来源：{e.Source}{Environment.NewLine}信息：{e.Exception.Message}", "捕获到错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                if (e.Source == ExceptionSource.Thread)
+                {
+                    MessageBox.Show($"此类错误无法恢复", "捕获到错误", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            };
+        }
+    }
+
 }

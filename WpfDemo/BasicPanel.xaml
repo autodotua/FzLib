@@ -514,16 +514,16 @@
                             <local:DemoVerticleStackPanel>
                                 <local:DemoHorizontalStackPanel>
                                     <Button
-                                    Command="{Binding IOButtonCommand}"
-                                    CommandParameter="exist"
-                                    Content="大小写敏感的文件存在检查" />
+                                        Command="{Binding IOButtonCommand}"
+                                        CommandParameter="exist"
+                                        Content="大小写敏感的文件存在检查" />
                                     <TextBlock Text="{Binding IsFileExist}" />
                                 </local:DemoHorizontalStackPanel>
                                 <local:DemoHorizontalStackPanel>
                                     <Button
-                                    Command="{Binding IOButtonCommand}"
-                                    CommandParameter="dup"
-                                    Content="查找第一个与文件不重名的文件名" />
+                                        Command="{Binding IOButtonCommand}"
+                                        CommandParameter="dup"
+                                        Content="查找第一个与文件不重名的文件名" />
                                     <TextBlock Text="{Binding DupR}" />
                                 </local:DemoHorizontalStackPanel>
                             </local:DemoVerticleStackPanel>
@@ -612,8 +612,9 @@
                                     Command="{Binding IOButtonCommand}"
                                     CommandParameter="compare"
                                     Content="比较文件夹1和文件夹2的内容" />
-                                <ListView Margin="0,0,16,0"
+                                <ListView
                                     MaxHeight="360"
+                                    Margin="0,0,16,0"
                                     ItemsSource="{Binding CompareR}">
                                     <ListView.View>
                                         <GridView>
@@ -634,7 +635,30 @@
                     </local:DemoVerticleStackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="程序" />
+            <TabItem Header="程序">
+                <local:DemoVerticleStackPanel>
+                    <Button
+                        Command="{Binding ProgramButtonCommand}"
+                        CommandParameter="register"
+                        Content="注册异常捕获"
+                        IsEnabled="{Binding CanRegisterUnhandledExceptionCatcher}" />
+                    <local:DemoHorizontalStackPanel>
+                        <Button
+                            Command="{Binding ProgramButtonCommand}"
+                            CommandParameter="ui"
+                            Content="触发UI异常" />
+                        <Button
+                            Command="{Binding ProgramButtonCommand}"
+                            CommandParameter="task"
+                            Content="触发Task异常" />
+                        <Button
+                            Command="{Binding ProgramButtonCommand}"
+                            CommandParameter="thread"
+                            Content="触发Thread异常" />
+                    </local:DemoHorizontalStackPanel>
+
+                </local:DemoVerticleStackPanel>
+            </TabItem>
         </TabControl>
     </Grid>
 </UserControl>
