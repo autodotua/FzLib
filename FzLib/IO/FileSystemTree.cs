@@ -21,7 +21,7 @@ namespace FzLib.IO
         public string[] Files { get; private set; }
         public FileSystemTree[] Directories { get; private set; }
 
-        public DirectoryInfo[] GetDirectoriyInfoDictionary()
+        public DirectoryInfo[] GetDirectoryInfoDictionary()
         {
             if (Directories == null || Directories.Length == 0)
             {
@@ -34,7 +34,7 @@ namespace FzLib.IO
         public async Task<DirectoryInfo[]> GetDirectoryInfoDictionaryAsync()
         {
             DirectoryInfo[] infos = null;
-            await Task.Run(() => infos = GetDirectoriyInfoDictionary());
+            await Task.Run(() => infos = GetDirectoryInfoDictionary());
             return infos;
         }
 

@@ -1,0 +1,27 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:FzLib.Avalonia.Converters">
+    <c:BoldBool2FontWeightConverter x:Key="BoldBool2FontWeightConverter" />
+    <c:BoolLogicConverter x:Key="BoolLogicConverter" />
+    <c:Bool2StringConverter x:Key="Bool2StringConverter" />
+    <c:CountMoreThanZeroConverter x:Key="CountMoreThanZeroConverter" />
+    <c:DataGridNewItemPlaceholder2InvisibleConverter x:Key="DataGridNewItemPlaceholder2InvisibleConverter" />
+    <c:Enum2BoolConverter x:Key="Enum2BoolConverter" />
+    <c:StringReplaceConverter x:Key="StringReplaceConverter" />
+    <c:EqualConverter x:Key="EqualConverter" />
+    <c:FileLength2StringConverter x:Key="FileLength2StringConverter" />
+    <c:Number2ThicknessConverter x:Key="Number2ThicknessConverter" />
+    <c:InverseBoolConverter x:Key="InverseBoolConverter" />
+    <c:ItalicBool2FontStyleConverter x:Key="ItalicBool2FontStyleConverter" />
+    <c:NotNullConverter x:Key="NotNullConverter" />
+    <c:Number2AlignmentConverter x:Key="Number2AlignmentConverter" />
+    <c:DescriptionConverter x:Key="DescriptionConverter" />
+    <c:UnderlineBool2TextDecorationConverter x:Key="UnderlineBool2TextDecorationConverter" />
+    <c:TimeSpanConverter x:Key="TimeSpanConverter" />
+    <c:ValueTupleConverter x:Key="ValueTupleConverter" />
+    <!--
+    引用：
+    <ResourceDictionary Source="pack://application:,,,/FzCoreLib.Windows;component/WPF/Converters/Converters.xaml" />
+    -->
+</ResourceDictionary>

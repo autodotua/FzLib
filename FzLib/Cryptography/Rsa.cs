@@ -11,7 +11,7 @@ namespace FzLib.Cryptography
 {
     public static class RsaExtension
     {
-        public static int GetEncrypteBufferLength(this RSACryptoServiceProvider rsaProvider, bool useOaep)
+        public static int GetEncryptBufferLength(this RSACryptoServiceProvider rsaProvider, bool useOaep)
         {
             if (useOaep)
             {
@@ -23,7 +23,7 @@ namespace FzLib.Cryptography
             }
         }
 
-        public static int GetDecrypteBufferLength(this RSACryptoServiceProvider rsaProvider) => rsaProvider.KeySize / 8;
+        public static int GetDecryptBufferLength(this RSACryptoServiceProvider rsaProvider) => rsaProvider.KeySize / 8;
 
         public static RSACryptoServiceProvider CreateProvider(RSAParameters parameters, int keySize = 1024)
         {
@@ -54,7 +54,7 @@ namespace FzLib.Cryptography
             List<byte> encrypted = new List<byte>(input.Length);
             using (MemoryStream msInput = new MemoryStream(input))
             {
-                int bufferSize = rsaProvider.GetEncrypteBufferLength(useOaep);
+                int bufferSize = rsaProvider.GetEncryptBufferLength(useOaep);
                 byte[] buffer = new byte[bufferSize];
                 int size;
                 while ((size = msInput.Read(buffer, 0, bufferSize)) > 0)
@@ -86,7 +86,7 @@ namespace FzLib.Cryptography
             }
             List<byte> decrypted = new List<byte>();
             MemoryStream msInput = new MemoryStream(input);
-            int bufferSize = rsaProvider.GetDecrypteBufferLength();
+            int bufferSize = rsaProvider.GetDecryptBufferLength();
             byte[] buffer = new byte[bufferSize];
             int size;
 
@@ -106,25 +106,6 @@ namespace FzLib.Cryptography
             return decrypted.ToArray();
         }
 
-        //public static string ToXmlKey(this RSACryptoServiceProvider provider, bool includePrivateParameters)
-        //{
-        //    RSAParameters rsaParams = provider.ExportParameters(includePrivateParameters);
-        //    StringBuilder sb = new StringBuilder();
-        //    sb.Append("<RSAKeyValue>");
-        //    sb.Append("<Modulus>" + Convert.ToBase64String(rsaParams.Modulus) + "</Modulus>");
-        //    sb.Append("<Exponent>" + Convert.ToBase64String(rsaParams.Exponent) + "</Exponent>");
-        //    if (includePrivateParameters)
-        //    {
-        //        sb.Append("<P>" + Convert.ToBase64String(rsaParams.P) + "</P>");
-        //        sb.Append("<Q>" + Convert.ToBase64String(rsaParams.Q) + "</Q>");
-        //        sb.Append("<DP>" + Convert.ToBase64String(rsaParams.DP) + "</DP>");
-        //        sb.Append("<DQ>" + Convert.ToBase64String(rsaParams.DQ) + "</DQ>");
-        //        sb.Append("<InverseQ>" + Convert.ToBase64String(rsaParams.InverseQ) + "</InverseQ>");
-        //        sb.Append("<D>" + Convert.ToBase64String(rsaParams.D) + "</D>");
-        //    }
-        //    sb.Append("</RSAKeyValue>");
-        //    return (sb.ToString());
-        //}
 
         public static string ToPemPublicKey(this RSACryptoServiceProvider provider)
         {

@@ -23,7 +23,7 @@ namespace FzLib.IO
         {
         }
 
-        public void RegistAllEvent()
+        public void RegisterAllEvent()
         {
             EnableRaisingEvents = true;
             Created += FileChanged;
