@@ -1,0 +1,12 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dialogs="clr-namespace:FzLib.Avalonia.Dialogs">
+
+    <ControlTemplate x:Key="DialogWrapper">
+        <Grid>
+            <TextBlock Text="Hello" />
+            <ContentPresenter  />
+        </Grid>
+    </ControlTemplate>
+</ResourceDictionary>

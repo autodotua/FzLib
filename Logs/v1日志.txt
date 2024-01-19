@@ -80,13 +80,13 @@
 20181216
 	【Control.Dialog.SnakeBar】静态方法新增owner参数，新增Show方法
 	【FzLib.Extension】新增【Loop】类，用于扩展循环相关方法
-	【Fzlib.Basic.Math】新增【FastRandom】内部类
+	【FzLib.Basic.Math】新增【FastRandom】内部类
 20181218
 	【FzLib.Extension】新增【BinarySortTree】二叉排序树用于较多数据的排序
 20181220
 	将所有有关集合的类移植【Basic.Collection】，并新建红黑树用于大量数据的快速插入排序
 20181223
-	【Fzlib.Basic.Math】新增获取可能的质数方法
+	【FzLib.Basic.Math】新增获取可能的质数方法
 	【Basic.Collection】新增【ExtendedDictionary】类
 20181229
 	【Control.Dialog.CommonFileSystemDialog】新增GetOpenFile方法

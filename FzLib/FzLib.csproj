@@ -4,20 +4,17 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>FzLib</AssemblyName>
     <RootNamespace>FzLib</RootNamespace>
-    <Platforms>x64;AnyCPU</Platforms>
+    <Platforms>AnyCPU</Platforms>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <LangVersion>8</LangVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutputPath>..\Release\x64</OutputPath>
-    <WarningLevel>3</WarningLevel>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>$(Temp)\$(AssemblyName)</OutputPath>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\Release\AnyCPU</OutputPath>
-    <WarningLevel>3</WarningLevel>
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>..\Release</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>

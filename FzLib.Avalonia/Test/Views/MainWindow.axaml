@@ -1,0 +1,45 @@
+<Window
+    x:Class="FzLib.Avalonia.Test.Views.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:FzLib.Avalonia.Test.Views"
+    xmlns:vm="using:FzLib.Avalonia.Test.ViewModels"
+    Title="FzLib.Avalonia.Test"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Icon="/Test/Assets/avalonia-logo.ico"
+    mc:Ignorable="d">
+    <!--<dialogHost:DialogHost CloseOnClickAway="True">
+        <dialogHost:DialogHost.DialogContent>
+            <Grid
+                Width="30"
+                Height="30"
+                Background="Green">
+                <TextBlock
+                    Foreground="Red"
+                    Text="Hello" />
+            </Grid>
+    -->
+    <!--  put your dialog content here  -->
+    <!--
+        </dialogHost:DialogHost.DialogContent>
+        <views:MainView />
+    -->
+    <!--  put the content over which the dialog is shown here (e.g. your main window grid)  -->
+    <!--
+    </dialogHost:DialogHost>-->
+    <Window.Template>
+        <ControlTemplate>
+            <Grid RowDefinitions="Auto,*">
+                <TextBlock Text="Hello" />
+                <ContentPresenter
+                    Grid.Row="2"
+                    Content="{TemplateBinding Content}" />
+            </Grid>
+        </ControlTemplate>
+    </Window.Template>
+
+    <views:MainView />
+</Window>

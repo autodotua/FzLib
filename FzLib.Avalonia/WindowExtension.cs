@@ -26,11 +26,11 @@ namespace FzLib.Avalonia
         }
 
         
-        public static Window GetWindow<T>(this Visual visual)
+        public static Window GetWindow(this Visual visual)
         {
             return visual.GetVisualRoot() as Window;
         }
-        public static T GetSpecialWindow<T>(this Visual visual) where T : Window
+        public static T GetWindow<T>(this Visual visual) where T : Window
         {
             return visual.GetVisualRoot() as T;
         }
