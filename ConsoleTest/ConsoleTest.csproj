@@ -81,9 +81,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FzStandardLib\FzStandardLib.csproj">
+    <ProjectReference Include="..\FzLib\FzLib.csproj">
       <Project>{bb1b51a0-e157-44c0-80f9-b09594af6447}</Project>
-      <Name>FzStandardLib</Name>
+      <Name>FzLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
