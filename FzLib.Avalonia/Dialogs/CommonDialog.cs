@@ -1,10 +1,13 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
+using Avalonia.Data.Converters;
 using Avalonia.Markup.Xaml.Styling;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,28 +18,72 @@ namespace FzLib.Avalonia.Dialogs
     {
         public static Task ShowOkDialogAsync(this Window window, string title, string message = null)
         {
-            //DetailTextDialog dialog = new DetailTextDialog()
-            //{
-            //    Title = title,
-            //    Message = message,
-            //};
-            //return dialog.ShowAsync();
             MessageDialog dialog = new MessageDialog(title, message, null);
             return dialog.ShowDialog(window);
         }
     }
 
-    public abstract class CommonDialog : Window, INotifyPropertyChanged
+    public abstract class CommonDialog : Window
     {
+        public static string OkButtonText = "确定";
+        public static string YesButtonText = "是";
+        public static string NoButtonText = "否";
+        public static string CancelButtonText = "取消";
+        public static string CloseButtonText = "关闭";
+
         internal CommonDialog()
+        { 
+            ExtendClientAreaToDecorationsHint = true;
+            ExtendClientAreaChromeHints = global::Avalonia.Platform.ExtendClientAreaChromeHints.NoChrome;
+            ExtendClientAreaTitleBarHeightHint = -1;
+            SizeToContent = SizeToContent.WidthAndHeight;
+            WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            ShowInTaskbar = false;
+            MinHeight = 184;
+            MinWidth = 320;
+            MaxWidth = 800;
+            MaxHeight = 800;
+            Padding = new Thickness(16);
+            PrimaryButtonContent = null;
+        }
+        Button PrimaryButton;
+        Button SecondaryButton;
+        Button CloseButton;
+        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
-            ResourceInclude ri = new ResourceInclude((Uri)null);
-            ri.Source = new Uri("avares://FzLib.Avalonia/Converters/Converters.axaml", UriKind.Absolute);
-            Resources.MergedDictionaries.Add(ri);
+            PrimaryButton= e.NameScope.Find(nameof(PrimaryButton)) as Button;
+            SecondaryButton = e.NameScope.Find(nameof(SecondaryButton)) as Button;
+            CloseButton = e.NameScope.Find(nameof(CloseButton)) as Button;
+            CloseButton.Click += (s, e) => Close();
+            base.OnApplyTemplate(e);
         }
 
-  
+        public static readonly StyledProperty<object> PrimaryButtonContentProperty =
+    AvaloniaProperty.Register<CommonDialog, object>(nameof(PrimaryButtonContent));
+        public object PrimaryButtonContent
+        {
+            get => GetValue(PrimaryButtonContentProperty);
+            set => SetValue(PrimaryButtonContentProperty, value);
+        }
+        public static readonly StyledProperty<object> SecondaryButtonContentProperty =
+    AvaloniaProperty.Register<CommonDialog, object>(nameof(SecondaryButtonContent));
+        public object SecondaryButtonContent
+        {
+            get => GetValue(SecondaryButtonContentProperty);
+            set => SetValue(SecondaryButtonContentProperty, value);
+        }
+        public static readonly StyledProperty<object> CloseButtonContentProperty =
+    AvaloniaProperty.Register<CommonDialog, object>(nameof(CloseButtonContent));
+        public object CloseButtonContent
+        {
+            get => GetValue(CloseButtonContentProperty);
+            set => SetValue(CloseButtonContentProperty, value);
+        }
 
+        public void CloseCommand()
+        {
+            Close();
+        }
         //public static async Task<int?> ShowIntInputDialogAsync(string title, int? defaultValue = null)
         //{
         //    InputDialog dialog = new InputDialog(p => int.TryParse(p, out int _), "1234567890")
@@ -208,5 +255,18 @@ namespace FzLib.Avalonia.Dialogs
 
 
 
+    }
+
+    public class CommonDialogButtonGridVisibleConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return true;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

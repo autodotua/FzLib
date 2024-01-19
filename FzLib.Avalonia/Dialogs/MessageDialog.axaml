@@ -5,11 +5,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:FzLib.Avalonia.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Template="{StaticResource DialogWrapper}"
+    Title="{Binding Title}"
+    x:DataType="local:MessageDialogViewModel"
+    Theme="{StaticResource DialogWrapperTheme}"
     mc:Ignorable="d">
     <local:CommonDialog.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="/Converters/Converters.axaml" />
                 <ResourceInclude Source="/Dialogs/DialogWrapper.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -26,6 +29,7 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <TextBlock
+            FontSize="16"
             IsVisible="{Binding Message, Converter={StaticResource NotNullConverter}}"
             Text="{Binding Message}"
             TextWrapping="Wrap" />

@@ -32,6 +32,7 @@ namespace FzLib.Avalonia.Dialogs
                 Message = message,
                 Detail = detail
             };
+            CloseButtonContent = OkButtonText;
             InitializeComponent();
         }
 

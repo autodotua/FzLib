@@ -1,12 +1,95 @@
 <ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="using:FzLib.Avalonia.Converters"
     xmlns:dialogs="clr-namespace:FzLib.Avalonia.Dialogs">
 
-    <ControlTemplate x:Key="DialogWrapper">
-        <Grid>
-            <TextBlock Text="Hello" />
-            <ContentPresenter  />
-        </Grid>
-    </ControlTemplate>
+    <ControlTheme
+        x:Key="DialogWrapperTheme"
+        TargetType="Window">
+        <!--  如果这里设置TargetType="dialogs:CommonDialog"，会导致显示不出来，不知道为什么  -->
+        <Setter Property="Background" Value="{DynamicResource SystemRegionBrush}" />
+        <Setter Property="TransparencyBackgroundFallback" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
+        <Setter Property="TopLevel.SystemBarColor" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+        <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
+        <Setter Property="FontFamily" Value="{DynamicResource ContentControlThemeFontFamily}" />
+        <Setter Property="BorderBrush" Value="Gray" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Template">
+            <ControlTemplate TargetType="dialogs:CommonDialog">
+                <Panel>
+                    <Border
+                        Name="PART_TransparencyFallback"
+                        IsHitTestVisible="False" />
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="4"
+                        IsHitTestVisible="False"
+                        Opacity="0.5" />
+                    <Panel
+                        Margin="{TemplateBinding WindowDecorationMargin}"
+                        Background="Transparent" />
+                    <Grid
+                        Margin="{TemplateBinding Padding}"
+                        RowDefinitions="Auto,*,Auto">
+
+                        <TextBlock
+                            Margin="0,0,0,12"
+                            FontSize="20"
+                            Text="{Binding Title}" />
+                        <StackPanel
+                            Grid.Row="2"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal"
+                            Spacing="4">
+                            <StackPanel.Styles>
+                                <Style Selector="Button">
+                                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    <Setter Property="Padding" Value="6" />
+                                    <Setter Property="Width" Value="80" />
+                                </Style>
+                            </StackPanel.Styles>
+                            <Button
+                                x:Name="CloseButton"
+                                Content="{TemplateBinding CloseButtonContent}"
+                                IsCancel="True"
+                                IsVisible="{TemplateBinding CloseButtonContent,
+                                                            Converter={StaticResource NotNullConverter}}" />
+                            <Button
+                                x:Name="SecondaryButton"
+                                Grid.Column="2"
+                                Content="{TemplateBinding SecondaryButtonContent}"
+                                IsVisible="{TemplateBinding SecondaryButtonContent,
+                                                            Converter={StaticResource NotNullConverter}}" />
+                            <Button
+                                x:Name="PrimaryButton"
+                                Grid.Column="4"
+                                Background="{DynamicResource SystemControlHighlightAccentBrush}"
+                                Content="{TemplateBinding PrimaryButtonContent}"
+                                IsDefault="True"
+                                IsVisible="{TemplateBinding PrimaryButtonContent,
+                                                            Converter={StaticResource NotNullConverter}}" />
+                        </StackPanel>
+                        <VisualLayerManager Grid.Row="1">
+                            <VisualLayerManager.ChromeOverlayLayer>
+                                <TitleBar />
+                            </VisualLayerManager.ChromeOverlayLayer>
+
+                            <ContentPresenter
+                                Name="PART_ContentPresenter"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}" />
+
+                        </VisualLayerManager>
+                    </Grid>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
 </ResourceDictionary>
