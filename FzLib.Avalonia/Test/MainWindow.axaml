@@ -1,0 +1,63 @@
+<Window
+    x:Class="FzLib.Avalonia.Test.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:FzLib.Avalonia.Test.Views"
+    Title="FzLib.Avalonia.Test"
+    Width="640"
+    Height="640"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <Window.Styles>
+        <Style Selector="Expander Button">
+            <Setter Property="Margin" Value="8" />
+        </Style>
+    </Window.Styles>
+    <DockPanel LastChildFill="True">
+        <TextBlock
+            DockPanel.Dock="Bottom"
+            Text="{Binding Message}" />
+        <StackPanel
+            Orientation="Vertical"
+            Spacing="8">
+            <Expander
+                Header="对话框"
+                IsExpanded="True">
+                <WrapPanel>
+                    <Button
+                        Click="DialogButton_Click"
+                        Content="信息"
+                        Tag="1" />
+                    <Button
+                        Click="DialogButton_Click"
+                        Content="信息（带详情）"
+                        Tag="2" />
+                    <Button
+                        Click="DialogButton_Click"
+                        Content="警告"
+                        Tag="3" />
+                    <Button
+                        Click="DialogButton_Click"
+                        Content="错误"
+                        Tag="4" />
+                    <Button
+                        Click="DialogButton_Click"
+                        Content="异常"
+                        Tag="5" />
+                    <Button
+                        Click="DialogButton_Click"
+                        Content="是否"
+                        Tag="6" />
+                    <Button
+                        Click="DialogButton_Click"
+                        Content="是否和取消"
+                        Tag="7" />
+                </WrapPanel>
+            </Expander>
+
+        </StackPanel>
+    </DockPanel>
+
+</Window>

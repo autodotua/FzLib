@@ -15,10 +15,6 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <AvaloniaResource Include="Test\Assets\**" />
-  </ItemGroup>
-  
-  <ItemGroup>
     <AvaloniaXaml Remove="Test\Desktop\**" />
     <Compile Remove="Test\Desktop\**" />
     <EmbeddedResource Remove="Test\Desktop\**" />
@@ -45,10 +41,7 @@
     <Compile Update="Dialogs\DialogWrapper.axaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
-    <Compile Update="Test\Views\MainView.axaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
-    <Compile Update="Test\Views\MainWindow.axaml.cs">
+    <Compile Update="Test\MainWindow.axaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
   </ItemGroup>

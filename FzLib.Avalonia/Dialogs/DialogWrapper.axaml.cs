@@ -16,6 +16,7 @@ namespace FzLib.Avalonia.Dialogs
         public static string NoButtonText = "否";
         public static string CancelButtonText = "取消";
         public static string CloseButtonText = "关闭";
+        public static string RetryButtonText = "重试";
         internal Button PrimaryButton;
         internal Button SecondaryButton;
         internal Button CloseButton;
