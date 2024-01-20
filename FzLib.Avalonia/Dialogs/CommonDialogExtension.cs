@@ -94,5 +94,61 @@ namespace FzLib.Avalonia.Dialogs
             };
         }
         #endregion
+
+        #region 输入
+        public static async Task<string> ShowInputTextDialogAsync(this Window window,
+                                                                  string title,
+                                                                  string message,
+                                                                  string defaultText = null,
+                                                                  string watermark = null)
+        {
+            InputDialog dialog = new InputDialog(new InputDialogViewModel()
+            {
+                Title = title,
+                Message = message,
+                Text = defaultText,
+                Watermark = watermark,
+            });
+            await dialog.ShowDialog<CommonDialogButtonType>(window);
+            return "";
+        }
+        public static async Task<string> ShowInputMultiLinesTextDialogAsync(this Window window,
+                                                                  string title,
+                                                                  string message,
+                                                                  int minLines=3,
+                                                                  int maxLines=10,
+                                                                  string defaultText = null,
+                                                                  string watermark = null)
+        {
+            InputDialog dialog = new InputDialog(new InputDialogViewModel()
+            {
+                Title = title,
+                Message = message,
+                Text = defaultText,
+                Watermark = watermark,
+                MultiLines=true,
+                MaxLines=maxLines,
+                MinHeight=minLines*26,
+            });
+            await dialog.ShowDialog<CommonDialogButtonType>(window);
+            return "";
+        }
+
+        public static async Task<string> ShowInputPasswordDialogAsync(this Window window,
+                                                                  string title,
+                                                                  string message,
+                                                                  string watermark = null)
+        {
+            InputDialog dialog = new InputDialog(new InputDialogViewModel()
+            {
+                Title = title,
+                Message = message,
+                Watermark = watermark,
+                PasswordChar = '*',
+            });
+            await dialog.ShowDialog<CommonDialogButtonType>(window);
+            return "";
+        }
+        #endregion
     }
 }

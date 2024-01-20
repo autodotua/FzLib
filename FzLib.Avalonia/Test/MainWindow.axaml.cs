@@ -67,6 +67,17 @@ public partial class MainWindow : Window
                 }
                 break;
 
+            case "8":
+                await this.GetWindow().ShowInputTextDialogAsync("标题","请输入：","默认值","水印");
+                break;
+
+            case "9":
+                await this.GetWindow().ShowInputPasswordDialogAsync("标题","请输入密码：","水印");
+                break;
+
+            case "10":
+                await this.GetWindow().ShowInputMultiLinesTextDialogAsync("标题","请输入多行文本：");
+                break;
         }
 
     }

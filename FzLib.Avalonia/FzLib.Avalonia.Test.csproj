@@ -41,6 +41,9 @@
     <Compile Update="Dialogs\DialogWrapper.axaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
+    <Compile Update="Dialogs\InputDialog.axaml.cs">
+      <DependentUpon>InputDialog.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Test\MainWindow.axaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
