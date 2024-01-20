@@ -30,7 +30,7 @@ public partial class MainWindow : Window
                 await this.ShowOkDialogAsync("标题", "信息正文");
                 break;
             case "2":
-                await this.ShowOkDialogAsync("标题", "信息正文", "带很长很长很长很长很长很长很长很长很长很长内容的详情带很长很长内容的详情带很长很长内容的详情带很长很长内容的详情带很长很长内容的详情\r\n带很长很长内容的详情带很长很长内容的详情带很长很长内容的详情");
+                await this.ShowOkDialogAsync("标题", "信息正文", string.Concat(Enumerable.Repeat("详细内容", 1000)));
                 break;
             case "3":
                 await this.ShowWarningDialogAsync("标题", "警告正文");

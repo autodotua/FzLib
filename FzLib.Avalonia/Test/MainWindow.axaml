@@ -21,7 +21,7 @@
     <DockPanel
         Margin="8"
         LastChildFill="True">
-        <!--  这边如果不设置Background，那么字就会显示不全，最下面会截掉  -->
+        <!--  这边如果不设置Background，那么字就会显示不全，最下面会截掉。Github上未找到类似Issue  -->
         <TextBlock
             Background="Transparent"
             DockPanel.Dock="Bottom"

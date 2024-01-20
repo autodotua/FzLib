@@ -61,34 +61,21 @@ namespace FzLib.Program
 
         }
 
-        public static IO.ShortcutStatus IsRegistryKeyExist()
+        public static bool IsRegistryKeyExist()
         {
             if (!(registryKey.GetValue(AppName) is string registryValue))
             {
-                return IO.ShortcutStatus.NotExist;
+                return false;
             }
             else
             {
-                if (registryValue.StartsWith("\"" + SourceFileName) || registryValue.StartsWith(SourceFileName))
-                {
-                    return IO.ShortcutStatus.Exist;
-                }
-                else
-                {
-                    return IO.ShortcutStatus.NotMatch;
-                }
+                return registryValue.StartsWith("\"" + SourceFileName) || registryValue.StartsWith(SourceFileName);
             }
         }
         public static void DeleteRegistryKey()
         {
             registryKey.DeleteValue(AppName);
         }
-
-
-
-
-
-
     }
 }
 
