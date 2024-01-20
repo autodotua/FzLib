@@ -95,7 +95,6 @@ namespace FzLib.Avalonia.Dialogs
 
         internal InputDialog(InputDialogViewModel vm)
         {
-            CloseOnButtonClick = false;
             DataContext = vm;
             InitializeComponent();
             vm.PropertyChanged += Vm_PropertyChanged;
@@ -146,7 +145,10 @@ namespace FzLib.Avalonia.Dialogs
             Debug.Assert((Content as DialogWrapper).PrimaryButtonEnable);
             Close((DataContext as InputDialogViewModel).text);
         }
-
+        protected override void OnSecondaryButtonClick()
+        {
+            throw new NotImplementedException();
+        }
         protected override void OnCloseButtonClick()
         {
             Close(null);

@@ -113,6 +113,19 @@ public partial class MainWindow : Window
                 int? index = await this.ShowSelectItemDialog("标题", items, "提示消息", "额外按钮", async () => await this.ShowOkDialogAsync("单击了额外按钮"));
                 VM.Message = index.HasValue ? $"单击了{items[index.Value].Title}" : "没有选择";
                 break;
+
+            case "15":
+                CheckDialogItem[] checkItems = [
+                    new CheckDialogItem("第一条", "详情"),
+                    new CheckDialogItem("第二条"),
+                    new CheckDialogItem("第三条", "禁用", false, false),
+                    new CheckDialogItem("第四条", "默认选择", true, true),
+                    new CheckDialogItem("第五条", "禁用", false, true),
+                    new CheckDialogItem("第六条"),
+                ];
+                bool result = await this.ShowCheckItemDialog("标题", checkItems, "需要选择2-4个", 2, 4);
+                VM.Message = result ? VM.Message = $"选择了{string.Join('，', checkItems.Where(p => p.IsChecked).Select(p => p.Title))}" : "取消了选择";
+                break;
         }
 
     }

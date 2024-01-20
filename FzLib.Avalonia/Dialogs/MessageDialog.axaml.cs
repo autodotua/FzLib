@@ -62,7 +62,18 @@ namespace FzLib.Avalonia.Dialogs
 
             base.OnApplyTemplate(e);
         }
-
+        protected override void OnPrimaryButtonClick()
+        {
+            Close(true);
+        }
+        protected override void OnSecondaryButtonClick()
+        {
+            Close(false);
+        }
+        protected override void OnCloseButtonClick()
+        {
+            Close(null);
+        }
 
         internal enum MessageDialogButtonDefinition
         {

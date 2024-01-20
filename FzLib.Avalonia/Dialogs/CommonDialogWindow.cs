@@ -23,8 +23,6 @@ namespace FzLib.Avalonia.Dialogs
             Loaded += CommonDialogWindow_Loaded;
         }
 
-        public bool CloseOnButtonClick { get; set; } = true;
-
         private void CommonDialogWindow_Loaded(object sender, global::Avalonia.Interactivity.RoutedEventArgs e)
         {
             if (Content is DialogWrapper dw)
@@ -48,41 +46,20 @@ namespace FzLib.Avalonia.Dialogs
             if (sender == PrimaryButton)
             {
                 OnPrimaryButtonClick();
-                if (CloseOnButtonClick)
-                {
-                    Close(CommonDialogButtonType.Primary);
-                }
             }
             else if (sender == SecondaryButton)
             {
                 OnSecondaryButtonClick();
-                if (CloseOnButtonClick)
-                {
-                    Close(CommonDialogButtonType.Secondary);
-                }
             }
             else if (sender == CloseButton)
             {
                 OnCloseButtonClick();
-                if (CloseOnButtonClick)
-                {
-                    Close(CommonDialogButtonType.Close);
-                }
             }
         }
 
-        protected virtual void OnPrimaryButtonClick()
-        {
-
-        }
-        protected virtual void OnSecondaryButtonClick()
-        {
-
-        }
-        protected virtual void OnCloseButtonClick()
-        {
-
-        }
+        protected abstract void OnPrimaryButtonClick();
+        protected abstract void OnSecondaryButtonClick();
+        protected abstract void OnCloseButtonClick();
 
 
         private Button PrimaryButton;

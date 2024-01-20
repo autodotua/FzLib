@@ -57,8 +57,7 @@ namespace FzLib.Avalonia.Dialogs
                 Icon = MessageDialog.ErrorIcon,
                 IconBrush = Brushes.Red
             }, retryButton ? RetryCancel : OK);
-            var button = await dialog.ShowDialog<CommonDialogButtonType>(window);
-            return button == CommonDialogButtonType.Primary;
+            return await dialog.ShowDialog<bool?>(window) == true;
         }
 
         public static async Task<bool> ShowErrorDialogAsync(this Window window, string title, Exception ex, bool retryButton = false)
@@ -71,8 +70,7 @@ namespace FzLib.Avalonia.Dialogs
                 Icon = MessageDialog.ErrorIcon,
                 IconBrush = Brushes.Red
             }, retryButton ? RetryCancel : OK);
-            var button = await dialog.ShowDialog<CommonDialogButtonType>(window);
-            return button == CommonDialogButtonType.Primary;
+            return await dialog.ShowDialog<bool?>(window) == true;
         }
 
         public static async Task<bool?> ShowYesNoDialogAsync(this Window window, string title, string message = null, string detail = null, bool cancelButon = false)
@@ -85,14 +83,7 @@ namespace FzLib.Avalonia.Dialogs
                 Icon = MessageDialog.QuestionIcon,
                 IconBrush = SolidColorBrush.Parse("#ffb900")
             }, cancelButon ? YesNoCancel : YesNo);
-            var button = await dialog.ShowDialog<CommonDialogButtonType>(window);
-            return button switch
-            {
-                CommonDialogButtonType.Primary => true,
-                CommonDialogButtonType.Secondary => false,
-                CommonDialogButtonType.Close => null,
-                _ => throw new InvalidEnumArgumentException()
-            };
+            return await dialog.ShowDialog<bool?>(window);
         }
         #endregion
 
@@ -204,6 +195,17 @@ namespace FzLib.Avalonia.Dialogs
                 Message = message,
             }, buttonContent, buttonCommand);
             return await dialog.ShowDialog<int?>(window);
+        }
+
+        public static async Task<bool> ShowCheckItemDialog(this Window window, string title, IList<CheckDialogItem> items, string message = null, int minCheckCount = 0, int maxCheckCount = int.MaxValue)
+        {
+            CheckBoxDialog dialog = new CheckBoxDialog(new CheckBoxDialogViewModel()
+            {
+                Title = title,
+                Items = items,
+                Message = message,
+            }, minCheckCount, maxCheckCount);
+            return await dialog.ShowDialog<bool>(window);
         }
         #endregion
     }

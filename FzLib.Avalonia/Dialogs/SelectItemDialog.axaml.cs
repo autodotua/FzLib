@@ -32,7 +32,6 @@ namespace FzLib.Avalonia.Dialogs
 
         internal SelectItemDialog(SelectItemDialogViewModel vm, object buttonContent, Action buttonCommand)
         {
-            CloseOnButtonClick = false;
             DataContext = vm;
             InitializeComponent();
             this.buttonContent = buttonContent;
@@ -59,6 +58,11 @@ namespace FzLib.Avalonia.Dialogs
             (Content as DialogWrapper).CloseButtonContent = DialogWrapper.CancelButtonText;
 
             base.OnApplyTemplate(e);
+        }
+
+        protected override void OnPrimaryButtonClick()
+        {
+            throw new NotImplementedException();
         }
 
         protected override void OnSecondaryButtonClick()

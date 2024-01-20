@@ -3,20 +3,27 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:FzLib.Avalonia.Test"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:views="clr-namespace:FzLib.Avalonia.Test.Views"
     Title="FzLib.Avalonia.Test"
     Width="640"
     Height="640"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
+    <Design.DataContext>
+        <local:MainViewModel Message="信息" />
+    </Design.DataContext>
     <Window.Styles>
         <Style Selector="Expander Button">
             <Setter Property="Margin" Value="8" />
         </Style>
     </Window.Styles>
-    <DockPanel LastChildFill="True">
+    <DockPanel
+        Margin="8"
+        LastChildFill="True">
+        <!--  这边如果不设置Background，那么字就会显示不全，最下面会截掉  -->
         <TextBlock
+            Background="Transparent"
             DockPanel.Dock="Bottom"
             Text="{Binding Message}" />
         <StackPanel
@@ -80,8 +87,12 @@
                         Tag="13" />
                     <Button
                         Click="DialogButton_Click"
-                        Content="选择"
+                        Content="多选"
                         Tag="14" />
+                    <Button
+                        Click="DialogButton_Click"
+                        Content="单选"
+                        Tag="15" />
                 </WrapPanel>
             </Expander>
 

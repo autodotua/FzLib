@@ -41,6 +41,9 @@
     <Compile Update="Dialogs\DialogWrapper.axaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
+    <Compile Update="Dialogs\CheckBoxDialog.axaml.cs">
+      <DependentUpon>CheckBoxDialog.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Dialogs\SelectItemDialog.axaml.cs">
       <DependentUpon>SelectItemDialog.axaml</DependentUpon>
     </Compile>
