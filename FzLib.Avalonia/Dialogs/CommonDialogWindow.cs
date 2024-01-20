@@ -44,21 +44,44 @@ namespace FzLib.Avalonia.Dialogs
 
         private void Button_Click(object sender, global::Avalonia.Interactivity.RoutedEventArgs e)
         {
-            if (CloseOnButtonClick)
+
+            if (sender == PrimaryButton)
             {
-                if (sender == PrimaryButton)
+                OnPrimaryButtonClick();
+                if (CloseOnButtonClick)
                 {
                     Close(CommonDialogButtonType.Primary);
                 }
-                else if(sender == SecondaryButton)
+            }
+            else if (sender == SecondaryButton)
+            {
+                OnSecondaryButtonClick();
+                if (CloseOnButtonClick)
                 {
                     Close(CommonDialogButtonType.Secondary);
                 }
-                else if (sender == CloseButton)
+            }
+            else if (sender == CloseButton)
+            {
+                OnCloseButtonClick();
+                if (CloseOnButtonClick)
                 {
                     Close(CommonDialogButtonType.Close);
                 }
             }
+        }
+
+        protected virtual void OnPrimaryButtonClick()
+        {
+
+        }
+        protected virtual void OnSecondaryButtonClick()
+        {
+
+        }
+        protected virtual void OnCloseButtonClick()
+        {
+
         }
 
 

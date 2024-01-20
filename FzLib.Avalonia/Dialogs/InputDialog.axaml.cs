@@ -4,6 +4,7 @@ using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Numerics;
 
@@ -85,86 +86,16 @@ namespace FzLib.Avalonia.Dialogs
         {
             return text =>
               {
-                  if (typeof(T) == typeof(int))
+                  if(!T.TryParse(text,CultureInfo.InvariantCulture,out _))
                   {
-                      if (!int.TryParse(text, out _))
-                      {
-                          throw new ArgumentException("无法转为数字");
-                      }
-                  }
-                  else if (typeof(T) == typeof(short))
-                  {
-                      if (!short.TryParse(text, out _))
-                      {
-                          throw new ArgumentException("无法转为数字");
-                      }
-                  }
-                  else if (typeof(T) == typeof(long))
-                  {
-                      if (!long.TryParse(text, out _))
-                      {
-                          throw new ArgumentException("无法转为数字");
-                      }
-                  }
-                  else if (typeof(T) == typeof(float))
-                  {
-                      if (!float.TryParse(text, out _))
-                      {
-                          throw new ArgumentException("无法转为数字");
-                      }
-                  }
-                  else if (typeof(T) == typeof(double))
-                  {
-                      if (!double.TryParse(text, out _))
-                      {
-                          throw new ArgumentException("无法转为数字");
-                      }
-                  }
-                  else if (typeof(T) == typeof(uint))
-                  {
-                      if (!uint.TryParse(text, out _))
-                      {
-                          throw new ArgumentException("无法转为数字");
-                      }
-                  }
-                  else if (typeof(T) == typeof(ushort))
-                  {
-                      if (!ushort.TryParse(text, out _))
-                      {
-                          throw new ArgumentException("无法转为数字");
-                      }
-                  }
-                  else if (typeof(T) == typeof(ulong))
-                  {
-                      if (!ulong.TryParse(text, out _))
-                      {
-                          throw new ArgumentException("无法转为数字");
-                      }
-                  }
-                  else if (typeof(T) == typeof(byte))
-                  {
-                      if (!byte.TryParse(text, out _))
-                      {
-                          throw new ArgumentException("无法转为数字");
-                      }
-                  }
-                  else if (typeof(T) == typeof(sbyte))
-                  {
-                      if (!sbyte.TryParse(text, out _))
-                      {
-                          throw new ArgumentException("无法转为数字");
-                      }
-                  }
-                  // 添加其他数字类型的处理
-                  else
-                  {
-                      throw new ArgumentException("不支持的数字类型");
+                      throw new ArgumentException("无法转为数字");
                   }
               };
         }
 
         internal InputDialog(InputDialogViewModel vm)
         {
+            CloseOnButtonClick = false;
             DataContext = vm;
             InitializeComponent();
             vm.PropertyChanged += Vm_PropertyChanged;
@@ -208,6 +139,17 @@ namespace FzLib.Avalonia.Dialogs
             (Content as DialogWrapper).CloseButtonContent = DialogWrapper.CancelButtonText;
 
             base.OnApplyTemplate(e);
+        }
+
+        protected override void OnPrimaryButtonClick()
+        {
+            Debug.Assert((Content as DialogWrapper).PrimaryButtonEnable);
+            Close((DataContext as InputDialogViewModel).text);
+        }
+
+        protected override void OnCloseButtonClick()
+        {
+            Close(null);
         }
     }
 }

@@ -23,6 +23,7 @@ public partial class MainWindow : Window
     }
     private async void DialogButton_Click(object sender, RoutedEventArgs e)
     {
+        VM.Message = "";
         switch ((sender as Button).Tag as string)
         {
             case "1":
@@ -69,11 +70,11 @@ public partial class MainWindow : Window
                 break;
 
             case "8":
-                await this.GetWindow().ShowInputTextDialogAsync("标题", "请输入：", "默认值", "水印");
+                VM.Message = "输入内容：" + await this.GetWindow().ShowInputTextDialogAsync("标题", "请输入：", "默认值", "水印");
                 break;
 
             case "9":
-                await this.GetWindow().ShowInputTextDialogAsync("标题", "必须长度>5且不能出现数字：", "默认值", "水印", text =>
+                VM.Message = "输入内容：" + await this.GetWindow().ShowInputTextDialogAsync("标题", "必须长度>5且不能出现数字：", "默认值", "水印", text =>
                 {
                     if (text.Length <= 5)
                     {
@@ -87,19 +88,19 @@ public partial class MainWindow : Window
                 break;
 
             case "10":
-                await this.GetWindow().ShowInputPasswordDialogAsync("标题", "请输入密码：", "水印");
+                VM.Message = "输入内容：" + await this.GetWindow().ShowInputPasswordDialogAsync("标题", "请输入密码：", "水印");
                 break;
 
             case "11":
-                await this.GetWindow().ShowInputMultiLinesTextDialogAsync("标题", "请输入多行文本：");
+                VM.Message = "输入内容：" + await this.GetWindow().ShowInputMultiLinesTextDialogAsync("标题", "请输入多行文本：");
                 break;
 
             case "12":
-                await this.GetWindow().ShowInputNumberDialogAsync<double>("标题", "请输入数字：");
+                VM.Message = "输入内容：" + await this.GetWindow().ShowInputNumberDialogAsync<double>("标题", "请输入数字：");
                 break;
 
             case "13":
-                await this.GetWindow().ShowInputNumberDialogAsync<int>("标题", "请输入整数：");
+                VM.Message = "输入内容：" + await this.GetWindow().ShowInputNumberDialogAsync<int>("标题", "请输入整数：");
                 break;
         }
 

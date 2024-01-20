@@ -102,7 +102,7 @@ namespace FzLib.Avalonia.Dialogs
                                                                   string message,
                                                                   string defaultText = null,
                                                                   string watermark = null,
-                                                                  Action<string> validation=null)
+                                                                  Action<string> validation = null)
         {
             InputDialog dialog = new InputDialog(new InputDialogViewModel()
             {
@@ -112,14 +112,13 @@ namespace FzLib.Avalonia.Dialogs
                 Watermark = watermark,
                 Validations = { validation, InputDialog.NotNullValidation }
             });
-            await dialog.ShowDialog<CommonDialogButtonType>(window);
-            return "";
+            return await dialog.ShowDialog<string>(window);
         }
         public static async Task<string> ShowInputMultiLinesTextDialogAsync(this Window window,
                                                                   string title,
                                                                   string message,
-                                                                  int minLines=3,
-                                                                  int maxLines=10,
+                                                                  int minLines = 3,
+                                                                  int maxLines = 10,
                                                                   string defaultText = null,
                                                                   string watermark = null,
                                                                   Action<string> validation = null)
@@ -130,13 +129,12 @@ namespace FzLib.Avalonia.Dialogs
                 Message = message,
                 text = defaultText,
                 Watermark = watermark,
-                MultiLines=true,
-                MaxLines=maxLines,
-                MinHeight=minLines*24,
-                Validations = { validation,InputDialog.NotNullValidation }
+                MultiLines = true,
+                MaxLines = maxLines,
+                MinHeight = minLines * 24,
+                Validations = { validation, InputDialog.NotNullValidation }
             });
-            await dialog.ShowDialog<CommonDialogButtonType>(window);
-            return "";
+            return await dialog.ShowDialog<string>(window);
         }
 
         public static async Task<string> ShowInputPasswordDialogAsync(this Window window,
@@ -153,11 +151,10 @@ namespace FzLib.Avalonia.Dialogs
                 PasswordChar = '*',
                 Validations = { validation, InputDialog.NotNullValidation }
             });
-            await dialog.ShowDialog<CommonDialogButtonType>(window);
-            return "";
+            return await dialog.ShowDialog<string>(window);
         }
 
-        public static Task<string> ShowInputNumberDialogAsync<T>(this Window window,
+        public static Task<T> ShowInputNumberDialogAsync<T>(this Window window,
                                                                   string title,
                                                                   string message,
                                                                   string watermark = null) where T : INumber<T>
@@ -165,7 +162,7 @@ namespace FzLib.Avalonia.Dialogs
             return ShowInputNumberDialogAsync<T>(window, title, message, false, default, watermark);
         }
 
-        public static Task<string> ShowInputNumberDialogAsync<T>(this Window window,
+        public static Task<T> ShowInputNumberDialogAsync<T>(this Window window,
                                                                   string title,
                                                                   string message,
                                                                   T defaultValue,
@@ -174,23 +171,25 @@ namespace FzLib.Avalonia.Dialogs
             return ShowInputNumberDialogAsync<T>(window, title, message, true, defaultValue, watermark);
         }
 
-        private static async Task<string> ShowInputNumberDialogAsync<T>(this Window window,
+        private static async Task<T> ShowInputNumberDialogAsync<T>(this Window window,
                                                                   string title,
                                                                   string message,
                                                                   bool hasDefaultValue,
                                                                   T defaultValue,
-                                                                  string watermark = null) where T:INumber<T>
+                                                                  string watermark = null) where T : INumber<T>
         {
             InputDialog dialog = new InputDialog(new InputDialogViewModel()
             {
                 Title = title,
                 Message = message,
                 Watermark = watermark,
-                text= hasDefaultValue? defaultValue.ToString():null,
-                Validations = { InputDialog.NotNullValidation ,InputDialog.GetNumberValidation<T>()}
+                text = hasDefaultValue ? defaultValue.ToString() : null,
+                Validations = { InputDialog.NotNullValidation, InputDialog.GetNumberValidation<T>() }
             });
-            await dialog.ShowDialog<CommonDialogButtonType>(window);
-            return "";
+            var result = await dialog.ShowDialog<string>(window);
+
+            return T.Parse(result, CultureInfo.InvariantCulture);
+
         }
         #endregion
     }
