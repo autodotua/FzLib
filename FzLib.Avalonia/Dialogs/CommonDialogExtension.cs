@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 using System.Windows;
 using static FzLib.Avalonia.Dialogs.MessageDialog.MessageDialogButtonDefinition;
@@ -100,14 +101,16 @@ namespace FzLib.Avalonia.Dialogs
                                                                   string title,
                                                                   string message,
                                                                   string defaultText = null,
-                                                                  string watermark = null)
+                                                                  string watermark = null,
+                                                                  Action<string> validation=null)
         {
             InputDialog dialog = new InputDialog(new InputDialogViewModel()
             {
                 Title = title,
                 Message = message,
-                Text = defaultText,
+                text = defaultText,
                 Watermark = watermark,
+                Validations = { validation, InputDialog.NotNullValidation }
             });
             await dialog.ShowDialog<CommonDialogButtonType>(window);
             return "";
@@ -118,17 +121,19 @@ namespace FzLib.Avalonia.Dialogs
                                                                   int minLines=3,
                                                                   int maxLines=10,
                                                                   string defaultText = null,
-                                                                  string watermark = null)
+                                                                  string watermark = null,
+                                                                  Action<string> validation = null)
         {
             InputDialog dialog = new InputDialog(new InputDialogViewModel()
             {
                 Title = title,
                 Message = message,
-                Text = defaultText,
+                text = defaultText,
                 Watermark = watermark,
                 MultiLines=true,
                 MaxLines=maxLines,
-                MinHeight=minLines*26,
+                MinHeight=minLines*24,
+                Validations = { validation,InputDialog.NotNullValidation }
             });
             await dialog.ShowDialog<CommonDialogButtonType>(window);
             return "";
@@ -137,7 +142,8 @@ namespace FzLib.Avalonia.Dialogs
         public static async Task<string> ShowInputPasswordDialogAsync(this Window window,
                                                                   string title,
                                                                   string message,
-                                                                  string watermark = null)
+                                                                  string watermark = null,
+                                                                  Action<string> validation = null)
         {
             InputDialog dialog = new InputDialog(new InputDialogViewModel()
             {
@@ -145,6 +151,43 @@ namespace FzLib.Avalonia.Dialogs
                 Message = message,
                 Watermark = watermark,
                 PasswordChar = '*',
+                Validations = { validation, InputDialog.NotNullValidation }
+            });
+            await dialog.ShowDialog<CommonDialogButtonType>(window);
+            return "";
+        }
+
+        public static Task<string> ShowInputNumberDialogAsync<T>(this Window window,
+                                                                  string title,
+                                                                  string message,
+                                                                  string watermark = null) where T : INumber<T>
+        {
+            return ShowInputNumberDialogAsync<T>(window, title, message, false, default, watermark);
+        }
+
+        public static Task<string> ShowInputNumberDialogAsync<T>(this Window window,
+                                                                  string title,
+                                                                  string message,
+                                                                  T defaultValue,
+                                                                  string watermark = null) where T : INumber<T>
+        {
+            return ShowInputNumberDialogAsync<T>(window, title, message, true, defaultValue, watermark);
+        }
+
+        private static async Task<string> ShowInputNumberDialogAsync<T>(this Window window,
+                                                                  string title,
+                                                                  string message,
+                                                                  bool hasDefaultValue,
+                                                                  T defaultValue,
+                                                                  string watermark = null) where T:INumber<T>
+        {
+            InputDialog dialog = new InputDialog(new InputDialogViewModel()
+            {
+                Title = title,
+                Message = message,
+                Watermark = watermark,
+                text= hasDefaultValue? defaultValue.ToString():null,
+                Validations = { InputDialog.NotNullValidation ,InputDialog.GetNumberValidation<T>()}
             });
             await dialog.ShowDialog<CommonDialogButtonType>(window);
             return "";

@@ -3,6 +3,7 @@ using Avalonia.Interactivity;
 using CommunityToolkit.Mvvm.ComponentModel;
 using FzLib.Avalonia.Dialogs;
 using System;
+using System.Linq;
 
 namespace FzLib.Avalonia.Test;
 
@@ -53,7 +54,7 @@ public partial class MainWindow : Window
                 VM.Message = (await this.GetWindow().ShowYesNoDialogAsync("标题", "询问内容")).Value ? "单击“是”" : "单击“否”";
                 break;
             case "7":
-               switch (await this.GetWindow().ShowYesNoDialogAsync("标题", "询问内容", cancelButon: true))
+                switch (await this.GetWindow().ShowYesNoDialogAsync("标题", "询问内容", cancelButon: true))
                 {
                     case true:
                         VM.Message = "单击“是”";
@@ -68,15 +69,37 @@ public partial class MainWindow : Window
                 break;
 
             case "8":
-                await this.GetWindow().ShowInputTextDialogAsync("标题","请输入：","默认值","水印");
+                await this.GetWindow().ShowInputTextDialogAsync("标题", "请输入：", "默认值", "水印");
                 break;
 
             case "9":
-                await this.GetWindow().ShowInputPasswordDialogAsync("标题","请输入密码：","水印");
+                await this.GetWindow().ShowInputTextDialogAsync("标题", "必须长度>5且不能出现数字：", "默认值", "水印", text =>
+                {
+                    if (text.Length <= 5)
+                    {
+                        throw new ArgumentException("长度必须>5");
+                    }
+                    if ("0123456789".Any(p => text.Contains(p)))
+                    {
+                        throw new ArgumentException("不能出现数字");
+                    }
+                });
                 break;
 
             case "10":
-                await this.GetWindow().ShowInputMultiLinesTextDialogAsync("标题","请输入多行文本：");
+                await this.GetWindow().ShowInputPasswordDialogAsync("标题", "请输入密码：", "水印");
+                break;
+
+            case "11":
+                await this.GetWindow().ShowInputMultiLinesTextDialogAsync("标题", "请输入多行文本：");
+                break;
+
+            case "12":
+                await this.GetWindow().ShowInputNumberDialogAsync<double>("标题", "请输入数字：");
+                break;
+
+            case "13":
+                await this.GetWindow().ShowInputNumberDialogAsync<int>("标题", "请输入整数：");
                 break;
         }
 

@@ -80,7 +80,7 @@
                             Text="{Binding Title}" />
                         <StackPanel
                             Grid.Row="2"
-                            Margin="4"
+                            Margin="4,16,4,4"
                             HorizontalAlignment="Right"
                             Orientation="Horizontal"
                             Spacing="4">
@@ -96,12 +96,14 @@
                                 x:Name="CloseButton"
                                 Content="{TemplateBinding CloseButtonContent}"
                                 IsCancel="True"
+                                IsEnabled="{TemplateBinding CloseButtonEnable}"
                                 IsVisible="{TemplateBinding CloseButtonContent,
                                                             Converter={StaticResource NotNullConverter}}" />
                             <Button
                                 x:Name="SecondaryButton"
                                 Grid.Column="2"
                                 Content="{TemplateBinding SecondaryButtonContent}"
+                                IsEnabled="{TemplateBinding SecondaryButtonEnable}"
                                 IsVisible="{TemplateBinding SecondaryButtonContent,
                                                             Converter={StaticResource NotNullConverter}}" />
                             <Button
@@ -109,8 +111,8 @@
                                 Grid.Column="4"
                                 Background="{DynamicResource SystemControlHighlightAccentBrush}"
                                 Content="{TemplateBinding PrimaryButtonContent}"
-                                FontFamily="微软雅黑"
                                 IsDefault="True"
+                                IsEnabled="{TemplateBinding PrimaryButtonEnable}"
                                 IsVisible="{TemplateBinding PrimaryButtonContent,
                                                             Converter={StaticResource NotNullConverter}}" />
                         </StackPanel>

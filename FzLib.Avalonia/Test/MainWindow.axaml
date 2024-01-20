@@ -57,15 +57,27 @@
                     <Button
                         Click="DialogButton_Click"
                         Content="简单输入"
-                        Tag="8" />
-                    <Button
+                        Tag="8" />   
+  <Button
                         Click="DialogButton_Click"
-                        Content="输入密码"
+                        Content="带验证输入"
                         Tag="9" />
                     <Button
                         Click="DialogButton_Click"
-                        Content="输入多行"
+                        Content="输入密码"
                         Tag="10" />
+                    <Button
+                        Click="DialogButton_Click"
+                        Content="输入多行"
+                        Tag="11" />
+                    <Button
+                        Click="DialogButton_Click"
+                        Content="输入数字"
+                        Tag="12" />
+                    <Button
+                        Click="DialogButton_Click"
+                        Content="输入整数"
+                        Tag="13" />
                 </WrapPanel>
             </Expander>
 

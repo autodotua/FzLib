@@ -49,5 +49,27 @@ namespace FzLib.Avalonia.Dialogs
             set => SetValue(CloseButtonContentProperty, value);
         }
 
+        public static readonly StyledProperty<bool> PrimaryButtonEnableProperty =
+AvaloniaProperty.Register<DialogWrapper, bool>(nameof(PrimaryButtonEnable), true);
+        public bool PrimaryButtonEnable
+        {
+            get => GetValue(PrimaryButtonEnableProperty);
+            set => SetValue(PrimaryButtonEnableProperty, value);
+        }
+        public static readonly StyledProperty<bool> SecondaryButtonEnableProperty =
+    AvaloniaProperty.Register<DialogWrapper, bool>(nameof(SecondaryButtonEnable), true);
+        public bool SecondaryButtonEnable
+        {
+            get => GetValue(SecondaryButtonEnableProperty);
+            set => SetValue(SecondaryButtonEnableProperty, value);
+        }
+        public static readonly StyledProperty<bool> CloseButtonEnableProperty =
+    AvaloniaProperty.Register<DialogWrapper, bool>(nameof(CloseButtonEnable), true);
+        public bool CloseButtonEnable
+        {
+            get => GetValue(CloseButtonEnableProperty);
+            set => SetValue(CloseButtonEnableProperty, value);
+        }
+
     }
 }
