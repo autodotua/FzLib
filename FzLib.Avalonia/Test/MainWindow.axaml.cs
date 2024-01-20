@@ -27,16 +27,16 @@ public partial class MainWindow : Window
         switch ((sender as Button).Tag as string)
         {
             case "1":
-                await this.GetWindow().ShowOkDialogAsync("标题", "信息正文");
+                await this.ShowOkDialogAsync("标题", "信息正文");
                 break;
             case "2":
-                await this.GetWindow().ShowOkDialogAsync("标题", "信息正文", "带很长很长很长很长很长很长很长很长很长很长内容的详情带很长很长内容的详情带很长很长内容的详情带很长很长内容的详情带很长很长内容的详情\r\n带很长很长内容的详情带很长很长内容的详情带很长很长内容的详情");
+                await this.ShowOkDialogAsync("标题", "信息正文", "带很长很长很长很长很长很长很长很长很长很长内容的详情带很长很长内容的详情带很长很长内容的详情带很长很长内容的详情带很长很长内容的详情\r\n带很长很长内容的详情带很长很长内容的详情带很长很长内容的详情");
                 break;
             case "3":
-                await this.GetWindow().ShowWarningDialogAsync("标题", "警告正文");
+                await this.ShowWarningDialogAsync("标题", "警告正文");
                 break;
             case "4":
-                await this.GetWindow().ShowErrorDialogAsync("标题", "错误正文");
+                await this.ShowErrorDialogAsync("标题", "错误正文");
                 break;
             case "5":
                 try
@@ -45,17 +45,17 @@ public partial class MainWindow : Window
                 }
                 catch (Exception ex)
                 {
-                    while (await this.GetWindow().ShowErrorDialogAsync("错误信息", ex, true))
+                    while (await this.ShowErrorDialogAsync("错误信息", ex, true))
                     {
 
                     }
                 }
                 break;
             case "6":
-                VM.Message = (await this.GetWindow().ShowYesNoDialogAsync("标题", "询问内容")).Value ? "单击“是”" : "单击“否”";
+                VM.Message = (await this.ShowYesNoDialogAsync("标题", "询问内容")).Value ? "单击“是”" : "单击“否”";
                 break;
             case "7":
-                switch (await this.GetWindow().ShowYesNoDialogAsync("标题", "询问内容", cancelButon: true))
+                switch (await this.ShowYesNoDialogAsync("标题", "询问内容", cancelButon: true))
                 {
                     case true:
                         VM.Message = "单击“是”";
@@ -70,11 +70,11 @@ public partial class MainWindow : Window
                 break;
 
             case "8":
-                VM.Message = "输入内容：" + await this.GetWindow().ShowInputTextDialogAsync("标题", "请输入：", "默认值", "水印");
+                VM.Message = "输入内容：" + await this.ShowInputTextDialogAsync("标题", "请输入：", "默认值", "水印");
                 break;
 
             case "9":
-                VM.Message = "输入内容：" + await this.GetWindow().ShowInputTextDialogAsync("标题", "必须长度>5且不能出现数字：", "默认值", "水印", text =>
+                VM.Message = "输入内容：" + await this.ShowInputTextDialogAsync("标题", "必须长度>5且不能出现数字：", "默认值", "水印", text =>
                 {
                     if (text.Length <= 5)
                     {
@@ -88,19 +88,30 @@ public partial class MainWindow : Window
                 break;
 
             case "10":
-                VM.Message = "输入内容：" + await this.GetWindow().ShowInputPasswordDialogAsync("标题", "请输入密码：", "水印");
+                VM.Message = "输入内容：" + await this.ShowInputPasswordDialogAsync("标题", "请输入密码：", "水印");
                 break;
 
             case "11":
-                VM.Message = "输入内容：" + await this.GetWindow().ShowInputMultiLinesTextDialogAsync("标题", "请输入多行文本：");
+                VM.Message = "输入内容：" + await this.ShowInputMultiLinesTextDialogAsync("标题", "请输入多行文本：");
                 break;
 
             case "12":
-                VM.Message = "输入内容：" + await this.GetWindow().ShowInputNumberDialogAsync<double>("标题", "请输入数字：");
+                VM.Message = "输入内容：" + await this.ShowInputNumberDialogAsync<double>("标题", "请输入数字：");
                 break;
 
             case "13":
-                VM.Message = "输入内容：" + await this.GetWindow().ShowInputNumberDialogAsync<int>("标题", "请输入整数：");
+                VM.Message = "输入内容：" + await this.ShowInputNumberDialogAsync<int>("标题", "请输入整数：");
+                break;
+
+            case "14":
+                SelectDialogItem[] items = [
+                    new SelectDialogItem("第一条", "详情"),
+                    new SelectDialogItem("第二条", "详情"),
+                    new SelectDialogItem("第三条"),
+                    new SelectDialogItem("第四条", "单击直接触发", async () => await this.ShowOkDialogAsync("单击了第四条")),
+                ];
+                int? index = await this.ShowSelectItemDialog("标题", items, "提示消息", "额外按钮", async () => await this.ShowOkDialogAsync("单击了额外按钮"));
+                VM.Message = index.HasValue ? $"单击了{items[index.Value].Title}" : "没有选择";
                 break;
         }
 

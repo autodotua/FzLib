@@ -192,5 +192,19 @@ namespace FzLib.Avalonia.Dialogs
 
         }
         #endregion
+
+
+        #region 选择
+        public static async Task<int?> ShowSelectItemDialog(this Window window, string title, IList<SelectDialogItem> items, string message = null, object buttonContent = null, Action buttonCommand = null)
+        {
+            SelectItemDialog dialog = new SelectItemDialog(new SelectItemDialogViewModel()
+            {
+                Title = title,
+                Items = items,
+                Message = message,
+            }, buttonContent, buttonCommand);
+            return await dialog.ShowDialog<int?>(window);
+        }
+        #endregion
     }
 }

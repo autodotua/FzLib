@@ -78,6 +78,10 @@
                         Click="DialogButton_Click"
                         Content="输入整数"
                         Tag="13" />
+                    <Button
+                        Click="DialogButton_Click"
+                        Content="选择"
+                        Tag="14" />
                 </WrapPanel>
             </Expander>
 

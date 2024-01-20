@@ -67,8 +67,8 @@
         <Grid
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            RowDefinitions="Auto,4,Auto">
-
+            RowDefinitions="Auto,4,*">
+            <TextBlock Text="{Binding Message}" />
             <TextBox
                 x:Name="txt"
                 Grid.Row="2"
