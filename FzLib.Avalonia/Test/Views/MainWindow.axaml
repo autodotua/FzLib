@@ -7,9 +7,10 @@
     xmlns:views="clr-namespace:FzLib.Avalonia.Test.Views"
     xmlns:vm="using:FzLib.Avalonia.Test.ViewModels"
     Title="FzLib.Avalonia.Test"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    Width="640"
+    Height="640"
     Icon="/Test/Assets/avalonia-logo.ico"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <views:MainView />
 </Window>

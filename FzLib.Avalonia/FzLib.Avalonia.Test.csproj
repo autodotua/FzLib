@@ -17,7 +17,6 @@
   <ItemGroup>
     <AvaloniaResource Include="Test\Assets\**" />
   </ItemGroup>
-
   
   <ItemGroup>
     <AvaloniaXaml Remove="Test\Desktop\**" />
@@ -25,6 +24,8 @@
     <EmbeddedResource Remove="Test\Desktop\**" />
     <None Remove="Test\Desktop\**" />
   </ItemGroup>
+
+
 
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.0.7" />
@@ -39,6 +40,9 @@
 
   <ItemGroup>
     <Compile Update="App.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Dialogs\DialogWrapper.axaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
     <Compile Update="Test\Views\MainView.axaml.cs">

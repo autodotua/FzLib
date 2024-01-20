@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:FzLib.Avalonia.Test.ViewModels"
     d:DesignHeight="450"
-    d:DesignWidth="800" 
+    d:DesignWidth="800"
     x:DataType="vm:MainViewModel"
     mc:Ignorable="d">
     <Design.DataContext>
@@ -16,8 +16,32 @@
         -->
         <vm:MainViewModel />
     </Design.DataContext>
-
-    <Button
-        Click="Button_Click"
-        Content="Click" />
+    <Expander
+        Header="对话框"
+        IsExpanded="True">
+        <StackPanel
+            Orientation="Horizontal"
+            Spacing="4">
+            <Button
+                Click="DialogButton_Click"
+                Content="信息"
+                Tag="1" />
+            <Button
+                Click="DialogButton_Click"
+                Content="信息（带详情）"
+                Tag="2" />
+            <Button
+                Click="DialogButton_Click"
+                Content="警告"
+                Tag="3" />
+            <Button
+                Click="DialogButton_Click"
+                Content="错误"
+                Tag="4" />
+            <Button
+                Click="DialogButton_Click"
+                Content="异常"
+                Tag="5" />
+        </StackPanel>
+    </Expander>
 </UserControl>

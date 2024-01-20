@@ -5,35 +5,73 @@
     xmlns:dialogs="clr-namespace:FzLib.Avalonia.Dialogs">
 
     <ControlTheme
-        x:Key="DialogWrapperTheme"
+        x:Key="DialogWindowTheme"
+        BasedOn="{StaticResource {x:Type Window}}"
         TargetType="Window">
-        <!--  如果这里设置TargetType="dialogs:CommonDialog"，会导致显示不出来，不知道为什么  -->
-        <Setter Property="Background" Value="{DynamicResource SystemRegionBrush}" />
-        <Setter Property="TransparencyBackgroundFallback" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
-        <Setter Property="TopLevel.SystemBarColor" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
-        <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
-        <Setter Property="FontFamily" Value="{DynamicResource ContentControlThemeFontFamily}" />
+        <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" />
         <Setter Property="BorderBrush" Value="Gray" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Template">
-            <ControlTemplate TargetType="dialogs:CommonDialog">
+            <ControlTemplate>
                 <Panel>
                     <Border
                         Name="PART_TransparencyFallback"
                         IsHitTestVisible="False" />
                     <Border
+                        Margin="8"
                         Background="{TemplateBinding Background}"
+                        CornerRadius="4"
+                        IsHitTestVisible="False">
+                        <Border.Effect>
+                            <DropShadowEffect
+                                BlurRadius="8"
+                                OffsetX="0"
+                                OffsetY="0"
+                                Color="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" />
+                        </Border.Effect>
+                    </Border>
+                    <Border
+                        Margin="8"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="4"
                         IsHitTestVisible="False"
-                        Opacity="0.5" />
+                        Opacity="0.4" />
+
                     <Panel
                         Margin="{TemplateBinding WindowDecorationMargin}"
                         Background="Transparent" />
+                    <VisualLayerManager>
+                        <VisualLayerManager.ChromeOverlayLayer>
+                            <TitleBar />
+                        </VisualLayerManager.ChromeOverlayLayer>
+                        <ContentPresenter
+                            Name="PART_ContentPresenter"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}" />
+                    </VisualLayerManager>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+
+    <ControlTheme
+        x:Key="DialogWrapperTheme"
+        TargetType="dialogs:DialogWrapper">
+        <!--  如果这里设置TargetType="dialogs:CommonDialog"，会导致显示不出来，不知道为什么  -->
+        <Setter Property="Background" Value="{DynamicResource SystemRegionBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+        <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
+        <Setter Property="FontFamily" Value="{DynamicResource ContentControlThemeFontFamily}" />
+
+        <Setter Property="Template">
+            <ControlTemplate TargetType="dialogs:DialogWrapper">
+                <Panel>
                     <Grid
-                        Margin="{TemplateBinding Padding}"
+                        Margin="24"
                         RowDefinitions="Auto,*,Auto">
 
                         <TextBlock
@@ -42,6 +80,7 @@
                             Text="{Binding Title}" />
                         <StackPanel
                             Grid.Row="2"
+                            Margin="4"
                             HorizontalAlignment="Right"
                             Orientation="Horizontal"
                             Spacing="4">
@@ -70,6 +109,7 @@
                                 Grid.Column="4"
                                 Background="{DynamicResource SystemControlHighlightAccentBrush}"
                                 Content="{TemplateBinding PrimaryButtonContent}"
+                                FontFamily="微软雅黑"
                                 IsDefault="True"
                                 IsVisible="{TemplateBinding PrimaryButtonContent,
                                                             Converter={StaticResource NotNullConverter}}" />

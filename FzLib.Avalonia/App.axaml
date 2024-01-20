@@ -6,7 +6,9 @@
     <!--  "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options.  -->
 
     <Application.Styles>
-        <FluentTheme />
+      <FluentTheme />
     </Application.Styles>
-
+  <Application.Resources>
+    <FontFamily x:Key="ContentControlThemeFontFamily">微软雅黑</FontFamily>
+  </Application.Resources>
 </Application>
