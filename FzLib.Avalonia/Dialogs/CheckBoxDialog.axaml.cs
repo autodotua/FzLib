@@ -26,7 +26,7 @@ namespace FzLib.Avalonia.Dialogs
     }
 
 
-    public partial class CheckBoxDialog : CommonDialogWindow
+    public partial class CheckBoxDialog : DialogHost
     {
         private readonly int minCheckCount;
         private readonly int maxCheckCount;
@@ -71,14 +71,14 @@ namespace FzLib.Avalonia.Dialogs
         private void CheckCanApply()
         {
             int count = (DataContext as CheckBoxDialogViewModel).Items.Where(p => p.IsChecked).Count();
-            (Content as DialogWrapper).PrimaryButtonEnable = count >= minCheckCount && count <= maxCheckCount;
+            PrimaryButtonEnable = count >= minCheckCount && count <= maxCheckCount;
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
 
-            (Content as DialogWrapper).PrimaryButtonContent = DialogWrapper.OkButtonText;
-            (Content as DialogWrapper).CloseButtonContent = DialogWrapper.CancelButtonText;
+            PrimaryButtonContent = DialogHost.OkButtonText;
+            CloseButtonContent = DialogHost.CancelButtonText;
 
             base.OnApplyTemplate(e);
         }

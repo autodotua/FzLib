@@ -1,67 +1,61 @@
-﻿<local:CommonDialogWindow
+﻿<local:DialogHost
     x:Class="FzLib.Avalonia.Dialogs.SelectItemDialog"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:FzLib.Avalonia.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="{Binding Title}"
     x:DataType="local:SelectItemDialogViewModel"
     Loaded="DialogWindow_Loaded"
-    Theme="{StaticResource DialogWindowTheme}"
+    Theme="{StaticResource DialogHostTheme}"
     mc:Ignorable="d">
-    <Design.DataContext>
-        <local:SelectItemDialogViewModel />
-    </Design.DataContext>
-    <local:CommonDialogWindow.Resources>
+    <local:DialogHost.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceInclude Source="/Converters/Converters.axaml" />
-                <ResourceInclude Source="/Dialogs/DialogWrapper.axaml" />
+              <ResourceInclude Source="/Dialogs/DialogHostStyles.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </local:CommonDialogWindow.Resources>
-    <local:DialogWrapper Theme="{StaticResource DialogWrapperTheme}">
-        <Grid
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            RowDefinitions="Auto,4,*">
-            <TextBlock Text="{Binding Message}" />
-            <ListBox
-                Grid.Row="2"
-                ItemsSource="{Binding Items}"
-                SelectionChanged="ListBox_SelectionChanged">
-                <ListBox.Styles>
-                    <Style Selector="ListBoxItem">
-                        <Setter Property="Padding" Value="4,0" />
-                    </Style>
-                </ListBox.Styles>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Border Padding="0,4">
-                            <Grid
-                                MinWidth="300"
-                                MinHeight="32"
+    </local:DialogHost.Resources>
+    <Grid
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        RowDefinitions="Auto,4,*">
+        <TextBlock Text="{Binding Message}" />
+        <ListBox
+            Grid.Row="2"
+            ItemsSource="{Binding Items}"
+            SelectionChanged="ListBox_SelectionChanged">
+            <ListBox.Styles>
+                <Style Selector="ListBoxItem">
+                    <Setter Property="Padding" Value="4,0" />
+                </Style>
+            </ListBox.Styles>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Padding="0,4">
+                        <Grid
+                            MinWidth="300"
+                            MinHeight="32"
+                            VerticalAlignment="Center"
+                            RowDefinitions="*,Auto">
+                            <TextBlock
                                 VerticalAlignment="Center"
-                                RowDefinitions="*,Auto">
-                                <TextBlock
-                                    VerticalAlignment="Center"
-                                    FontWeight="Bold"
-                                    Text="{Binding Title}" />
-                                <TextBlock
-                                    Grid.Row="2"
-                                    Margin="0,4"
-                                    VerticalAlignment="Center"
-                                    IsVisible="{Binding Detail, Converter={StaticResource NotNullConverter}}"
-                                    Opacity="0.8"
-                                    Text="{Binding Detail}"
-                                    TextWrapping="Wrap" />
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                                FontWeight="Bold"
+                                Text="{Binding Title}" />
+                            <TextBlock
+                                Grid.Row="2"
+                                Margin="0,4"
+                                VerticalAlignment="Center"
+                                IsVisible="{Binding Detail, Converter={StaticResource NotNullConverter}}"
+                                Opacity="0.8"
+                                Text="{Binding Detail}"
+                                TextWrapping="Wrap" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
-        </Grid>
-    </local:DialogWrapper>
-</local:CommonDialogWindow>
+    </Grid>
+</local:DialogHost>

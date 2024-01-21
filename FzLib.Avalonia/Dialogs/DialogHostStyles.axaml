@@ -3,7 +3,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="using:FzLib.Avalonia.Converters"
     xmlns:dialogs="clr-namespace:FzLib.Avalonia.Dialogs">
-
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceInclude Source="/Converters/Converters.axaml" />
+    </ResourceDictionary.MergedDictionaries>
     <ControlTheme
         x:Key="DialogWindowTheme"
         BasedOn="{StaticResource {x:Type Window}}"
@@ -59,8 +61,8 @@
 
 
     <ControlTheme
-        x:Key="DialogWrapperTheme"
-        TargetType="dialogs:DialogWrapper">
+        x:Key="DialogHostTheme"
+        TargetType="dialogs:DialogHost">
         <!--  如果这里设置TargetType="dialogs:CommonDialog"，会导致显示不出来，不知道为什么  -->
         <Setter Property="Background" Value="{DynamicResource SystemRegionBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
@@ -68,7 +70,7 @@
         <Setter Property="FontFamily" Value="{DynamicResource ContentControlThemeFontFamily}" />
 
         <Setter Property="Template">
-            <ControlTemplate TargetType="dialogs:DialogWrapper">
+            <ControlTemplate TargetType="dialogs:DialogHost">
                 <Panel>
                     <Grid
                         Margin="24"

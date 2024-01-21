@@ -1,27 +1,23 @@
-﻿<local:CommonDialogWindow
+﻿<local:DialogHost
     x:Class="FzLib.Avalonia.Dialogs.InputDialog"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:FzLib.Avalonia.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="{Binding Title}"
     x:DataType="local:InputDialogViewModel"
     Loaded="DialogWindow_Loaded"
-    Theme="{StaticResource DialogWindowTheme}"
+    Theme="{StaticResource DialogHostTheme}"
     mc:Ignorable="d">
-    <Design.DataContext>
-        <local:InputDialogViewModel />
-    </Design.DataContext>
-    <local:CommonDialogWindow.Resources>
+    <local:DialogHost.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceInclude Source="/Converters/Converters.axaml" />
-                <ResourceInclude Source="/Dialogs/DialogWrapper.axaml" />
+                <ResourceInclude Source="/Dialogs/DialogHostStyles.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </local:CommonDialogWindow.Resources>
-    <local:CommonDialogWindow.Styles>
+    </local:DialogHost.Resources>
+    <local:DialogHost.Styles>
         <Style Selector="DataValidationErrors">
             <Setter Property="Template">
                 <ControlTemplate>
@@ -62,24 +58,22 @@
                 </DataTemplate>
             </Setter>
         </Style>
-    </local:CommonDialogWindow.Styles>
-    <local:DialogWrapper Theme="{StaticResource DialogWrapperTheme}">
-        <Grid
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            RowDefinitions="Auto,4,*">
-            <TextBlock Text="{Binding Message}" />
-            <TextBox
-                x:Name="txt"
-                Grid.Row="2"
-                MinHeight="{Binding MinHeight}"
-                VerticalAlignment="Center"
-                AcceptsReturn="{Binding MultiLines}"
-                MaxLines="{Binding MaxLines}"
-                PasswordChar="{Binding PasswordChar}"
-                Text="{Binding Text}"
-                Watermark="{Binding Watermark}" />
+    </local:DialogHost.Styles>
+    <Grid
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        RowDefinitions="Auto,4,*">
+        <TextBlock Text="{Binding Message}" />
+        <TextBox
+            x:Name="txt"
+            Grid.Row="2"
+            MinHeight="{Binding MinHeight}"
+            VerticalAlignment="Center"
+            AcceptsReturn="{Binding MultiLines}"
+            MaxLines="{Binding MaxLines}"
+            PasswordChar="{Binding PasswordChar}"
+            Text="{Binding Text}"
+            Watermark="{Binding Watermark}" />
 
-        </Grid>
-    </local:DialogWrapper>
-</local:CommonDialogWindow>
+    </Grid>
+</local:DialogHost>

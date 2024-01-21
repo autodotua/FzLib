@@ -38,7 +38,7 @@
     <Compile Update="App.axaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
-    <Compile Update="Dialogs\DialogWrapper.axaml.cs">
+    <Compile Update="Dialogs\DialogHost.axaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
     <Compile Update="Dialogs\CheckBoxDialog.axaml.cs">

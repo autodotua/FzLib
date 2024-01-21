@@ -87,11 +87,11 @@
                         Tag="13" />
                     <Button
                         Click="DialogButton_Click"
-                        Content="多选"
+                        Content="单选"
                         Tag="14" />
                     <Button
                         Click="DialogButton_Click"
-                        Content="单选"
+                        Content="多选"
                         Tag="15" />
                 </WrapPanel>
             </Expander>

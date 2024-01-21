@@ -25,7 +25,7 @@ namespace FzLib.Avalonia.Dialogs
     }
 
 
-    public partial class SelectItemDialog : CommonDialogWindow
+    public partial class SelectItemDialog : DialogHost
     {
         private readonly object buttonContent;
         private readonly Action buttonCommand;
@@ -53,9 +53,9 @@ namespace FzLib.Avalonia.Dialogs
         {
             if (buttonContent != null)
             {
-                (Content as DialogWrapper).SecondaryButtonContent = buttonContent;
+                SecondaryButtonContent = buttonContent;
             }
-            (Content as DialogWrapper).CloseButtonContent = DialogWrapper.CancelButtonText;
+            CloseButtonContent = DialogHost.CancelButtonText;
 
             base.OnApplyTemplate(e);
         }

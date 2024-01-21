@@ -73,7 +73,7 @@ namespace FzLib.Avalonia.Dialogs
     }
 
 
-    public partial class InputDialog : CommonDialogWindow
+    public partial class InputDialog : DialogHost
     {
         internal static readonly Action<string> NotNullValidation = text =>
         {
@@ -107,7 +107,7 @@ namespace FzLib.Avalonia.Dialogs
                 }
                 catch
                 {
-                    (Content as DialogWrapper).PrimaryButtonEnable = false;
+                    PrimaryButtonEnable = false;
                     break;
                 }
             }
@@ -115,12 +115,12 @@ namespace FzLib.Avalonia.Dialogs
 
         private void Vm_ValidationError(object sender, EventArgs e)
         {
-            (Content as DialogWrapper).PrimaryButtonEnable = false;
+            PrimaryButtonEnable = false;
         }
 
         private void Vm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            (Content as DialogWrapper).PrimaryButtonEnable = true;
+            PrimaryButtonEnable = true;
         }
 
         private void DialogWindow_Loaded(object sender, global::Avalonia.Interactivity.RoutedEventArgs e)
@@ -134,15 +134,15 @@ namespace FzLib.Avalonia.Dialogs
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
-            (Content as DialogWrapper).PrimaryButtonContent = DialogWrapper.OkButtonText;
-            (Content as DialogWrapper).CloseButtonContent = DialogWrapper.CancelButtonText;
+            PrimaryButtonContent = DialogHost.OkButtonText;
+            CloseButtonContent = DialogHost.CancelButtonText;
 
             base.OnApplyTemplate(e);
         }
 
         protected override void OnPrimaryButtonClick()
         {
-            Debug.Assert((Content as DialogWrapper).PrimaryButtonEnable);
+            Debug.Assert(PrimaryButtonEnable);
             Close((DataContext as InputDialogViewModel).text);
         }
         protected override void OnSecondaryButtonClick()

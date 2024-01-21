@@ -1,15 +1,18 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+using Avalonia.Markup.Xaml.Styling;
+using Avalonia.Styling;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FzLib.Avalonia.Dialogs
 {
-    internal class DialogWrapper : ContentControl
+    public class DialogHost : ContentControl
     {
         public static string OkButtonText = "确定";
         public static string YesButtonText = "是";
@@ -25,24 +28,27 @@ namespace FzLib.Avalonia.Dialogs
             PrimaryButton = e.NameScope.Find(nameof(PrimaryButton)) as Button;
             SecondaryButton = e.NameScope.Find(nameof(SecondaryButton)) as Button;
             CloseButton = e.NameScope.Find(nameof(CloseButton)) as Button;
+            PrimaryButton.Click += (s, e) => OnPrimaryButtonClick();
+            SecondaryButton.Click += (s, e) => OnSecondaryButtonClick();
+            CloseButton.Click += (s, e) => OnCloseButtonClick();
             base.OnApplyTemplate(e);
         }
         public static readonly StyledProperty<object> PrimaryButtonContentProperty =
-    AvaloniaProperty.Register<DialogWrapper, object>(nameof(PrimaryButtonContent));
+    AvaloniaProperty.Register<DialogHost, object>(nameof(PrimaryButtonContent));
         public object PrimaryButtonContent
         {
             get => GetValue(PrimaryButtonContentProperty);
             set => SetValue(PrimaryButtonContentProperty, value);
         }
         public static readonly StyledProperty<object> SecondaryButtonContentProperty =
-    AvaloniaProperty.Register<DialogWrapper, object>(nameof(SecondaryButtonContent));
+    AvaloniaProperty.Register<DialogHost, object>(nameof(SecondaryButtonContent));
         public object SecondaryButtonContent
         {
             get => GetValue(SecondaryButtonContentProperty);
             set => SetValue(SecondaryButtonContentProperty, value);
         }
         public static readonly StyledProperty<object> CloseButtonContentProperty =
-    AvaloniaProperty.Register<DialogWrapper, object>(nameof(CloseButtonContent));
+    AvaloniaProperty.Register<DialogHost, object>(nameof(CloseButtonContent));
         public object CloseButtonContent
         {
             get => GetValue(CloseButtonContentProperty);
@@ -50,26 +56,62 @@ namespace FzLib.Avalonia.Dialogs
         }
 
         public static readonly StyledProperty<bool> PrimaryButtonEnableProperty =
-AvaloniaProperty.Register<DialogWrapper, bool>(nameof(PrimaryButtonEnable), true);
+AvaloniaProperty.Register<DialogHost, bool>(nameof(PrimaryButtonEnable), true);
         public bool PrimaryButtonEnable
         {
             get => GetValue(PrimaryButtonEnableProperty);
             set => SetValue(PrimaryButtonEnableProperty, value);
         }
         public static readonly StyledProperty<bool> SecondaryButtonEnableProperty =
-    AvaloniaProperty.Register<DialogWrapper, bool>(nameof(SecondaryButtonEnable), true);
+    AvaloniaProperty.Register<DialogHost, bool>(nameof(SecondaryButtonEnable), true);
         public bool SecondaryButtonEnable
         {
             get => GetValue(SecondaryButtonEnableProperty);
             set => SetValue(SecondaryButtonEnableProperty, value);
         }
         public static readonly StyledProperty<bool> CloseButtonEnableProperty =
-    AvaloniaProperty.Register<DialogWrapper, bool>(nameof(CloseButtonEnable), true);
+    AvaloniaProperty.Register<DialogHost, bool>(nameof(CloseButtonEnable), true);
         public bool CloseButtonEnable
         {
             get => GetValue(CloseButtonEnableProperty);
             set => SetValue(CloseButtonEnableProperty, value);
         }
-
+        protected virtual void OnPrimaryButtonClick() { }
+        protected virtual void OnSecondaryButtonClick() { }
+        protected virtual void OnCloseButtonClick() { }
+        private WindowDialogHost dialogWindow;
+        private bool showAsWindow = false;
+        public Task<T> ShowDialog<T>(Window window)
+        {
+            showAsWindow = true;
+            dialogWindow = new WindowDialogHost
+            {
+                Content = this
+            };
+            return dialogWindow.ShowDialog<T>(window);
+        }
+        public Task ShowDialog(Window window)
+        {
+            showAsWindow = true;
+            dialogWindow = new WindowDialogHost
+            {
+                Content = this
+            };
+            return dialogWindow.ShowDialog(window);
+        }
+        public void Close()
+        {
+            if(showAsWindow)
+            {
+                dialogWindow.Close();
+            }
+        }
+        public void Close(object result)
+        {
+            if(showAsWindow)
+            {
+                dialogWindow.Close(result);
+            }
+        }
     }
 }
