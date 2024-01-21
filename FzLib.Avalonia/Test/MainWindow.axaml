@@ -18,85 +18,90 @@
             <Setter Property="Margin" Value="8" />
         </Style>
     </Window.Styles>
-    <DockPanel
-        Margin="8"
-        LastChildFill="True">
-        <!--  这边如果不设置Background，那么字就会显示不全，最下面会截掉。Github上未找到类似Issue  -->
-        <TextBlock
-            Background="Transparent"
-            DockPanel.Dock="Bottom"
-            Text="{Binding Message}" />
-        <StackPanel
-            Orientation="Vertical"
-            Spacing="8">
-            <Expander
-                Header="对话框"
-                IsExpanded="True">
-                <WrapPanel>
-                    <Button
-                        Click="DialogButton_Click"
-                        Content="信息"
-                        Tag="1" />
-                    <Button
-                        Click="DialogButton_Click"
-                        Content="信息（带详情）"
-                        Tag="2" />
-                    <Button
-                        Click="DialogButton_Click"
-                        Content="警告"
-                        Tag="3" />
-                    <Button
-                        Click="DialogButton_Click"
-                        Content="错误"
-                        Tag="4" />
-                    <Button
-                        Click="DialogButton_Click"
-                        Content="异常"
-                        Tag="5" />
-                    <Button
-                        Click="DialogButton_Click"
-                        Content="是否"
-                        Tag="6" />
-                    <Button
-                        Click="DialogButton_Click"
-                        Content="是否和取消"
-                        Tag="7" />
-                    <Button
-                        Click="DialogButton_Click"
-                        Content="简单输入"
-                        Tag="8" />
-                    <Button
-                        Click="DialogButton_Click"
-                        Content="带验证输入"
-                        Tag="9" />
-                    <Button
-                        Click="DialogButton_Click"
-                        Content="输入密码"
-                        Tag="10" />
-                    <Button
-                        Click="DialogButton_Click"
-                        Content="输入多行"
-                        Tag="11" />
-                    <Button
-                        Click="DialogButton_Click"
-                        Content="输入数字"
-                        Tag="12" />
-                    <Button
-                        Click="DialogButton_Click"
-                        Content="输入整数"
-                        Tag="13" />
-                    <Button
-                        Click="DialogButton_Click"
-                        Content="单选"
-                        Tag="14" />
-                    <Button
-                        Click="DialogButton_Click"
-                        Content="多选"
-                        Tag="15" />
-                </WrapPanel>
-            </Expander>
+    <Grid x:Name="g">
+        <DockPanel
+            Margin="8"
+            LastChildFill="True">
+            <!--  这边如果不设置Background，那么字就会显示不全，最下面会截掉。Github上未找到类似Issue  -->
+            <TextBlock
+                Background="Transparent"
+                DockPanel.Dock="Bottom"
+                Text="{Binding Message}" />
+            <StackPanel
+                Orientation="Vertical"
+                Spacing="8">
+                <Expander
+                    Header="对话框"
+                    IsExpanded="True">
+                    <WrapPanel>
+                        <ToggleSwitch
+                            IsChecked="{Binding ShowWindowDialog}"
+                            OffContent="显示弹出（Popup）对话框"
+                            OnContent="显示窗口（Window）对话框" />
+                        <Button
+                            Click="DialogButton_Click"
+                            Content="信息"
+                            Tag="1" />
+                        <Button
+                            Click="DialogButton_Click"
+                            Content="信息（带详情）"
+                            Tag="2" />
+                        <Button
+                            Click="DialogButton_Click"
+                            Content="警告"
+                            Tag="3" />
+                        <Button
+                            Click="DialogButton_Click"
+                            Content="错误"
+                            Tag="4" />
+                        <Button
+                            Click="DialogButton_Click"
+                            Content="异常"
+                            Tag="5" />
+                        <Button
+                            Click="DialogButton_Click"
+                            Content="是否"
+                            Tag="6" />
+                        <Button
+                            Click="DialogButton_Click"
+                            Content="是否和取消"
+                            Tag="7" />
+                        <Button
+                            Click="DialogButton_Click"
+                            Content="简单输入"
+                            Tag="8" />
+                        <Button
+                            Click="DialogButton_Click"
+                            Content="带验证输入"
+                            Tag="9" />
+                        <Button
+                            Click="DialogButton_Click"
+                            Content="输入密码"
+                            Tag="10" />
+                        <Button
+                            Click="DialogButton_Click"
+                            Content="输入多行"
+                            Tag="11" />
+                        <Button
+                            Click="DialogButton_Click"
+                            Content="输入数字"
+                            Tag="12" />
+                        <Button
+                            Click="DialogButton_Click"
+                            Content="输入整数"
+                            Tag="13" />
+                        <Button
+                            Click="DialogButton_Click"
+                            Content="单选"
+                            Tag="14" />
+                        <Button
+                            Click="DialogButton_Click"
+                            Content="多选"
+                            Tag="15" />
+                    </WrapPanel>
+                </Expander>
 
-        </StackPanel>
-    </DockPanel>
-
+            </StackPanel>
+        </DockPanel>
+    </Grid>
 </Window>

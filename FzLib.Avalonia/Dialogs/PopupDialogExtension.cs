@@ -1,26 +1,18 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
-using Avalonia.Data.Converters;
-using Avalonia.Markup.Xaml.Styling;
+﻿using Avalonia.Controls;
 using Avalonia.Media;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Globalization;
-using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
-using System.Windows;
 using static FzLib.Avalonia.Dialogs.MessageDialog.MessageDialogButtonDefinition;
 
 namespace FzLib.Avalonia.Dialogs
 {
-    public static class CommonDialogExtension
+    public static class PopupDialogExtension
     {
         #region 信息
-        public static Task ShowOkDialogAsync(this Window window, string title, string message = null, string detail = null)
+        public static Task ShowOkDialogAsync(this Grid grid, string title, string message = null, string detail = null)
         {
             MessageDialog dialog = new MessageDialog(new MessageDialogViewModel()
             {
@@ -28,12 +20,12 @@ namespace FzLib.Avalonia.Dialogs
                 Message = message,
                 Detail = detail,
                 //Icon = MessageDialog.InfoIcon,
-                //IconBrush = window.Foreground
-            }, MessageDialog.MessageDialogButtonDefinition.OK);
-            return dialog.ShowDialog(window);
+                //IconBrush = grid.Foreground
+            }, OK);
+            return dialog.ShowPopupDialog(grid);
         }
 
-        public static Task ShowWarningDialogAsync(this Window window, string title, string message = null, string detail = null)
+        public static Task ShowWarningDialogAsync(this Grid grid, string title, string message = null, string detail = null)
         {
             MessageDialog dialog = new MessageDialog(new MessageDialogViewModel()
             {
@@ -42,12 +34,12 @@ namespace FzLib.Avalonia.Dialogs
                 Detail = detail,
                 Icon = MessageDialog.WarningIcon,
                 IconBrush = SolidColorBrush.Parse("#ffb900")
-            }, MessageDialog.MessageDialogButtonDefinition.OK);
-            return dialog.ShowDialog(window);
+            }, OK);
+            return dialog.ShowPopupDialog(grid);
         }
 
 
-        public static async Task<bool> ShowErrorDialogAsync(this Window window, string title, string message = null, string detail = null, bool retryButton = false)
+        public static async Task<bool> ShowErrorDialogAsync(this Grid grid, string title, string message = null, string detail = null, bool retryButton = false)
         {
             MessageDialog dialog = new MessageDialog(new MessageDialogViewModel()
             {
@@ -57,10 +49,10 @@ namespace FzLib.Avalonia.Dialogs
                 Icon = MessageDialog.ErrorIcon,
                 IconBrush = Brushes.Red
             }, retryButton ? RetryCancel : OK);
-            return await dialog.ShowDialog<bool?>(window) == true;
+            return await dialog.ShowPopupDialog<bool?>(grid) == true;
         }
 
-        public static async Task<bool> ShowErrorDialogAsync(this Window window, string title, Exception ex, bool retryButton = false)
+        public static async Task<bool> ShowErrorDialogAsync(this Grid grid, string title, Exception ex, bool retryButton = false)
         {
             MessageDialog dialog = new MessageDialog(new MessageDialogViewModel()
             {
@@ -70,10 +62,10 @@ namespace FzLib.Avalonia.Dialogs
                 Icon = MessageDialog.ErrorIcon,
                 IconBrush = Brushes.Red
             }, retryButton ? RetryCancel : OK);
-            return await dialog.ShowDialog<bool?>(window) == true;
+            return await dialog.ShowPopupDialog<bool?>(grid) == true;
         }
 
-        public static async Task<bool?> ShowYesNoDialogAsync(this Window window, string title, string message = null, string detail = null, bool cancelButon = false)
+        public static async Task<bool?> ShowYesNoDialogAsync(this Grid grid, string title, string message = null, string detail = null, bool cancelButon = false)
         {
             MessageDialog dialog = new MessageDialog(new MessageDialogViewModel()
             {
@@ -83,12 +75,12 @@ namespace FzLib.Avalonia.Dialogs
                 Icon = MessageDialog.QuestionIcon,
                 IconBrush = SolidColorBrush.Parse("#ffb900")
             }, cancelButon ? YesNoCancel : YesNo);
-            return await dialog.ShowDialog<bool?>(window);
+            return await dialog.ShowPopupDialog<bool?>(grid);
         }
         #endregion
 
         #region 输入
-        public static async Task<string> ShowInputTextDialogAsync(this Window window,
+        public static async Task<string> ShowInputTextDialogAsync(this Grid grid,
                                                                   string title,
                                                                   string message,
                                                                   string defaultText = null,
@@ -103,9 +95,9 @@ namespace FzLib.Avalonia.Dialogs
                 Watermark = watermark,
                 Validations = { validation, InputDialog.NotNullValidation }
             });
-            return await dialog.ShowDialog<string>(window);
+            return await dialog.ShowPopupDialog<string>(grid);
         }
-        public static async Task<string> ShowInputMultiLinesTextDialogAsync(this Window window,
+        public static async Task<string> ShowInputMultiLinesTextDialogAsync(this Grid grid,
                                                                   string title,
                                                                   string message,
                                                                   int minLines = 3,
@@ -125,10 +117,10 @@ namespace FzLib.Avalonia.Dialogs
                 MinHeight = minLines * 24,
                 Validations = { validation, InputDialog.NotNullValidation }
             });
-            return await dialog.ShowDialog<string>(window);
+            return await dialog.ShowPopupDialog<string>(grid);
         }
 
-        public static async Task<string> ShowInputPasswordDialogAsync(this Window window,
+        public static async Task<string> ShowInputPasswordDialogAsync(this Grid grid,
                                                                   string title,
                                                                   string message,
                                                                   string watermark = null,
@@ -142,27 +134,27 @@ namespace FzLib.Avalonia.Dialogs
                 PasswordChar = '*',
                 Validations = { validation, InputDialog.NotNullValidation }
             });
-            return await dialog.ShowDialog<string>(window);
+            return await dialog.ShowPopupDialog<string>(grid);
         }
 
-        public static Task<T> ShowInputNumberDialogAsync<T>(this Window window,
+        public static Task<T> ShowInputNumberDialogAsync<T>(this Grid grid,
                                                                   string title,
                                                                   string message,
                                                                   string watermark = null) where T : INumber<T>
         {
-            return ShowInputNumberDialogAsync<T>(window, title, message, false, default, watermark);
+            return ShowInputNumberDialogAsync<T>(grid, title, message, false, default, watermark);
         }
 
-        public static Task<T> ShowInputNumberDialogAsync<T>(this Window window,
+        public static Task<T> ShowInputNumberDialogAsync<T>(this Grid grid,
                                                                   string title,
                                                                   string message,
                                                                   T defaultValue,
                                                                   string watermark = null) where T : INumber<T>
         {
-            return ShowInputNumberDialogAsync<T>(window, title, message, true, defaultValue, watermark);
+            return ShowInputNumberDialogAsync<T>(grid, title, message, true, defaultValue, watermark);
         }
 
-        private static async Task<T> ShowInputNumberDialogAsync<T>(this Window window,
+        private static async Task<T> ShowInputNumberDialogAsync<T>(this Grid grid,
                                                                   string title,
                                                                   string message,
                                                                   bool hasDefaultValue,
@@ -177,16 +169,15 @@ namespace FzLib.Avalonia.Dialogs
                 text = hasDefaultValue ? defaultValue.ToString() : null,
                 Validations = { InputDialog.NotNullValidation, InputDialog.GetNumberValidation<T>() }
             });
-            var result = await dialog.ShowDialog<string>(window);
+            var result = await dialog.ShowPopupDialog<string>(grid);
 
             return T.Parse(result, CultureInfo.InvariantCulture);
 
         }
         #endregion
 
-
         #region 选择
-        public static async Task<int?> ShowSelectItemDialog(this Window window, string title, IList<SelectDialogItem> items, string message = null, object buttonContent = null, Action buttonCommand = null)
+        public static async Task<int?> ShowSelectItemDialog(this Grid grid, string title, IList<SelectDialogItem> items, string message = null, object buttonContent = null, Action buttonCommand = null)
         {
             SelectItemDialog dialog = new SelectItemDialog(new SelectItemDialogViewModel()
             {
@@ -194,10 +185,10 @@ namespace FzLib.Avalonia.Dialogs
                 Items = items,
                 Message = message,
             }, buttonContent, buttonCommand);
-            return await dialog.ShowDialog<int?>(window);
+            return await dialog.ShowPopupDialog<int?>(grid);
         }
 
-        public static async Task<bool> ShowCheckItemDialog(this Window window, string title, IList<CheckDialogItem> items, string message = null, int minCheckCount = 0, int maxCheckCount = int.MaxValue)
+        public static async Task<bool> ShowCheckItemDialog(this Grid grid, string title, IList<CheckDialogItem> items, string message = null, int minCheckCount = 0, int maxCheckCount = int.MaxValue)
         {
             CheckBoxDialog dialog = new CheckBoxDialog(new CheckBoxDialogViewModel()
             {
@@ -205,7 +196,7 @@ namespace FzLib.Avalonia.Dialogs
                 Items = items,
                 Message = message,
             }, minCheckCount, maxCheckCount);
-            return await dialog.ShowDialog<bool>(window);
+            return await dialog.ShowPopupDialog<bool>(grid);
         }
         #endregion
     }
