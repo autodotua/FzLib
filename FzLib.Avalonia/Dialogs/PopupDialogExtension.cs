@@ -137,29 +137,29 @@ namespace FzLib.Avalonia.Dialogs
             return await dialog.ShowPopupDialog<string>(grid);
         }
 
-        public static Task<T> ShowInputNumberDialogAsync<T>(this Grid grid,
+        public static Task<T?> ShowInputNumberDialogAsync<T>(this Grid grid,
                                                                   string title,
                                                                   string message,
-                                                                  string watermark = null) where T : INumber<T>
+                                                                  string watermark = null) where T : struct, INumber<T>
         {
             return ShowInputNumberDialogAsync<T>(grid, title, message, false, default, watermark);
         }
 
-        public static Task<T> ShowInputNumberDialogAsync<T>(this Grid grid,
+        public static Task<T?> ShowInputNumberDialogAsync<T>(this Grid grid,
                                                                   string title,
                                                                   string message,
                                                                   T defaultValue,
-                                                                  string watermark = null) where T : INumber<T>
+                                                                  string watermark = null) where T : struct, INumber<T>
         {
             return ShowInputNumberDialogAsync<T>(grid, title, message, true, defaultValue, watermark);
         }
 
-        private static async Task<T> ShowInputNumberDialogAsync<T>(this Grid grid,
+        private static async Task<T?> ShowInputNumberDialogAsync<T>(this Grid grid,
                                                                   string title,
                                                                   string message,
                                                                   bool hasDefaultValue,
                                                                   T defaultValue,
-                                                                  string watermark = null) where T : INumber<T>
+                                                                  string watermark = null) where T : struct, INumber<T>
         {
             InputDialog dialog = new InputDialog(new InputDialogViewModel()
             {
@@ -171,7 +171,7 @@ namespace FzLib.Avalonia.Dialogs
             });
             var result = await dialog.ShowPopupDialog<string>(grid);
 
-            return T.Parse(result, CultureInfo.InvariantCulture);
+            return result == null ? null : T.Parse(result, CultureInfo.InvariantCulture);
 
         }
         #endregion

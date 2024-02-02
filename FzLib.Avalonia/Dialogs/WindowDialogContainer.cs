@@ -26,6 +26,7 @@ namespace FzLib.Avalonia.Dialogs
             ExtendClientAreaToDecorationsHint = true;
             ExtendClientAreaChromeHints = global::Avalonia.Platform.ExtendClientAreaChromeHints.NoChrome;
             ExtendClientAreaTitleBarHeightHint = -1;
+            SystemDecorations = SystemDecorations.BorderOnly; //避免在Linux上显示边框
             SizeToContent = SizeToContent.WidthAndHeight;
             WindowStartupLocation = WindowStartupLocation.CenterOwner;
             ShowInTaskbar = false;
