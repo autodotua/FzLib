@@ -31,7 +31,7 @@ namespace FzLib.Avalonia.Dialogs
         private readonly int minCheckCount;
         private readonly int maxCheckCount;
 
-        internal CheckBoxDialog(CheckBoxDialogViewModel vm, int minCheckCount,int maxCheckCount)
+        public CheckBoxDialog(CheckBoxDialogViewModel vm, int minCheckCount,int maxCheckCount)
         {
             if (minCheckCount < 0)
             {

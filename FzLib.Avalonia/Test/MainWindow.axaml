@@ -19,7 +19,9 @@
             <Setter Property="Margin" Value="8" />
         </Style>
     </Window.Styles>
-    <Grid x:Name="g" Margin="8,32,8,8">
+    <Grid
+        x:Name="g"
+        Margin="8,32,8,8">
         <DockPanel
             Margin="8"
             LastChildFill="True">

@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "日志", "日志", "{CC0BCDE1-9445-4776-9DD7-4359A9310534}"
 	ProjectSection(SolutionItems) = preProject
 		Logs\v1日志.txt = Logs\v1日志.txt
+		Logs\v2日志.txt = Logs\v2日志.txt
 		Logs\原WpfCodes日志.txt = Logs\原WpfCodes日志.txt
 		Logs\原WpfControls日志.txt = Logs\原WpfControls日志.txt
 	EndProjectSection

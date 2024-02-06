@@ -93,7 +93,7 @@ namespace FzLib.Avalonia.Dialogs
               };
         }
 
-        internal InputDialog(InputDialogViewModel vm)
+        public InputDialog(InputDialogViewModel vm)
         {
             DataContext = vm;
             InitializeComponent();

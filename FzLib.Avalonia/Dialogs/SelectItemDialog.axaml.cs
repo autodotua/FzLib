@@ -30,7 +30,7 @@ namespace FzLib.Avalonia.Dialogs
         private readonly object buttonContent;
         private readonly Action buttonCommand;
 
-        internal SelectItemDialog(SelectItemDialogViewModel vm, object buttonContent, Action buttonCommand)
+        public SelectItemDialog(SelectItemDialogViewModel vm, object buttonContent, Action buttonCommand)
         {
             DataContext = vm;
             InitializeComponent();
