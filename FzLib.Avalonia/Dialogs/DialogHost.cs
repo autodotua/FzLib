@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml.Styling;
 using Avalonia.Styling;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -89,22 +90,62 @@ AvaloniaProperty.Register<DialogHost, bool>(nameof(PrimaryButtonEnable), true);
             dialogContainer.Close(result);
         }
 
-        public Task<T> ShowWindowDialog<T>(Window window)
+        public Task ShowDialog(DialogContainerType type, Visual visual)
         {
-            dialogContainer = new WindowDialogContainer();
-            return (dialogContainer as WindowDialogContainer).ShowDialog<T>(window, this);
+            return ShowDialog<object>(type, visual);
         }
 
-        public Task ShowWindowDialog(Window window)
+        public Task<T> ShowDialog<T>(DialogContainerType type, Visual visual)
         {
-            dialogContainer = new WindowDialogContainer();
-            return (dialogContainer as WindowDialogContainer).ShowDialog(window, this);
+            var topLevel = TopLevel.GetTopLevel(visual) ?? throw new ArgumentException("找不到TopLevel", nameof(visual));
+            bool canWindowDialog = topLevel is Window;//在桌面端，TopLevel是窗口
+            Grid grid = null;
+            if (topLevel.Content is Grid g)
+            {
+                grid = g;
+            }
+            else if (topLevel.Content is ContentControl cc && cc.Content is Grid g2)
+            {
+                grid = g2;
+            }
+            bool canPopupDialog = grid != null;
+            switch (type)
+            {
+                case DialogContainerType.Popup:
+                    if (!canPopupDialog) throw new NotSupportedException("未找到顶层Grid，不支持Popup对话框");
+                    return ShowPopupDialog<T>(grid);
+                case DialogContainerType.Window:
+                    if (!canWindowDialog) throw new NotSupportedException("顶层不是Window，不支持Window对话框");
+                    return ShowWindowDialog<T>(topLevel as Window);
+                case DialogContainerType.PopupPreferred:
+                    if (!(canWindowDialog || canPopupDialog)) throw new NotSupportedException("顶层不是Window，也未找到顶层Grid，无法显示对话框");
+                    if (canPopupDialog)
+                    {
+                        return ShowPopupDialog<T>(grid);
+                    }
+                    else
+                    {
+                        return ShowWindowDialog<T>(topLevel as Window);
+                    }
+                case DialogContainerType.WindowPreferred:
+                    if (!(canWindowDialog || canPopupDialog)) throw new NotSupportedException("顶层不是Window，也未找到顶层Grid，无法显示对话框");
+                    if (canWindowDialog)
+                    {
+                        return ShowWindowDialog<T>(topLevel as Window);
+                    }
+                    else
+                    {
+                        return ShowPopupDialog<T>(grid);
+                    }
+
+                default:
+                    throw new InvalidEnumArgumentException();
+            }
         }
 
         public Task ShowPopupDialog(Grid control)
         {
-            dialogContainer = new PopupDialogContainer();
-            return (dialogContainer as PopupDialogContainer).ShowDialog(control, this);
+            return ShowPopupDialog<object>(control);
         }
 
         public Task<T> ShowPopupDialog<T>(Grid control)
@@ -113,6 +154,16 @@ AvaloniaProperty.Register<DialogHost, bool>(nameof(PrimaryButtonEnable), true);
             return (dialogContainer as PopupDialogContainer).ShowDialog<T>(control, this);
         }
 
+        public Task<T> ShowWindowDialog<T>(Window window)
+        {
+            dialogContainer = new WindowDialogContainer();
+            return (dialogContainer as WindowDialogContainer).ShowDialog<T>(window, this);
+        }
+
+        public Task ShowWindowDialog(Window window)
+        {
+            return ShowWindowDialog<object>(window);
+        }
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
             PrimaryButton = e.NameScope.Find(nameof(PrimaryButton)) as Button;

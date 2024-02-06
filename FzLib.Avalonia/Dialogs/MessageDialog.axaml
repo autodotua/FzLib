@@ -13,7 +13,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceInclude Source="/Converters/Converters.axaml" />
-              <ResourceInclude Source="/Dialogs/DialogHostStyles.axaml" />
+                <ResourceInclude Source="/Dialogs/DialogHostStyles.axaml" />
             </ResourceDictionary.MergedDictionaries>
             <Thickness x:Key="ExpanderHeaderBorderThickness">0</Thickness>
             <Thickness x:Key="ExpanderContentPadding">8</Thickness>

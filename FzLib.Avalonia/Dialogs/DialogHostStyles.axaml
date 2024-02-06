@@ -119,10 +119,6 @@
                                                             Converter={StaticResource NotNullConverter}}" />
                         </StackPanel>
                         <VisualLayerManager Grid.Row="1">
-                            <VisualLayerManager.ChromeOverlayLayer>
-                                <TitleBar />
-                            </VisualLayerManager.ChromeOverlayLayer>
-
                             <ContentPresenter
                                 Name="PART_ContentPresenter"
                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
