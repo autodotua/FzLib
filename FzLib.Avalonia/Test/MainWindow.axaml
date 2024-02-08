@@ -2,12 +2,15 @@
     x:Class="FzLib.Avalonia.Test.MainWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="using:FzLib.Avalonia.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:FzLib.Avalonia.Test"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="FzLib.Avalonia.Test"
     Width="640"
     Height="640"
+    BorderThickness="0"
+    ExtendClientAreaChromeHints="NoChrome"
     ExtendClientAreaToDecorationsHint="True"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
@@ -19,10 +22,14 @@
             <Setter Property="Margin" Value="8" />
         </Style>
     </Window.Styles>
+
     <Grid
         x:Name="g"
-        Margin="8,32,8,8">
+        RowDefinitions="Auto,*">
+        <c:WindowButtons />
+
         <DockPanel
+            Grid.Row="2"
             Margin="8"
             LastChildFill="True">
             <!--  这边如果不设置Background，那么字就会显示不全，最下面会截掉。Github上未找到类似Issue  -->

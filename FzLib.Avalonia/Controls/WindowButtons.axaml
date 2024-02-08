@@ -1,0 +1,98 @@
+<StackPanel
+    x:Class="FzLib.Avalonia.Controls.WindowButtons"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cv="using:FzLib.Avalonia.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="btns"
+    HorizontalAlignment="Right"
+    VerticalAlignment="Top"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Loaded="StackPanel_Loaded"
+    Orientation="Horizontal"
+    mc:Ignorable="d">
+    <StackPanel.Resources>
+        <cv:InverseBoolConverter x:Key="InverseBoolConverter" />
+    </StackPanel.Resources>
+    <StackPanel.Styles>
+        <Style Selector="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Width" Value="48" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="Transitions" Value="{x:Null}" />
+        </Style>
+        <Style Selector="Line">
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Width" Value="48" />
+            <Setter Property="Stroke" Value="{DynamicResource SystemBaseHighColor}" />
+            <Setter Property="StrokeThickness" Value="1" />
+        </Style>
+        <Style Selector="Path">
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Width" Value="48" />
+            <Setter Property="Stroke" Value="{DynamicResource SystemBaseHighColor}" />
+            <Setter Property="StrokeThickness" Value="1" />
+        </Style>
+        <Style Selector="Rectangle">
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Width" Value="48" />
+            <Setter Property="Stroke" Value="{DynamicResource SystemBaseHighColor}" />
+            <Setter Property="StrokeThickness" Value="1" />
+        </Style>
+
+        <Style Selector="Button:disabled /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Opacity" Value="0.3" />
+        </Style>
+
+
+    </StackPanel.Styles>
+    <Button Click="MinimizeButton_Click">
+        <Line
+            VerticalAlignment="Center"
+            StartPoint="18,15"
+            EndPoint="30,15" />
+    </Button>
+    <Button Click="ResizeButton_Click">
+        <Panel>
+            <Rectangle
+                Width="10"
+                Height="10"
+                IsVisible="{Binding #btns.IsMaximized, Converter={StaticResource InverseBoolConverter}}" />
+            <Path
+                Data="M20 13 L20 11 L28 11 L28 19 L26 19 L26 13 L18 13 L18 21 L26 21 L26 19"
+                IsVisible="{Binding #btns.IsMaximized}">
+                <Path.RenderTransform>
+                    <TranslateTransform X="2" Y="-2" />
+                </Path.RenderTransform>
+            </Path>
+        </Panel>
+    </Button>
+    <Button Click="CloseButton_Click">
+        <Button.Styles>
+            <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="#e81123" />
+            </Style>
+            <Style Selector="Button:pressed /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="#f1707a" />
+            </Style>
+            <Style Selector="Button:pointerover Line">
+                <Setter Property="Stroke" Value="White" />
+            </Style>
+        </Button.Styles>
+        <Panel>
+            <Line
+                VerticalAlignment="Center"
+                StartPoint="19,10"
+                EndPoint="29,20" />
+            <Line
+                VerticalAlignment="Center"
+                StartPoint="19,20"
+                EndPoint="29,10" />
+        </Panel>
+    </Button>
+</StackPanel>
