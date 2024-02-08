@@ -33,6 +33,7 @@ namespace FzLib.Avalonia.Dialogs
 
         public CheckBoxDialog(CheckBoxDialogViewModel vm, int minCheckCount,int maxCheckCount)
         {
+            Title=vm.Title;
             if (minCheckCount < 0)
             {
                 throw new ArgumentException("值不可小于0", nameof(minCheckCount));

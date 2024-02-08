@@ -79,7 +79,7 @@
                         <TextBlock
                             Margin="0,0,0,12"
                             FontSize="20"
-                            Text="{Binding Title}" />
+                            Text="{TemplateBinding Title}" />
                         <StackPanel
                             Grid.Row="2"
                             Margin="4,16,4,4"

@@ -95,6 +95,7 @@ namespace FzLib.Avalonia.Dialogs
 
         public InputDialog(InputDialogViewModel vm)
         {
+            Title = vm.Title;
             DataContext = vm;
             InitializeComponent();
             vm.PropertyChanged += Vm_PropertyChanged;

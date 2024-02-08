@@ -33,15 +33,27 @@ AvaloniaProperty.Register<DialogHost, bool>(nameof(PrimaryButtonEnable), true);
         public static readonly StyledProperty<bool> SecondaryButtonEnableProperty =
     AvaloniaProperty.Register<DialogHost, bool>(nameof(SecondaryButtonEnable), true);
 
+        public static readonly StyledProperty<string> TitleProperty =
+    AvaloniaProperty.Register<DialogHost, string>(nameof(Title), "");
+
         public static string CancelButtonText = "取消";
+
         public static string CloseButtonText = "关闭";
+
         public static string NoButtonText = "否";
+
         public static string OkButtonText = "确定";
+
         public static string RetryButtonText = "重试";
+
         public static string YesButtonText = "是";
+
         internal Button CloseButton;
+
         internal Button PrimaryButton;
+
         internal Button SecondaryButton;
+
         private IDialogHostContainer dialogContainer;
 
         public object CloseButtonContent
@@ -80,6 +92,11 @@ AvaloniaProperty.Register<DialogHost, bool>(nameof(PrimaryButtonEnable), true);
             set => SetValue(SecondaryButtonEnableProperty, value);
         }
 
+        public string Title
+        {
+            get => GetValue(TitleProperty);
+            set => SetValue(TitleProperty, value);
+        }
         public void Close()
         {
             dialogContainer.Close();

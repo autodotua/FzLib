@@ -32,6 +32,7 @@ namespace FzLib.Avalonia.Dialogs
 
         public SelectItemDialog(SelectItemDialogViewModel vm, object buttonContent, Action buttonCommand)
         {
+            Title = vm.Title;
             DataContext = vm;
             InitializeComponent();
             this.buttonContent = buttonContent;

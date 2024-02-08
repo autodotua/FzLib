@@ -33,6 +33,7 @@ namespace FzLib.Avalonia.Dialogs
 
         public MessageDialog(MessageDialogViewModel vm, MessageDialogButtonDefinition buttonDefinition)
         {
+            Title = vm.Title;
             DataContext = vm;
             InitializeComponent();
             this.buttonDefinition = buttonDefinition;
