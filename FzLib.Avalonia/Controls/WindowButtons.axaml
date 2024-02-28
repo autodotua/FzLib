@@ -62,7 +62,7 @@
             <Rectangle
                 Width="10"
                 Height="10"
-                IsVisible="{Binding #btns.IsMaximized, Converter={StaticResource InverseBoolConverter}}" />
+                IsVisible="{Binding !#btns.IsMaximized}" />
             <Path
                 Data="M20 13 L20 11 L28 11 L28 19 L26 19 L26 13 L18 13 L18 21 L26 21 L26 19"
                 IsVisible="{Binding #btns.IsMaximized}">
@@ -73,6 +73,7 @@
         </Panel>
     </Button>
     <Button Click="CloseButton_Click">
+
         <Button.Styles>
             <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
                 <Setter Property="Background" Value="#e81123" />
@@ -84,6 +85,11 @@
                 <Setter Property="Stroke" Value="White" />
             </Style>
         </Button.Styles>
+      <Button.Transitions>
+        <Transitions>
+          <BrushTransition Duration="0:0:1" Property="Background"/>
+        </Transitions>
+      </Button.Transitions>
         <Panel>
             <Line
                 VerticalAlignment="Center"

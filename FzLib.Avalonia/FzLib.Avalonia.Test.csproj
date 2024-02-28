@@ -20,6 +20,14 @@
     <EmbeddedResource Remove="Test\Desktop\**" />
     <None Remove="Test\Desktop\**" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <None Remove="Dialogs\ProgressRing.xaml" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <AvaloniaXaml Include="Dialogs\ProgressRing.xaml" />
+  </ItemGroup>
 
 
 

@@ -4,6 +4,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using FzLib.Avalonia.Dialogs;
 using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace FzLib.Avalonia.Test;
 
@@ -23,6 +25,28 @@ public partial class MainWindow : Window
     {
         DataContext = VM = new MainViewModel();
         InitializeComponent();
+    }
+    private async void LoadingButton_Click(object sender, RoutedEventArgs e)
+    {
+        switch ((sender as Button).Tag as string)
+        {
+            case "1":
+                var cts = LoadingOverlay.ShowLoading(this);
+                await Task.Delay(1000);
+                cts.Cancel();
+                break;
+            case "2":
+                var cts2 = LoadingOverlay.ShowLoading(this, TimeSpan.FromSeconds(1));
+                await Task.Delay(2000);
+                cts2.Cancel();
+                break;
+            case "3":
+                var cts3 = LoadingOverlay.ShowLoading(this, TimeSpan.FromSeconds(2));
+                await Task.Delay(1000);
+                cts3.Cancel();
+                break;
+        }
+
     }
     private async void DialogButton_Click(object sender, RoutedEventArgs e)
     {
