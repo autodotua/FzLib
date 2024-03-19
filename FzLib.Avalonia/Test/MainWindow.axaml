@@ -124,7 +124,7 @@
                             Tag="2" />
                         <Button
                             Click="LoadingButton_Click"
-                            Content="延迟2秒，但提前1秒取消"
+                            Content="延迟2秒，但提前1.9秒取消"
                             Tag="3" />
 
                     </WrapPanel>

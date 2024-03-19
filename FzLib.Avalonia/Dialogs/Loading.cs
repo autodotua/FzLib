@@ -70,8 +70,16 @@ namespace FzLib.Avalonia.Dialogs
 
             container.Children.Add(overlay);
             CancellationTokenSource cts = new CancellationTokenSource();
+            bool canceled = false;
+            CancellationTokenRegistration? cancellationTokenRegistration = null;
             if (delay != default)
             {
+                //如果在延迟期间就已经取消，那么不展示动画，直接移除
+                cancellationTokenRegistration= cts.Token.Register(() =>
+                {
+                    canceled = true;
+                    container.Children.Remove(overlay);
+                });
                 Task.Delay(delay).ContinueWith(t => Begin());
             }
             else
@@ -83,6 +91,16 @@ namespace FzLib.Avalonia.Dialogs
 
             void Begin()
             {
+                //如果在延迟期间就已经取消，那么不再执行后续操作
+                if (canceled)
+                {
+                    return;
+                }
+                //在开启延迟的情况下，如果上面已经注册过，那么要先把上面的给反注册
+                if (cancellationTokenRegistration.HasValue)
+                {
+                    cancellationTokenRegistration.Value.Dispose();
+                }
                 cts.Token.Register(() =>
                 {
                     Dispatcher.UIThread.Invoke(async () =>

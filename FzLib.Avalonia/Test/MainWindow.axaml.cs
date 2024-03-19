@@ -42,7 +42,7 @@ public partial class MainWindow : Window
                 break;
             case "3":
                 var cts3 = LoadingOverlay.ShowLoading(this, TimeSpan.FromSeconds(2));
-                await Task.Delay(1000);
+                await Task.Delay(100);
                 cts3.Cancel();
                 break;
         }
