@@ -16,12 +16,7 @@ namespace FzLib.Avalonia.Dialogs
     {
         internal WindowDialogContainer()
         {
-            ResourceDictionary rd = new ResourceDictionary();
-            string assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
-            var uri = new Uri($"avares://{assemblyName}/Dialogs/DialogHostStyles.axaml");
-            rd.MergedDictionaries.Add(new ResourceInclude((Uri)null) { Source = uri });
-            Resources = rd;
-            Theme = this.FindResource("DialogWindowTheme") as ControlTheme;
+            Theme = (ControlTheme)this.FindResource(typeof(WindowDialogContainer));
 
             ExtendClientAreaToDecorationsHint = true;
             ExtendClientAreaChromeHints = global::Avalonia.Platform.ExtendClientAreaChromeHints.NoChrome;
