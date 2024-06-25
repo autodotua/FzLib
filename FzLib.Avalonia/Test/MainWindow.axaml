@@ -21,6 +21,9 @@
         <Style Selector="Expander Button">
             <Setter Property="Margin" Value="8" />
         </Style>
+        <Style Selector="Expander">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
     </Window.Styles>
 
     <Grid
@@ -40,9 +43,7 @@
             <StackPanel
                 Orientation="Vertical"
                 Spacing="8">
-                <Expander
-                    Header="对话框"
-                    IsExpanded="True">
+                <Expander Header="对话框">
                     <WrapPanel>
                         <ToggleSwitch
                             IsChecked="{Binding ShowWindowDialog}"
@@ -110,9 +111,7 @@
                             Tag="15" />
                     </WrapPanel>
                 </Expander>
-                <Expander
-                    Header="加载"
-                    IsExpanded="True">
+                <Expander Header="加载">
                     <WrapPanel>
                         <Button
                             Click="LoadingButton_Click"
@@ -128,6 +127,49 @@
                             Tag="3" />
 
                     </WrapPanel>
+                </Expander>
+
+                <Expander Header="表单">
+                    <StackPanel
+                        Orientation="Vertical"
+                        Spacing="8 ">
+                        <StackPanel.Styles>
+                            <Style Selector="c|FormItem">
+                                <Setter Property="LabelWidth" Value="120" />
+                            </Style>
+                        </StackPanel.Styles>
+                        <c:FormItem Label="姓名：">
+                            <TextBox Text="王某某" />
+                        </c:FormItem>
+                        <c:FormItem Label="年龄：">
+                            <NumericUpDown Value="20" />
+                        </c:FormItem>
+                    </StackPanel>
+                </Expander>
+
+                <Expander
+                    Header="文件选取器"
+                    IsExpanded="True  ">
+                    <StackPanel
+                        Orientation="Vertical"
+                        Spacing="8 ">
+                        <c:FilePickerTextBox
+                            Label="打开文件："
+                            Type="OpenFile" />
+                        <c:FilePickerTextBox
+                            StringFileTypeFilter="JPEG图片;*.jpg,*.jpeg;image/jpeg;|PNG图片;*.png;image/png;"
+                            Label="打开文件（仅JPG和PNG）："
+                            Type="OpenFile" />
+                        <c:FilePickerTextBox
+                            Label="保存文件："
+                            Type="SaveFile" />
+                        <c:FilePickerTextBox
+                            Label="打开目录："
+                            Type="OpenFolder" />
+                        <c:FilePickerTextBox
+                            ButtonContent="打开目录（无标签）"
+                            Type="OpenFolder" />
+                    </StackPanel>
                 </Expander>
 
             </StackPanel>
