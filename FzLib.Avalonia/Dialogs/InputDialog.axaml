@@ -9,14 +9,6 @@
     Loaded="DialogWindow_Loaded"
     Theme="{StaticResource {x:Type local:DialogHost}}"
     mc:Ignorable="d">
-    <local:DialogHost.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceInclude Source="/Converters/Converters.axaml" />
-                <ResourceInclude Source="/Dialogs/DialogHostStyles.axaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </local:DialogHost.Resources>
     <local:DialogHost.Styles>
         <Style Selector="DataValidationErrors">
             <Setter Property="Template">
