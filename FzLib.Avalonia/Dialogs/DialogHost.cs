@@ -15,6 +15,9 @@ namespace FzLib.Avalonia.Dialogs
 {
     public class DialogHost : ContentControl
     {
+
+        protected override Type StyleKeyOverride => typeof(DialogHost);
+
         public static readonly StyledProperty<object> CloseButtonContentProperty =
     AvaloniaProperty.Register<DialogHost, object>(nameof(CloseButtonContent));
 

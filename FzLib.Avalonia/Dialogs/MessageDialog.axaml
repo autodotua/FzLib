@@ -7,7 +7,6 @@
     xmlns:local="clr-namespace:FzLib.Avalonia.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:DataType="local:MessageDialogViewModel"
-    Theme="{StaticResource {x:Type local:DialogHost}}"
     mc:Ignorable="d">
     <local:DialogHost.Resources>
         <Thickness x:Key="ExpanderHeaderBorderThickness">0</Thickness>

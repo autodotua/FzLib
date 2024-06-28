@@ -14,10 +14,10 @@ namespace FzLib.Avalonia.Dialogs
 {
     public class WindowDialogContainer : Window, IDialogHostContainer<Window>
     {
+        protected override Type StyleKeyOverride => typeof(WindowDialogContainer);
+
         internal WindowDialogContainer()
         {
-            Theme = (ControlTheme)this.FindResource(typeof(WindowDialogContainer));
-
             ExtendClientAreaToDecorationsHint = true;
             ExtendClientAreaChromeHints = global::Avalonia.Platform.ExtendClientAreaChromeHints.NoChrome;
             ExtendClientAreaTitleBarHeightHint = -1;

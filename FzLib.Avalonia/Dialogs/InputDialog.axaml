@@ -7,7 +7,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:DataType="local:InputDialogViewModel"
     Loaded="DialogWindow_Loaded"
-    Theme="{StaticResource {x:Type local:DialogHost}}"
     mc:Ignorable="d">
     <local:DialogHost.Styles>
         <Style Selector="DataValidationErrors">
