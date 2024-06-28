@@ -18,5 +18,8 @@
     <c:DescriptionConverter x:Key="DescriptionConverter" />
     <c:UnderlineBool2TextDecorationConverter x:Key="UnderlineBool2TextDecorationConverter" />
     <c:TimeSpanConverter x:Key="TimeSpanConverter" />
+    <c:TimeSpanNumberConverter x:Key="TimeSpanNumberConverter" />
+    <c:FilePickerFilterConverter x:Key="FilePickerFilterConverter" />
+    <c:StringListConverter x:Key="StringListConverter" />
 
 </ResourceDictionary>
