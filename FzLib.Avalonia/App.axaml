@@ -10,6 +10,9 @@
     </Application.Styles>
     <Application.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="/Resources.axaml" />
+            </ResourceDictionary.MergedDictionaries>
             <FontFamily x:Key="ContentControlThemeFontFamily">微软雅黑</FontFamily>
         </ResourceDictionary>
     </Application.Resources>

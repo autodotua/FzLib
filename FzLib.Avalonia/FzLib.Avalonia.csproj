@@ -48,11 +48,4 @@
     <ProjectReference Include="..\FzLib\FzLib.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-
-    <None Update="Dialogs\Resources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </None>
-  </ItemGroup>
-
 </Project>
