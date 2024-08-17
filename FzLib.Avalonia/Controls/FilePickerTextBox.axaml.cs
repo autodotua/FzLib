@@ -6,199 +6,277 @@ using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Platform.Storage;
 using FzLib.Avalonia.Converters;
+using FzLib.Avalonia.Platforms;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace FzLib.Avalonia.Controls
+namespace FzLib.Avalonia.Controls;
+
+public partial class FilePickerTextBox : UserControl
 {
-    public partial class FilePickerTextBox : UserControl
+    public static readonly StyledProperty<object> ButtonContentProperty =
+        AvaloniaProperty.Register<FilePickerTextBox, object>(nameof(ButtonContent), "‰Ø¿¿..");
+
+    public static readonly StyledProperty<string> FileNamesProperty =
+        AvaloniaProperty.Register<FilePickerTextBox, string>(nameof(FileNames), defaultBindingMode: BindingMode.TwoWay);
+
+    public static readonly StyledProperty<string> LabelProperty =
+        AvaloniaProperty.Register<FilePickerTextBox, string>(nameof(Label));
+
+    /// <summary>
+    /// /// MultipleFilesSeparator DirectProperty definition
+    /// </summary>
+    public static readonly DirectProperty<FilePickerTextBox, string> MultipleFilesSeparatorProperty =
+        AvaloniaProperty.RegisterDirect<FilePickerTextBox, string>(nameof(MultipleFilesSeparator),
+            o => o.MultipleFilesSeparator,
+            (o, v) => o.MultipleFilesSeparator = v);
+
+    public static readonly DirectProperty<FilePickerTextBox, string> SaveFileDefaultExtensionProperty =
+        AvaloniaProperty.RegisterDirect<FilePickerTextBox, string>(nameof(SaveFileDefaultExtension),
+            o => o.SaveFileDefaultExtension,
+            (o, v) => o.SaveFileDefaultExtension = v);
+
+    public static readonly DirectProperty<FilePickerTextBox, string> SaveFileSuggestedFileNameProperty =
+                AvaloniaProperty.RegisterDirect<FilePickerTextBox, string>(nameof(SaveFileSuggestedFileName),
+            o => o.SaveFileSuggestedFileName,
+            (o, v) => o.SaveFileSuggestedFileName = v);
+
+    public static readonly DirectProperty<FilePickerTextBox, string> SuggestedStartLocationProperty =
+        AvaloniaProperty.RegisterDirect<FilePickerTextBox, string>(nameof(SuggestedStartLocation),
+            o => o.SuggestedStartLocation,
+            (o, v) => o.SuggestedStartLocation = v);
+
+    public static readonly StyledProperty<string> TitleProperty =
+        AvaloniaProperty.Register<FilePickerTextBox, string>(nameof(Title));
+
+    private string multipleFilesSeparator = "; ";
+
+    private string saveFileDefaultExtension = default;
+
+    private string saveFileSuggestedFileName = default;
+
+    private string suggestedStartLocation = default;
+
+    public FilePickerTextBox()
     {
-        public static readonly StyledProperty<object> ButtonContentProperty =
-            AvaloniaProperty.Register<FilePickerTextBox, object>(nameof(ButtonContent), "‰Ø¿¿..");
+        InitializeComponent();
+        AddHandler(DragDrop.DragEnterEvent, DragEnter);
+        AddHandler(DragDrop.DropEvent, Drop);
+    }
 
-        public static readonly StyledProperty<string> FileNamesProperty =
-            AvaloniaProperty.Register<FilePickerTextBox, string>(nameof(FileNames), defaultBindingMode: BindingMode.TwoWay);
+    public enum PickerType
+    {
+        OpenFile,
+        OpenFolder,
+        SaveFile
+    }
+    public bool AllowMultiple { get; set; }
 
-        public static readonly StyledProperty<string> LabelProperty =
-            AvaloniaProperty.Register<FilePickerTextBox, string>(nameof(Label));
+    public object ButtonContent
+    {
+        get => GetValue(ButtonContentProperty);
+        set => SetValue(ButtonContentProperty, value);
+    }
 
-        public FilePickerTextBox()
+    public string FileNames
+    {
+        get => GetValue(FileNamesProperty);
+        set => SetValue(FileNamesProperty, value);
+    }
+
+    public List<FilePickerFileType> FileTypeFilter { get; set; }
+
+    public string Label
+    {
+        get => GetValue(LabelProperty);
+        set => SetValue(LabelProperty, value);
+    }
+
+    public string MultipleFilesSeparator
+    {
+        get => multipleFilesSeparator;
+        set => SetAndRaise(MultipleFilesSeparatorProperty, ref multipleFilesSeparator, value);
+    }
+
+    public string SaveFileDefaultExtension
+    {
+        get => saveFileDefaultExtension;
+        set => SetAndRaise(SaveFileDefaultExtensionProperty, ref saveFileDefaultExtension, value);
+    }
+
+
+    public string SaveFileSuggestedFileName
+    {
+        get => saveFileSuggestedFileName;
+        set => SetAndRaise(SaveFileSuggestedFileNameProperty, ref saveFileSuggestedFileName, value);
+    }
+
+    public bool? ShowOverwritePrompt { get; set; }
+
+    public string StringFileTypeFilter
+    {
+        set
         {
-            InitializeComponent();
-            AddHandler(DragDrop.DragEnterEvent, DragEnter);
-            AddHandler(DragDrop.DropEvent, Drop);
+            FileTypeFilter = FilePickerFilterConverter.String2FilterList(value);
         }
-        public enum PickerType
+    }
+
+    public string SuggestedStartLocation
+    {
+        get => suggestedStartLocation;
+        set => SetAndRaise(SuggestedStartLocationProperty, ref suggestedStartLocation, value);
+    }
+
+    public string Title
+    {
+        get => this.GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
+
+    public PickerType Type { get; set; } = PickerType.OpenFile;
+
+    public void DragEnter(object sender, DragEventArgs e)
+    {
+        if (CanDrop(e))
         {
-            OpenFile,
-            OpenFolder,
-            SaveFile
+            e.DragEffects = DragDropEffects.Link;
         }
+    }
 
-        public bool AllowMultiple { get; set; }
-
-        public object ButtonContent
+    public void Drop(object sender, DragEventArgs e)
+    {
+        if (CanDrop(e))
         {
-            get => GetValue(ButtonContentProperty);
-            set => SetValue(ButtonContentProperty, value);
+            var files = e.Data.GetFiles().Select(p => p.TryGetLocalPath());
+            FileNames = string.Join(MultipleFilesSeparator, files);
         }
+    }
 
-        public string FileNames
+    private async void Button_Click(object sender, RoutedEventArgs e)
+    {
+        var storageProvider = TopLevel.GetTopLevel(this).StorageProvider;
+        string suggestedStartLocation = SuggestedStartLocation;
+        if (suggestedStartLocation == null && !string.IsNullOrWhiteSpace(FileNames))
         {
-            get => GetValue(FileNamesProperty);
-            set => SetValue(FileNamesProperty, value);
-        }
-
-        public List<FilePickerFileType> FileTypeFilter { get; set; }
-
-        public string StringFileTypeFilter
-        {
-            set
+            var file = FileNames.Split(MultipleFilesSeparator)[0];
+            if (Type is PickerType.OpenFile or PickerType.SaveFile && File.Exists(file))
             {
-                FileTypeFilter= FilePickerFilterConverter.String2FilterList(value);
+                suggestedStartLocation = Path.GetDirectoryName(file);
+            }
+            else if (Type is PickerType.OpenFolder && Directory.Exists(file))
+            {
+                suggestedStartLocation = file;
             }
         }
 
-        public string Label
+        IStorageFolder suggestedStartLocationUri = null;
+        try
         {
-            get => GetValue(LabelProperty);
-            set => SetValue(LabelProperty, value);
+            suggestedStartLocationUri = suggestedStartLocation == null ? null : await storageProvider.TryGetFolderFromPathAsync(suggestedStartLocation);
         }
-
-        public string MultipleFilesSeparator { get; set; } = "; ";
-
-        public string SaveFileDefaultExtension { get; set; }
-
-        public string SaveFileSuggestedFileName { get; set; }
-
-        public bool? ShowOverwritePrompt { get; set; }
-
-        public string SuggestedStartLocation { get; set; }
-
-        public string Title { get; set; }
-
-        public PickerType Type { get; set; } = PickerType.OpenFile;
-
-        public void DragEnter(object sender, DragEventArgs e)
+        catch
         {
-            if (CanDrop(e))
-            {
-                e.DragEffects = DragDropEffects.Link;
-            }
+
         }
-
-        public void Drop(object sender, DragEventArgs e)
+        switch (Type)
         {
-            if (CanDrop(e))
-            {
-                var files = e.Data.GetFiles().Select(p => p.TryGetLocalPath());
-                FileNames = string.Join(MultipleFilesSeparator, files);
-            }
-        }
-
-        private async void Button_Click(object sender, RoutedEventArgs e)
-        {
-            var storageProvider = TopLevel.GetTopLevel(this).StorageProvider;
-            string suggestedStartLocation = SuggestedStartLocation;
-            if (suggestedStartLocation == null && !string.IsNullOrWhiteSpace(FileNames))
-            {
-                var file = FileNames.Split(MultipleFilesSeparator)[0];
-                if (Type is PickerType.OpenFile or PickerType.SaveFile && File.Exists(file))
+            case PickerType.OpenFile:
+                var openFiles = await storageProvider.OpenFilePickerAsync(new FilePickerOpenOptions()
                 {
-                    suggestedStartLocation = Path.GetDirectoryName(file);
-                }
-                else if (Type is PickerType.OpenFolder && Directory.Exists(file))
+                    AllowMultiple = AllowMultiple,
+                    FileTypeFilter = FileTypeFilter,
+                    Title = Title,
+                    SuggestedStartLocation = suggestedStartLocationUri
+                });
+                if (openFiles != null && openFiles.Count > 0)
                 {
-                    suggestedStartLocation = file;
+                    FileNames = string.Join(MultipleFilesSeparator, openFiles.Select(p => GetPath(p)));
+                    var a = openFiles[0].TryGetLocalPath();
                 }
+                break;
+            case PickerType.OpenFolder:
+                var folders = await storageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+                {
+                    Title = Title,
+                    AllowMultiple = AllowMultiple,
+                    SuggestedStartLocation = suggestedStartLocationUri
+                });
+                if (folders != null && folders.Count > 0)
+                {
+                    FileNames = string.Join(MultipleFilesSeparator, folders.Select(p => GetPath(p)));
+                }
+                break;
+            case PickerType.SaveFile:
+                var saveFiles = await storageProvider.SaveFilePickerAsync(new FilePickerSaveOptions()
+                {
+                    Title = Title,
+                    FileTypeChoices = FileTypeFilter,
+                    DefaultExtension = SaveFileDefaultExtension,
+                    ShowOverwritePrompt = ShowOverwritePrompt,
+                    SuggestedFileName = SaveFileSuggestedFileName,
+                    SuggestedStartLocation = suggestedStartLocationUri
+                });
+                if (saveFiles != null)
+                {
+                    FileNames = GetPath(saveFiles);
+                }
+                break;
+        }
+    }
+
+    private bool CanDrop(DragEventArgs e)
+    {
+        if (e.Data.GetDataFormats().Contains(DataFormats.Files))
+        {
+            var fileAttributes = e.Data.GetFiles()
+                .Select(p => p.TryGetLocalPath())
+                .Select(p => File.GetAttributes(p))
+                .ToList();
+            if (Type == PickerType.SaveFile && fileAttributes.Count > 1)
+            {
+                return false;
             }
+            var isAllDir = fileAttributes.All(p => p.HasFlag(FileAttributes.Directory));
+            var isAllFile = fileAttributes.All(p => !p.HasFlag(FileAttributes.Directory));
             switch (Type)
             {
                 case PickerType.OpenFile:
-                    var openFiles = await storageProvider.OpenFilePickerAsync(new FilePickerOpenOptions()
+                case PickerType.SaveFile:
+                    if (AllowMultiple && isAllFile)
                     {
-                        AllowMultiple = AllowMultiple,
-                        FileTypeFilter = FileTypeFilter,
-                        Title = Title,
-                        SuggestedStartLocation = await storageProvider.TryGetFolderFromPathAsync(suggestedStartLocation)
-                    });
-                    if (openFiles != null && openFiles.Count > 0)
+                        return true;
+                    }
+                    else if (!AllowMultiple && fileAttributes.Count == 1 && isAllFile)
                     {
-                        FileNames = string.Join(MultipleFilesSeparator, openFiles.Select(p => p.TryGetLocalPath()));
+                        return true;
                     }
                     break;
                 case PickerType.OpenFolder:
-                    var folders = await storageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+                    if (AllowMultiple && isAllDir)
                     {
-                        Title = Title,
-                        AllowMultiple = AllowMultiple,
-                        SuggestedStartLocation = await storageProvider.TryGetFolderFromPathAsync(suggestedStartLocation),
-                    });
-                    if (folders != null && folders.Count > 0)
+                        return true;
+                    }
+                    else if (!AllowMultiple && fileAttributes.Count == 1 && isAllDir)
                     {
-                        FileNames = string.Join(MultipleFilesSeparator, folders.Select(p => p.TryGetLocalPath()));
+                        return true;
                     }
                     break;
-                case PickerType.SaveFile:
-                    var saveFiles = await storageProvider.SaveFilePickerAsync(new FilePickerSaveOptions()
-                    {
-                        Title = Title,
-                        FileTypeChoices = FileTypeFilter,
-                        DefaultExtension = SaveFileDefaultExtension,
-                        ShowOverwritePrompt = ShowOverwritePrompt,
-                        SuggestedFileName = SaveFileSuggestedFileName,
-                        SuggestedStartLocation = await storageProvider.TryGetFolderFromPathAsync(suggestedStartLocation),
-                    });
-                    if (saveFiles != null)
-                    {
-                        FileNames = saveFiles.TryGetLocalPath();
-                    }
-                    break;
-            }
-        }
-
-        private bool CanDrop(DragEventArgs e)
-        {
-            if (e.Data.GetDataFormats().Contains(DataFormats.Files))
-            {
-                var fileAttributes = e.Data.GetFiles()
-                    .Select(p => p.TryGetLocalPath())
-                    .Select(p => File.GetAttributes(p))
-                    .ToList();
-                if (Type == PickerType.SaveFile && fileAttributes.Count > 1)
-                {
-                    return false;
-                }
-                var isAllDir = fileAttributes.All(p => p.HasFlag(FileAttributes.Directory));
-                var isAllFile = fileAttributes.All(p => !p.HasFlag(FileAttributes.Directory));
-                switch (Type)
-                {
-                    case PickerType.OpenFile:
-                    case PickerType.SaveFile:
-                        if (AllowMultiple && isAllFile)
-                        {
-                            return true;
-                        }
-                        else if (!AllowMultiple && fileAttributes.Count == 1 && isAllFile)
-                        {
-                            return true;
-                        }
-                        break;
-                    case PickerType.OpenFolder:
-                        if (AllowMultiple && isAllDir)
-                        {
-                            return true;
-                        }
-                        else if (!AllowMultiple && fileAttributes.Count == 1 && isAllDir)
-                        {
-                            return true;
-                        }
-                        break;
-                }
-                return false;
             }
             return false;
         }
+        return false;
+    }
+
+    private string GetPath(IStorageItem file)
+    {
+        if (OperatingSystem.IsAndroid())
+        {
+            var root = PlatformServices.StorageService.GetExternalFilesDir();
+            var path = file.Path.LocalPath;
+            return Path.Combine(root, path.Split(':')[^1]);
+        }
+        return file.TryGetLocalPath();
     }
 }

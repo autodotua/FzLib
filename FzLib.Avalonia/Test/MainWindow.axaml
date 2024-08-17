@@ -157,11 +157,12 @@
                             Label="打开文件："
                             Type="OpenFile" />
                         <c:FilePickerTextBox
-                            StringFileTypeFilter="JPEG图片;*.jpg,*.jpeg;image/jpeg;|PNG图片;*.png;image/png;"
                             Label="打开文件（仅JPG和PNG）："
+                            StringFileTypeFilter="JPEG图片;*.jpg,*.jpeg;image/jpeg;|PNG图片;*.png;image/png;"
                             Type="OpenFile" />
                         <c:FilePickerTextBox
                             Label="保存文件："
+                            SaveFileSuggestedFileName="建议的文件名"
                             Type="SaveFile" />
                         <c:FilePickerTextBox
                             Label="打开目录："
