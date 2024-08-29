@@ -21,6 +21,7 @@
                     <ContentPresenter
                         Name="PART_ContentPresenter"
                         Grid.Column="2"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                         Content="{TemplateBinding Content}"
                         RenderOptions.EdgeMode="Antialias" />
                 </Grid>

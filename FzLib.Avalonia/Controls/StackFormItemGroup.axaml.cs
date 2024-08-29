@@ -1,0 +1,76 @@
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+using Avalonia.Layout;
+using Avalonia.LogicalTree;
+using Avalonia.Markup.Xaml;
+using Avalonia.VisualTree;
+using FzLib.Avalonia.Controls;
+using System;
+using System.Linq;
+
+namespace FzLib.Avalonia.Controls;
+
+public partial class StackFormItemGroup : StackPanel
+{
+    /// <summary>
+    /// 当LabelWidth为NaN时，自动调整标签宽度时右侧的空隙宽度。设置值为负数或NaN表示禁用自动调整。
+    /// </summary>
+    public static readonly StyledProperty<double> AutoUnifyLabelWidthsMarginRightProperty =
+        AvaloniaProperty.Register<StackFormItemGroup, double>(nameof(AutoUnifyLabelWidthsMarginRight), 8);
+
+    /// <summary>
+    /// 统一的标签宽度。若为NaN，表示自动调整。
+    /// </summary>
+    public static readonly StyledProperty<double> LabelWidthProperty =
+        FormItem.LabelWidthProperty.AddOwner<StackFormItemGroup>();
+
+    public StackFormItemGroup()
+    {
+        Spacing = 8;
+        SetValue(OrientationProperty, Orientation.Vertical);
+        InitializeComponent();
+    }
+    /// <summary>
+    /// 当LabelWidth为NaN时，自动调整标签宽度时右侧的空隙宽度。设置值为负数或NaN表示禁用自动调整。
+    /// </summary>
+    public double AutoUnifyLabelWidthsMarginRight
+    {
+        get => this.GetValue(AutoUnifyLabelWidthsMarginRightProperty);
+        set => SetValue(AutoUnifyLabelWidthsMarginRightProperty, value);
+    }
+
+    /// <summary>
+    /// 统一的标签宽度。若为NaN，表示自动调整。
+    /// </summary>
+    public double LabelWidth
+    {
+        get => GetValue(LabelWidthProperty);
+        set => SetValue(LabelWidthProperty, value);
+    }
+
+    public new Orientation Orientation
+    {
+        get => base.Orientation;
+        set => throw new Exception("不支持修改Orientation");
+    }
+
+    protected override void OnLoaded(RoutedEventArgs e)
+    {
+        base.OnLoaded(e);
+        if (!double.IsNaN(LabelWidth) || !(AutoUnifyLabelWidthsMarginRight > 0))
+        {
+            return;
+        }
+        double maxWidth = 0;
+        foreach (var child in Children.OfType<FormItem>())
+        {
+            var label = child.GetVisualDescendants().First(p => p.Name == "PART_LabelText");
+            maxWidth = Math.Max(label.Bounds.Width, maxWidth);
+        }
+        if (maxWidth > 0)
+        {
+            LabelWidth = maxWidth + AutoUnifyLabelWidthsMarginRight;
+        }
+    }
+}
