@@ -11,11 +11,20 @@ namespace FzLib.Avalonia.Controls
 {
     public class FormItem : ContentControl
     {
+        public static readonly StyledProperty<string> DescriptionProperty =
+            AvaloniaProperty.Register<FormItem, string>(nameof(Description));
+
         public static readonly StyledProperty<string> LabelProperty =
-            AvaloniaProperty.Register<FormItem, string>(nameof(Label));
+                    AvaloniaProperty.Register<FormItem, string>(nameof(Label));
 
         public static readonly StyledProperty<double> LabelWidthProperty =
             AvaloniaProperty.Register<FormItem, double>(nameof(LabelWidth), double.NaN);
+
+        public string Description
+        {
+            get => GetValue(DescriptionProperty);
+            set => SetValue(DescriptionProperty, value);
+        }
 
         public string Label
         {

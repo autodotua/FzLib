@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>FzLib</RootNamespace>
     <Nullable>disable</Nullable>
-    <Version>2.1.0</Version>
+    <Version>$(FzLibVersion)</Version>
     <PackageLicenseExpression>	Apache-2.0</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>

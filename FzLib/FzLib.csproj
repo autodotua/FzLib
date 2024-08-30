@@ -7,7 +7,7 @@
     <Platforms>AnyCPU</Platforms>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <LangVersion>8</LangVersion>
-    <Version>2.1.0</Version>
+    <Version>$(FzLibVersion)</Version>
     <PackageLicenseExpression>	Apache-2.0</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
