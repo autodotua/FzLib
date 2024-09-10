@@ -10,6 +10,10 @@ namespace FzLib.Avalonia.Dialogs
 {
     public class PopupDialogContainer : Panel, IDialogHostContainer<Grid>
     {
+        public PopupDialogContainer()
+        {
+        }
+
         TaskCompletionSource<object> tcs;
 
         public void Close()
@@ -60,6 +64,8 @@ namespace FzLib.Avalonia.Dialogs
                 MaxWidth = 800,
                 MaxHeight = 800
             };
+
+            bdDialog.EnableDrag();
             (bdDialog.Effect as DropShadowEffect)[!DropShadowEffectBase.ColorProperty] = new DynamicResourceExtension("SystemControlBackgroundChromeMediumLowBrush");
             bdDialog[!BackgroundProperty] = new DynamicResourceExtension("SystemControlBackgroundChromeMediumLowBrush");
             Children.Add(bdDialog);
