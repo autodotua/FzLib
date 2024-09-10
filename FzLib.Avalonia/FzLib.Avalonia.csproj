@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <RootNamespace>FzLib</RootNamespace>
     <Nullable>disable</Nullable>
     <Version>$(FzLibVersion)</Version>
     <PackageLicenseExpression>	Apache-2.0</PackageLicenseExpression>

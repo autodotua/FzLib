@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+using Avalonia.Input;
 using Avalonia.Layout;
 using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Markup.Xaml.Styling;
@@ -23,6 +24,7 @@ namespace FzLib.Avalonia.Dialogs
             ExtendClientAreaTitleBarHeightHint = -1;
             SystemDecorations = SystemDecorations.BorderOnly; //避免在Linux上显示边框
             SizeToContent = SizeToContent.WidthAndHeight;
+            CanResize = false;
             WindowStartupLocation = WindowStartupLocation.CenterOwner;
             ShowInTaskbar = false;
             MinHeight = 120;
@@ -31,6 +33,7 @@ namespace FzLib.Avalonia.Dialogs
             MaxHeight = 800;
             Padding = new Thickness(16);
             Loaded += WindowDialogContainer_Loaded;
+            this.EnableDrag();
         }
 
         private void WindowDialogContainer_Loaded(object sender, global::Avalonia.Interactivity.RoutedEventArgs e)
@@ -55,6 +58,5 @@ namespace FzLib.Avalonia.Dialogs
             Content = dialogHost;
             return ShowDialog<T>(window);
         }
-
     }
 }
