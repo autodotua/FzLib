@@ -25,18 +25,22 @@ public partial class StackFormItemGroup : StackPanel
     public static readonly StyledProperty<double> LabelWidthProperty =
         FormItem.LabelWidthProperty.AddOwner<StackFormItemGroup>();
 
+    private double oldOpacity = 1;
+
     public StackFormItemGroup()
     {
         Spacing = 8;
         SetValue(OrientationProperty, Orientation.Vertical);
         InitializeComponent();
+        oldOpacity = Opacity;
+        Opacity = 0;
     }
     /// <summary>
     /// 当LabelWidth为NaN时，自动调整标签宽度时右侧的空隙宽度。设置值为负数或NaN表示禁用自动调整。
     /// </summary>
     public double AutoUnifyLabelWidthsMarginRight
     {
-        get => this.GetValue(AutoUnifyLabelWidthsMarginRightProperty);
+        get => GetValue(AutoUnifyLabelWidthsMarginRightProperty);
         set => SetValue(AutoUnifyLabelWidthsMarginRightProperty, value);
     }
 
@@ -58,6 +62,13 @@ public partial class StackFormItemGroup : StackPanel
     protected override void OnLoaded(RoutedEventArgs e)
     {
         base.OnLoaded(e);
+        AdjustLabelWidth();
+        Opacity = oldOpacity;
+        //在构造函数的地方隐藏了，这里调整好了再显示，不然画面会闪过一两帧错位的表单……
+    }
+
+    private void AdjustLabelWidth()
+    {
         if (!double.IsNaN(LabelWidth) || !(AutoUnifyLabelWidthsMarginRight > 0))
         {
             return;

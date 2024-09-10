@@ -58,8 +58,20 @@
     <Compile Update="Dialogs\InputDialog.axaml.cs">
       <DependentUpon>InputDialog.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Test\FilePickerPanel.axaml.cs">
+      <DependentUpon>FilePickerPanel.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Test\FormPanel.axaml.cs">
+      <DependentUpon>FormPanel.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Test\LoadingPanel.axaml.cs">
+      <DependentUpon>LoadingPanel.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Test\MainWindow.axaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Test\DialogPanel.axaml.cs">
+      <DependentUpon>DialogPanel.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

@@ -1,0 +1,33 @@
+<UserControl
+    x:Class="FzLib.Avalonia.Test.FilePickerPanel"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="using:FzLib.Avalonia.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <StackPanel
+        Orientation="Vertical"
+        Spacing="8 ">
+        <c:FilePickerTextBox
+            Label="打开文件："
+            Type="OpenFile" />
+        <c:FilePickerTextBox
+            Label="打开文件（仅JPG和PNG）："
+            StringFileTypeFilter="JPEG图片;*.jpg,*.jpeg;image/jpeg;|PNG图片;*.png;image/png;"
+            Type="OpenFile" />
+        <c:FilePickerTextBox
+            Label="保存文件："
+            SaveFileSuggestedFileName="建议的文件名"
+            Type="SaveFile" />
+        <c:FilePickerTextBox
+            Label="打开目录："
+            Type="OpenFolder" />
+        <c:FilePickerTextBox
+            ButtonContent="打开目录（无标签）"
+            Type="OpenFolder" />
+    </StackPanel>
+
+</UserControl>

@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="using:FzLib.Avalonia.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:FzLib.Avalonia.Test"
+    xmlns:local="using:FzLib.Avalonia.Test"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="FzLib.Avalonia.Test"
     Width="640"
@@ -44,161 +44,27 @@
                 Orientation="Vertical"
                 Spacing="8">
                 <Expander Header="对话框">
-                    <WrapPanel>
-                        <ToggleSwitch
-                            IsChecked="{Binding ShowWindowDialog}"
-                            OffContent="显示弹出（Popup）对话框"
-                            OnContent="显示窗口（Window）对话框" />
-                        <Button
-                            Click="DialogButton_Click"
-                            Content="信息"
-                            Tag="1" />
-                        <Button
-                            Click="DialogButton_Click"
-                            Content="信息（带详情）"
-                            Tag="2" />
-                        <Button
-                            Click="DialogButton_Click"
-                            Content="警告"
-                            Tag="3" />
-                        <Button
-                            Click="DialogButton_Click"
-                            Content="错误"
-                            Tag="4" />
-                        <Button
-                            Click="DialogButton_Click"
-                            Content="异常"
-                            Tag="5" />
-                        <Button
-                            Click="DialogButton_Click"
-                            Content="是否"
-                            Tag="6" />
-                        <Button
-                            Click="DialogButton_Click"
-                            Content="是否和取消"
-                            Tag="7" />
-                        <Button
-                            Click="DialogButton_Click"
-                            Content="简单输入"
-                            Tag="8" />
-                        <Button
-                            Click="DialogButton_Click"
-                            Content="带验证输入"
-                            Tag="9" />
-                        <Button
-                            Click="DialogButton_Click"
-                            Content="输入密码"
-                            Tag="10" />
-                        <Button
-                            Click="DialogButton_Click"
-                            Content="输入多行"
-                            Tag="11" />
-                        <Button
-                            Click="DialogButton_Click"
-                            Content="输入数字"
-                            Tag="12" />
-                        <Button
-                            Click="DialogButton_Click"
-                            Content="输入整数"
-                            Tag="13" />
-                        <Button
-                            Click="DialogButton_Click"
-                            Content="单选"
-                            Tag="14" />
-                        <Button
-                            Click="DialogButton_Click"
-                            Content="多选"
-                            Tag="15" />
-                    </WrapPanel>
+                    <local:DialogPanel />
                 </Expander>
                 <Expander Header="加载">
-                    <WrapPanel>
-                        <Button
-                            Click="LoadingButton_Click"
-                            Content="显示1秒"
-                            Tag="1" />
-                        <Button
-                            Click="LoadingButton_Click"
-                            Content="延迟1秒后显示1秒"
-                            Tag="2" />
-                        <Button
-                            Click="LoadingButton_Click"
-                            Content="延迟2秒，但提前1.9秒取消"
-                            Tag="3" />
-
-                    </WrapPanel>
+                    <local:LoadingPanel />
                 </Expander>
 
                 <Expander
                     Header="表单"
                     IsExpanded="True">
-                    <StackPanel
-                        Orientation="Vertical"
-                        Spacing="8 ">
-                        <c:StackFormItemGroup>
-                            <c:FormItem Label="姓名：">
-                                <TextBox Text="王某某" />
-                            </c:FormItem>
-                            <c:FormItem Label="打开文件：">
-                                <c:FilePickerTextBox Type="OpenFile" />
-                            </c:FormItem>
-                            <c:FormItem Label="左对齐：">
-                                <NumericUpDown
-                                    HorizontalAlignment="Left"
-                                    Value="20" />
-                            </c:FormItem>
-                            <c:FormItem Label="横向子表单：">
-                                <c:WrapFormItemGroup>
-                                    <c:FormItem Label="文本框：">
-                                        <TextBox
-                                            Width="120"
-                                            Text="" />
-                                    </c:FormItem>
-                                    <c:FormItem Label="选择框：">
-                                        <ComboBox
-                                            Width="120"
-                                            SelectedIndex="0">
-                                            <ComboBoxItem>选项1</ComboBoxItem>
-                                            <ComboBoxItem>选项2</ComboBoxItem>
-                                            <ComboBoxItem>选项3</ComboBoxItem>
-                                            <ComboBoxItem>选项4</ComboBoxItem>
-                                        </ComboBox>
-                                    </c:FormItem>
-
-                                    <c:FormItem Label="数字选择：">
-                                        <NumericUpDown Width="120" />
-                                    </c:FormItem>
-                                    <CheckBox VerticalAlignment="Center" Content="非表单元素" />
-                                </c:WrapFormItemGroup>
-                            </c:FormItem>
-                        </c:StackFormItemGroup>
-
-
+                    <StackPanel Orientation="Vertical">
+                        <Button
+                            Click="RefreshFormPanelButton_Click"
+                            Content="刷新" />
+                      <ContentControl x:Name="formPanelContainer">
+                        <local:FormPanel />
+                      </ContentControl>
                     </StackPanel>
                 </Expander>
 
                 <Expander Header="文件选取器">
-                    <StackPanel
-                        Orientation="Vertical"
-                        Spacing="8 ">
-                        <c:FilePickerTextBox
-                            Label="打开文件："
-                            Type="OpenFile" />
-                        <c:FilePickerTextBox
-                            Label="打开文件（仅JPG和PNG）："
-                            StringFileTypeFilter="JPEG图片;*.jpg,*.jpeg;image/jpeg;|PNG图片;*.png;image/png;"
-                            Type="OpenFile" />
-                        <c:FilePickerTextBox
-                            Label="保存文件："
-                            SaveFileSuggestedFileName="建议的文件名"
-                            Type="SaveFile" />
-                        <c:FilePickerTextBox
-                            Label="打开目录："
-                            Type="OpenFolder" />
-                        <c:FilePickerTextBox
-                            ButtonContent="打开目录（无标签）"
-                            Type="OpenFolder" />
-                    </StackPanel>
+                    <local:FilePickerPanel />
                 </Expander>
 
             </StackPanel>
