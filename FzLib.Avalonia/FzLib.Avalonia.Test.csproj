@@ -74,4 +74,10 @@
       <DependentUpon>DialogPanel.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Test\favicon.ico" />
+    <None Remove="Test\favicon.png" />
+    <AvaloniaResource Include="Test\favicon.png" />
+  </ItemGroup>
 </Project>

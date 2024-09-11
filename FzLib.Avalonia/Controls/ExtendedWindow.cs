@@ -1,11 +1,14 @@
 ﻿using Avalonia.Controls;
 using System;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Avalonia;
 using Avalonia.Interactivity;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using Avalonia.VisualTree;
 
 namespace FzLib.Avalonia.Controls;
@@ -14,12 +17,24 @@ public abstract class ExtendedWindow : Window
 {
     protected override Type StyleKeyOverride => typeof(ExtendedWindow);
 
-    public ExtendedWindow()
+    protected ExtendedWindow()
     {
         CornerRadius = new CornerRadius(2);
     }
 
     public bool IsClosed { get; private set; }
+
+    private Bitmap bitmapIcon;
+
+    public static readonly DirectProperty<ExtendedWindow, Bitmap> BitmapIconProperty =
+        AvaloniaProperty.RegisterDirect<ExtendedWindow, Bitmap>(
+            nameof(BitmapIcon), o => o.BitmapIcon, (o, v) => o.BitmapIcon = v);
+
+    public Bitmap BitmapIcon
+    {
+        get => bitmapIcon;
+        set => SetAndRaise(BitmapIconProperty, ref bitmapIcon, value);
+    }
 
     protected override void OnClosed(EventArgs e)
     {

@@ -9,6 +9,8 @@
     Title="窗口标题"
     Width="640"
     Height="640"
+    BitmapIcon="avares://FzLib.Avalonia.Test/Test/favicon.png"
+    Icon="avares://FzLib.Avalonia.Test/Test/favicon.png"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Design.DataContext>
@@ -22,44 +24,46 @@
             <Setter Property="HorizontalAlignment" Value="Stretch" />
         </Style>
     </Window.Styles>
+    <Grid>
+        <DockPanel
+            Grid.Row="2"
+            Margin="8"
+            LastChildFill="True">
+            <!--  这边如果不设置Background，那么字就会显示不全，最下面会截掉。Github上未找到类似Issue  -->
+            <TextBlock
+                Background="Transparent"
+                DockPanel.Dock="Bottom"
+                Text="{Binding Message}" />
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel
+                    Orientation="Vertical"
+                    Spacing="8">
+                    <Expander Header="对话框">
+                        <local:DialogPanel />
+                    </Expander>
+                    <Expander Header="加载">
+                        <local:LoadingPanel />
+                    </Expander>
 
-    <DockPanel
-        Grid.Row="2"
-        Margin="8"
-        LastChildFill="True">
-        <!--  这边如果不设置Background，那么字就会显示不全，最下面会截掉。Github上未找到类似Issue  -->
-        <TextBlock
-            Background="Transparent"
-            DockPanel.Dock="Bottom"
-            Text="{Binding Message}" />
-        <StackPanel
-            Orientation="Vertical"
-            Spacing="8">
-            <Expander Header="对话框">
-                <local:DialogPanel />
-            </Expander>
-            <Expander Header="加载">
-                <local:LoadingPanel />
-            </Expander>
+                    <Expander
+                        Header="表单"
+                        IsExpanded="True">
+                        <StackPanel Orientation="Vertical">
+                            <Button
+                                Click="RefreshFormPanelButton_Click"
+                                Content="刷新" />
+                            <ContentControl x:Name="formPanelContainer">
+                                <local:FormPanel />
+                            </ContentControl>
+                        </StackPanel>
+                    </Expander>
 
-            <Expander
-                Header="表单"
-                IsExpanded="True">
-                <StackPanel Orientation="Vertical">
-                    <Button
-                        Click="RefreshFormPanelButton_Click"
-                        Content="刷新" />
-                    <ContentControl x:Name="formPanelContainer">
-                        <local:FormPanel />
-                    </ContentControl>
+                    <Expander Header="文件选取器">
+                        <local:FilePickerPanel />
+                    </Expander>
+
                 </StackPanel>
-            </Expander>
-
-            <Expander Header="文件选取器">
-                <local:FilePickerPanel />
-            </Expander>
-
-        </StackPanel>
-    </DockPanel>
-
+            </ScrollViewer>
+        </DockPanel>
+    </Grid>
 </c:ExtendedWindow>

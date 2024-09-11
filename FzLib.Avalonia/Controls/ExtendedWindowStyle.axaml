@@ -56,8 +56,21 @@
                                 x:Name="PART_TitleBar"
                                 Margin="{DynamicResource ExtendedWindowInverseShadowThickness}"
                                 Background="Transparent"
-                                ColumnDefinitions="*,Auto">
-                                <c:WindowButtons Grid.Column="1" />
+                                ColumnDefinitions="Auto,Auto,*">
+                                <!-- <Image Source="{TemplateBinding Icon}" /> -->
+                                <Image
+                                    Height="20"
+                                    Margin="8,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Source="{TemplateBinding BitmapIcon}"
+                                    Stretch="Fill" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Margin="8,0"
+                                    VerticalAlignment="Center"
+                                    FontSize="12"
+                                    Text="{TemplateBinding Title}" />
+                                <c:WindowButtons Grid.Column="2" />
                             </Grid>
                             <ContentPresenter
                                 Name="PART_ContentPresenter"
