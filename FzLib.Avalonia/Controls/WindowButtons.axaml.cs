@@ -5,6 +5,8 @@ using Avalonia.Markup.Xaml;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Avalonia.Media;
+using Avalonia.Media.TextFormatting.Unicode;
 
 namespace FzLib.Avalonia.Controls;
 
@@ -21,6 +23,8 @@ public partial class WindowButtons : StackPanel
     public WindowButtons()
     {
         InitializeComponent();
+        // RenderOptions.SetEdgeMode(btnMinimize,EdgeMode.Aliased);
+        // RenderOptions.SetEdgeMode(btnResize,EdgeMode.Aliased);
     }
 
     private void CloseButton_Click(object sender, RoutedEventArgs e)

@@ -1,4 +1,4 @@
-<Window
+<c:ExtendedWindow
     x:Class="FzLib.Avalonia.Test.MainWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,12 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:FzLib.Avalonia.Test"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="FzLib.Avalonia.Test"
+    Title="窗口标题"
     Width="640"
     Height="640"
-    BorderThickness="0"
-    ExtendClientAreaChromeHints="NoChrome"
-    ExtendClientAreaToDecorationsHint="True"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Design.DataContext>
@@ -26,48 +23,43 @@
         </Style>
     </Window.Styles>
 
-    <Grid
-        x:Name="g"
-        RowDefinitions="Auto,*">
-        <c:WindowButtons />
+    <DockPanel
+        Grid.Row="2"
+        Margin="8"
+        LastChildFill="True">
+        <!--  这边如果不设置Background，那么字就会显示不全，最下面会截掉。Github上未找到类似Issue  -->
+        <TextBlock
+            Background="Transparent"
+            DockPanel.Dock="Bottom"
+            Text="{Binding Message}" />
+        <StackPanel
+            Orientation="Vertical"
+            Spacing="8">
+            <Expander Header="对话框">
+                <local:DialogPanel />
+            </Expander>
+            <Expander Header="加载">
+                <local:LoadingPanel />
+            </Expander>
 
-        <DockPanel
-            Grid.Row="2"
-            Margin="8"
-            LastChildFill="True">
-            <!--  这边如果不设置Background，那么字就会显示不全，最下面会截掉。Github上未找到类似Issue  -->
-            <TextBlock
-                Background="Transparent"
-                DockPanel.Dock="Bottom"
-                Text="{Binding Message}" />
-            <StackPanel
-                Orientation="Vertical"
-                Spacing="8">
-                <Expander Header="对话框">
-                    <local:DialogPanel />
-                </Expander>
-                <Expander Header="加载">
-                    <local:LoadingPanel />
-                </Expander>
-
-                <Expander
-                    Header="表单"
-                    IsExpanded="True">
-                    <StackPanel Orientation="Vertical">
-                        <Button
-                            Click="RefreshFormPanelButton_Click"
-                            Content="刷新" />
-                      <ContentControl x:Name="formPanelContainer">
+            <Expander
+                Header="表单"
+                IsExpanded="True">
+                <StackPanel Orientation="Vertical">
+                    <Button
+                        Click="RefreshFormPanelButton_Click"
+                        Content="刷新" />
+                    <ContentControl x:Name="formPanelContainer">
                         <local:FormPanel />
-                      </ContentControl>
-                    </StackPanel>
-                </Expander>
+                    </ContentControl>
+                </StackPanel>
+            </Expander>
 
-                <Expander Header="文件选取器">
-                    <local:FilePickerPanel />
-                </Expander>
+            <Expander Header="文件选取器">
+                <local:FilePickerPanel />
+            </Expander>
 
-            </StackPanel>
-        </DockPanel>
-    </Grid>
-</Window>
+        </StackPanel>
+    </DockPanel>
+
+</c:ExtendedWindow>

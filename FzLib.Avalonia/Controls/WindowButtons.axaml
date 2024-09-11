@@ -51,13 +51,17 @@
 
 
     </StackPanel.Styles>
-    <Button Click="MinimizeButton_Click">
+    <Button
+        x:Name="btnMinimize"
+        Click="MinimizeButton_Click">
         <Line
             VerticalAlignment="Center"
             StartPoint="18,15"
             EndPoint="30,15" />
     </Button>
-    <Button Click="ResizeButton_Click">
+    <Button
+        x:Name="btnResize"
+        Click="ResizeButton_Click">
         <Panel>
             <Rectangle
                 Width="10"
@@ -72,8 +76,9 @@
             </Path>
         </Panel>
     </Button>
-    <Button Click="CloseButton_Click">
-
+    <Button
+        x:Name="btnClose"
+        Click="CloseButton_Click">
         <Button.Styles>
             <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
                 <Setter Property="Background" Value="#e81123" />
@@ -85,11 +90,13 @@
                 <Setter Property="Stroke" Value="White" />
             </Style>
         </Button.Styles>
-      <Button.Transitions>
-        <Transitions>
-          <BrushTransition Duration="0:0:1" Property="Background"/>
-        </Transitions>
-      </Button.Transitions>
+        <Button.Transitions>
+            <Transitions>
+                <BrushTransition
+                    Property="Background"
+                    Duration="0:0:1" />
+            </Transitions>
+        </Button.Transitions>
         <Panel>
             <Line
                 VerticalAlignment="Center"

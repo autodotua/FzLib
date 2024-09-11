@@ -4,6 +4,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceInclude Source="/Converters/Converters.axaml" />
         <ResourceInclude Source="/Controls/FormItemStyle.axaml" />
+        <ResourceInclude Source="/Controls/ExtendedWindowStyle.axaml" />
         <ResourceInclude Source="/Dialogs/DialogHostStyles.axaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

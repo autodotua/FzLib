@@ -5,9 +5,10 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using FzLib.Avalonia.Controls;
 
 namespace FzLib.Avalonia.Test;
-public partial class MainWindow : Window
+public partial class MainWindow : ExtendedWindow
 {
     private MainViewModel VM { get; }
     public MainWindow()
