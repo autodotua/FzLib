@@ -25,6 +25,7 @@ public partial class WindowButtons : StackPanel
         InitializeComponent();
         // RenderOptions.SetEdgeMode(btnMinimize,EdgeMode.Aliased);
         // RenderOptions.SetEdgeMode(btnResize,EdgeMode.Aliased);
+        // RenderOptions.SetEdgeMode(btnClose,EdgeMode.Aliased);
     }
 
     private void CloseButton_Click(object sender, RoutedEventArgs e)

@@ -9,7 +9,6 @@
     Title="窗口标题"
     Width="640"
     Height="640"
-    BitmapIcon="avares://FzLib.Avalonia.Test/Test/favicon.png"
     Icon="avares://FzLib.Avalonia.Test/Test/favicon.png"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
@@ -38,6 +37,9 @@
                 <StackPanel
                     Orientation="Vertical"
                     Spacing="8">
+                    <Button
+                        Click="Button_OnClick"
+                        Content="切换暗色模式" />
                     <Expander Header="对话框">
                         <local:DialogPanel />
                     </Expander>

@@ -60,9 +60,9 @@
                                 <!-- <Image Source="{TemplateBinding Icon}" /> -->
                                 <Image
                                     Height="20"
-                                    Margin="8,0,0,0"
+                                    Margin="8,0,-4,0"
                                     VerticalAlignment="Center"
-                                    Source="{TemplateBinding BitmapIcon}"
+                                    Source="{TemplateBinding Icon}"
                                     Stretch="Fill" />
                                 <TextBlock
                                     Grid.Column="1"

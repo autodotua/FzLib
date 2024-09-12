@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Avalonia;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Avalonia.VisualTree;
@@ -15,33 +16,43 @@ namespace FzLib.Avalonia.Controls;
 
 public abstract class ExtendedWindow : Window
 {
-    protected override Type StyleKeyOverride => typeof(ExtendedWindow);
+    public new static readonly DirectProperty<ExtendedWindow, IImage> IconProperty =
+        AvaloniaProperty.RegisterDirect<ExtendedWindow, IImage>(
+            nameof(Icon), o => o.Icon, (o, v) => o.Icon = v);
+
+    private IImage icon;
 
     protected ExtendedWindow()
     {
         CornerRadius = new CornerRadius(2);
     }
 
+    public new IImage Icon
+    {
+        get => icon;
+        set => SetAndRaise(IconProperty, ref icon, value);
+    }
+
     public bool IsClosed { get; private set; }
 
-    private Bitmap bitmapIcon;
+    public double ShadowWidth { get; set; } = 8;
 
-    public static readonly DirectProperty<ExtendedWindow, Bitmap> BitmapIconProperty =
-        AvaloniaProperty.RegisterDirect<ExtendedWindow, Bitmap>(
-            nameof(BitmapIcon), o => o.BitmapIcon, (o, v) => o.BitmapIcon = v);
-
-    public Bitmap BitmapIcon
+    protected override Type StyleKeyOverride
     {
-        get => bitmapIcon;
-        set => SetAndRaise(BitmapIconProperty, ref bitmapIcon, value);
+        get
+        {
+            if (OperatingSystem.IsWindows()
+                && Environment.OSVersion.Version.Major == 10
+                && Environment.OSVersion.Version.Build < 22000) //windows10
+            {
+                return typeof(ExtendedWindow);
+            }
+            else
+            {
+                return typeof(Window);
+            }
+        }
     }
-
-    protected override void OnClosed(EventArgs e)
-    {
-        base.OnClosed(e);
-        IsClosed = true;
-    }
-
     public void BringToFront()
     {
         if (!IsVisible)
@@ -60,6 +71,11 @@ public abstract class ExtendedWindow : Window
         Focus();
     }
 
+    protected override void OnClosed(EventArgs e)
+    {
+        base.OnClosed(e);
+        IsClosed = true;
+    }
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -70,7 +86,7 @@ public abstract class ExtendedWindow : Window
     {
         base.OnLoaded(e);
         var titleBar = this.GetVisualDescendants().FirstOrDefault(p => p.Name == "PART_TitleBar") as Grid;
-        if (titleBar != null)
+        if (false || titleBar != null)
         {
             titleBar.PointerPressed += (s, e) => this.BeginMoveDrag(e);
             titleBar.DoubleTapped += (s, e) =>
@@ -86,9 +102,6 @@ public abstract class ExtendedWindow : Window
             };
         }
     }
-
-    public double ShadowWidth { get; set; } = 8;
-
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
