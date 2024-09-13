@@ -4,7 +4,7 @@
     xmlns:c="using:FzLib.Avalonia.Controls"
     xmlns:sys="using:System">
     <sys:Double x:Key="ExtendedWindowShadowRadius">8.0</sys:Double>
-    <sys:Double x:Key="ExtendedWindowInverseShadowThickness">0.0</sys:Double>
+    <Thickness x:Key="ExtendedWindowInverseShadowThickness">0.0</Thickness>
     <Thickness x:Key="ExtendedWindowShadowThickness">8</Thickness>
     <CornerRadius x:Key="ExtendedWindowCornerRadius">2</CornerRadius>
     <ControlTheme
@@ -39,7 +39,7 @@
                                 OffsetX="0"
                                 OffsetY="0"
                                 Opacity="0.5"
-                                Color="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" />
+                                Color="Black" />
                         </Border.Effect>
                     </Border>
                     <Panel

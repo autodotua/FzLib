@@ -35,15 +35,20 @@ public abstract class ExtendedWindow : Window
 
     public bool IsClosed { get; private set; }
 
-    public double ShadowWidth { get; set; } = 8;
+    protected double ShadowWidth { get; set; } = 8;
 
+    private bool UseCustomStyle()
+    {
+        //Is Windows 10
+        return OperatingSystem.IsWindows()
+               && Environment.OSVersion.Version.Major == 10
+               && Environment.OSVersion.Version.Build < 22000;
+    }
     protected override Type StyleKeyOverride
     {
         get
         {
-            if (OperatingSystem.IsWindows()
-                && Environment.OSVersion.Version.Major == 10
-                && Environment.OSVersion.Version.Build < 22000) //windows10
+            if (UseCustomStyle())
             {
                 return typeof(ExtendedWindow);
             }
@@ -81,27 +86,7 @@ public abstract class ExtendedWindow : Window
         base.OnInitialized();
         SetShadows(WindowState);
     }
-
-    protected override void OnLoaded(RoutedEventArgs e)
-    {
-        base.OnLoaded(e);
-        var titleBar = this.GetVisualDescendants().FirstOrDefault(p => p.Name == "PART_TitleBar") as Grid;
-        if (false || titleBar != null)
-        {
-            titleBar.PointerPressed += (s, e) => this.BeginMoveDrag(e);
-            titleBar.DoubleTapped += (s, e) =>
-            {
-                if (WindowState == WindowState.Maximized)
-                {
-                    WindowState = WindowState.Normal;
-                }
-                else if (WindowState == WindowState.Normal)
-                {
-                    WindowState = WindowState.Maximized;
-                }
-            };
-        }
-    }
+    
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
@@ -110,9 +95,37 @@ public abstract class ExtendedWindow : Window
             SetShadows((WindowState)change.NewValue);
         }
     }
+    
+    protected override void OnLoaded(RoutedEventArgs e)
+    {
+        base.OnLoaded(e);
+        if (UseCustomStyle())
+        {
+            var titleBar = this.GetVisualDescendants().FirstOrDefault(p => p.Name == "PART_TitleBar") as Grid;
+            if (titleBar != null)
+            {
+                titleBar.PointerPressed += (s, e) => this.BeginMoveDrag(e);
+                titleBar.DoubleTapped += (s, e) =>
+                {
+                    if (WindowState == WindowState.Maximized)
+                    {
+                        WindowState = WindowState.Normal;
+                    }
+                    else if (WindowState == WindowState.Normal)
+                    {
+                        WindowState = WindowState.Maximized;
+                    }
+                };
+            }
+        }
+    }
 
     private void SetShadows(WindowState state)
     {
+        if (!UseCustomStyle())
+        {
+            return;
+        }
         if (state == WindowState.Maximized)
         {
             Resources["ExtendedWindowShadowRadius"] = 0d;

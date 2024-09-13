@@ -27,7 +27,7 @@
                                 BlurRadius="8"
                                 OffsetX="0"
                                 OffsetY="0"
-                                Color="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" />
+                                Color="Black" />
                         </Border.Effect>
                     </Border>
                     <Border
