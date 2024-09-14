@@ -16,21 +16,27 @@ namespace FzLib.Avalonia.Controls;
 
 public abstract class ExtendedWindow : Window
 {
-    public new static readonly DirectProperty<ExtendedWindow, IImage> IconProperty =
-        AvaloniaProperty.RegisterDirect<ExtendedWindow, IImage>(
-            nameof(Icon), o => o.Icon, (o, v) => o.Icon = v);
+    public new static readonly DirectProperty<ExtendedWindow, Bitmap> IconProperty =
+        AvaloniaProperty.RegisterDirect<ExtendedWindow, Bitmap>(
+            nameof(Icon),
+            o => o.Icon,
+            (o, v) => o.Icon = v);
 
-    private IImage icon;
+    private Bitmap icon;
 
     protected ExtendedWindow()
     {
         CornerRadius = new CornerRadius(2);
     }
 
-    public new IImage Icon
+    public new Bitmap Icon
     {
         get => icon;
-        set => SetAndRaise(IconProperty, ref icon, value);
+        set
+        {
+            SetAndRaise(IconProperty, ref icon, value);
+            base.Icon = value == null ? null : new WindowIcon(value);
+        }
     }
 
     public bool IsClosed { get; private set; }
@@ -44,6 +50,7 @@ public abstract class ExtendedWindow : Window
                && Environment.OSVersion.Version.Major == 10
                && Environment.OSVersion.Version.Build < 22000;
     }
+
     protected override Type StyleKeyOverride
     {
         get
@@ -58,6 +65,7 @@ public abstract class ExtendedWindow : Window
             }
         }
     }
+
     public void BringToFront()
     {
         if (!IsVisible)
@@ -81,12 +89,13 @@ public abstract class ExtendedWindow : Window
         base.OnClosed(e);
         IsClosed = true;
     }
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
         SetShadows(WindowState);
     }
-    
+
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
@@ -95,7 +104,7 @@ public abstract class ExtendedWindow : Window
             SetShadows((WindowState)change.NewValue);
         }
     }
-    
+
     protected override void OnLoaded(RoutedEventArgs e)
     {
         base.OnLoaded(e);
@@ -126,6 +135,7 @@ public abstract class ExtendedWindow : Window
         {
             return;
         }
+
         if (state == WindowState.Maximized)
         {
             Resources["ExtendedWindowShadowRadius"] = 0d;
