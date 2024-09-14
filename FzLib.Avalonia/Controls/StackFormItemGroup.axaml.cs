@@ -27,6 +27,8 @@ public partial class StackFormItemGroup : StackPanel
 
     private double oldOpacity = 1;
 
+    private bool hasAdjustWidth = false;
+
     public StackFormItemGroup()
     {
         Spacing = 8;
@@ -35,6 +37,7 @@ public partial class StackFormItemGroup : StackPanel
         oldOpacity = Opacity;
         Opacity = 0;
     }
+
     /// <summary>
     /// 当LabelWidth为NaN时，自动调整标签宽度时右侧的空隙宽度。设置值为负数或NaN表示禁用自动调整。
     /// </summary>
@@ -62,23 +65,46 @@ public partial class StackFormItemGroup : StackPanel
     protected override void OnLoaded(RoutedEventArgs e)
     {
         base.OnLoaded(e);
-        AdjustLabelWidth();
-        Opacity = oldOpacity;
+        if (IsVisible)
+        {
+            AdjustLabelWidth();
+            Opacity = oldOpacity;
+        }
         //在构造函数的地方隐藏了，这里调整好了再显示，不然画面会闪过一两帧错位的表单……
+    }
+
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
+        base.OnPropertyChanged(change);
+        if (change.Property == IsVisibleProperty)
+        {
+            if (true.Equals(change.NewValue))
+            {
+                AdjustLabelWidth();
+            }
+        }
     }
 
     private void AdjustLabelWidth()
     {
-        if (!double.IsNaN(LabelWidth) || !(AutoUnifyLabelWidthsMarginRight > 0))
+        if (hasAdjustWidth || !double.IsNaN(LabelWidth) || !(AutoUnifyLabelWidthsMarginRight > 0))
         {
             return;
         }
+
+        hasAdjustWidth = true;
         double maxWidth = 0;
         foreach (var child in Children.OfType<FormItem>())
         {
-            var label = child.GetVisualDescendants().First(p => p.Name == "PART_LabelText");
+            var label = child.GetVisualDescendants().FirstOrDefault(p => p.Name == "PART_LabelText");
+            if (label == null)
+            {
+                return;
+            }
+
             maxWidth = Math.Max(label.Bounds.Width, maxWidth);
         }
+
         if (maxWidth > 0)
         {
             LabelWidth = maxWidth + AutoUnifyLabelWidthsMarginRight;

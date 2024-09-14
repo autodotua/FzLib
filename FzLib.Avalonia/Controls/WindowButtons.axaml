@@ -35,9 +35,9 @@
                     <TransformOperationsTransition
                         Property="RenderTransform"
                         Duration="0:0:.075" />
-                    <BrushTransition
-                        Property="Background"
-                        Duration="0:0:0.1" />
+                    <!--  <BrushTransition  -->
+                    <!--  Property="Background"  -->
+                    <!--  Duration="0:0:0.1" />  -->
                 </Transitions>
             </Setter>
 

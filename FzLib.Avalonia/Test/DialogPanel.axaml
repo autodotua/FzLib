@@ -72,5 +72,9 @@
             Click="DialogButton_Click"
             Content="多选"
             Tag="15" />
+        <Button
+            Click="DialogButton_Click"
+            Content="自定义"
+            Tag="16" />
     </WrapPanel>
 </UserControl>

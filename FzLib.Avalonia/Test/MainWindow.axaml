@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:FzLib.Avalonia.Test"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="root"
     Title="窗口标题"
     Width="640"
     Height="640"
@@ -37,9 +38,18 @@
                 <StackPanel
                     Orientation="Vertical"
                     Spacing="8">
-                    <Button
-                        Click="Button_OnClick"
-                        Content="切换暗色模式" />
+                    <Expander Header="窗口">
+                        <StackPanel
+                            Orientation="Horizontal"
+                            Spacing="8">
+                            <Button
+                                Click="Button_OnClick"
+                                Content="切换暗色模式" />
+                            <ToggleSwitch
+                                Content="自定义标题栏"
+                                IsChecked="{Binding #root.CustomTitleBar}" />
+                        </StackPanel>
+                    </Expander>
                     <Expander Header="对话框">
                         <local:DialogPanel />
                     </Expander>

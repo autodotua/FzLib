@@ -31,6 +31,7 @@ namespace FzLib.Avalonia.Dialogs
             }
         }
     }
+
     internal class ControlDragHelper
     {
         private Point? startPoint = default;
@@ -42,7 +43,8 @@ namespace FzLib.Avalonia.Dialogs
 
         public void EnableDrag()
         {
-            Control.PointerPressed += Container_PointerPressed; ;
+            Control.PointerPressed += Container_PointerPressed;
+            ;
             Control.PointerMoved += Container_PointerMoved;
             Control.PointerReleased += Container_PointerReleased;
 
@@ -57,6 +59,7 @@ namespace FzLib.Avalonia.Dialogs
             {
                 return;
             }
+
             var parent = Control.Parent as Visual ?? throw new Exception("找不到控件的父级");
             var point = e.GetPosition(parent);
             var move = point - startPoint.Value;
@@ -76,13 +79,13 @@ namespace FzLib.Avalonia.Dialogs
             }
 
             //限制右边界
-            if (x +  Control.Bounds.Right > parent.Bounds.Width)
+            if (x + Control.Bounds.Right > parent.Bounds.Width)
             {
-                x = parent.Bounds.Width -Control.Bounds.Right;
+                x = parent.Bounds.Width - Control.Bounds.Right;
             }
 
             //限制下边界
-            if(y+Control.Bounds.Bottom>parent.Bounds.Height)
+            if (y + Control.Bounds.Bottom > parent.Bounds.Height)
             {
                 y = parent.Bounds.Height - Control.Bounds.Bottom;
             }
@@ -95,9 +98,12 @@ namespace FzLib.Avalonia.Dialogs
 
         private void Container_PointerPressed(object sender, PointerPressedEventArgs e)
         {
-            var point = e.GetPosition(Control.Parent as Visual);
-            var translate = Control.RenderTransform as TranslateTransform;
-            startPoint = new Point(point.X - translate.X, point.Y - translate.Y);
+            if (sender == e.Source || e.Source is Panel)
+            {
+                var point = e.GetPosition(Control.Parent as Visual);
+                var translate = Control.RenderTransform as TranslateTransform;
+                startPoint = new Point(point.X - translate.X, point.Y - translate.Y);
+            }
         }
 
         private void Container_PointerReleased(object sender, PointerReleasedEventArgs e)
@@ -105,6 +111,7 @@ namespace FzLib.Avalonia.Dialogs
             startPoint = null;
         }
     }
+
     internal class WindowDragHelper
     {
         public WindowDragHelper(Window window)
@@ -121,7 +128,10 @@ namespace FzLib.Avalonia.Dialogs
 
         private void Container_PointerPressed(object sender, PointerPressedEventArgs e)
         {
-            Window.BeginMoveDrag(e);
+            if (sender == e.Source || e.Source is Panel)
+            {
+                Window.BeginMoveDrag(e);
+            }
         }
     }
 }

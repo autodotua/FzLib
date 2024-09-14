@@ -19,6 +19,10 @@
     <Compile Remove="Test\Desktop\**" />
     <EmbeddedResource Remove="Test\Desktop\**" />
     <None Remove="Test\Desktop\**" />
+    <Compile Update="Test\ComboboxDialog.axaml.cs">
+      <DependentUpon>ComboboxDialog.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   
   <ItemGroup>

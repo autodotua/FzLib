@@ -56,10 +56,11 @@
                                 x:Name="PART_TitleBar"
                                 Margin="{DynamicResource ExtendedWindowInverseShadowThickness}"
                                 Background="Transparent"
-                                ColumnDefinitions="Auto,Auto,*">
+                                ColumnDefinitions="Auto,Auto,*"
+                                IsVisible="{Binding !CustomTitleBar, RelativeSource={RelativeSource TemplatedParent}}">
                                 <!-- <Image Source="{TemplateBinding Icon}" /> -->
                                 <Image
-                                    Height="20"
+                                    Height="18"
                                     Margin="8,0,-4,0"
                                     VerticalAlignment="Center"
                                     Source="{TemplateBinding Icon}"

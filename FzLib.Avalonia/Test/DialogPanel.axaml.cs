@@ -11,11 +11,13 @@ namespace FzLib.Avalonia.Test;
 
 public partial class DialogPanel : UserControl
 {
-    private MainViewModel VM=>DataContext as MainViewModel;
+    private MainViewModel VM => DataContext as MainViewModel;
+
     public DialogPanel()
     {
         InitializeComponent();
     }
+
     private async void DialogButton_Click(object sender, RoutedEventArgs e)
     {
         VM.Message = "";
@@ -24,16 +26,16 @@ public partial class DialogPanel : UserControl
         switch ((sender as Button).Tag as string)
         {
             case "1":
-                await this.ShowOkDialogAsync("±êÌâ", "ĞÅÏ¢ÕıÎÄ");
+                await this.ShowOkDialogAsync("æ ‡é¢˜", "ä¿¡æ¯æ­£æ–‡");
                 break;
             case "2":
-                await this.ShowOkDialogAsync("±êÌâ", "ĞÅÏ¢ÕıÎÄ", string.Concat(Enumerable.Repeat("ÏêÏ¸ÄÚÈİ", 1000)));
+                await this.ShowOkDialogAsync("æ ‡é¢˜", "ä¿¡æ¯æ­£æ–‡", string.Concat(Enumerable.Repeat("è¯¦ç»†å†…å®¹", 1000)));
                 break;
             case "3":
-                await this.ShowWarningDialogAsync("±êÌâ", "¾¯¸æÕıÎÄ");
+                await this.ShowWarningDialogAsync("æ ‡é¢˜", "è­¦å‘Šæ­£æ–‡");
                 break;
             case "4":
-                await this.ShowErrorDialogAsync("±êÌâ", "´íÎóÕıÎÄ");
+                await this.ShowErrorDialogAsync("æ ‡é¢˜", "é”™è¯¯æ­£æ–‡");
                 break;
             case "5":
                 try
@@ -42,86 +44,97 @@ public partial class DialogPanel : UserControl
                 }
                 catch (Exception ex)
                 {
-                    while (await this.ShowErrorDialogAsync("´íÎóĞÅÏ¢", ex, true))
+                    while (await this.ShowErrorDialogAsync("é”™è¯¯ä¿¡æ¯", ex, true))
                     {
-
                     }
                 }
+
                 break;
             case "6":
-                VM.Message = (await this.ShowYesNoDialogAsync("±êÌâ", "Ñ¯ÎÊÄÚÈİ")).Value ? "µ¥»÷¡°ÊÇ¡±" : "µ¥»÷¡°·ñ¡±";
+                VM.Message = (await this.ShowYesNoDialogAsync("æ ‡é¢˜", "è¯¢é—®å†…å®¹")).Value ? "å•å‡»â€œæ˜¯â€" : "å•å‡»â€œå¦â€";
                 break;
             case "7":
-                switch (await this.ShowYesNoDialogAsync("±êÌâ", "Ñ¯ÎÊÄÚÈİ", cancelButon: true))
+                switch (await this.ShowYesNoDialogAsync("æ ‡é¢˜", "è¯¢é—®å†…å®¹", cancelButon: true))
                 {
                     case true:
-                        VM.Message = "µ¥»÷¡°ÊÇ¡±";
+                        VM.Message = "å•å‡»â€œæ˜¯â€";
                         break;
                     case false:
-                        VM.Message = "µ¥»÷¡°·ñ¡±";
+                        VM.Message = "å•å‡»â€œå¦â€";
                         break;
                     case null:
-                        VM.Message = "µ¥»÷¡°È¡Ïû¡±";
+                        VM.Message = "å•å‡»â€œå–æ¶ˆâ€";
                         break;
                 }
+
                 break;
 
             case "8":
-                VM.Message = "ÊäÈëÄÚÈİ£º" + await this.ShowInputTextDialogAsync("±êÌâ", "ÇëÊäÈë£º", "Ä¬ÈÏÖµ", "Ë®Ó¡");
+                VM.Message = "è¾“å…¥å†…å®¹ï¼š" + await this.ShowInputTextDialogAsync("æ ‡é¢˜", "è¯·è¾“å…¥ï¼š", "é»˜è®¤å€¼", "æ°´å°");
                 break;
 
             case "9":
-                VM.Message = "ÊäÈëÄÚÈİ£º" + await this.ShowInputTextDialogAsync("±êÌâ", "±ØĞë³¤¶È>5ÇÒ²»ÄÜ³öÏÖÊı×Ö£º", "Ä¬ÈÏÖµ", "Ë®Ó¡", text =>
+                VM.Message = "è¾“å…¥å†…å®¹ï¼š" + await this.ShowInputTextDialogAsync("æ ‡é¢˜", "å¿…é¡»é•¿åº¦>5ä¸”ä¸èƒ½å‡ºç°æ•°å­—ï¼š", "é»˜è®¤å€¼", "æ°´å°", text =>
                 {
                     if (text.Length <= 5)
                     {
-                        throw new ArgumentException("³¤¶È±ØĞë>5");
+                        throw new ArgumentException("é•¿åº¦å¿…é¡»>5");
                     }
+
                     if ("0123456789".Any(p => text.Contains(p)))
                     {
-                        throw new ArgumentException("²»ÄÜ³öÏÖÊı×Ö");
+                        throw new ArgumentException("ä¸èƒ½å‡ºç°æ•°å­—");
                     }
                 });
                 break;
 
             case "10":
-                VM.Message = "ÊäÈëÄÚÈİ£º" + await this.ShowInputPasswordDialogAsync("±êÌâ", "ÇëÊäÈëÃÜÂë£º", "Ë®Ó¡");
+                VM.Message = "è¾“å…¥å†…å®¹ï¼š" + await this.ShowInputPasswordDialogAsync("æ ‡é¢˜", "è¯·è¾“å…¥å¯†ç ï¼š", "æ°´å°");
                 break;
 
             case "11":
-                VM.Message = "ÊäÈëÄÚÈİ£º" + await this.ShowInputMultiLinesTextDialogAsync("±êÌâ", "ÇëÊäÈë¶àĞĞÎÄ±¾£º");
+                VM.Message = "è¾“å…¥å†…å®¹ï¼š" + await this.ShowInputMultiLinesTextDialogAsync("æ ‡é¢˜", "è¯·è¾“å…¥å¤šè¡Œæ–‡æœ¬ï¼š");
                 break;
 
             case "12":
-                VM.Message = "ÊäÈëÄÚÈİ£º" + await this.ShowInputNumberDialogAsync<double>("±êÌâ", "ÇëÊäÈëÊı×Ö£º");
+                VM.Message = "è¾“å…¥å†…å®¹ï¼š" + await this.ShowInputNumberDialogAsync<double>("æ ‡é¢˜", "è¯·è¾“å…¥æ•°å­—ï¼š");
                 break;
 
             case "13":
-                VM.Message = "ÊäÈëÄÚÈİ£º" + await this.ShowInputNumberDialogAsync<int>("±êÌâ", "ÇëÊäÈëÕûÊı£º");
+                VM.Message = "è¾“å…¥å†…å®¹ï¼š" + await this.ShowInputNumberDialogAsync<int>("æ ‡é¢˜", "è¯·è¾“å…¥æ•´æ•°ï¼š");
                 break;
 
             case "14":
-                SelectDialogItem[] items = [
-                    new SelectDialogItem("µÚÒ»Ìõ", "ÏêÇé"),
-                    new SelectDialogItem("µÚ¶şÌõ", "ÏêÇé"),
-                    new SelectDialogItem("µÚÈıÌõ"),
-                    new SelectDialogItem("µÚËÄÌõ", "µ¥»÷Ö±½Ó´¥·¢", async () => await this.ShowOkDialogAsync("µ¥»÷ÁËµÚËÄÌõ")),
+                SelectDialogItem[] items =
+                [
+                    new SelectDialogItem("ç¬¬ä¸€æ¡", "è¯¦æƒ…"),
+                    new SelectDialogItem("ç¬¬äºŒæ¡", "è¯¦æƒ…"),
+                    new SelectDialogItem("ç¬¬ä¸‰æ¡"),
+                    new SelectDialogItem("ç¬¬å››æ¡", "å•å‡»ç›´æ¥è§¦å‘", async () => await this.ShowOkDialogAsync("å•å‡»äº†ç¬¬å››æ¡")),
                 ];
-                int? index = await this.ShowSelectItemDialog("±êÌâ", items, "ÌáÊ¾ÏûÏ¢", "¶îÍâ°´Å¥", async () => await this.ShowOkDialogAsync("µ¥»÷ÁË¶îÍâ°´Å¥"));
-                VM.Message = index.HasValue ? $"µ¥»÷ÁË{items[index.Value].Title}" : "Ã»ÓĞÑ¡Ôñ";
+                int? index = await this.ShowSelectItemDialog("æ ‡é¢˜", items, "æç¤ºæ¶ˆæ¯", "é¢å¤–æŒ‰é’®",
+                    async () => await this.ShowOkDialogAsync("å•å‡»äº†é¢å¤–æŒ‰é’®"));
+                VM.Message = index.HasValue ? $"å•å‡»äº†{items[index.Value].Title}" : "æ²¡æœ‰é€‰æ‹©";
                 break;
 
             case "15":
-                CheckDialogItem[] checkItems = [
-                    new CheckDialogItem("µÚÒ»Ìõ", "ÏêÇé"),
-                    new CheckDialogItem("µÚ¶şÌõ"),
-                    new CheckDialogItem("µÚÈıÌõ", "½ûÓÃ", false, false),
-                    new CheckDialogItem("µÚËÄÌõ", "Ä¬ÈÏÑ¡Ôñ", true, true),
-                    new CheckDialogItem("µÚÎåÌõ", "½ûÓÃ", false, true),
-                    new CheckDialogItem("µÚÁùÌõ"),
+                CheckDialogItem[] checkItems =
+                [
+                    new CheckDialogItem("ç¬¬ä¸€æ¡", "è¯¦æƒ…"),
+                    new CheckDialogItem("ç¬¬äºŒæ¡"),
+                    new CheckDialogItem("ç¬¬ä¸‰æ¡", "ç¦ç”¨", false, false),
+                    new CheckDialogItem("ç¬¬å››æ¡", "é»˜è®¤é€‰æ‹©", true, true),
+                    new CheckDialogItem("ç¬¬äº”æ¡", "ç¦ç”¨", false, true),
+                    new CheckDialogItem("ç¬¬å…­æ¡"),
                 ];
-                bool result = await this.ShowCheckItemDialog("±êÌâ", checkItems, "ĞèÒªÑ¡Ôñ2-4¸ö", 2, 4);
-                VM.Message = result ? VM.Message = $"Ñ¡ÔñÁË{string.Join('£¬', checkItems.Where(p => p.IsChecked).Select(p => p.Title))}" : "È¡ÏûÁËÑ¡Ôñ";
+                bool result = await this.ShowCheckItemDialog("æ ‡é¢˜", checkItems, "éœ€è¦é€‰æ‹©2-4ä¸ª", 2, 4);
+                VM.Message = result
+                    ? VM.Message = $"é€‰æ‹©äº†{string.Join('ï¼Œ', checkItems.Where(p => p.IsChecked).Select(p => p.Title))}"
+                    : "å–æ¶ˆäº†é€‰æ‹©";
+                break;
+
+            case "16":
+                await new ComboBoxDialog().ShowDialog<object>(DialogExtension.ContainerType,this);
                 break;
         }
     }

@@ -1,0 +1,20 @@
+<dialog:DialogHost
+    x:Class="FzLib.Avalonia.Test.ComboBoxDialog"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ctrl="using:FzLib.Avalonia.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dialog="using:FzLib.Avalonia.Dialogs"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:me="using:FzLib.Avalonia.MarkupExtensions"
+    Title="设置"
+    Width="640"
+    Height="540"
+    Padding="4"
+    CloseButtonContent="关闭"
+    mc:Ignorable="d">
+    <ComboBox>
+        <ComboBoxItem>选项1</ComboBoxItem>
+        <ComboBoxItem>选项2</ComboBoxItem>
+    </ComboBox>
+</dialog:DialogHost>

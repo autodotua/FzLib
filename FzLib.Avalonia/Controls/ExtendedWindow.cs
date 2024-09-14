@@ -51,6 +51,16 @@ public abstract class ExtendedWindow : Window
                && Environment.OSVersion.Version.Build < 22000;
     }
 
+    public static readonly StyledProperty<bool> CustomTitleBarProperty =
+        AvaloniaProperty.Register<ExtendedWindow, bool>(
+            nameof(CustomTitleBar));
+
+    public bool CustomTitleBar
+    {
+        get => GetValue(CustomTitleBarProperty);
+        set => SetValue(CustomTitleBarProperty, value);
+    }
+
     protected override Type StyleKeyOverride
     {
         get
