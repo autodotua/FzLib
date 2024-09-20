@@ -68,7 +68,6 @@ public partial class StackFormItemGroup : StackPanel
         if (IsVisible)
         {
             AdjustLabelWidth();
-            Opacity = oldOpacity;
         }
         //在构造函数的地方隐藏了，这里调整好了再显示，不然画面会闪过一两帧错位的表单……
     }
@@ -87,27 +86,34 @@ public partial class StackFormItemGroup : StackPanel
 
     private void AdjustLabelWidth()
     {
-        if (hasAdjustWidth || !double.IsNaN(LabelWidth) || !(AutoUnifyLabelWidthsMarginRight > 0))
+        try
         {
-            return;
-        }
-
-        hasAdjustWidth = true;
-        double maxWidth = 0;
-        foreach (var child in Children.OfType<FormItem>())
-        {
-            var label = child.GetVisualDescendants().FirstOrDefault(p => p.Name == "PART_LabelText");
-            if (label == null)
+            if (hasAdjustWidth || !double.IsNaN(LabelWidth) || !(AutoUnifyLabelWidthsMarginRight > 0))
             {
                 return;
             }
 
-            maxWidth = Math.Max(label.Bounds.Width, maxWidth);
-        }
+            hasAdjustWidth = true;
+            double maxWidth = 0;
+            foreach (var child in Children.OfType<FormItem>())
+            {
+                var label = child.GetVisualDescendants().FirstOrDefault(p => p.Name == "PART_LabelText");
+                if (label == null)
+                {
+                    return;
+                }
 
-        if (maxWidth > 0)
+                maxWidth = Math.Max(label.Bounds.Width, maxWidth);
+            }
+
+            if (maxWidth > 0)
+            {
+                LabelWidth = maxWidth + AutoUnifyLabelWidthsMarginRight;
+            }
+        }
+        finally
         {
-            LabelWidth = maxWidth + AutoUnifyLabelWidthsMarginRight;
+            Opacity = oldOpacity;
         }
     }
 }

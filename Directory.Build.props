@@ -1,6 +1,6 @@
 <Project>
     <PropertyGroup>
         <Nullable>disable</Nullable>
-        <FzLibVersion>2.1.7</FzLibVersion>
+        <FzLibVersion>2.1.10</FzLibVersion>
     </PropertyGroup>
 </Project>

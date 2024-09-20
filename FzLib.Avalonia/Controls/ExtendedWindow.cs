@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -103,7 +104,7 @@ public abstract class ExtendedWindow : Window
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        SetShadows(WindowState);
+        UpdateMargins();
     }
 
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
@@ -111,7 +112,17 @@ public abstract class ExtendedWindow : Window
         base.OnPropertyChanged(change);
         if (change.Property == WindowStateProperty)
         {
-            SetShadows((WindowState)change.NewValue);
+            Debug.WriteLine($"WindowState:{change.NewValue}");
+        }
+
+        if (change.Property == OffScreenMarginProperty)
+        {
+            Debug.WriteLine($"OffScreenMarginProperty:{OffScreenMargin}");
+            UpdateMargins();
+        }
+        if (change.Property == WindowDecorationMarginProperty)
+        {
+            Debug.WriteLine($"WindowDecorationMarginProperty:{WindowDecorationMargin}");
         }
     }
 
@@ -138,21 +149,21 @@ public abstract class ExtendedWindow : Window
             }
         }
     }
-
-    private void SetShadows(WindowState state)
+    
+    private void UpdateMargins( )
     {
         if (!UseCustomStyle())
         {
             return;
         }
 
-        if (state == WindowState.Maximized)
+        if (WindowState == WindowState.Maximized)
         {
             Resources["ExtendedWindowShadowRadius"] = 0d;
-            Resources["ExtendedWindowShadowThickness"] = new Thickness(ShadowWidth);
+            Resources["ExtendedWindowShadowThickness"] = OffScreenMargin;
             Resources["ExtendedWindowCornerRadius"] = new CornerRadius(0);
             Resources["ExtendedWindowInverseShadowThickness"] =
-                new Thickness(-ShadowWidth, -ShadowWidth, -ShadowWidth, 0);
+                new Thickness(0);
         }
         else
         {
