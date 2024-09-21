@@ -12,14 +12,6 @@ namespace FzLib.Avalonia.Controls;
 
 public partial class WindowButtons : StackPanel
 {
-    public static readonly StyledProperty<bool> IsMaximizedProperty =
-     AvaloniaProperty.Register<WindowButtons, bool>(nameof(IsMaximized));
-
-    public bool IsMaximized
-    {
-        get => GetValue(IsMaximizedProperty);
-        set => SetValue(IsMaximizedProperty, value);
-    }
     public WindowButtons()
     {
         InitializeComponent();
@@ -39,6 +31,7 @@ public partial class WindowButtons : StackPanel
             throw new NotSupportedException("TopLevel必须是Window");
         }
     }
+
     private void MinimizeButton_Click(object sender, RoutedEventArgs e)
     {
         if (TopLevel.GetTopLevel(this) is Window win)
@@ -55,17 +48,7 @@ public partial class WindowButtons : StackPanel
     {
         if (TopLevel.GetTopLevel(this) is Window win)
         {
-            win.WindowState= win.WindowState==WindowState.Maximized?WindowState.Normal:WindowState.Maximized;
-        }
-        else
-        {
-            throw new NotSupportedException("TopLevel必须是Window");
-        }
-    }
-    private void StackPanel_Loaded(object sender, RoutedEventArgs e)
-    {
-        if (TopLevel.GetTopLevel(this) is Window win)
-        {
+            win.WindowState = win.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
         }
         else
         {
@@ -73,4 +56,29 @@ public partial class WindowButtons : StackPanel
         }
     }
 
+    private void StackPanel_Loaded(object sender, RoutedEventArgs e)
+    {
+        if (TopLevel.GetTopLevel(this) is Window win)
+        {
+            UpdateIsMaximized(win);
+
+            win.PropertyChanged += (s, e2) =>
+            {
+                if (e2.Property == Window.WindowStateProperty)
+                {
+                    UpdateIsMaximized(win);
+                }
+            };
+        }
+        else
+        {
+            throw new NotSupportedException("TopLevel必须是Window");
+        }
+    }
+
+    private void UpdateIsMaximized(Window win)
+    {
+        Resources["IsNotMaximized"] =
+            !(bool)(Resources["IsMaximized"] = win.WindowState == WindowState.Maximized);
+    }
 }

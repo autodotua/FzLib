@@ -5,6 +5,7 @@
     xmlns:cv="using:FzLib.Avalonia.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="using:System"
     x:Name="btns"
     HorizontalAlignment="Right"
     VerticalAlignment="Top"
@@ -15,7 +16,8 @@
     mc:Ignorable="d">
     <StackPanel.Resources>
         <cv:InverseBoolConverter x:Key="InverseBoolConverter" />
-
+        <sys:Boolean x:Key="IsMaximized">True</sys:Boolean>
+        <sys:Boolean x:Key="IsNotMaximized">False</sys:Boolean>
         <ControlTheme
             x:Key="{x:Type Button}"
             TargetType="Button">
@@ -129,10 +131,10 @@
             <Rectangle
                 Width="10"
                 Height="10"
-                IsVisible="{Binding !#btns.IsMaximized}" />
+                IsVisible="{DynamicResource IsNotMaximized}" />
             <Path
                 Data="M20 13 L20 11 L28 11 L28 19 L26 19 L26 13 L18 13 L18 21 L26 21 L26 19"
-                IsVisible="{Binding #btns.IsMaximized}">
+                IsVisible="{DynamicResource IsMaximized}">
                 <Path.RenderTransform>
                     <TranslateTransform X="2" Y="-2" />
                 </Path.RenderTransform>

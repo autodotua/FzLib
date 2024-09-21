@@ -13,6 +13,9 @@
    
     Write-Output "正在发布linux-x64"
     dotnet publish FzLib.Avalonia/Test/Desktop -r linux-x64 -c Release -o Publish/Test/Linux --self-contained true /p:PublishSingleFile=true 
+   
+    Write-Output "正在发布macos-x64"
+    dotnet publish FzLib.Avalonia/Test/Desktop -r osx-x64 -c Release -o Publish/Test/MacOS --self-contained true /p:PublishSingleFile=true 
     
     Write-Output "操作完成"
 

@@ -47,11 +47,7 @@ public abstract class ExtendedWindow : Window
 
     private bool UseCustomStyle()
     {
-        return true;
-        //Is Windows 10
-        return OperatingSystem.IsWindows()
-               && Environment.OSVersion.Version.Major == 10
-               && Environment.OSVersion.Version.Build < 22000;
+        return OperatingSystem.IsWindows();
     }
 
     public static readonly StyledProperty<bool> CustomTitleBarProperty =
@@ -62,6 +58,16 @@ public abstract class ExtendedWindow : Window
     {
         get => GetValue(CustomTitleBarProperty);
         set => SetValue(CustomTitleBarProperty, value);
+    }
+
+    public static readonly StyledProperty<object> TitleBarFooterProperty =
+        AvaloniaProperty.Register<ExtendedWindow, object>(
+            nameof(TitleBarFooter));
+
+    public object TitleBarFooter
+    {
+        get => GetValue(TitleBarFooterProperty);
+        set => SetValue(TitleBarFooterProperty, value);
     }
 
     protected override Type StyleKeyOverride
@@ -139,15 +145,19 @@ public abstract class ExtendedWindow : Window
             {
                 return;
             }
+
             new WindowDragHelper(titleBar).EnableDrag();
-                
+
             titleBar.DoubleTapped += (s, e) =>
             {
-                WindowState = WindowState switch
+                if (e.Source == s)
                 {
-                    WindowState.Normal => WindowState.Maximized,
-                    _ => WindowState.Normal,
-                };
+                    WindowState = WindowState switch
+                    {
+                        WindowState.Normal => WindowState.Maximized,
+                        _ => WindowState.Normal,
+                    };
+                }
             };
         }
     }

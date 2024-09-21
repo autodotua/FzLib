@@ -54,7 +54,7 @@
                             <Grid
                                 x:Name="PART_TitleBar"
                                 Background="Transparent"
-                                ColumnDefinitions="Auto,Auto,*"
+                                ColumnDefinitions="Auto,Auto,*,Auto"
                                 IsVisible="{Binding !CustomTitleBar, RelativeSource={RelativeSource TemplatedParent}}">
                                 <!-- <Image Source="{TemplateBinding Icon}" /> -->
                                 <Image
@@ -69,7 +69,12 @@
                                     VerticalAlignment="Center"
                                     FontSize="12"
                                     Text="{TemplateBinding Title}" />
-                                <c:WindowButtons Grid.Column="2" />
+                                <ContentControl
+                                    Grid.Column="2"
+                                    Margin="4"
+                                    HorizontalAlignment="Right"
+                                    Content="{TemplateBinding TitleBarFooter}" />
+                                <c:WindowButtons Grid.Column="3" />
                             </Grid>
                             <ContentPresenter
                                 Name="PART_ContentPresenter"
@@ -84,5 +89,34 @@
                 </Panel>
             </ControlTemplate>
         </Setter>
+
+        <Style Selector="^">
+            <Style Selector="^ Button">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Padding" Value="6,2" />
+                <Setter Property="CornerRadius" Value="0" />
+
+                <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushDisabled}" />
+                    <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundDisabled}" />
+                </Style>
+
+            </Style>
+
+            <Style Selector="^ ToggleButton">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Padding" Value="6,2" />
+                <Setter Property="CornerRadius" Value="0" />
+
+                <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushDisabled}" />
+                    <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundDisabled}" />
+                </Style>
+
+            </Style>
+        </Style>
     </ControlTheme>
+
 </ResourceDictionary>
