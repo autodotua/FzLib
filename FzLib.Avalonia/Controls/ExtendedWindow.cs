@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Avalonia;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
@@ -46,6 +47,7 @@ public abstract class ExtendedWindow : Window
 
     private bool UseCustomStyle()
     {
+        return true;
         //Is Windows 10
         return OperatingSystem.IsWindows()
                && Environment.OSVersion.Version.Major == 10
@@ -120,6 +122,7 @@ public abstract class ExtendedWindow : Window
             Debug.WriteLine($"OffScreenMarginProperty:{OffScreenMargin}");
             UpdateMargins();
         }
+
         if (change.Property == WindowDecorationMarginProperty)
         {
             Debug.WriteLine($"WindowDecorationMarginProperty:{WindowDecorationMargin}");
@@ -132,25 +135,24 @@ public abstract class ExtendedWindow : Window
         if (UseCustomStyle())
         {
             var titleBar = this.GetVisualDescendants().FirstOrDefault(p => p.Name == "PART_TitleBar") as Grid;
-            if (titleBar != null)
+            if (titleBar == null)
             {
-                titleBar.PointerPressed += (s, e) => this.BeginMoveDrag(e);
-                titleBar.DoubleTapped += (s, e) =>
-                {
-                    if (WindowState == WindowState.Maximized)
-                    {
-                        WindowState = WindowState.Normal;
-                    }
-                    else if (WindowState == WindowState.Normal)
-                    {
-                        WindowState = WindowState.Maximized;
-                    }
-                };
+                return;
             }
+            new WindowDragHelper(titleBar).EnableDrag();
+                
+            titleBar.DoubleTapped += (s, e) =>
+            {
+                WindowState = WindowState switch
+                {
+                    WindowState.Normal => WindowState.Maximized,
+                    _ => WindowState.Normal,
+                };
+            };
         }
     }
-    
-    private void UpdateMargins( )
+
+    private void UpdateMargins()
     {
         if (!UseCustomStyle())
         {
@@ -162,15 +164,22 @@ public abstract class ExtendedWindow : Window
             Resources["ExtendedWindowShadowRadius"] = 0d;
             Resources["ExtendedWindowShadowThickness"] = OffScreenMargin;
             Resources["ExtendedWindowCornerRadius"] = new CornerRadius(0);
-            Resources["ExtendedWindowInverseShadowThickness"] =
-                new Thickness(0);
         }
         else
         {
-            Resources["ExtendedWindowShadowRadius"] = ShadowWidth;
-            Resources["ExtendedWindowShadowThickness"] = new Thickness(ShadowWidth);
-            Resources["ExtendedWindowCornerRadius"] = CornerRadius;
-            Resources["ExtendedWindowInverseShadowThickness"] = new Thickness();
+            if (OperatingSystem.IsWindowsVersionAtLeast(10, build: 22000)
+                || !OperatingSystem.IsWindows())
+            {
+                Resources["ExtendedWindowShadowRadius"] = 0;
+                Resources["ExtendedWindowShadowThickness"] = new Thickness(0);
+                Resources["ExtendedWindowCornerRadius"] = 0;
+            }
+            else
+            {
+                Resources["ExtendedWindowShadowRadius"] = ShadowWidth;
+                Resources["ExtendedWindowShadowThickness"] = new Thickness(ShadowWidth);
+                Resources["ExtendedWindowCornerRadius"] = CornerRadius;
+            }
         }
     }
 }
