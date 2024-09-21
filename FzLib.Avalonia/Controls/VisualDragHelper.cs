@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -6,27 +7,31 @@ using Avalonia.Media;
 
 namespace FzLib.Avalonia.Controls;
 
-public class ControlDragHelper
+public class VisualDragHelper
 {
     private Point? startPoint = default;
 
-    public ControlDragHelper(Control control)
+    public VisualDragHelper(InputElement thumb, Visual control, Visual controlParent)
     {
-        Control = control;
+        Thumb = thumb ?? throw new ArgumentNullException(nameof(thumb));
+        Control = control ?? throw new ArgumentNullException(nameof(control));
+        ControlParent = controlParent ?? throw new ArgumentNullException(nameof(controlParent));
     }
+
+    public Visual Control { get; }
+
+    public Visual ControlParent { get; }
+
+    public InputElement Thumb { get; }
 
     public void EnableDrag()
     {
-        Control.PointerPressed += Container_PointerPressed;
-        ;
-        Control.PointerMoved += Container_PointerMoved;
-        Control.PointerReleased += Container_PointerReleased;
+        Thumb.PointerPressed += Container_PointerPressed;
+        Thumb.PointerMoved += Container_PointerMoved;
+        Thumb.PointerReleased += Container_PointerReleased;
 
         Control.RenderTransform = new TranslateTransform(0, 0);
     }
-
-    public InputElement Control { get; }
-
     private void Container_PointerMoved(object sender, PointerEventArgs e)
     {
         if (!startPoint.HasValue)
@@ -34,11 +39,12 @@ public class ControlDragHelper
             return;
         }
 
-        var parent = Control.Parent as Visual ?? throw new Exception("找不到控件的父级");
-        var point = e.GetPosition(parent);
+        var point = e.GetPosition(ControlParent);
+        Debug.WriteLine(point);
         var move = point - startPoint.Value;
         double x = move.X;
         double y = move.Y;
+        Debug.WriteLine("{0},{1}", x, y);
 
         //限制左边界
         if (x + Control.Bounds.Left < 0)
@@ -53,28 +59,29 @@ public class ControlDragHelper
         }
 
         //限制右边界
-        if (x + Control.Bounds.Right > parent.Bounds.Width)
+        if (x + Control.Bounds.Right > ControlParent.Bounds.Width)
         {
-            x = parent.Bounds.Width - Control.Bounds.Right;
+            x = ControlParent.Bounds.Width - Control.Bounds.Right;
         }
 
         //限制下边界
-        if (y + Control.Bounds.Bottom > parent.Bounds.Height)
+        if (y + Control.Bounds.Bottom > ControlParent.Bounds.Height)
         {
-            y = parent.Bounds.Height - Control.Bounds.Bottom;
+            y = ControlParent.Bounds.Height - Control.Bounds.Bottom;
         }
 
         var translate = Control.RenderTransform as TranslateTransform;
 
+        Debug.WriteLine("{0},{1}", x, y);
         translate.X = x;
         translate.Y = y;
     }
 
     private void Container_PointerPressed(object sender, PointerPressedEventArgs e)
     {
-        if (sender == e.Source || e.Source is Panel)
+        if (e.Source == sender)
         {
-            var point = e.GetPosition(Control.Parent as Visual);
+            var point = e.GetPosition(ControlParent);
             var translate = Control.RenderTransform as TranslateTransform;
             startPoint = new Point(point.X - translate.X, point.Y - translate.Y);
         }

@@ -125,6 +125,12 @@
 
                         </VisualLayerManager>
                     </Grid>
+                    <Border
+                        x:Name="PART_Thumb"
+                        Height="48"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        Background="Transparent" />
                 </Panel>
             </ControlTemplate>
         </Setter>

@@ -1,9 +1,13 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Media;
+using Avalonia.VisualTree;
+using FzLib.Avalonia.Controls;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FzLib.Avalonia.Dialogs
@@ -36,6 +40,8 @@ namespace FzLib.Avalonia.Dialogs
             tcs.SetResult(result);
         }
 
+        private Border bdDialog;
+
         public async Task<T> ShowDialog<T>(Grid container, DialogHost dialogHost)
         {
             Border bdBackground = new Border()
@@ -46,7 +52,7 @@ namespace FzLib.Avalonia.Dialogs
             bdBackground[!BackgroundProperty] = new DynamicResourceExtension("SystemControlBackgroundAltHighBrush");
             Children.Add(bdBackground);
 
-            Border bdDialog = new Border()
+            bdDialog = new Border()
             {
                 CornerRadius = new CornerRadius(4),
                 Effect = new DropShadowEffect()
@@ -65,7 +71,11 @@ namespace FzLib.Avalonia.Dialogs
                 MaxHeight = 800
             };
 
-            bdDialog.EnableDrag();
+            bdDialog.Loaded += (s, e) =>
+            {
+                new VisualDragHelper(this.FindThumb(), bdDialog, this).EnableDrag();
+            };
+
             (bdDialog.Effect as DropShadowEffect)[!DropShadowEffectBase.ColorProperty] = new DynamicResourceExtension("SystemControlBackgroundChromeMediumLowBrush");
             bdDialog[!BackgroundProperty] = new DynamicResourceExtension("SystemControlBackgroundChromeMediumLowBrush");
             Children.Add(bdDialog);

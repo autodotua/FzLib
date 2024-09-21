@@ -2,12 +2,16 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Markup.Xaml.Styling;
 using Avalonia.Media;
 using Avalonia.Styling;
+using Avalonia.VisualTree;
+using FzLib.Avalonia.Controls;
 using System;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -15,8 +19,6 @@ namespace FzLib.Avalonia.Dialogs
 {
     public class WindowDialogContainer : Window, IDialogHostContainer<Window>
     {
-        protected override Type StyleKeyOverride => typeof(WindowDialogContainer);
-
         internal WindowDialogContainer()
         {
             ExtendClientAreaToDecorationsHint = true;
@@ -32,21 +34,9 @@ namespace FzLib.Avalonia.Dialogs
             MaxWidth = 800;
             MaxHeight = 800;
             Padding = new Thickness(16);
-            Loaded += WindowDialogContainer_Loaded;
-            this.EnableDrag();
         }
 
-        private void WindowDialogContainer_Loaded(object sender, global::Avalonia.Interactivity.RoutedEventArgs e)
-        {
-            if (Content is DialogHost dw)
-            {
-            }
-            else
-            {
-                throw new Exception($"{nameof(WindowDialogContainer)}的{nameof(Content)}必须为{nameof(DialogHost)}");
-            }
-        }
-
+        protected override Type StyleKeyOverride => typeof(WindowDialogContainer);
         public Task ShowDialog(Window window, DialogHost dialogHost)
         {
             Content = dialogHost;
@@ -57,6 +47,16 @@ namespace FzLib.Avalonia.Dialogs
         {
             Content = dialogHost;
             return ShowDialog<T>(window);
+        }
+
+        protected override void OnLoaded(RoutedEventArgs e)
+        {
+            if (Content is not DialogHost dw)
+            {
+                throw new Exception($"{nameof(WindowDialogContainer)}的{nameof(Content)}必须为{nameof(DialogHost)}");
+            }
+
+            new WindowDragHelper(this.FindThumb()).EnableDrag();
         }
     }
 }

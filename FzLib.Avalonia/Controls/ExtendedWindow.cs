@@ -18,17 +18,31 @@ namespace FzLib.Avalonia.Controls;
 
 public abstract class ExtendedWindow : Window
 {
+    public static readonly StyledProperty<bool> CustomTitleBarProperty =
+        AvaloniaProperty.Register<ExtendedWindow, bool>(
+            nameof(CustomTitleBar));
+
     public new static readonly DirectProperty<ExtendedWindow, Bitmap> IconProperty =
-        AvaloniaProperty.RegisterDirect<ExtendedWindow, Bitmap>(
+            AvaloniaProperty.RegisterDirect<ExtendedWindow, Bitmap>(
             nameof(Icon),
             o => o.Icon,
             (o, v) => o.Icon = v);
+
+    public static readonly StyledProperty<object> TitleBarFooterProperty =
+        AvaloniaProperty.Register<ExtendedWindow, object>(
+            nameof(TitleBarFooter));
 
     private Bitmap icon;
 
     protected ExtendedWindow()
     {
         CornerRadius = new CornerRadius(2);
+    }
+
+    public bool CustomTitleBar
+    {
+        get => GetValue(CustomTitleBarProperty);
+        set => SetValue(CustomTitleBarProperty, value);
     }
 
     public new Bitmap Icon
@@ -43,32 +57,13 @@ public abstract class ExtendedWindow : Window
 
     public bool IsClosed { get; private set; }
 
-    protected double ShadowWidth { get; set; } = 8;
-
-    private bool UseCustomStyle()
-    {
-        return OperatingSystem.IsWindows();
-    }
-
-    public static readonly StyledProperty<bool> CustomTitleBarProperty =
-        AvaloniaProperty.Register<ExtendedWindow, bool>(
-            nameof(CustomTitleBar));
-
-    public bool CustomTitleBar
-    {
-        get => GetValue(CustomTitleBarProperty);
-        set => SetValue(CustomTitleBarProperty, value);
-    }
-
-    public static readonly StyledProperty<object> TitleBarFooterProperty =
-        AvaloniaProperty.Register<ExtendedWindow, object>(
-            nameof(TitleBarFooter));
-
     public object TitleBarFooter
     {
         get => GetValue(TitleBarFooterProperty);
         set => SetValue(TitleBarFooterProperty, value);
     }
+
+    protected double ShadowWidth { get; set; } = 8;
 
     protected override Type StyleKeyOverride
     {
@@ -115,26 +110,6 @@ public abstract class ExtendedWindow : Window
         UpdateMargins();
     }
 
-    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
-    {
-        base.OnPropertyChanged(change);
-        if (change.Property == WindowStateProperty)
-        {
-            Debug.WriteLine($"WindowState:{change.NewValue}");
-        }
-
-        if (change.Property == OffScreenMarginProperty)
-        {
-            Debug.WriteLine($"OffScreenMarginProperty:{OffScreenMargin}");
-            UpdateMargins();
-        }
-
-        if (change.Property == WindowDecorationMarginProperty)
-        {
-            Debug.WriteLine($"WindowDecorationMarginProperty:{WindowDecorationMargin}");
-        }
-    }
-
     protected override void OnLoaded(RoutedEventArgs e)
     {
         base.OnLoaded(e);
@@ -159,6 +134,26 @@ public abstract class ExtendedWindow : Window
                     };
                 }
             };
+        }
+    }
+
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
+        base.OnPropertyChanged(change);
+        if (change.Property == WindowStateProperty)
+        {
+            Debug.WriteLine($"WindowState:{change.NewValue}");
+        }
+
+        if (change.Property == OffScreenMarginProperty)
+        {
+            Debug.WriteLine($"OffScreenMarginProperty:{OffScreenMargin}");
+            UpdateMargins();
+        }
+
+        if (change.Property == WindowDecorationMarginProperty)
+        {
+            Debug.WriteLine($"WindowDecorationMarginProperty:{WindowDecorationMargin}");
         }
     }
 
@@ -191,5 +186,10 @@ public abstract class ExtendedWindow : Window
                 Resources["ExtendedWindowCornerRadius"] = CornerRadius;
             }
         }
+    }
+
+    private bool UseCustomStyle()
+    {
+        return OperatingSystem.IsWindows();
     }
 }

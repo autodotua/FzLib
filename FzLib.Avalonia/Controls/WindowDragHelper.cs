@@ -9,22 +9,21 @@ namespace FzLib.Avalonia.Controls;
 public class WindowDragHelper
 {
     private Point? startPoint = default;
-    public Control Thunmb { get; }
-    public WindowDragHelper(Control thumb)
+    public WindowDragHelper(InputElement thumb)
     {
-        Thunmb = thumb;
+        Thumb = thumb ?? throw new ArgumentNullException(nameof(thumb));
         Window = TopLevel.GetTopLevel(thumb) as Window ?? throw new ArgumentException("TopLevel不是Window");
     }
 
-    public void EnableDrag()
-    {
-        Thunmb.PointerPressed += Container_PointerPressed;
-        Thunmb.PointerMoved += Container_PointerMoved;
-        Thunmb.PointerReleased += Container_PointerReleased;
-    }
-
+    public InputElement Thumb { get; }
     public Window Window { get; }
 
+    public void EnableDrag()
+    {
+        Thumb.PointerPressed += Container_PointerPressed;
+        Thumb.PointerMoved += Container_PointerMoved;
+        Thumb.PointerReleased += Container_PointerReleased;
+    }
     private void Container_PointerMoved(object sender, PointerEventArgs e)
     {
         if (!startPoint.HasValue)
@@ -44,16 +43,15 @@ public class WindowDragHelper
 
     private void Container_PointerPressed(object sender, PointerPressedEventArgs e)
     {
-
-        if (e.Pointer.Type == PointerType.Mouse)
+        if (e.Source == sender)
         {
+            if (e.Pointer.Type == PointerType.Mouse)
+            {
+                Window.BeginMoveDrag(e);
+                return;
+            }
+
             //触摸和非Windows系统有问题：https://github.com/AvaloniaUI/Avalonia/issues/8429
-            Window.BeginMoveDrag(e);
-            return;
-        }
-
-        if (sender == Thunmb)
-        {
             startPoint = e.GetPosition(null);
         }
     }
