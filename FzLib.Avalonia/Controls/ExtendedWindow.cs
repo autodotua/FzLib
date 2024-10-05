@@ -175,9 +175,9 @@ public abstract class ExtendedWindow : Window
             if (OperatingSystem.IsWindowsVersionAtLeast(10, build: 22000)
                 || !OperatingSystem.IsWindows())
             {
-                Resources["ExtendedWindowShadowRadius"] = 0;
+                Resources["ExtendedWindowShadowRadius"] = 0d;
                 Resources["ExtendedWindowShadowThickness"] = new Thickness(0);
-                Resources["ExtendedWindowCornerRadius"] = 0;
+                Resources["ExtendedWindowCornerRadius"] = new CornerRadius(0);
             }
             else
             {
