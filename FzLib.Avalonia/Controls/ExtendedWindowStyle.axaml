@@ -53,7 +53,7 @@
                             RowDefinitions="Auto,*">
                             <Grid
                                 x:Name="PART_TitleBar"
-                                Background="Transparent"
+                                Background="{TemplateBinding TitleBarBackground}"
                                 ColumnDefinitions="Auto,Auto,*,Auto"
                                 IsVisible="{Binding !CustomTitleBar, RelativeSource={RelativeSource TemplatedParent}}">
                                 <!-- <Image Source="{TemplateBinding Icon}" /> -->
@@ -71,7 +71,7 @@
                                     Text="{TemplateBinding Title}" />
                                 <ContentControl
                                     Grid.Column="2"
-                                    Margin="4"
+                                    Margin="4,0"
                                     HorizontalAlignment="Right"
                                     Content="{TemplateBinding TitleBarFooter}" />
                                 <c:WindowButtons Grid.Column="3" />

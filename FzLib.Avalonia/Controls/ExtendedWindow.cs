@@ -28,8 +28,12 @@ public abstract class ExtendedWindow : Window
             o => o.Icon,
             (o, v) => o.Icon = v);
 
+    public static readonly StyledProperty<IBrush> TitleBarBackgroundProperty =
+        AvaloniaProperty.Register<ExtendedWindow, IBrush>(
+            nameof(TitleBarBackground), Brushes.Transparent);
+
     public static readonly StyledProperty<object> TitleBarFooterProperty =
-        AvaloniaProperty.Register<ExtendedWindow, object>(
+            AvaloniaProperty.Register<ExtendedWindow, object>(
             nameof(TitleBarFooter));
 
     private Bitmap icon;
@@ -56,6 +60,12 @@ public abstract class ExtendedWindow : Window
     }
 
     public bool IsClosed { get; private set; }
+
+    public IBrush TitleBarBackground
+    {
+        get => GetValue(TitleBarBackgroundProperty);
+        set => SetValue(TitleBarBackgroundProperty, value);
+    }
 
     public object TitleBarFooter
     {
