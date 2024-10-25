@@ -9,6 +9,7 @@ namespace FzLib.Avalonia.Messages
             Unknown,
             Ok,
             Error,
+            ErrorRetry,
             YesNo
         }
 
