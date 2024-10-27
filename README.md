@@ -1,5 +1,5 @@
 # FzLib
 
-FzLibæ˜¯ä¸€å¥—æœ¬äººå¼€å‘è¿‡ç¨‹ä¸­é€æ¸å½¢æˆçš„å·¥å…·åº“ï¼ŒåŒ…å«æ•°æ®ã€IOã€åŠ å¯†è§£å¯†ã€åº”ç”¨ã€ç•Œé¢ç­‰å„æ–¹é¢çš„é‡å¤æ€§ä»£ç ã€‚å…·ä½“ä»‹ç»å°†åœ¨åç»­è¿›è¡Œè¡¥å……ã€‚
+FzLibÊÇÒ»Ì×±¾ÈË¿ª·¢¹ı³ÌÖĞÖğ½¥ĞÎ³ÉµÄ¹¤¾ß¿â£¬°üº¬Êı¾İ¡¢IO¡¢¼ÓÃÜ½âÃÜ¡¢Ó¦ÓÃ¡¢½çÃæµÈ¸÷·½ÃæµÄÖØ¸´ĞÔ´úÂë¡£¾ßÌå½éÉÜ½«ÔÚºóĞø½øĞĞ²¹³ä¡£
 
 FzLib is a toolkit gradually developed during my programming process, containing repetitive code in various aspects such as data, I/O, encryption and decryption, applications, and interfaces. A detailed introduction will be provided later.

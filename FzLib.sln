@@ -21,8 +21,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FzLib.Avalonia.Test", "FzLi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FzLib.Avalonia.Test.Desktop", "FzLib.Avalonia\Test\Desktop\FzLib.Avalonia.Test.Desktop.csproj", "{5ECA12BD-2CD2-4FA3-92F7-60F756F7F5D1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决方案项", "{E36BA69D-7C15-430B-9374-4AD62EDC9660}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "#", "#", "{E36BA69D-7C15-430B-9374-4AD62EDC9660}"
 	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		build.ps1 = build.ps1
+		build_test.ps1 = build_test.ps1
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
