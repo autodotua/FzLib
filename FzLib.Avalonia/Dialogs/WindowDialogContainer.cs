@@ -37,10 +37,26 @@ namespace FzLib.Avalonia.Dialogs
         }
 
         protected override Type StyleKeyOverride => typeof(WindowDialogContainer);
+
         public Task ShowDialog(Window window, DialogHost dialogHost)
         {
             Content = dialogHost;
             return ShowDialog(window);
+        }
+
+        public Task ShowDialog(DialogHost dialogHost)
+        {
+            Content = dialogHost;
+            TaskCompletionSource tcs = new TaskCompletionSource();
+            Closed += WindowClosed;
+            Show();
+            return tcs.Task;
+
+            void WindowClosed(object sender, EventArgs e)
+            {
+                Closed -= WindowClosed;
+                tcs.SetResult();
+            }
         }
 
         public Task<T> ShowDialog<T>(Window window, DialogHost dialogHost)

@@ -13,6 +13,7 @@ namespace FzLib.Avalonia.Dialogs
     public static class DialogExtension
     {
         public static DialogContainerType ContainerType { get; set; } = DialogContainerType.PopupPreferred;
+
         #region 信息
         public static Task ShowOkDialogAsync(this Visual visual, string title, string message = null, string detail = null)
         {

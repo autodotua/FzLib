@@ -5,6 +5,7 @@
         Popup,
         Window,
         PopupPreferred,
-        WindowPreferred
+        WindowPreferred,
+        ModelessWindow
     }
 }

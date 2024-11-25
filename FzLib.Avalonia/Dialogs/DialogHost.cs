@@ -15,29 +15,28 @@ namespace FzLib.Avalonia.Dialogs
 {
     public class DialogHost : ContentControl
     {
-
         protected override Type StyleKeyOverride => typeof(DialogHost);
 
         public static readonly StyledProperty<object> CloseButtonContentProperty =
-    AvaloniaProperty.Register<DialogHost, object>(nameof(CloseButtonContent));
+            AvaloniaProperty.Register<DialogHost, object>(nameof(CloseButtonContent));
 
         public static readonly StyledProperty<bool> CloseButtonEnableProperty =
-    AvaloniaProperty.Register<DialogHost, bool>(nameof(CloseButtonEnable), true);
+            AvaloniaProperty.Register<DialogHost, bool>(nameof(CloseButtonEnable), true);
 
         public static readonly StyledProperty<object> PrimaryButtonContentProperty =
-    AvaloniaProperty.Register<DialogHost, object>(nameof(PrimaryButtonContent));
+            AvaloniaProperty.Register<DialogHost, object>(nameof(PrimaryButtonContent));
 
         public static readonly StyledProperty<bool> PrimaryButtonEnableProperty =
-AvaloniaProperty.Register<DialogHost, bool>(nameof(PrimaryButtonEnable), true);
+            AvaloniaProperty.Register<DialogHost, bool>(nameof(PrimaryButtonEnable), true);
 
         public static readonly StyledProperty<object> SecondaryButtonContentProperty =
-    AvaloniaProperty.Register<DialogHost, object>(nameof(SecondaryButtonContent));
+            AvaloniaProperty.Register<DialogHost, object>(nameof(SecondaryButtonContent));
 
         public static readonly StyledProperty<bool> SecondaryButtonEnableProperty =
-    AvaloniaProperty.Register<DialogHost, bool>(nameof(SecondaryButtonEnable), true);
+            AvaloniaProperty.Register<DialogHost, bool>(nameof(SecondaryButtonEnable), true);
 
         public static readonly StyledProperty<string> TitleProperty =
-    AvaloniaProperty.Register<DialogHost, string>(nameof(Title), "");
+            AvaloniaProperty.Register<DialogHost, string>(nameof(Title), "");
 
         public static string CancelButtonText = "取消";
 
@@ -100,6 +99,7 @@ AvaloniaProperty.Register<DialogHost, bool>(nameof(PrimaryButtonEnable), true);
             get => GetValue(TitleProperty);
             set => SetValue(TitleProperty, value);
         }
+
         public void Close()
         {
             dialogContainer.Close();
@@ -115,10 +115,15 @@ AvaloniaProperty.Register<DialogHost, bool>(nameof(PrimaryButtonEnable), true);
             return ShowDialog<object>(type, visual);
         }
 
-        public Task<T> ShowDialog<T>(DialogContainerType type, Visual visual)
+        public async Task<T> ShowDialog<T>(DialogContainerType type, Visual visual)
         {
+            if (visual == null)
+            {
+                await ShowModelessWindowDialog();
+                return default;
+            }
             var topLevel = TopLevel.GetTopLevel(visual) ?? throw new ArgumentException("找不到TopLevel", nameof(visual));
-            bool canWindowDialog = topLevel is Window;//在桌面端，TopLevel是窗口
+            bool canWindowDialog = topLevel is Window; //在桌面端，TopLevel是窗口
             Grid grid = null;
             if (topLevel.Content is Grid g)
             {
@@ -128,34 +133,41 @@ AvaloniaProperty.Register<DialogHost, bool>(nameof(PrimaryButtonEnable), true);
             {
                 grid = g2;
             }
+
             bool canPopupDialog = grid != null;
+          
             switch (type)
             {
+                case DialogContainerType.ModelessWindow:
+                    await ShowModelessWindowDialog();
+                    return default;
                 case DialogContainerType.Popup:
                     if (!canPopupDialog) throw new NotSupportedException("未找到顶层Grid，不支持Popup对话框");
-                    return ShowPopupDialog<T>(grid);
+                    return await ShowPopupDialog<T>(grid);
                 case DialogContainerType.Window:
                     if (!canWindowDialog) throw new NotSupportedException("顶层不是Window，不支持Window对话框");
-                    return ShowWindowDialog<T>(topLevel as Window);
+                    return await ShowWindowDialog<T>(topLevel as Window);
                 case DialogContainerType.PopupPreferred:
-                    if (!(canWindowDialog || canPopupDialog)) throw new NotSupportedException("顶层不是Window，也未找到顶层Grid，无法显示对话框");
+                    if (!(canWindowDialog || canPopupDialog))
+                        throw new NotSupportedException("顶层不是Window，也未找到顶层Grid，无法显示对话框");
                     if (canPopupDialog)
                     {
-                        return ShowPopupDialog<T>(grid);
+                        return await ShowPopupDialog<T>(grid);
                     }
                     else
                     {
-                        return ShowWindowDialog<T>(topLevel as Window);
+                        return await ShowWindowDialog<T>(topLevel as Window);
                     }
                 case DialogContainerType.WindowPreferred:
-                    if (!(canWindowDialog || canPopupDialog)) throw new NotSupportedException("顶层不是Window，也未找到顶层Grid，无法显示对话框");
+                    if (!(canWindowDialog || canPopupDialog))
+                        throw new NotSupportedException("顶层不是Window，也未找到顶层Grid，无法显示对话框");
                     if (canWindowDialog)
                     {
-                        return ShowWindowDialog<T>(topLevel as Window);
+                        return await ShowWindowDialog<T>(topLevel as Window);
                     }
                     else
                     {
-                        return ShowPopupDialog<T>(grid);
+                        return await ShowPopupDialog<T>(grid);
                     }
 
                 default:
@@ -180,10 +192,17 @@ AvaloniaProperty.Register<DialogHost, bool>(nameof(PrimaryButtonEnable), true);
             return (dialogContainer as WindowDialogContainer).ShowDialog<T>(window, this);
         }
 
+        public Task ShowModelessWindowDialog()
+        {
+            dialogContainer = new WindowDialogContainer();
+            return (dialogContainer as WindowDialogContainer).ShowDialog(this);
+        }
+
         public Task ShowWindowDialog(Window window)
         {
             return ShowWindowDialog<object>(window);
         }
+
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
             PrimaryButton = e.NameScope.Find(nameof(PrimaryButton)) as Button;
@@ -194,8 +213,17 @@ AvaloniaProperty.Register<DialogHost, bool>(nameof(PrimaryButtonEnable), true);
             CloseButton.Click += (s, e) => OnCloseButtonClick();
             base.OnApplyTemplate(e);
         }
-        protected virtual void OnCloseButtonClick() { }
-        protected virtual void OnPrimaryButtonClick() { }
-        protected virtual void OnSecondaryButtonClick() { }
+
+        protected virtual void OnCloseButtonClick()
+        {
+        }
+
+        protected virtual void OnPrimaryButtonClick()
+        {
+        }
+
+        protected virtual void OnSecondaryButtonClick()
+        {
+        }
     }
 }

@@ -21,7 +21,7 @@ public partial class DialogPanel : UserControl
     private async void DialogButton_Click(object sender, RoutedEventArgs e)
     {
         VM.Message = "";
-        DialogExtension.ContainerType = VM.ShowWindowDialog ? DialogContainerType.Window : DialogContainerType.Popup;
+        DialogExtension.ContainerType = VM.ContainerType;
 
         switch ((sender as Button).Tag as string)
         {
