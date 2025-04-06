@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Windows;
 using Avalonia;
@@ -7,11 +8,25 @@ using Avalonia.Data.Converters;
 
 namespace FzLib.Avalonia.Converters
 {
+    public class DescriptionConverter<T> : IValueConverter where T : struct, Enum
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null) return AvaloniaProperty.UnsetValue;
+
+            return DescriptionConverter.GetDescription((T)value);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return value;
+        }
+    }
     public class DescriptionConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value == null) return  AvaloniaProperty.UnsetValue;
+            if (value == null) return AvaloniaProperty.UnsetValue;
 
             return GetDescription(value);
         }
@@ -24,6 +39,11 @@ namespace FzLib.Avalonia.Converters
         public static string GetDescription(object en)
         {
             Type type = en.GetType();
+            return GetDescription(type, en);
+        }
+
+        private static string GetDescription([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] Type type, object en)
+        {
             MemberInfo[] memInfo = type.GetMember(en.ToString());
             if (memInfo != null && memInfo.Length > 0)
             {
@@ -34,6 +54,13 @@ namespace FzLib.Avalonia.Converters
                 }
             }
             return en.ToString();
+        }
+
+
+        public static string GetDescription<T>(T en) where T : struct, Enum
+        {
+            Type type = typeof(T);
+            return GetDescription(type, en);
         }
     }
 }

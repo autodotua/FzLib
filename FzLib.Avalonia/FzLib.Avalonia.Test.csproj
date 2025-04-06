@@ -4,6 +4,7 @@
     <Nullable>disable</Nullable>
     <LangVersion>latest</LangVersion>
     <RootNamespace>FzLib.Avalonia</RootNamespace>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

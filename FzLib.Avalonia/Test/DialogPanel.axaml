@@ -2,21 +2,29 @@
     x:Class="FzLib.Avalonia.Test.DialogPanel"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="using:FzLib.Avalonia.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dialogs="using:FzLib.Avalonia.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:me="using:FzLib.Avalonia.MarkupExtensions"
+    xmlns:vm="using:FzLib.Avalonia.Test"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    x:DataType="vm:MainViewModel"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <c:DescriptionConverter
+            x:Key="DialogContainerDescriptionConverter"
+            x:TypeArguments="dialogs:DialogContainerType" />
+    </UserControl.Resources>
     <WrapPanel>
+        <!--  ItemsSource="{me:EnumValues x:TypeArguments='dialogs:DialogContainerType'}"  -->
+
         <ComboBox
-            ItemsSource="{me:EnumValues dialogs:DialogContainerType}"
+            DisplayMemberBinding="{Binding ., Converter={StaticResource DialogContainerDescriptionConverter}}"
+            ItemsSource="{me:EnumValues EnumType='dialogs:DialogContainerType'}"
             SelectedItem="{Binding ContainerType}" />
-        <ToggleSwitch
-            IsChecked="{Binding ShowWindowDialog}"
-            OffContent="显示弹出（Popup）对话框"
-            OnContent="显示窗口（Window）对话框" />
+
         <Button
             Click="DialogButton_Click"
             Content="信息"

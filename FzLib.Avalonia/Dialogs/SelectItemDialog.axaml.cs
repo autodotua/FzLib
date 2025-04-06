@@ -30,6 +30,10 @@ namespace FzLib.Avalonia.Dialogs
         private readonly object buttonContent;
         private readonly Action buttonCommand;
 
+        public SelectItemDialog() : this(new SelectItemDialogViewModel(), "", null)
+        {
+
+        }
         public SelectItemDialog(SelectItemDialogViewModel vm, object buttonContent, Action buttonCommand)
         {
             Title = vm.Title;

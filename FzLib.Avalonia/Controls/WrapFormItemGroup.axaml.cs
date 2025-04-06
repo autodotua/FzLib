@@ -50,7 +50,7 @@ public partial class WrapFormItemGroup : WrapPanel
     public new Orientation Orientation
     {
         get => base.Orientation;
-        set => throw new Exception("²»Ö§³ÖĞŞ¸ÄOrientation");
+        set => throw new Exception("ä¸æ”¯æŒä¿®æ”¹Orientation");
     }
 
     public double VerticalSpacing
@@ -75,7 +75,7 @@ public partial class WrapFormItemGroup : WrapPanel
         double panelWidth = Bounds.Width;
         int currentRow = 0;
         int currentColumn = 0;
-        double x = 0; //µ±Ç°ĞĞ×îÓÒ²àµÄ×ø±ê
+        double x = 0; //å½“å‰è¡Œæœ€å³ä¾§çš„åæ ‡
 
         List<List<Control>> controlsPerRow = new List<List<Control>>()
         {
@@ -87,19 +87,19 @@ public partial class WrapFormItemGroup : WrapPanel
 
             if (controlWidth + x + HorizontalSpacing > panelWidth)
             {
-                // Èç¹ûµ±Ç°Î»ÖÃ³¬¹ıÁËÃæ°å¿í¶È£¬ÔòÒÆµ½ÏÂÒ»ĞĞ
+                // å¦‚æœå½“å‰ä½ç½®è¶…è¿‡äº†é¢æ¿å®½åº¦ï¼Œåˆ™ç§»åˆ°ä¸‹ä¸€è¡Œ
                 currentRow++;
                 currentColumn = 0;
                 x = 0;
                 controlsPerRow.Add(new List<Control>());
             }
 
-            x += controlWidth + HorizontalSpacing; //ÓÒ²à×ø±êÔö¼Ó
+            x += controlWidth + HorizontalSpacing; //å³ä¾§åæ ‡å¢åŠ 
             controlsPerRow[^1].Add(child);
             currentColumn++;
         }
 
-        //¸ù¾İÍ³¼ÆÇé¿ö£¬ÎªËùÓĞ¿Ø¼şÉèÖÃÓÒ±ß¾à£¬Îª×îºóÒ»ĞĞÒÔÍâµÄ¿Ø¼şÉèÖÃÏÂ±ß¾à
+        //æ ¹æ®ç»Ÿè®¡æƒ…å†µï¼Œä¸ºæ‰€æœ‰æ§ä»¶è®¾ç½®å³è¾¹è·ï¼Œä¸ºæœ€åä¸€è¡Œä»¥å¤–çš„æ§ä»¶è®¾ç½®ä¸‹è¾¹è·
         for (int i = 0; i < controlsPerRow.Count; i++)
         {
             foreach (var control in controlsPerRow[i])

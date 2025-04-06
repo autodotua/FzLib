@@ -86,11 +86,16 @@ namespace FzLib.Avalonia.Dialogs
         {
             return text =>
               {
-                  if(!T.TryParse(text,CultureInfo.InvariantCulture,out _))
+                  if (!T.TryParse(text, CultureInfo.InvariantCulture, out _))
                   {
                       throw new ArgumentException("无法转为数字");
                   }
               };
+        }
+
+        public InputDialog() : this(new InputDialogViewModel())
+        {
+
         }
 
         public InputDialog(InputDialogViewModel vm)

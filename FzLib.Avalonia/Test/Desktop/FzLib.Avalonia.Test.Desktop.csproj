@@ -8,7 +8,18 @@
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Version>2.0</Version>
+    <PublishAot>true</PublishAot>
+    <!--<TrimMode>partial</TrimMode>-->
+
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <!-- 保留 Serilog -->
+    <TrimmerRootAssembly Include="Serilog" />
+    <!-- 保留 Avalonia.Win32 -->
+    <TrimmerRootAssembly Include="Avalonia.Win32" />
+  </ItemGroup>
   
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>$(Temp)\$(AssemblyName)</OutputPath>
@@ -20,6 +31,7 @@
   
   <ItemGroup>
     <PackageReference Include="Avalonia.Desktop" Version="11.0.7" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>

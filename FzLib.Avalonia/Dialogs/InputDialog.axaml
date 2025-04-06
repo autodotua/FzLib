@@ -6,6 +6,7 @@
     xmlns:local="clr-namespace:FzLib.Avalonia.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:DataType="local:InputDialogViewModel"
+    xmlns:sys="using:System"
     Loaded="DialogWindow_Loaded"
     mc:Ignorable="d">
     <local:DialogHost.Styles>
@@ -32,7 +33,7 @@
                 </ControlTemplate>
             </Setter>
             <Setter Property="ErrorTemplate">
-                <DataTemplate>
+                <DataTemplate x:DataType="sys:Object">
                     <Canvas
                         Width="14"
                         Height="14"

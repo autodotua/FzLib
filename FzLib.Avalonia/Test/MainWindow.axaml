@@ -6,10 +6,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:FzLib.Avalonia.Test"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:FzLib.Avalonia.Test"
     x:Name="root"
     Title="窗口标题"
     Width="640"
     Height="640"
+    x:DataType="vm:MainViewModel"
     Icon="avares://FzLib.Avalonia.Test/Test/favicon.png"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">

@@ -31,6 +31,9 @@ namespace FzLib.Avalonia.Dialogs
         private readonly int minCheckCount;
         private readonly int maxCheckCount;
 
+        public CheckBoxDialog() : this(new CheckBoxDialogViewModel(), 0, 1)
+        {
+        }
         public CheckBoxDialog(CheckBoxDialogViewModel vm, int minCheckCount,int maxCheckCount)
         {
             Title=vm.Title;
