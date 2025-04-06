@@ -61,6 +61,7 @@
                                     Height="18"
                                     Margin="8,0,-4,0"
                                     VerticalAlignment="Center"
+                                    IsHitTestVisible="False"
                                     Source="{TemplateBinding Icon}"
                                     Stretch="Fill" />
                                 <TextBlock
@@ -68,6 +69,7 @@
                                     Margin="8,0"
                                     VerticalAlignment="Center"
                                     FontSize="12"
+                                    IsHitTestVisible="False"
                                     Text="{TemplateBinding Title}" />
                                 <ContentControl
                                     Grid.Column="2"

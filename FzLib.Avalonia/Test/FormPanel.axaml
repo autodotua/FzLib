@@ -10,7 +10,9 @@
     mc:Ignorable="d">
 
     <c:StackFormItemGroup>
-        <c:FormItem Label="姓名：">
+        <c:FormItem
+            Description="这是一条表单项的描述"
+            Label="姓名：">
             <TextBox Text="王某某" />
         </c:FormItem>
         <c:FormItem Label="打开文件：">
@@ -40,7 +42,9 @@
                 </c:FormItem>
 
                 <c:FormItem Label="数字选择：">
-                    <NumericUpDown Width="120" />
+                    <NumericUpDown
+                        Width="120"
+                        FormatString="0" />
                 </c:FormItem>
                 <CheckBox
                     VerticalAlignment="Center"

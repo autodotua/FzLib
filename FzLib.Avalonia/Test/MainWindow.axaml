@@ -41,14 +41,16 @@
     <Grid>
         <DockPanel
             Grid.Row="2"
-            Margin="8"
             LastChildFill="True">
             <!--  这边如果不设置Background，那么字就会显示不全，最下面会截掉。Github上未找到类似Issue  -->
             <TextBlock
+                Margin="8"
                 Background="Transparent"
                 DockPanel.Dock="Bottom"
                 Text="{Binding Message}" />
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ScrollViewer
+                Margin="8"
+                VerticalScrollBarVisibility="Auto">
                 <StackPanel
                     Orientation="Vertical"
                     Spacing="8">

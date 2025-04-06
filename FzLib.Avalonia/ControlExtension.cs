@@ -10,22 +10,20 @@ namespace FzLib.Avalonia
         /// </summary>
         /// <param name="control"></param>
         /// <returns></returns>
-        public async static Task WaitForLoadedAsync(this Control control)
+        public static Task WaitForLoadedAsync(this Control control)
         {
             if (control.IsLoaded)
             {
-                return;
+                return Task.CompletedTask;
             }
             TaskCompletionSource<int> tcs = new TaskCompletionSource<int>();
             control.Loaded += Control_Loaded;
-            await tcs.Task;
+            return tcs.Task;
             void Control_Loaded(object sender, global::Avalonia.Interactivity.RoutedEventArgs e)
             {
                 control.Loaded -= Control_Loaded;
                 tcs.TrySetResult(0);
             }
         }
-
-
     }
 }
