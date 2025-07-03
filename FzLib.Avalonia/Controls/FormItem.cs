@@ -17,6 +17,9 @@ namespace FzLib.Avalonia.Controls
         public static readonly StyledProperty<string> LabelProperty =
                     AvaloniaProperty.Register<FormItem, string>(nameof(Label));
 
+        public static readonly StyledProperty<string> HeaderProperty =
+                    AvaloniaProperty.Register<FormItem, string>(nameof(Header));
+
         public static readonly StyledProperty<double> LabelWidthProperty =
             AvaloniaProperty.Register<FormItem, double>(nameof(LabelWidth), double.NaN);
 
@@ -30,6 +33,12 @@ namespace FzLib.Avalonia.Controls
         {
             get => GetValue(LabelProperty);
             set => SetValue(LabelProperty, value);
+        }
+
+        public string Header
+        {
+            get => GetValue(HeaderProperty);
+            set => SetValue(HeaderProperty, value);
         }
         public double LabelWidth
         {

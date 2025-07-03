@@ -22,14 +22,23 @@
             <ControlTemplate>
                 <Grid
                     ColumnDefinitions="Auto,8,*"
-                    RowDefinitions="Auto,Auto">
+                    RowDefinitions="Auto,Auto,Auto">
                     <TextBlock
                         Name="PART_LabelText"
+                        Grid.Row="1"
                         Width="{TemplateBinding LabelWidth}"
                         VerticalAlignment="Center"
                         Text="{TemplateBinding Label}" />
+
+                    <TextBlock
+                        Grid.Column="2"
+                        Margin="0,0,0,4"
+                        IsVisible="{TemplateBinding Header,
+                                                    Converter={StaticResource NotNullConverter}}"
+                        Text="{TemplateBinding Header}" />
                     <ContentPresenter
                         Name="PART_ContentPresenter"
+                        Grid.Row="1"
                         Grid.Column="2"
                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                         Content="{TemplateBinding Content}"
@@ -40,6 +49,7 @@
                         Margin="0,4,0,0"
                         IsVisible="{TemplateBinding Description,
                                                     Converter={StaticResource NotNullConverter}}"
+                        Opacity="0.7"
                         Text="{TemplateBinding Description}" />
                 </Grid>
             </ControlTemplate>
