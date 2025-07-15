@@ -1,159 +1,128 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FzLib
 {
     public static class NumberConverter
     {
-        public static string SquareMeterToFitString(double lengthInMeter, int decimalDigits = 2, string mm = "平方毫米", string cm = "平方厘米", string m = "平方米", string ha = "公顷", string km = "平方千米")
+        public static string ByteToFitString(long size, int decimalDigits = 2)
         {
-            if (lengthInMeter < 0)
-            {
-                throw new ArgumentException("长度为负数");
-            }
-            else if (lengthInMeter == double.NaN || lengthInMeter == double.PositiveInfinity)
-            {
-                throw new ArgumentException("长度无效");
-            }
-            else if (lengthInMeter == 0)
-            {
-                return 0 + m;
-            }
-            string format = "N" + decimalDigits.ToString();
-
-            switch (lengthInMeter)
-            {
-                case double n when n < 1.0 / 1000000:
-                    return (n * 1000000).ToString(format) + mm;
-
-                case double n when n < 1.0 / 10000:
-                    return (n * 10000).ToString(format) + cm;
-
-                case double n when n > 10000:
-                    return (n / 10000).ToString(format) + ha;
-
-                case double n when n > 1000000:
-                    return (n / 1000000).ToString(format) + km;
-
-                default:
-                    return lengthInMeter.ToString(format) + m;
-            }
+            string[] defaultUnits = { "B", "KB", "MB", "GB", "TB" };
+            return ByteToFitString(size, defaultUnits, decimalDigits);
         }
 
-        public static string MeterToFitString(double lengthInMeter, int decimalDigits = 2, string mm = "毫米", string cm = "厘米", string m = "米", string km = "千米")
+        public static string ByteToFitString(long size, string[] units, int decimalDigits = 2)
         {
-            if (lengthInMeter < 0)
-            {
-                throw new ArgumentException("长度为负数");
-            }
-            else if (lengthInMeter == double.NaN || lengthInMeter == double.PositiveInfinity)
-            {
-                throw new ArgumentException("长度无效");
-            }
-            else if (lengthInMeter == 0)
-            {
-                return 0 + m;
-            }
-            string format = "N" + decimalDigits.ToString();
-
-            switch (lengthInMeter)
-            {
-                case double n when n < 1.0 / 1000:
-                    return (n * 1000).ToString(format) + mm;
-
-                case double n when n < 1.0 / 100:
-                    return (n * 100).ToString(format) + cm;
-
-                case double n when n > 1000:
-                    return (n / 1000).ToString(format) + km;
-
-                default:
-                    return lengthInMeter.ToString(format) + m;
-            }
-        }
-
-        public static string ByteToFitString(long size, int decimalDigits = 2, string B = "B", string KB = "KB", string MB = "MB", string GB = "GB", string TB = "TB")
-        {
-            if (size < 0)
+            if (size < 0 || units == null || units.Length == 0)
             {
                 return "";
             }
+
             double dSize = size;
-            string format = "N" + decimalDigits.ToString();
-            if (dSize < 1024)
+            int unitIndex = 0;
+
+            while (dSize >= 1024 && unitIndex < units.Length - 1)
             {
-                return dSize.ToString() + B;
+                dSize /= 1024;
+                unitIndex++;
             }
-            dSize /= 1024;
-            if (dSize < 1024)
-            {
-                return dSize.ToString(format) + KB;
-            }
-            dSize /= 1024;
-            if (dSize < 1024)
-            {
-                return dSize.ToString(format) + MB;
-            }
-            dSize /= 1024;
-            if (dSize < 1024)
-            {
-                return dSize.ToString(format) + GB;
-            }
-            dSize /= 1024;
-            return dSize.ToString(format) + TB;
+
+            string format = unitIndex == 0 ? "0" : $"N{decimalDigits}";
+            return dSize.ToString(format) + units[unitIndex];
         }
 
-        public static string SecondToFitString(long seconds, bool week = false, string secondUnit = "秒", string minuteUnit = "分", string hourUnit = "小时", string dayUnit = "天", string weekUnit = "周")
+        public static string MeterToFitString(double lengthInMeter, int decimalDigits = 2)
         {
-            string result = "";
-            if (seconds < 0)
-            {
-                seconds = -seconds;
-                result += "-";
-            }
-            const long secondPerWeek = 3600 * 24 * 7;
-            const long secondPerDay = 3600 * 24;
-            const long secondPerHour = 3600;
-            const long secondPerMinute = 60;
+            string[] defaultUnits = { "毫米", "厘米", "米", "千米" };
+            double[] scales = { 1000, 100, 1, 0.001 };
+            return ScaleToFitString(lengthInMeter, defaultUnits, scales, decimalDigits);
+        }
 
-            long per = 0;
-            if (seconds >= secondPerWeek)
+        public static string MeterToFitString(double lengthInMeter, string[] units, double[] scales, int decimalDigits = 2)
+        {
+            return ScaleToFitString(lengthInMeter, units, scales, decimalDigits);
+        }
+
+        public static string SecondToFitString(long seconds, int decimalDigits = 0)
+        {
+            string[] defaultUnits = { "秒", "分", "小时", "天", "周" };
+            long[] scales = { 60, 60, 24, 7 };
+            return TimeToFitString(seconds, defaultUnits, scales, decimalDigits);
+        }
+
+        public static string SecondToFitString(long seconds, string[] units, long[] scales, int decimalDigits = 0)
+        {
+            return TimeToFitString(seconds, units, scales, decimalDigits);
+        }
+
+        public static string SquareMeterToFitString(double area, int decimalDigits = 2)
+        {
+            string[] defaultUnits = { "平方毫米", "平方厘米", "平方米", "公顷", "平方千米" };
+            double[] scales = { 1000000, 10000, 1, 0.0001, 0.000001 };
+            return ScaleToFitString(area, defaultUnits, scales, decimalDigits);
+        }
+
+        public static string SquareMeterToFitString(double area, string[] units, double[] scales, int decimalDigits = 2)
+        {
+            return ScaleToFitString(area, units, scales, decimalDigits);
+        }
+
+        private static string ScaleToFitString(double value, string[] units, double[] scales, int decimalDigits)
+        {
+            if (value < 0 || units == null || scales == null || units.Length != scales.Length + 1)
             {
-                if (week)
+                throw new ArgumentException("参数无效");
+            }
+
+            if (double.IsNaN(value) || double.IsInfinity(value))
+            {
+                throw new ArgumentException("数值无效");
+            }
+
+            if (value == 0)
+            {
+                return 0.ToString("N" + decimalDigits) + units[units.Length / 2]; // 默认返回中间单位
+            }
+
+            for (int i = 0; i < scales.Length; i++)
+            {
+                if (value < scales[i])
                 {
-                    per = seconds / secondPerWeek;
-                    result += per.ToString() + weekUnit;
-                    seconds %= secondPerWeek;
+                    value *= (i == 0 ? 1 : 1 / scales[i - 1]);
+                    return value.ToString("N" + decimalDigits) + units[i];
                 }
             }
 
-            if (seconds >= secondPerDay)
+            value /= scales[scales.Length - 1];
+            return value.ToString("N" + decimalDigits) + units[units.Length - 1];
+        }
+
+        private static string TimeToFitString(long seconds, string[] units, long[] scales, int decimalDigits)
+        {
+            if (seconds < 0 || units == null || scales == null || units.Length != scales.Length + 1)
             {
-                per = seconds / secondPerDay;
-                result += per.ToString() + dayUnit;
-                seconds %= secondPerDay;
+                throw new ArgumentException("参数无效");
             }
 
-            if (seconds >= secondPerHour)
+            string result = "";
+            if (seconds < 0)
             {
-                per = seconds / secondPerHour;
-                result += per.ToString() + hourUnit;
-                seconds %= secondPerHour;
+                result += "-";
+                seconds = -seconds;
             }
 
-            if (seconds >= secondPerMinute)
+            for (int i = scales.Length - 1; i >= 0; i--)
             {
-                per = seconds / secondPerMinute;
-                result += per.ToString() + minuteUnit;
-                seconds %= secondPerMinute;
+                if (seconds >= scales[i])
+                {
+                    long value = seconds / scales[i];
+                    result += value.ToString() + units[i + 1];
+                    seconds %= scales[i];
+                }
             }
 
-            if (seconds > 0)
+            if (seconds > 0 || result == "")
             {
-                result += seconds + secondUnit;
+                result += seconds.ToString() + units[0];
             }
 
             return result;

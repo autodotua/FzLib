@@ -136,6 +136,10 @@ public partial class DialogPanel : UserControl
             case "16":
                 await new ComboBoxDialog().ShowDialog<object>(DialogExtension.ContainerType,this);
                 break;
+            
+            case "17":
+                await this.ShowOkDialogAsync("标题",  string.Concat(Enumerable.Repeat("很长很长的信息正文", 10)));
+                break;
         }
     }
 }

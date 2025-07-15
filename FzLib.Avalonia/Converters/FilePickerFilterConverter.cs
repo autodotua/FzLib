@@ -62,8 +62,8 @@ namespace FzLib.Avalonia.Converters
             }
 
             var name = parts[0];
-            var patterns = parts[1].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            var mimeTypes = parts[2].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            var patterns = parts[1].Split([','], StringSplitOptions.RemoveEmptyEntries);
+            var mimeTypes = parts[2].Split([','], StringSplitOptions.RemoveEmptyEntries);
             var appleUniformTypeIdentifiers = parts[3].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             return new FilePickerFileType(name)

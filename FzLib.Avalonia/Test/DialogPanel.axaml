@@ -89,5 +89,9 @@
             Click="DialogButton_Click"
             Content="自定义"
             Tag="16" />
+        <Button
+            Click="DialogButton_Click"
+            Content="长信息"
+            Tag="17" />
     </WrapPanel>
 </UserControl>

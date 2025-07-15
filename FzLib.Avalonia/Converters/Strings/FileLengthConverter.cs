@@ -1,23 +1,18 @@
 ﻿using System;
 using System.Globalization;
-using System.Windows;
 using Avalonia.Data.Converters;
-using Avalonia.Media;
 
 namespace FzLib.Avalonia.Converters
 {
     /// <summary>
-    /// 若绑定值为true，则返回下划线
+    /// 将字节（long）转换为合适的文件大小字符串
     /// </summary>
-    public class UnderlineBool2TextDecorationConverter : IValueConverter
+    public class FileLengthConverter : IValueConverter
     {
+        public string[] Units { get; set; } = ["B", "KB", "MB", "GB", "TB"];
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if ((bool)value)
-            {
-                return TextDecorations.Underline;
-            }
-            return new TextDecorationCollection();
+            return NumberConverter.ByteToFitString((long)value, Units);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -2,24 +2,36 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:FzLib.Avalonia.Converters">
-    <c:BoldBool2FontWeightConverter x:Key="BoldBool2FontWeightConverter" />
-    <c:BoolLogicConverter x:Key="BoolLogicConverter" />
-    <c:Bool2StringConverter x:Key="Bool2StringConverter" />
-    <c:CountMoreThanZeroConverter x:Key="CountMoreThanZeroConverter" />
-    <c:Enum2BoolConverter x:Key="Enum2BoolConverter" />
-    <c:StringReplaceConverter x:Key="StringReplaceConverter" />
-    <c:EqualConverter x:Key="EqualConverter" />
-    <c:FileLength2StringConverter x:Key="FileLength2StringConverter" />
+    <c:Bool2FontWeightConverter x:Key="BoldBool2FontWeightConverter" />
+    <c:BoolLogicConverter
+        x:Key="BoolAndLogicConverter"
+        Operator="And" />    
+    <c:BoolLogicConverter
+        x:Key="BoolOrLogicConverter"
+        Operator="Or" />
+    <c:Count2BoolConverter
+        x:Key="CountGreaterThan0Converter"
+        ComparisonValue="0"
+        Operator="GreaterThan" />
+    <c:Count2BoolConverter
+        x:Key="CountIs0Converter"
+        ComparisonValue="0"
+        Operator="Equal" />
+    <c:ValueMappingConverter x:Key="ValueMappingConverter" />
+    <c:Equal2BoolConverter x:Key="EqualConverter" />
+    <c:FileLengthConverter x:Key="FileLengthConverter" />
     <c:Number2ThicknessConverter x:Key="Number2ThicknessConverter" />
     <c:InverseBoolConverter x:Key="InverseBoolConverter" />
-    <c:ItalicBool2FontStyleConverter x:Key="ItalicBool2FontStyleConverter" />
-    <c:NotNullConverter x:Key="NotNullConverter" />
+    <c:Bool2FontStyleConverter x:Key="ItalicBool2FontStyleConverter" />
+    <c:Null2BoolConverter x:Key="NotNullConverter" />
+    <c:Null2BoolConverter
+        x:Key="IsNullConverter"
+        ValueWhenNull="True" />
     <c:Number2AlignmentConverter x:Key="Number2AlignmentConverter" />
     <c:DescriptionConverter x:Key="DescriptionConverter" />
-    <c:UnderlineBool2TextDecorationConverter x:Key="UnderlineBool2TextDecorationConverter" />
+    <c:Bool2TextDecorationConverter x:Key="UnderlineBool2TextDecorationConverter" />
     <c:TimeSpanConverter x:Key="TimeSpanConverter" />
     <c:TimeSpanNumberConverter x:Key="TimeSpanNumberConverter" />
     <c:FilePickerFilterConverter x:Key="FilePickerFilterConverter" />
     <c:StringListConverter x:Key="StringListConverter" />
-
 </ResourceDictionary>

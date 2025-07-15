@@ -44,7 +44,35 @@ namespace FzLib.Avalonia.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotSupportedException();
+            if (value == null)
+            {
+                return 0; // 默认返回 Stretch 对应的值
+            }
+
+            if (value is HorizontalAlignment horizontalAlignment)
+            {
+                return horizontalAlignment switch
+                {
+                    HorizontalAlignment.Stretch => 0,
+                    HorizontalAlignment.Left => 1,
+                    HorizontalAlignment.Center => 2,
+                    HorizontalAlignment.Right => 3,
+                    _ => 0 // 未知值默认返回 Stretch
+                };
+            }
+            else if (value is VerticalAlignment verticalAlignment)
+            {
+                return verticalAlignment switch
+                {
+                    VerticalAlignment.Stretch => 0,
+                    VerticalAlignment.Top => 1,
+                    VerticalAlignment.Center => 2,
+                    VerticalAlignment.Bottom => 3,
+                    _ => 0 // 未知值默认返回 Stretch
+                };
+            }
+
+            throw new ArgumentException("输入值必须是 HorizontalAlignment 或 VerticalAlignment", nameof(value));
         }
     }
 }

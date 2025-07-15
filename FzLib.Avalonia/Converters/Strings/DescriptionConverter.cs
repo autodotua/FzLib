@@ -12,9 +12,7 @@ namespace FzLib.Avalonia.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value == null) return AvaloniaProperty.UnsetValue;
-
-            return DescriptionConverter.GetDescription((T)value);
+            return value == null ? AvaloniaProperty.UnsetValue : DescriptionConverter.GetDescription((T)value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -22,13 +20,12 @@ namespace FzLib.Avalonia.Converters
             return value;
         }
     }
+
     public class DescriptionConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value == null) return AvaloniaProperty.UnsetValue;
-
-            return GetDescription(value);
+            return value == null ? AvaloniaProperty.UnsetValue : GetDescription(value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -55,7 +52,6 @@ namespace FzLib.Avalonia.Converters
             }
             return en.ToString();
         }
-
 
         public static string GetDescription<T>(T en) where T : struct, Enum
         {

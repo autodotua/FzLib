@@ -1,27 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Windows;
 using Avalonia.Data.Converters;
-using Avalonia.Media;
-using Avalonia.Platform.Storage;
 
 namespace FzLib.Avalonia.Converters
 {
-
-    /// <summary>
-    /// 若绑定值为true，则返回粗体，否则为普通
-    /// </summary>
-    public class BoldBool2FontWeightConverter : IValueConverter
+    public class Null2BoolConverter : IValueConverter
     {
+        public bool ValueWhenNull { get; set; } = false;
+        public bool AsNullIfStringWhiteSpace { get; set; } = true;
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if ((bool)value)
+            if (value == null)
             {
-                return FontWeight.Bold;
+                return ValueWhenNull;
             }
-            return FontWeight.Normal;
+            if (AsNullIfStringWhiteSpace && value is string && string.IsNullOrEmpty(value as string))
+            {
+                return ValueWhenNull;
+            }
+            return !ValueWhenNull;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
