@@ -1,0 +1,234 @@
+<UserControl
+    x:Class="FzLib.Avalonia.Test.ConverterPanel"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="using:FzLib.Avalonia.Controls"
+    xmlns:cvt="using:FzLib.Avalonia.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:g="using:System.Collections.Generic"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:me="using:FzLib.Avalonia.MarkupExtensions"
+    xmlns:sys="using:System"
+    xmlns:t="using:FzLib.Avalonia.Test"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="t:ConverterViewModel"
+    mc:Ignorable="d">
+    <UserControl.Styles>
+        <Style Selector="StackPanel">
+            <Setter Property="Spacing" Value="8" />
+        </Style>
+    </UserControl.Styles>
+    <StackPanel>
+        <HeaderedContentControl
+            Classes="GroupBox"
+            Header="Bool转值">
+            <StackPanel>
+                <c:FormItem Header="字体样式 Bool2FontStyleConverter">
+                    <CheckBox
+                        Content="斜体"
+                        FontStyle="{Binding $self.IsChecked, Converter={StaticResource ItalicBool2FontStyleConverter}}" />
+                </c:FormItem>
+
+                <c:FormItem Header="字重 Bool2FontWeightConverter">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox
+                            Content="粗体"
+                            FontWeight="{Binding $self.IsChecked, Converter={StaticResource BoldBool2FontWeightConverter}}" />
+                        <CheckBox
+                            Content="细体"
+                            FontWeight="{Binding $self.IsChecked, Converter={StaticResource LightBool2FontWeightConverter}}" />
+                    </StackPanel>
+                </c:FormItem>
+
+                <c:FormItem Header="字体装饰器 Bool2TextDecorationConverter">
+                    <c:FormItem.Resources>
+                        <cvt:Bool2TextDecorationConverter
+                            x:Key="OverlineBool2TextDecorationConverter"
+                            TrueTextDecoration="Overline" />
+                    </c:FormItem.Resources>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox x:Name="chkUnderline">
+                            <TextBlock
+                                Text="下划线"
+                                TextDecorations="{Binding #chkUnderline.IsChecked, Converter={StaticResource UnderlineBool2TextDecorationConverter}}" />
+                        </CheckBox>
+                        <CheckBox x:Name="chkOverline">
+                            <TextBlock
+                                Text="顶部线"
+                                TextDecorations="{Binding #chkOverline.IsChecked, Converter={StaticResource OverlineBool2TextDecorationConverter}}" />
+                        </CheckBox>
+                    </StackPanel>
+                </c:FormItem>
+
+                <c:FormItem Header="Bool转字符串 Bool2StringConverter">
+                    <c:FormItem.Resources>
+                        <cvt:Bool2StringConverter
+                            x:Key="Bool2StringConverter"
+                            FalseString="未选中"
+                            TrueString="已选中" />
+                    </c:FormItem.Resources>
+                    <CheckBox Content="{Binding $self.IsChecked, Converter={StaticResource Bool2StringConverter}}" />
+                </c:FormItem>
+
+                <c:FormItem Header="多个Bool的逻辑关系 BoolLogicConverter">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox
+                            x:Name="chkBl1"
+                            Content="Bool1" />
+                        <CheckBox
+                            x:Name="chkBl2"
+                            Content="Bool2" />
+                        <CheckBox
+                            x:Name="chkBl3"
+                            Content="Bool3" />
+                        <CheckBox
+                            Content="And"
+                            IsEnabled="False">
+                            <CheckBox.IsChecked>
+                                <MultiBinding Converter="{StaticResource BoolAndLogicConverter}">
+                                    <MultiBinding.Bindings>
+                                        <Binding Path="#chkBl1.IsChecked" />
+                                        <Binding Path="#chkBl2.IsChecked" />
+                                        <Binding Path="#chkBl3.IsChecked" />
+                                    </MultiBinding.Bindings>
+                                </MultiBinding>
+                            </CheckBox.IsChecked>
+                        </CheckBox>
+                        <CheckBox
+                            Content="Or"
+                            IsEnabled="False">
+                            <CheckBox.IsChecked>
+                                <MultiBinding Converter="{StaticResource BoolOrLogicConverter}">
+                                    <MultiBinding.Bindings>
+                                        <Binding Path="#chkBl1.IsChecked" />
+                                        <Binding Path="#chkBl2.IsChecked" />
+                                        <Binding Path="#chkBl3.IsChecked" />
+                                    </MultiBinding.Bindings>
+                                </MultiBinding>
+                            </CheckBox.IsChecked>
+                        </CheckBox>
+                    </StackPanel>
+                </c:FormItem>
+            </StackPanel>
+        </HeaderedContentControl>
+
+
+
+
+        <HeaderedContentControl
+            Classes="GroupBox"
+            Header="值转Bool">
+            <StackPanel>
+                <c:FormItem Header="集合数量转Bool Count2BoolConverter">
+                    <c:FormItem.Resources>
+                        <cvt:Count2BoolConverter
+                            x:Key="CountEqauls2"
+                            ComparisonValue="2"
+                            Operator="Equal" />
+                        <cvt:Count2BoolConverter
+                            x:Key="CountGreaterThan2"
+                            ComparisonValue="2"
+                            Operator="GreaterThan" />
+                        <cvt:Count2BoolConverter
+                            x:Key="CountLessThanOrEqual2"
+                            ComparisonValue="2"
+                            Operator="LessThanOrEqual" />
+                        <cvt:Count2BoolConverter
+                            x:Key="CountNotEqual2"
+                            ComparisonValue="2"
+                            Operator="NotEqual" />
+                    </c:FormItem.Resources>
+                    <Grid
+                        ColumnDefinitions="*,8,*,8,*,8,*,8,*,8,*"
+                        RowDefinitions="Auto,8,Auto">
+                        <ListBox
+                            Grid.ColumnSpan="99"
+                            BorderThickness="1"
+                            ItemsSource="{Binding List}">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                        <Button
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Command="{Binding ListAddCommand}"
+                            Content="增加" />
+                        <Button
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            Command="{Binding ListRemoveCommand}"
+                            Content="移除" />
+                        <CheckBox
+                            Grid.Row="2"
+                            Grid.Column="4"
+                            Content="数量=2"
+                            IsChecked="{Binding List.Count, Converter={StaticResource CountEqauls2}, Mode=OneWay}"
+                            IsEnabled="False" />
+                        <CheckBox
+                            Grid.Row="2"
+                            Grid.Column="6"
+                            Content="数量>2"
+                            IsChecked="{Binding List.Count, Converter={StaticResource CountGreaterThan2}, Mode=OneWay}"
+                            IsEnabled="False" />
+                        <CheckBox
+                            Grid.Row="2"
+                            Grid.Column="8"
+                            Content="数量≤2"
+                            IsChecked="{Binding List.Count, Converter={StaticResource CountLessThanOrEqual2}, Mode=OneWay}"
+                            IsEnabled="False" />
+                        <CheckBox
+                            Grid.Row="2"
+                            Grid.Column="10"
+                            Content="数量≠2"
+                            IsChecked="{Binding List.Count, Converter={StaticResource CountNotEqual2}, Mode=OneWay}"
+                            IsEnabled="False" />
+                    </Grid>
+                </c:FormItem>
+
+                <c:FormItem Header="枚举转Bool Enum2BoolConverter">
+                    <c:FormItem.Resources>
+                        <sys:DayOfWeek x:Key="Sun">Sunday</sys:DayOfWeek>
+                        <sys:DayOfWeek x:Key="Mon">Monday</sys:DayOfWeek>
+                        <cvt:Enum2BoolConverter x:Key="IsWeekendConverter">
+                            <cvt:Enum2BoolConverter.TrueValues>
+                                <sys:DayOfWeek>Sunday</sys:DayOfWeek>
+                                <sys:DayOfWeek>Saturday</sys:DayOfWeek>
+                            </cvt:Enum2BoolConverter.TrueValues>
+                        </cvt:Enum2BoolConverter>
+                    </c:FormItem.Resources>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox
+                            Content="星期天是周末"
+                            IsChecked="{Binding Source={StaticResource Sun}, Converter={StaticResource IsWeekendConverter}}"
+                            IsEnabled="False" />
+                        <CheckBox
+                            Content="星期一是周末"
+                            IsChecked="{Binding Source={StaticResource Mon}, Converter={StaticResource IsWeekendConverter}}"
+                            IsEnabled="False" />
+                    </StackPanel>
+                </c:FormItem>
+
+
+                <c:FormItem Header="相等转Bool Equal2BoolConverter">
+                    <Grid ColumnDefinitions="*,8,Auto,8,Auto">
+                        <TextBox x:Name="tEqual" />
+                        <CheckBox
+                            Grid.Column="2"
+                            Content="输入值为abc"
+                            IsChecked="{Binding #tEqual.Text, Converter={StaticResource Equal2BoolConverter}, ConverterParameter=abc, Mode=OneWay}"
+                            IsEnabled="False" />
+                        <CheckBox
+                            Grid.Column="4"
+                            Content="输入值不为abc"
+                            IsChecked="{Binding #tEqual.Text, Converter={StaticResource NotEqual2BoolConverter}, ConverterParameter=abc, Mode=OneWay}"
+                            IsEnabled="False" />
+                    </Grid>
+                </c:FormItem>
+            </StackPanel>
+        </HeaderedContentControl>
+    </StackPanel>
+</UserControl>

@@ -8,8 +8,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:me="using:FzLib.Avalonia.MarkupExtensions"
     Title="设置"
-    Width="640"
-    Height="540"
     Padding="4"
     CloseButtonContent="关闭"
     mc:Ignorable="d">

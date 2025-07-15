@@ -6,7 +6,6 @@ using System.Linq;
 using Avalonia.Data.Converters;
 
 namespace FzLib.Avalonia.Converters;
-
 /// <summary>
 /// 将集合的元素数量与比较值进行指定条件的比较，返回布尔结果。
 /// 示例：
@@ -15,19 +14,6 @@ namespace FzLib.Avalonia.Converters;
 /// </summary>
 public class Count2BoolConverter : IValueConverter
 {
-    /// <summary>
-    /// 支持的比较操作符类型
-    /// </summary>
-    public enum ComparisonOperator
-    {
-        GreaterThan,
-        LessThan,
-        GreaterThanOrEqual,
-        LessThanOrEqual,
-        Equal,
-        NotEqual
-    }
-
     /// <summary>
     /// 比较的基准值（默认0）
     /// </summary>
@@ -49,7 +35,8 @@ public class Count2BoolConverter : IValueConverter
         {
             ICollection collection => collection.Count,
             IEnumerable enumerable => enumerable.OfType<object>().Count(),
-            _ => throw new ArgumentException("输入值必须实现 IEnumerable 接口", nameof(value))
+            int i=>i,
+            _ => throw new ArgumentException("输入值必须实现 IEnumerable 接口或提供Int32", nameof(value))
         };
 
         return Operator switch

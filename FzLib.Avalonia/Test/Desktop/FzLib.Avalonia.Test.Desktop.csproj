@@ -8,10 +8,11 @@
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Version>2.0</Version>
-    <PublishAot>true</PublishAot>
-    <!--<TrimMode>partial</TrimMode>-->
-
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <PublishAot>true</PublishAot>
   </PropertyGroup>
   
   <ItemGroup>
@@ -32,6 +33,7 @@
   <ItemGroup>
     <PackageReference Include="Avalonia.Desktop" Version="11.0.7" />
     <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageReference Include="HotAvalonia"  Version="3.0.0" PrivateAssets="All" Publish="True" />
   </ItemGroup>
 
   <ItemGroup>

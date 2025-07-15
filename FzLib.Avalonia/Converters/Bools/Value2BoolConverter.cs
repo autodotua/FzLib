@@ -22,7 +22,7 @@ namespace FzLib.Avalonia.Converters
                 {
                     throw new ArgumentNullException(nameof(value));
                 }
-                return NullValue;
+                return InverseResult ? !NullValue : NullValue;
             }
             if (value is not T)
             {

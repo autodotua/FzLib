@@ -66,6 +66,9 @@
     <Compile Update="Test\FilePickerPanel.axaml.cs">
       <DependentUpon>FilePickerPanel.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Test\ConverterPanel.axaml.cs">
+      <DependentUpon>ConverterPanel.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Test\FormPanel.axaml.cs">
       <DependentUpon>FormPanel.axaml</DependentUpon>
     </Compile>

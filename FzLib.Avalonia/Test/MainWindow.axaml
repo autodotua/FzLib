@@ -62,9 +62,7 @@
                         <local:LoadingPanel />
                     </Expander>
 
-                    <Expander
-                        Header="表单"
-                        IsExpanded="True">
+                    <Expander Header="表单">
                         <StackPanel Orientation="Vertical">
                             <Button
                                 Click="RefreshFormPanelButton_Click"
@@ -77,6 +75,11 @@
 
                     <Expander Header="文件选取器">
                         <local:FilePickerPanel />
+                    </Expander>
+                    <Expander
+                        Header="值转换器"
+                        IsExpanded="True">
+                        <local:ConverterPanel />
                     </Expander>
 
                 </StackPanel>

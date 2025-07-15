@@ -7,6 +7,11 @@
 
     <Application.Styles>
         <FluentTheme />
+        <StyleInclude Source="/Styles/Styles.axaml" />
+        <Style Selector="Button">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+        </Style>
     </Application.Styles>
     <Application.Resources>
         <ResourceDictionary>

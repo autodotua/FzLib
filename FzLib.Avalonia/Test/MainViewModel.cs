@@ -2,7 +2,6 @@
 using FzLib.Avalonia.Dialogs;
 
 namespace FzLib.Avalonia.Test;
-
 public partial class MainViewModel : ObservableObject
 {
     [ObservableProperty]

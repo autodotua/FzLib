@@ -3,9 +3,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:FzLib.Avalonia.Converters">
     <c:Bool2FontWeightConverter x:Key="BoldBool2FontWeightConverter" />
+    <c:Bool2FontWeightConverter
+        x:Key="LightBool2FontWeightConverter"
+        TrueFontWeight="Light" />
     <c:BoolLogicConverter
         x:Key="BoolAndLogicConverter"
-        Operator="And" />    
+        Operator="And" />
     <c:BoolLogicConverter
         x:Key="BoolOrLogicConverter"
         Operator="Or" />
@@ -18,7 +21,10 @@
         ComparisonValue="0"
         Operator="Equal" />
     <c:ValueMappingConverter x:Key="ValueMappingConverter" />
-    <c:Equal2BoolConverter x:Key="EqualConverter" />
+    <c:Equal2BoolConverter x:Key="Equal2BoolConverter" />
+    <c:Equal2BoolConverter
+        x:Key="NotEqual2BoolConverter"
+        InverseResult="True" />
     <c:FileLengthConverter x:Key="FileLengthConverter" />
     <c:Number2ThicknessConverter x:Key="Number2ThicknessConverter" />
     <c:InverseBoolConverter x:Key="InverseBoolConverter" />
