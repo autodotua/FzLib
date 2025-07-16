@@ -340,6 +340,14 @@
                             BorderThickness="{Binding #sldThickness.Value, Converter={StaticResource Number2ThicknessConverter}}" />
                     </UniformGrid>
                 </c:FormItem>
+
+                <c:FormItem Header="文本换行 Bool2TextWrappingConverter">
+                    <CheckBox>
+                        <TextBlock
+                            Text="一段很长很长的文本一段很长很长的文本一段很长很长的文本一段很长很长的文本一段很长很长的文本一段很长很长的文本一段很长很长的文本一段很长很长的文本一段很长很长的文本"
+                            TextWrapping="{Binding $parent.IsChecked, Converter={StaticResource Bool2TextWrappingConverter}}" />
+                    </CheckBox>
+                </c:FormItem>
             </StackPanel>
         </HeaderedContentControl>
 

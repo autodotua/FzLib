@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:FzLib.Avalonia.Converters">
     <c:Bool2FontWeightConverter x:Key="BoldBool2FontWeightConverter" />
+    <c:Bool2TextWrappingConverter x:Key="Bool2TextWrappingConverter" />
     <c:Bool2FontWeightConverter
         x:Key="LightBool2FontWeightConverter"
         TrueFontWeight="Light" />
