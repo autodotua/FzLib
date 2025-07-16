@@ -311,6 +311,77 @@
                     </StackPanel>
                 </c:FormItem>
 
+                <c:FormItem Header="对齐模式 Number2AlignmentConverter">
+                    <UniformGrid Columns="2">
+                        <Slider
+                            IsSnapToTickEnabled="True"
+                            Maximum="3"
+                            Minimum="0"
+                            TickFrequency="1"
+                            TickPlacement="BottomRight"
+                            Value="{Binding AlignmentIndex}" />
+                        <Button
+                            HorizontalAlignment="{Binding AlignmentIndex, Converter={StaticResource Number2AlignmentConverter}}"
+                            Content="按钮"
+                            IsEnabled="False" />
+                    </UniformGrid>
+                </c:FormItem>
+
+                <c:FormItem Header="边框粗细 Number2ThicknessConverter">
+                    <UniformGrid Columns="2">
+                        <Slider
+                            x:Name="sldThickness"
+                            Maximum="10"
+                            Minimum="0"
+                            TickPlacement="BottomRight"
+                            Value="5" />
+                        <Border
+                            BorderBrush="Red"
+                            BorderThickness="{Binding #sldThickness.Value, Converter={StaticResource Number2ThicknessConverter}}" />
+                    </UniformGrid>
+                </c:FormItem>
+            </StackPanel>
+        </HeaderedContentControl>
+
+
+        <HeaderedContentControl
+            Classes="GroupBox"
+            Header="文件系统">
+            <StackPanel>
+                <c:FilePickerTextBox FileNames="{Binding FileName}" />
+                <TextBlock>
+                    <Run Text="文件大小：" />
+                    <Run Text="{Binding File.Length, Converter={StaticResource FileLengthConverter}, Mode=OneWay}" />
+                </TextBlock>
+            </StackPanel>
+        </HeaderedContentControl>
+
+
+
+        <HeaderedContentControl
+            Classes="GroupBox"
+            Header="时间">
+            <StackPanel>
+                <c:FormItem Header="时间段">
+                    <TextBox Text="{Binding TimeSpan, Converter={StaticResource TimeSpanConverter}, UpdateSourceTrigger=LostFocus}" />
+                </c:FormItem>
+                <c:FormItem Header="时间段总时长">
+                    <Grid ColumnDefinitions="*,8,*,8,*">
+                        <c:FormItem Label="总时：">
+                            <TextBox Text="{Binding TimeSpan, StringFormat=F2, Converter={StaticResource TimeSpanNumberConverter}, ConverterParameter=h, UpdateSourceTrigger=LostFocus}" />
+                        </c:FormItem>
+                        <c:FormItem
+                            Grid.Column="2"
+                            Label="总分：">
+                            <TextBox Text="{Binding TimeSpan, StringFormat=F2, Converter={StaticResource TimeSpanNumberConverter}, ConverterParameter=m, UpdateSourceTrigger=LostFocus}" />
+                        </c:FormItem>
+                        <c:FormItem
+                            Grid.Column="4"
+                            Label="总秒：">
+                            <TextBox Text="{Binding TimeSpan, StringFormat=F2, Converter={StaticResource TimeSpanNumberConverter}, ConverterParameter=s, UpdateSourceTrigger=LostFocus}" />
+                        </c:FormItem>
+                    </Grid>
+                </c:FormItem>
             </StackPanel>
         </HeaderedContentControl>
     </StackPanel>

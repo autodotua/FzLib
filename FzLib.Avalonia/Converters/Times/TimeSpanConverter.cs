@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using Avalonia.Data;
 using Avalonia.Data.Converters;
 
 namespace FzLib.Avalonia.Converters
@@ -63,8 +64,10 @@ namespace FzLib.Avalonia.Converters
                 {
                     return TimeSpan.FromHours(h);
                 }
-                return null;
-                //throw new Exception("转换失败");
+                return new BindingNotification(
+                            new InvalidOperationException("无效的时间段格式"),
+                            BindingErrorType.Error
+                        );
             }
             throw new Exception("绑定目标必须为String");
         }

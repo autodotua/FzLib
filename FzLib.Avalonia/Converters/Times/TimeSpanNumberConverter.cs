@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using Avalonia.Data;
 using Avalonia.Data.Converters;
 
 namespace FzLib.Avalonia.Converters
@@ -23,8 +24,19 @@ namespace FzLib.Avalonia.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            double d = System.Convert.ToDouble(value);
+            double d = 0;
+            try
+            {
+                d = System.Convert.ToDouble(value);
+            }
+            catch (Exception ex)
+            {
 
+                return new BindingNotification(
+                            new InvalidOperationException("无法转换到数字：" + ex.Message),
+                            BindingErrorType.Error
+                        );
+            }
             return parameter switch
             {
                 "h" => TimeSpan.FromHours(d),
