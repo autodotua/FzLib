@@ -22,45 +22,8 @@
     <StackPanel>
         <HeaderedContentControl
             Classes="GroupBox"
-            Header="Bool转值">
+            Header="基本类型">
             <StackPanel>
-                <c:FormItem Header="字体样式 Bool2FontStyleConverter">
-                    <CheckBox
-                        Content="斜体"
-                        FontStyle="{Binding $self.IsChecked, Converter={StaticResource ItalicBool2FontStyleConverter}}" />
-                </c:FormItem>
-
-                <c:FormItem Header="字重 Bool2FontWeightConverter">
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox
-                            Content="粗体"
-                            FontWeight="{Binding $self.IsChecked, Converter={StaticResource BoldBool2FontWeightConverter}}" />
-                        <CheckBox
-                            Content="细体"
-                            FontWeight="{Binding $self.IsChecked, Converter={StaticResource LightBool2FontWeightConverter}}" />
-                    </StackPanel>
-                </c:FormItem>
-
-                <c:FormItem Header="字体装饰器 Bool2TextDecorationConverter">
-                    <c:FormItem.Resources>
-                        <cvt:Bool2TextDecorationConverter
-                            x:Key="OverlineBool2TextDecorationConverter"
-                            TrueTextDecoration="Overline" />
-                    </c:FormItem.Resources>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox x:Name="chkUnderline">
-                            <TextBlock
-                                Text="下划线"
-                                TextDecorations="{Binding #chkUnderline.IsChecked, Converter={StaticResource UnderlineBool2TextDecorationConverter}}" />
-                        </CheckBox>
-                        <CheckBox x:Name="chkOverline">
-                            <TextBlock
-                                Text="顶部线"
-                                TextDecorations="{Binding #chkOverline.IsChecked, Converter={StaticResource OverlineBool2TextDecorationConverter}}" />
-                        </CheckBox>
-                    </StackPanel>
-                </c:FormItem>
-
                 <c:FormItem Header="Bool转字符串 Bool2StringConverter">
                     <c:FormItem.Resources>
                         <cvt:Bool2StringConverter
@@ -110,17 +73,8 @@
                         </CheckBox>
                     </StackPanel>
                 </c:FormItem>
-            </StackPanel>
-        </HeaderedContentControl>
 
-
-
-
-        <HeaderedContentControl
-            Classes="GroupBox"
-            Header="值转Bool">
-            <StackPanel>
-                <c:FormItem Header="集合数量转Bool Count2BoolConverter">
+                <c:FormItem Header="集合数量判断 Count2BoolConverter">
                     <c:FormItem.Resources>
                         <cvt:Count2BoolConverter
                             x:Key="CountEqauls2"
@@ -189,7 +143,22 @@
                     </Grid>
                 </c:FormItem>
 
-                <c:FormItem Header="枚举转Bool Enum2BoolConverter">
+                <c:FormItem Header="枚举描述展示 DescriptionConverter">
+                    <ComboBox
+                        ItemsSource="{me:EnumValues cvt:ComparisonOperator}"
+                        SelectedIndex="0">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="cvt:ComparisonOperator">
+                                <TextBlock>
+                                    <Run Text="{Binding .}" />
+                                    <Run Text="{Binding ., Converter={StaticResource DescriptionConverter}}" />
+                                </TextBlock>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </c:FormItem>
+
+                <c:FormItem Header="枚举判断 Enum2BoolConverter">
                     <c:FormItem.Resources>
                         <sys:DayOfWeek x:Key="Sun">Sunday</sys:DayOfWeek>
                         <sys:DayOfWeek x:Key="Mon">Monday</sys:DayOfWeek>
@@ -213,7 +182,7 @@
                 </c:FormItem>
 
 
-                <c:FormItem Header="相等转Bool Equal2BoolConverter">
+                <c:FormItem Header="与参数相等判断 Equal2BoolConverter">
                     <Grid ColumnDefinitions="*,8,Auto,8,Auto">
                         <TextBox x:Name="tEqual" />
                         <CheckBox
@@ -228,6 +197,120 @@
                             IsEnabled="False" />
                     </Grid>
                 </c:FormItem>
+
+                <c:FormItem Header="反转Bool InverseBoolConverter">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox
+                            x:Name="chkInverseBool"
+                            Content="输入" />
+                        <CheckBox
+                            Content="反馈"
+                            IsChecked="{Binding #chkInverseBool.IsChecked, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}"
+                            IsEnabled="False" />
+                    </StackPanel>
+                </c:FormItem>
+                <c:FormItem Header="Null判断 Null2BoolConverter">
+                    <StackPanel Orientation="Horizontal">
+                        <ToggleSwitch
+                            Command="{Binding SwitchNullCommand}"
+                            CommandParameter="{Binding $self.IsChecked}"
+                            OffContent="对象已设为Null"
+                            OnContent="对象已赋值" />
+                        <CheckBox
+                            Content="值为Null"
+                            IsChecked="{Binding NullableValue, Mode=OneWay, Converter={StaticResource IsNullConverter}}"
+                            IsEnabled="False" />
+                        <CheckBox
+                            Content="值不为Null"
+                            IsChecked="{Binding NullableValue, Mode=OneWay, Converter={StaticResource NotNullConverter}}"
+                            IsEnabled="False" />
+                    </StackPanel>
+                </c:FormItem>
+
+                <c:FormItem Header="字符串列表 StringListConverter">
+                    <StackPanel>
+                        <TextBox Text="{Binding StringList, Converter={StaticResource StringListConverter}}" />
+                        <ListBox
+                            BorderThickness="1"
+                            ItemsSource="{Binding StringList}">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                    </StackPanel>
+                </c:FormItem>
+
+
+                <c:FormItem Header="值映射 ValueMappingConverter​">
+                    <c:FormItem.Resources>
+                        <cvt:ValueMappingConverter
+                            x:Key="DayOfWeekValueMappingConverter"
+                            Map="{me:StringToDictionary Monday:周一;Tuesday:星期二;Wednesday:礼拜三;Thursday:第四天;Friday:要下班了;Saturday:周末第一天;Sunday:最后一天}" />
+                    </c:FormItem.Resources>
+                    <ComboBox
+                        ItemsSource="{me:EnumValues sys:DayOfWeek}"
+                        SelectedIndex="0">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="sys:DayOfWeek">
+                                <TextBlock>
+                                    <Run Text="{Binding .}" />
+                                    <Run Text="{Binding ., Converter={StaticResource DayOfWeekValueMappingConverter}}" />
+                                </TextBlock>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </c:FormItem>
+
+            </StackPanel>
+        </HeaderedContentControl>
+
+
+
+
+
+        <HeaderedContentControl
+            Classes="GroupBox"
+            Header="界面布局">
+            <StackPanel>
+                <c:FormItem Header="字体样式 Bool2FontStyleConverter">
+                    <CheckBox
+                        Content="斜体"
+                        FontStyle="{Binding $self.IsChecked, Converter={StaticResource ItalicBool2FontStyleConverter}}" />
+                </c:FormItem>
+
+                <c:FormItem Header="字重 Bool2FontWeightConverter">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox
+                            Content="粗体"
+                            FontWeight="{Binding $self.IsChecked, Converter={StaticResource BoldBool2FontWeightConverter}}" />
+                        <CheckBox
+                            Content="细体"
+                            FontWeight="{Binding $self.IsChecked, Converter={StaticResource LightBool2FontWeightConverter}}" />
+                    </StackPanel>
+                </c:FormItem>
+
+                <c:FormItem Header="字体装饰器 Bool2TextDecorationConverter">
+                    <c:FormItem.Resources>
+                        <cvt:Bool2TextDecorationConverter
+                            x:Key="OverlineBool2TextDecorationConverter"
+                            TrueTextDecoration="Overline" />
+                    </c:FormItem.Resources>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox x:Name="chkUnderline">
+                            <TextBlock
+                                Text="下划线"
+                                TextDecorations="{Binding #chkUnderline.IsChecked, Converter={StaticResource UnderlineBool2TextDecorationConverter}}" />
+                        </CheckBox>
+                        <CheckBox x:Name="chkOverline">
+                            <TextBlock
+                                Text="顶部线"
+                                TextDecorations="{Binding #chkOverline.IsChecked, Converter={StaticResource OverlineBool2TextDecorationConverter}}" />
+                        </CheckBox>
+                    </StackPanel>
+                </c:FormItem>
+
             </StackPanel>
         </HeaderedContentControl>
     </StackPanel>

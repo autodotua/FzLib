@@ -9,7 +9,7 @@ namespace FzLib.Avalonia.Converters
     /// </summary>
     public class InverseBoolConverter : Bool2ValueConverterBase<bool>
     {
-        protected override bool FalseValue { get; } = true;
         protected override bool TrueValue { get; } = false;
+        protected override bool FalseValue { get; } = true;
     }
 }

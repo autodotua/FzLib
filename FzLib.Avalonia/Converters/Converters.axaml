@@ -20,7 +20,6 @@
         x:Key="CountIs0Converter"
         ComparisonValue="0"
         Operator="Equal" />
-    <c:ValueMappingConverter x:Key="ValueMappingConverter" />
     <c:Equal2BoolConverter x:Key="Equal2BoolConverter" />
     <c:Equal2BoolConverter
         x:Key="NotEqual2BoolConverter"
