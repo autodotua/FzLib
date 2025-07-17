@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 
-namespace FzLib.Program.Runtime
+namespace FzLib.Application.Runtime
 {
     public class TrayIcon : IDisposable
     {

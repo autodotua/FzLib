@@ -1,11 +1,10 @@
-﻿using FzLib.Program;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace FzLib.Program.Runtime
+namespace FzLib.Application.Runtime
 {
     public class WPFUnhandledExceptionCatcher : UnhandledExceptionCatcher
     {
@@ -20,9 +19,9 @@ namespace FzLib.Program.Runtime
 
         public void RegisterUICatcher()
         {
-            Application.Current.DispatcherUnhandledException += (p1, p2) =>//UI
+            System.Windows.Application.Current.DispatcherUnhandledException += (p1, p2) =>//UI
             {
-                RaiseEvent(p1, p2.Exception, ExceptionSource.UI);
+                base.RaiseEvent(p1, p2.Exception, (FzLib.Program.Runtime.ExceptionSource)FzLib.Program.Runtime.ExceptionSource.UI);
                 p2.Handled = true;
             };
         }

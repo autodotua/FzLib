@@ -1,9 +1,10 @@
-﻿using System;
+﻿using FzLib.Programming;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace FzLib.Program.Runtime
+namespace FzLib.Application.Runtime
 {
     public class SingleInstance : IDisposable
     {
@@ -62,7 +63,7 @@ namespace FzLib.Program.Runtime
         /// <param name="programName">名称</param>
         /// <param name="app">Application实例</param>
         /// <returns>是否存在另一个实例</returns>
-        public async Task<bool> CheckAndOpenWindow<T>(Application app) where T : Window, new()
+        public async Task<bool> CheckAndOpenWindow<T>(System.Windows.Application app) where T : Window, new()
         {
             if (ExistAnotherInstance)
             {
@@ -76,7 +77,7 @@ namespace FzLib.Program.Runtime
             }
         }
 
-        public async Task<bool> CheckAndOpenWindow<T>(Application app, ISingleObject<T> obj) where T : Window, new()
+        public async Task<bool> CheckAndOpenWindow<T>(System.Windows.Application app, ISingleObject<T> obj) where T : Window, new()
         {
             if (ExistAnotherInstance)
             {
@@ -99,9 +100,9 @@ namespace FzLib.Program.Runtime
             Environment.Exit(-1);
         }
 
-        private void RegistClient<T>(Application app) where T : Window, new()
+        private void RegistClient<T>(System.Windows.Application app) where T : Window, new()
         {
-            SimplePipe.Clinet pipe = new SimplePipe.Clinet(Name + "_Mutex");
+            SimplePipe.Client pipe = new SimplePipe.Client(Name + "_Mutex");
             pipe.Start();
             pipe.GotMessage += (p1, p2) =>
             {
@@ -143,9 +144,9 @@ namespace FzLib.Program.Runtime
             };
         }
 
-        private void RegistClient<T>(Application app, ISingleObject<T> obj) where T : Window, new()
+        private void RegistClient<T>(System.Windows.Application app, ISingleObject<T> obj) where T : Window, new()
         {
-            SimplePipe.Clinet pipe = new SimplePipe.Clinet(Name + "_Mutex");
+            SimplePipe.Client pipe = new SimplePipe.Client(Name + "_Mutex");
             pipe.Start();
             pipe.GotMessage += (p1, p2) =>
             {

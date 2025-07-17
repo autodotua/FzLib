@@ -3,7 +3,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 
-namespace FzLib.Program
+namespace FzLib.Application
 {
     public static class Startup
     {

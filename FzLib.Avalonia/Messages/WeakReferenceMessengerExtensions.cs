@@ -21,6 +21,9 @@ namespace FzLib.Avalonia.Messages
                         case CommonDialogMessage.CommonDialogType.Ok:
                             await visual.ShowOkDialogAsync(m.Title, m.Message, m.Detail);
                             break;
+                        case CommonDialogMessage.CommonDialogType.Warn:
+                            await visual.ShowWarningDialogAsync(m.Title, m.Message, m.Detail);
+                            break;
                         case CommonDialogMessage.CommonDialogType.Error:
                             if (m.Exception == null)
                             {

@@ -8,6 +8,7 @@ namespace FzLib.Avalonia.Messages
         {
             Unknown,
             Ok,
+            Warn,
             Error,
             ErrorRetry,
             YesNo

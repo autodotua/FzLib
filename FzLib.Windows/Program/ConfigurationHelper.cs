@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace FzLib.Program
+namespace FzLib.Application
 {
     public static class ConfigurationHelper
     {

@@ -6,7 +6,7 @@ using FzLib.Avalonia.Test;
 
 namespace FzLib.Avalonia.Test;
 
-public partial class App : Application
+public partial class App : global::Avalonia.Application
 {
     public override void Initialize()
     {

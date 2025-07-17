@@ -2,7 +2,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace FzLib.Program
+namespace FzLib.Application
 {
     public class FileFormatAssociationUtility
     {
@@ -14,14 +14,14 @@ namespace FzLib.Program
 
         public static bool SetAssociation(string extension, string id, string fileTypeDescription, string iconPath)
         {
-            return SetAssociation(extension, id, fileTypeDescription, iconPath, FzLib.Program.App.ProgramFilePath);
+            return SetAssociation(extension, id, fileTypeDescription, iconPath, FzLib.Application.ApplicationInfo.ProgramFilePath);
         }
 
         public static bool SetAssociation(string extension, string id, string fileTypeDescription, string iconPath = null, string applicationFilePath = null)
         {
             if (applicationFilePath == null)
             {
-                applicationFilePath = FzLib.Program.App.ProgramFilePath;
+                applicationFilePath = FzLib.Application.ApplicationInfo.ProgramFilePath;
             }
             if (!extension.StartsWith("."))
             {
