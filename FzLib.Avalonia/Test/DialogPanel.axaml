@@ -18,8 +18,14 @@
             x:TypeArguments="dialogs:DialogContainerType" />
     </UserControl.Resources>
     <WrapPanel>
-        <!--  ItemsSource="{me:EnumValues x:TypeArguments='dialogs:DialogContainerType'}"  -->
-
+        <WrapPanel.Styles>
+            <Style Selector="Button">
+                <Setter Property="Margin" Value="8" />
+            </Style>
+            <Style Selector="ComboBox">
+                <Setter Property="Margin" Value="8" />
+            </Style>
+        </WrapPanel.Styles>
         <ComboBox
             DisplayMemberBinding="{Binding ., Converter={StaticResource DialogContainerDescriptionConverter}}"
             ItemsSource="{me:EnumValues EnumType='dialogs:DialogContainerType'}"
