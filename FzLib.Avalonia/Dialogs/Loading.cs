@@ -45,7 +45,7 @@ namespace FzLib.Avalonia.Dialogs
 
         public static CancellationTokenSource ShowLoading(Visual visual, TimeSpan delay = default)
         {
-            var topLevel = TopLevel.GetTopLevel(visual) ?? throw new ArgumentException("找不到TopLevel", nameof(visual));
+            var topLevel = global::Avalonia.Controls.TopLevel.GetTopLevel(visual) ?? throw new ArgumentException("找不到TopLevel", nameof(visual));
             bool canWindowDialog = topLevel is Window;//在桌面端，TopLevel是窗口
             Grid container = null;
             if (topLevel.Content is Grid g)

@@ -122,7 +122,7 @@ namespace FzLib.Avalonia.Dialogs
                 await ShowModelessWindowDialog();
                 return default;
             }
-            var topLevel = TopLevel.GetTopLevel(visual) ?? throw new ArgumentException("找不到TopLevel", nameof(visual));
+            var topLevel = global::Avalonia.Controls.TopLevel.GetTopLevel(visual) ?? throw new ArgumentException("找不到TopLevel", nameof(visual));
             bool canWindowDialog = topLevel is Window; //在桌面端，TopLevel是窗口
             Grid grid = null;
             if (topLevel.Content is Grid g)

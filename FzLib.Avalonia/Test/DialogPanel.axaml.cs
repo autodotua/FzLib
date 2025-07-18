@@ -148,7 +148,7 @@ public partial class DialogPanel : UserControl
                 break;
 
             case "19":
-                (TopLevel.GetTopLevel(this) as Window).WindowState = WindowState.Minimized;
+                (global::Avalonia.Controls.TopLevel.GetTopLevel(this) as Window).WindowState = WindowState.Minimized;
                 Window anotherWindow = new Window() { Title = "另一个窗口", Content = new Grid() };
                 anotherWindow.Show();
                 anotherWindow.WindowState = WindowState.Minimized;
@@ -158,7 +158,7 @@ public partial class DialogPanel : UserControl
                 break;
 
             case "20":
-                (TopLevel.GetTopLevel(this) as Window).WindowState = WindowState.Minimized;
+                (global::Avalonia.Controls.TopLevel.GetTopLevel(this) as Window).WindowState = WindowState.Minimized;
                 Window anotherWindow2 = new Window() { Title = "另一个窗口", Content = new Grid() };
                 anotherWindow2.Show();
                 anotherWindow2.WindowState = WindowState.Minimized;

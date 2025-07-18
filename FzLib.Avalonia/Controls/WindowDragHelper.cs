@@ -12,7 +12,7 @@ public class WindowDragHelper
     public WindowDragHelper(InputElement thumb)
     {
         Thumb = thumb ?? throw new ArgumentNullException(nameof(thumb));
-        Window = TopLevel.GetTopLevel(thumb) as Window ?? throw new ArgumentException("TopLevel不是Window");
+        Window = global::Avalonia.Controls.TopLevel.GetTopLevel(thumb) as Window ?? throw new ArgumentException("TopLevel不是Window");
     }
 
     public InputElement Thumb { get; }

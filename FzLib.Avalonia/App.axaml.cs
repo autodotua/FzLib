@@ -8,6 +8,7 @@ using FzLib.Avalonia.Test;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using FzLib.Avalonia.Services;
 
 namespace FzLib.Avalonia.Test;
 
@@ -24,6 +25,8 @@ public partial class App : global::Avalonia.Application
         builder.Services.AddDialogService();
         builder.Services.AddDialogService("main", mainWindow);
         builder.Services.AddStartupManager();
+        builder.Services.AddStorageProviderService();
+        builder.Services.AddClipboardService();
         var host = builder.Build();
         Services = host.Services;
         host.Start();

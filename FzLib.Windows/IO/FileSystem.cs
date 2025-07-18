@@ -6,7 +6,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using static FzLib.IO.FileSystemTree;
 using SearchOption = System.IO.SearchOption;
 
 using vbFile = Microsoft.VisualBasic.FileIO;

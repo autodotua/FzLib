@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using FzLib.Avalonia.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,18 +15,13 @@ namespace FzLib.Avalonia.Dialogs
     {
         public TopLevel DefaultTopLevel { get; set; } = null;
 
-        public async Task<TopLevel> GetActiveTopLevelAsync(CancellationToken cancellationToken = default)
+        private Task<TopLevel> GetActiveTopLevelAsync()
         {
-            if (DefaultTopLevel != null)
+            if(DefaultTopLevel != null)
             {
-                return DefaultTopLevel;
+                return Task.FromResult(DefaultTopLevel);
             }
-            return global::Avalonia.Application.Current.ApplicationLifetime switch
-            {
-                IClassicDesktopStyleApplicationLifetime desktopLifetime => await GetDesktopActiveWindowAsync(desktopLifetime, cancellationToken),
-                ISingleViewApplicationLifetime singleView => TopLevel.GetTopLevel(singleView.MainView) ?? throw new InvalidOperationException("无法获取单视图的TopLevel"),
-                _ => throw new InvalidOperationException("不支持的应用程序生命周期类型")
-            };
+            return TopLevelExtension.GetActiveTopLevelAsync(CancellationToken.None);
         }
 
         public async Task<bool> ShowCheckItemDialog(string title, IList<CheckDialogItem> items, string message = null, int minCheckCount = 0, int maxCheckCount = int.MaxValue)
@@ -100,54 +96,6 @@ namespace FzLib.Avalonia.Dialogs
             return await DialogExtension.ShowYesNoDialogAsync(topLevel, title, message, detail, cancelButon);
         }
 
-        private async Task<TopLevel> GetDesktopActiveWindowAsync(IClassicDesktopStyleApplicationLifetime lifetime,
-                                                                                                            CancellationToken cancellationToken)
-        {
-            // 首先尝试获取活动窗口
-            var activeWindow = lifetime.Windows.FirstOrDefault(w => w.IsActive);
-            if (activeWindow != null)
-            {
-                return activeWindow;
-            }
-
-            // 如果没有活动窗口，等待窗口激活事件
-            var tcs = new TaskCompletionSource<TopLevel>();
-
-            void Handler(object sender, EventArgs e)
-            {
-                if (lifetime.Windows.FirstOrDefault(w => w.IsActive) is { } window)
-                {
-                    tcs.TrySetResult(window);
-                }
-            }
-
-            try
-            {
-                // 监听所有窗口的激活事件
-                foreach (var window in lifetime.Windows)
-                {
-                    window.Activated += Handler;
-                }
-
-                // 设置超时和取消
-                cancellationToken.Register(() => tcs.TrySetResult(null));
-
-                // 再次检查避免竞态条件
-                activeWindow = lifetime.Windows.FirstOrDefault(w => w.IsActive);
-                if (activeWindow != null)
-                {
-                    return activeWindow;
-                }
-
-                return await tcs.Task;
-            }
-            finally
-            {
-                foreach (var window in lifetime.Windows)
-                {
-                    window.Activated -= Handler;
-                }
-            }
-        }
+     
     }
 }

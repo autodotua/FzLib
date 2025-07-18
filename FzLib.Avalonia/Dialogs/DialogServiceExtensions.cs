@@ -13,7 +13,7 @@ namespace FzLib.Avalonia.Dialogs
             return services.AddDialogService(null);
         }
 
-        public static IServiceCollection AddDialogService(this IServiceCollection services, string key, TopLevel defaultTopLevel)
+        public static IServiceCollection AddDialogService(this IServiceCollection services, string key, global::Avalonia.Controls.TopLevel defaultTopLevel)
         {
             ArgumentNullException.ThrowIfNull(services, nameof(services));
             services.AddKeyedSingleton<IDialogService>(key, (provider, k) =>
@@ -27,7 +27,7 @@ namespace FzLib.Avalonia.Dialogs
             return services;
         }
 
-        public static IServiceCollection AddDialogService(this IServiceCollection services, TopLevel defaultTopLevel)
+        public static IServiceCollection AddDialogService(this IServiceCollection services, global::Avalonia.Controls.TopLevel defaultTopLevel)
         {
             services.AddSingleton<IDialogService>(provider =>
             {

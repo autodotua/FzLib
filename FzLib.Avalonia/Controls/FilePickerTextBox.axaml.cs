@@ -156,7 +156,7 @@ public partial class FilePickerTextBox : UserControl
 
     private async void Button_Click(object sender, RoutedEventArgs e)
     {
-        var storageProvider = TopLevel.GetTopLevel(this).StorageProvider;
+        var storageProvider = global::Avalonia.Controls.TopLevel.GetTopLevel(this).StorageProvider;
         string suggestedStartLocation = SuggestedStartLocation;
         if (suggestedStartLocation == null && !string.IsNullOrWhiteSpace(FileNames))
         {

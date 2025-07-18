@@ -51,7 +51,7 @@
   <ItemGroup>
     <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
     <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
-    <PackageReference Include="HotAvalonia"  Version="3.0.0" PrivateAssets="All" Publish="True" />
+    <PackageReference Include="HotAvalonia" Version="3.0.0" PrivateAssets="All" Publish="True" />
     <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
     <PackageReference Include="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
