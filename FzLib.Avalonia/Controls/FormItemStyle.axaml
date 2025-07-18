@@ -1,7 +1,8 @@
 <ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:c="using:FzLib.Avalonia.Controls">
+    xmlns:c="using:FzLib.Avalonia.Controls"
+    xmlns:cvt="using:FzLib.Avalonia.Converters">
     <Design.PreviewWith>
         <c:StackFormItemGroup>
             <c:FormItem
@@ -30,14 +31,14 @@
                         Margin="0,0,8,0"
                         VerticalAlignment="Center"
                         IsVisible="{TemplateBinding Label,
-                                                    Converter={StaticResource NotNullConverter}}"
+                                                    Converter={x:Static cvt:Converters.IsNotNull}}"
                         Text="{TemplateBinding Label}" />
 
                     <TextBlock
                         Grid.Column="1"
                         Margin="0,0,0,4"
                         IsVisible="{TemplateBinding Header,
-                                                    Converter={StaticResource NotNullConverter}}"
+                                                    Converter={x:Static cvt:Converters.IsNotNull}}"
                         Text="{TemplateBinding Header}" />
                     <ContentPresenter
                         Name="PART_ContentPresenter"
@@ -51,7 +52,7 @@
                         Grid.Column="2"
                         Margin="0,4,0,0"
                         IsVisible="{TemplateBinding Description,
-                                                    Converter={StaticResource NotNullConverter}}"
+                                                    Converter={x:Static cvt:Converters.IsNotNull}}"
                         Opacity="0.7"
                         Text="{TemplateBinding Description}" />
                 </Grid>

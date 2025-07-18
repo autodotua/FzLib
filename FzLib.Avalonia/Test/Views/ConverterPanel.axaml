@@ -49,7 +49,7 @@
                             Content="And"
                             IsEnabled="False">
                             <CheckBox.IsChecked>
-                                <MultiBinding Converter="{StaticResource BoolAndLogicConverter}">
+                                <MultiBinding Converter="{x:Static cvt:Converters.AndLogic}">
                                     <MultiBinding.Bindings>
                                         <Binding Path="#chkBl1.IsChecked" />
                                         <Binding Path="#chkBl2.IsChecked" />
@@ -62,7 +62,7 @@
                             Content="Or"
                             IsEnabled="False">
                             <CheckBox.IsChecked>
-                                <MultiBinding Converter="{StaticResource BoolOrLogicConverter}">
+                                <MultiBinding Converter="{x:Static cvt:Converters.OrLogic}">
                                     <MultiBinding.Bindings>
                                         <Binding Path="#chkBl1.IsChecked" />
                                         <Binding Path="#chkBl2.IsChecked" />
@@ -77,7 +77,7 @@
                 <c:FormItem Header="集合数量判断 Count2BoolConverter">
                     <c:FormItem.Resources>
                         <cvt:Count2BoolConverter
-                            x:Key="CountEqauls2"
+                            x:Key="CountEquals2"
                             ComparisonValue="2"
                             Operator="Equal" />
                         <cvt:Count2BoolConverter
@@ -120,12 +120,12 @@
                             Grid.Row="2"
                             Grid.Column="4"
                             Content="数量=2"
-                            IsChecked="{Binding List.Count, Converter={StaticResource CountEqauls2}, Mode=OneWay}"
+                            IsChecked="{Binding List.Count, Converter={StaticResource CountEquals2}, Mode=OneWay}"
                             IsEnabled="False" />
                         <CheckBox
                             Grid.Row="2"
                             Grid.Column="6"
-                            Content="数量>2"
+                            Content="数量&gt;2"
                             IsChecked="{Binding List.Count, Converter={StaticResource CountGreaterThan2}, Mode=OneWay}"
                             IsEnabled="False" />
                         <CheckBox
@@ -151,7 +151,7 @@
                             <DataTemplate x:DataType="cvt:ComparisonOperator">
                                 <TextBlock>
                                     <Run Text="{Binding .}" />
-                                    <Run Text="{Binding ., Converter={StaticResource DescriptionConverter}}" />
+                                    <Run Text="{Binding ., Converter={x:Static cvt:Converters.Description}}" />
                                 </TextBlock>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
@@ -188,12 +188,12 @@
                         <CheckBox
                             Grid.Column="2"
                             Content="输入值为abc"
-                            IsChecked="{Binding #tEqual.Text, Converter={StaticResource Equal2BoolConverter}, ConverterParameter=abc, Mode=OneWay}"
+                            IsChecked="{Binding #tEqual.Text, Converter={x:Static cvt:Converters.Equal}, ConverterParameter=abc, Mode=OneWay}"
                             IsEnabled="False" />
                         <CheckBox
                             Grid.Column="4"
                             Content="输入值不为abc"
-                            IsChecked="{Binding #tEqual.Text, Converter={StaticResource NotEqual2BoolConverter}, ConverterParameter=abc, Mode=OneWay}"
+                            IsChecked="{Binding #tEqual.Text, Converter={x:Static cvt:Converters.NotEqual}, ConverterParameter=abc, Mode=OneWay}"
                             IsEnabled="False" />
                     </Grid>
                 </c:FormItem>
@@ -205,7 +205,7 @@
                             Content="输入" />
                         <CheckBox
                             Content="反馈"
-                            IsChecked="{Binding #chkInverseBool.IsChecked, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}"
+                            IsChecked="{Binding #chkInverseBool.IsChecked, Mode=OneWay, Converter={x:Static cvt:Converters.InverseBool}}"
                             IsEnabled="False" />
                     </StackPanel>
                 </c:FormItem>
@@ -218,18 +218,18 @@
                             OnContent="对象已赋值" />
                         <CheckBox
                             Content="值为Null"
-                            IsChecked="{Binding NullableValue, Mode=OneWay, Converter={StaticResource IsNullConverter}}"
+                            IsChecked="{Binding NullableValue, Mode=OneWay, Converter={x:Static cvt:Converters.IsNull}}"
                             IsEnabled="False" />
                         <CheckBox
                             Content="值不为Null"
-                            IsChecked="{Binding NullableValue, Mode=OneWay, Converter={StaticResource NotNullConverter}}"
+                            IsChecked="{Binding NullableValue, Mode=OneWay, Converter={x:Static cvt:Converters.IsNotNull}}"
                             IsEnabled="False" />
                     </StackPanel>
                 </c:FormItem>
 
                 <c:FormItem Header="字符串列表 StringListConverter">
                     <StackPanel>
-                        <TextBox Text="{Binding StringList, Converter={StaticResource StringListConverter}}" />
+                        <TextBox Text="{Binding StringList, Converter={x:Static cvt:Converters.StringList}}" />
                         <ListBox
                             BorderThickness="1"
                             ItemsSource="{Binding StringList}">
@@ -277,36 +277,31 @@
                 <c:FormItem Header="字体样式 Bool2FontStyleConverter">
                     <CheckBox
                         Content="斜体"
-                        FontStyle="{Binding $self.IsChecked, Converter={StaticResource ItalicBool2FontStyleConverter}}" />
+                        FontStyle="{Binding $self.IsChecked, Converter={x:Static cvt:Converters.ItalicFontStyle}}" />
                 </c:FormItem>
 
                 <c:FormItem Header="字重 Bool2FontWeightConverter">
                     <StackPanel Orientation="Horizontal">
                         <CheckBox
                             Content="粗体"
-                            FontWeight="{Binding $self.IsChecked, Converter={StaticResource BoldBool2FontWeightConverter}}" />
+                            FontWeight="{Binding $self.IsChecked, Converter={x:Static cvt:Converters.BoldFontWeight}}" />
                         <CheckBox
                             Content="细体"
-                            FontWeight="{Binding $self.IsChecked, Converter={StaticResource LightBool2FontWeightConverter}}" />
+                            FontWeight="{Binding $self.IsChecked, Converter={x:Static cvt:Converters.LightFontWeight}}" />
                     </StackPanel>
                 </c:FormItem>
 
                 <c:FormItem Header="字体装饰器 Bool2TextDecorationConverter">
-                    <c:FormItem.Resources>
-                        <cvt:Bool2TextDecorationConverter
-                            x:Key="OverlineBool2TextDecorationConverter"
-                            TrueTextDecoration="Overline" />
-                    </c:FormItem.Resources>
                     <StackPanel Orientation="Horizontal">
                         <CheckBox x:Name="chkUnderline">
                             <TextBlock
                                 Text="下划线"
-                                TextDecorations="{Binding #chkUnderline.IsChecked, Converter={StaticResource UnderlineBool2TextDecorationConverter}}" />
+                                TextDecorations="{Binding #chkUnderline.IsChecked, Converter={x:Static cvt:Converters.UnderlineTextDecoration}}" />
                         </CheckBox>
                         <CheckBox x:Name="chkOverline">
                             <TextBlock
                                 Text="顶部线"
-                                TextDecorations="{Binding #chkOverline.IsChecked, Converter={StaticResource OverlineBool2TextDecorationConverter}}" />
+                                TextDecorations="{Binding #chkOverline.IsChecked, Converter={x:Static cvt:Converters.OverlineTextDecoration}}" />
                         </CheckBox>
                     </StackPanel>
                 </c:FormItem>
@@ -321,7 +316,7 @@
                             TickPlacement="BottomRight"
                             Value="{Binding AlignmentIndex}" />
                         <Button
-                            HorizontalAlignment="{Binding AlignmentIndex, Converter={StaticResource Number2AlignmentConverter}}"
+                            HorizontalAlignment="{Binding AlignmentIndex, Converter={x:Static cvt:Converters.Alignment}}"
                             Content="按钮"
                             IsEnabled="False" />
                     </UniformGrid>
@@ -337,7 +332,7 @@
                             Value="5" />
                         <Border
                             BorderBrush="Red"
-                            BorderThickness="{Binding #sldThickness.Value, Converter={StaticResource Number2ThicknessConverter}}" />
+                            BorderThickness="{Binding #sldThickness.Value, Converter={x:Static cvt:Converters.Thickness}}" />
                     </UniformGrid>
                 </c:FormItem>
 
@@ -345,7 +340,7 @@
                     <CheckBox>
                         <TextBlock
                             Text="一段很长很长的文本一段很长很长的文本一段很长很长的文本一段很长很长的文本一段很长很长的文本一段很长很长的文本一段很长很长的文本一段很长很长的文本一段很长很长的文本"
-                            TextWrapping="{Binding $parent.IsChecked, Converter={StaticResource Bool2TextWrappingConverter}}" />
+                            TextWrapping="{Binding $parent[CheckBox].IsChecked, Converter={x:Static cvt:Converters.TextWrapping}}" />
                     </CheckBox>
                 </c:FormItem>
             </StackPanel>
@@ -359,7 +354,7 @@
                 <c:FilePickerTextBox FileNames="{Binding FileName}" />
                 <TextBlock>
                     <Run Text="文件大小：" />
-                    <Run Text="{Binding File.Length, Converter={StaticResource FileLengthConverter}, Mode=OneWay}" />
+                    <Run Text="{Binding File.Length, Converter={x:Static cvt:Converters.FileLength}, Mode=OneWay}" />
                 </TextBlock>
             </StackPanel>
         </HeaderedContentControl>
@@ -371,22 +366,22 @@
             Header="时间">
             <StackPanel>
                 <c:FormItem Header="时间段">
-                    <TextBox Text="{Binding TimeSpan, Converter={StaticResource TimeSpanConverter}, UpdateSourceTrigger=LostFocus}" />
+                    <TextBox Text="{Binding TimeSpan, Converter={x:Static cvt:Converters.TimeSpan}, UpdateSourceTrigger=LostFocus}" />
                 </c:FormItem>
                 <c:FormItem Header="时间段总时长">
                     <Grid ColumnDefinitions="*,8,*,8,*">
                         <c:FormItem Label="总时：">
-                            <TextBox Text="{Binding TimeSpan, StringFormat=F2, Converter={StaticResource TimeSpanNumberConverter}, ConverterParameter=h, UpdateSourceTrigger=LostFocus}" />
+                            <TextBox Text="{Binding TimeSpan, StringFormat=F2, Converter={x:Static cvt:Converters.TimeSpanNumber}, ConverterParameter=h, UpdateSourceTrigger=LostFocus}" />
                         </c:FormItem>
                         <c:FormItem
                             Grid.Column="2"
                             Label="总分：">
-                            <TextBox Text="{Binding TimeSpan, StringFormat=F2, Converter={StaticResource TimeSpanNumberConverter}, ConverterParameter=m, UpdateSourceTrigger=LostFocus}" />
+                            <TextBox Text="{Binding TimeSpan, StringFormat=F2, Converter={x:Static cvt:Converters.TimeSpanNumber}, ConverterParameter=m, UpdateSourceTrigger=LostFocus}" />
                         </c:FormItem>
                         <c:FormItem
                             Grid.Column="4"
                             Label="总秒：">
-                            <TextBox Text="{Binding TimeSpan, StringFormat=F2, Converter={StaticResource TimeSpanNumberConverter}, ConverterParameter=s, UpdateSourceTrigger=LostFocus}" />
+                            <TextBox Text="{Binding TimeSpan, StringFormat=F2, Converter={x:Static cvt:Converters.TimeSpanNumber}, ConverterParameter=s, UpdateSourceTrigger=LostFocus}" />
                         </c:FormItem>
                     </Grid>
                 </c:FormItem>

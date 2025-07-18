@@ -14,9 +14,6 @@
     Icon="avares://FzLib.Avalonia.Test/Test/favicon.png"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
-    <Design.DataContext>
-        <local:MainViewModel Message="信息" />
-    </Design.DataContext>
     <c:ExtendedWindow.TitleBarFooter>
         <StackPanel
             Orientation="Horizontal"

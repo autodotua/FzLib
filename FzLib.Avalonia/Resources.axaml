@@ -2,7 +2,6 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceInclude Source="/Converters/Converters.axaml" />
         <ResourceInclude Source="/Controls/FormItemStyle.axaml" />
         <ResourceInclude Source="/Controls/ExtendedWindowStyle.axaml" />
         <ResourceInclude Source="/Dialogs/DialogHostStyles.axaml" />

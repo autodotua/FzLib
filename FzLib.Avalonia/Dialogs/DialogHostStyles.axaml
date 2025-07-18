@@ -1,7 +1,7 @@
 <ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:c="using:FzLib.Avalonia.Converters"
+    xmlns:cvt="using:FzLib.Avalonia.Converters"
     xmlns:dialogs="clr-namespace:FzLib.Avalonia.Dialogs">
 
     <ControlTheme
@@ -97,14 +97,14 @@
                                 IsCancel="True"
                                 IsEnabled="{TemplateBinding CloseButtonEnable}"
                                 IsVisible="{TemplateBinding CloseButtonContent,
-                                                            Converter={StaticResource NotNullConverter}}" />
+                                                            Converter={x:Static cvt:Converters.IsNotNull}}" />
                             <Button
                                 x:Name="SecondaryButton"
                                 Grid.Column="2"
                                 Content="{TemplateBinding SecondaryButtonContent}"
                                 IsEnabled="{TemplateBinding SecondaryButtonEnable}"
                                 IsVisible="{TemplateBinding SecondaryButtonContent,
-                                                            Converter={StaticResource NotNullConverter}}" />
+                                                            Converter={x:Static cvt:Converters.IsNotNull}}" />
                             <Button
                                 x:Name="PrimaryButton"
                                 Grid.Column="4"
@@ -113,7 +113,7 @@
                                 IsDefault="True"
                                 IsEnabled="{TemplateBinding PrimaryButtonEnable}"
                                 IsVisible="{TemplateBinding PrimaryButtonContent,
-                                                            Converter={StaticResource NotNullConverter}}" />
+                                                            Converter={x:Static cvt:Converters.IsNotNull}}" />
                         </StackPanel>
                         <VisualLayerManager Grid.Row="1">
                             <ContentPresenter

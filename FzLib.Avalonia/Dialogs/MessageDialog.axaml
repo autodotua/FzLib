@@ -3,6 +3,7 @@
     x:Class="FzLib.Avalonia.Dialogs.MessageDialog"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cvt="using:FzLib.Avalonia.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:FzLib.Avalonia.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -30,7 +31,7 @@
         RowDefinitions="*,Auto">
         <ScrollViewer
             Grid.Column="1"
-            IsVisible="{Binding Message, Converter={StaticResource NotNullConverter}}">
+            IsVisible="{Binding Message, Converter={x:Static cvt:Converters.IsNotNull}}">
             <TextBlock
                 FontSize="16"
                 Text="{Binding Message}"
@@ -44,7 +45,7 @@
             Background="Transparent"
             BorderThickness="0"
             Header="详情"
-            IsVisible="{Binding Detail, Converter={StaticResource NotNullConverter}}">
+            IsVisible="{Binding Detail, Converter={x:Static cvt:Converters.IsNotNull}}">
             <ScrollViewer
                 MaxHeight="320"
                 HorizontalScrollBarVisibility="Disabled"
@@ -66,7 +67,7 @@
             VerticalAlignment="Top"
             Data="{Binding Icon}"
             Foreground="{Binding IconBrush}"
-            IsVisible="{Binding Icon, Converter={StaticResource NotNullConverter}}" />
+            IsVisible="{Binding Icon, Converter={x:Static cvt:Converters.IsNotNull}}" />
 
     </Grid>
 </local:DialogHost>

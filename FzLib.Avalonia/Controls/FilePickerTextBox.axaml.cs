@@ -3,10 +3,10 @@ using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Media;
 using Avalonia.Platform.Storage;
 using FzLib.Avalonia.Converters;
 using FzLib.Avalonia.Platforms;
+using FzLib.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,30 +16,24 @@ namespace FzLib.Avalonia.Controls;
 
 public partial class FilePickerTextBox : UserControl
 {
+    public static readonly StyledProperty<bool> AllowMultipleProperty =
+        AvaloniaProperty.Register<FilePickerTextBox, bool>(nameof(AllowMultiple));
+
     public static readonly StyledProperty<object> ButtonContentProperty =
-        AvaloniaProperty.Register<FilePickerTextBox, object>(nameof(ButtonContent), "‰Ø¿¿..");
+            AvaloniaProperty.Register<FilePickerTextBox, object>(nameof(ButtonContent), "‰Ø¿¿..");
 
     public static readonly StyledProperty<string> FileNamesProperty =
         AvaloniaProperty.Register<FilePickerTextBox, string>(nameof(FileNames), defaultBindingMode: BindingMode.TwoWay);
 
     public static readonly StyledProperty<string> LabelProperty =
-        AvaloniaProperty.Register<FilePickerTextBox, string>(nameof(Label));
-
-    /// <summary>
-    /// /// MultipleFilesSeparator DirectProperty definition
-    /// </summary>
-    public static readonly DirectProperty<FilePickerTextBox, string> MultipleFilesSeparatorProperty =
-        AvaloniaProperty.RegisterDirect<FilePickerTextBox, string>(nameof(MultipleFilesSeparator),
-            o => o.MultipleFilesSeparator,
-            (o, v) => o.MultipleFilesSeparator = v);
-
+                AvaloniaProperty.Register<FilePickerTextBox, string>(nameof(Label));
     public static readonly DirectProperty<FilePickerTextBox, string> SaveFileDefaultExtensionProperty =
         AvaloniaProperty.RegisterDirect<FilePickerTextBox, string>(nameof(SaveFileDefaultExtension),
             o => o.SaveFileDefaultExtension,
             (o, v) => o.SaveFileDefaultExtension = v);
 
     public static readonly DirectProperty<FilePickerTextBox, string> SaveFileSuggestedFileNameProperty =
-                AvaloniaProperty.RegisterDirect<FilePickerTextBox, string>(nameof(SaveFileSuggestedFileName),
+        AvaloniaProperty.RegisterDirect<FilePickerTextBox, string>(nameof(SaveFileSuggestedFileName),
             o => o.SaveFileSuggestedFileName,
             (o, v) => o.SaveFileSuggestedFileName = v);
 
@@ -50,9 +44,6 @@ public partial class FilePickerTextBox : UserControl
 
     public static readonly StyledProperty<string> TitleProperty =
         AvaloniaProperty.Register<FilePickerTextBox, string>(nameof(Title));
-
-    private string multipleFilesSeparator = "; ";
-
     private string saveFileDefaultExtension = default;
 
     private string saveFileSuggestedFileName = default;
@@ -72,7 +63,12 @@ public partial class FilePickerTextBox : UserControl
         OpenFolder,
         SaveFile
     }
-    public bool AllowMultiple { get; set; }
+
+    public bool AllowMultiple
+    {
+        get => GetValue(AllowMultipleProperty);
+        set => SetValue(AllowMultipleProperty, value);
+    }
 
     public object ButtonContent
     {
@@ -94,12 +90,6 @@ public partial class FilePickerTextBox : UserControl
         set => SetValue(LabelProperty, value);
     }
 
-    public string MultipleFilesSeparator
-    {
-        get => multipleFilesSeparator;
-        set => SetAndRaise(MultipleFilesSeparatorProperty, ref multipleFilesSeparator, value);
-    }
-
     public string SaveFileDefaultExtension
     {
         get => saveFileDefaultExtension;
@@ -117,10 +107,7 @@ public partial class FilePickerTextBox : UserControl
 
     public string StringFileTypeFilter
     {
-        set
-        {
-            FileTypeFilter = FilePickerFilterConverter.String2FilterList(value);
-        }
+        set => FileTypeFilter = FilePickerFilterConverter.String2FilterList(value);
     }
 
     public string SuggestedStartLocation
@@ -149,18 +136,23 @@ public partial class FilePickerTextBox : UserControl
     {
         if (CanDrop(e))
         {
-            var files = e.Data.GetFiles().Select(p => p.TryGetLocalPath());
-            FileNames = string.Join(MultipleFilesSeparator, files);
+            var files = e.Data.GetFiles()?.Select(p => p.TryGetLocalPath()).ToList();
+            if (files is null or { Count: 0 })
+            {
+                return;
+            }
+
+            FileNames = AllowMultiple ? string.Join(Environment.NewLine, files) : files.First();
         }
     }
 
     private async void Button_Click(object sender, RoutedEventArgs e)
     {
-        var storageProvider = global::Avalonia.Controls.TopLevel.GetTopLevel(this).StorageProvider;
+        var storageProvider = TopLevel.GetTopLevel(this).StorageProvider;
         string suggestedStartLocation = SuggestedStartLocation;
         if (suggestedStartLocation == null && !string.IsNullOrWhiteSpace(FileNames))
         {
-            var file = FileNames.Split(MultipleFilesSeparator)[0];
+            var file = FileNames.Split(Environment.NewLine)[0];
             if (Type is PickerType.OpenFile or PickerType.SaveFile && File.Exists(file))
             {
                 suggestedStartLocation = Path.GetDirectoryName(file);
@@ -174,12 +166,14 @@ public partial class FilePickerTextBox : UserControl
         IStorageFolder suggestedStartLocationUri = null;
         try
         {
-            suggestedStartLocationUri = suggestedStartLocation == null ? null : await storageProvider.TryGetFolderFromPathAsync(suggestedStartLocation);
+            suggestedStartLocationUri = suggestedStartLocation == null
+                ? null
+                : await storageProvider.TryGetFolderFromPathAsync(suggestedStartLocation);
         }
         catch
         {
-
         }
+
         switch (Type)
         {
             case PickerType.OpenFile:
@@ -192,9 +186,10 @@ public partial class FilePickerTextBox : UserControl
                 });
                 if (openFiles != null && openFiles.Count > 0)
                 {
-                    FileNames = string.Join(MultipleFilesSeparator, openFiles.Select(p => GetPath(p)));
+                    FileNames = string.Join(Environment.NewLine, openFiles.Select(p => GetPath(p)));
                     var a = openFiles[0].TryGetLocalPath();
                 }
+
                 break;
             case PickerType.OpenFolder:
                 var folders = await storageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
@@ -205,8 +200,9 @@ public partial class FilePickerTextBox : UserControl
                 });
                 if (folders != null && folders.Count > 0)
                 {
-                    FileNames = string.Join(MultipleFilesSeparator, folders.Select(p => GetPath(p)));
+                    FileNames = string.Join(Environment.NewLine, folders.Select(p => GetPath(p)));
                 }
+
                 break;
             case PickerType.SaveFile:
                 var saveFiles = await storageProvider.SaveFilePickerAsync(new FilePickerSaveOptions()
@@ -222,6 +218,7 @@ public partial class FilePickerTextBox : UserControl
                 {
                     FileNames = GetPath(saveFiles);
                 }
+
                 break;
         }
     }
@@ -238,6 +235,7 @@ public partial class FilePickerTextBox : UserControl
             {
                 return false;
             }
+
             var isAllDir = fileAttributes.All(p => p.HasFlag(FileAttributes.Directory));
             var isAllFile = fileAttributes.All(p => !p.HasFlag(FileAttributes.Directory));
             switch (Type)
@@ -252,6 +250,7 @@ public partial class FilePickerTextBox : UserControl
                     {
                         return true;
                     }
+
                     break;
                 case PickerType.OpenFolder:
                     if (AllowMultiple && isAllDir)
@@ -262,10 +261,13 @@ public partial class FilePickerTextBox : UserControl
                     {
                         return true;
                     }
+
                     break;
             }
+
             return false;
         }
+
         return false;
     }
 
@@ -277,6 +279,7 @@ public partial class FilePickerTextBox : UserControl
             var path = file.Path.LocalPath;
             return Path.Combine(root, path.Split(':')[^1]);
         }
+
         return file.TryGetLocalPath();
     }
 }

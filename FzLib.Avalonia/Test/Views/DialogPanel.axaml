@@ -2,7 +2,7 @@
     x:Class="FzLib.Avalonia.Test.Views.DialogPanel"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:c="using:FzLib.Avalonia.Converters"
+    xmlns:cvt="using:FzLib.Avalonia.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dialogs="using:FzLib.Avalonia.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -13,7 +13,7 @@
     x:DataType="vm:DialogViewModel"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <c:DescriptionConverter
+        <cvt:DescriptionConverter
             x:Key="DialogContainerDescriptionConverter"
             x:TypeArguments="dialogs:DialogContainerType" />
     </UserControl.Resources>
