@@ -8,110 +8,26 @@ using System;
 using System.Threading.Tasks;
 using Tmds.DBus.Protocol;
 using FzLib.Avalonia.Test.Views;
+using FzLib.Avalonia.Services;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace FzLib.Avalonia.Test.ViewModels;
 
 public partial class DialogViewModel(IDialogService dialogService) : ObservableObject
 {
-    public IDialogService DialogService { get; } = dialogService;
-
     [ObservableProperty]
     private DialogContainerType containerType;
+
+    [ObservableProperty]
+    private string message;
+
+    public IDialogService DialogService { get; } = dialogService;
 
     [RelayCommand]
     private async Task OpenDialog1()
     {
         DialogService.ContainerType = ContainerType;
         await DialogService.ShowOkDialogAsync("标题", "信息正文");
-    }
-
-    [RelayCommand]
-    private async Task OpenDialog2()
-    {
-        DialogService.ContainerType = ContainerType;
-        await DialogService.ShowOkDialogAsync("标题", "信息正文", string.Concat(Enumerable.Repeat("详细内容", 1000)));
-    }
-
-    [RelayCommand]
-    private async Task OpenDialog3()
-    {
-        DialogService.ContainerType = ContainerType;
-        await DialogService.ShowWarningDialogAsync("标题", "警告正文");
-    }
-
-    [RelayCommand]
-    private async Task OpenDialog4()
-    {
-        DialogService.ContainerType = ContainerType;
-        await DialogService.ShowErrorDialogAsync("标题", "错误正文");
-    }
-
-    [RelayCommand]
-    private async Task OpenDialog5()
-    {
-        try
-        {
-            _ = 1 / Array.Empty<int>().Length;
-        }
-        catch (Exception ex)
-        {
-            while (await DialogService.ShowErrorDialogAsync("错误信息", ex, true))
-            {
-            }
-        }
-    }
-
-    [ObservableProperty]
-    private string message;
-
-    [RelayCommand]
-    private async Task OpenDialog6()
-    {
-        DialogService.ContainerType = ContainerType;
-        Message = (await DialogService.ShowYesNoDialogAsync("标题", "询问内容")).Value ? "单击“是”" : "单击“否”";
-    }
-
-    [RelayCommand]
-    private async Task OpenDialog7()
-    {
-        DialogService.ContainerType = ContainerType;
-        switch (await DialogService.ShowYesNoDialogAsync("标题", "询问内容", cancelButon: true))
-        {
-            case true:
-                Message = "单击“是”";
-                break;
-            case false:
-                Message = "单击“否”";
-                break;
-            case null:
-                Message = "单击“取消”";
-                break;
-        }
-    }
-
-    [RelayCommand]
-    private async Task OpenDialog8()
-    {
-        DialogService.ContainerType = ContainerType;
-        Message = "输入内容：" + await DialogService.ShowInputTextDialogAsync("标题", "请输入：", "默认值", "水印");
-    }
-
-    [RelayCommand]
-    private async Task OpenDialog9()
-    {
-        DialogService.ContainerType = ContainerType;
-        Message = "输入内容：" + await DialogService.ShowInputTextDialogAsync("标题", "必须长度>5且不能出现数字：", "默认值", "水印", text =>
-        {
-            if (text.Length <= 5)
-            {
-                throw new ArgumentException("长度必须>5");
-            }
-
-            if ("0123456789".Any(p => text.Contains(p)))
-            {
-                throw new ArgumentException("不能出现数字");
-            }
-        });
     }
 
     [RelayCommand]
@@ -192,36 +108,108 @@ public partial class DialogViewModel(IDialogService dialogService) : ObservableO
     }
 
     [RelayCommand]
-    private async Task OpenDialog18()
+    private async Task OpenDialog19()
     {
+        WeakReferenceMessenger.Default.Send(new OpenAnotherWindowMessage());
+        await Task.Delay(100);
         await DialogService.ShowOkDialogAsync("标题", "来自IDialogService的信息");
     }
 
     [RelayCommand]
-    private async Task OpenDialog19()
+    private async Task OpenDialog2()
     {
-        // 注意：这部分代码可能需要调整，因为原代码中使用了视图相关的TopLevel
-        // 在纯MVVM模式下，窗口操作应该通过服务或其他方式处理
-        // 这里保留原始逻辑，但实际项目中可能需要重构
-        //(global::Avalonia.Controls.TopLevel.GetTopLevel(global::Avalonia.Application.Current) as Window).WindowState = WindowState.Minimized;
-        //Window anotherWindow = new Window() { Title = "另一个窗口", Content = new Grid() };
-        //anotherWindow.Show();
-        //anotherWindow.WindowState = WindowState.Minimized;
-        //await Task.Delay(1000);
-        //await DialogService.ShowOkDialogAsync("标题", "来自IDialogService的信息");
-        //anotherWindow.Close();
+        DialogService.ContainerType = ContainerType;
+        await DialogService.ShowOkDialogAsync("标题", "信息正文", string.Concat(Enumerable.Repeat("详细内容", 1000)));
+    }
+
+    public class OpenAnotherWindowMessage
+    {
+
     }
 
     [RelayCommand]
     private async Task OpenDialog20()
     {
-        // 同上，这部分代码可能需要调整
-        //(global::Avalonia.Controls.TopLevel.GetTopLevel(this) as Window).WindowState = WindowState.Minimized;
-        //Window anotherWindow2 = new Window() { Title = "另一个窗口", Content = new Grid() };
-        //anotherWindow2.Show();
-        //anotherWindow2.WindowState = WindowState.Minimized;
-        //await Task.Delay(1000);
-        //await App.Services.GetRequiredKeyedService<IDialogService>("main").ShowOkDialogAsync("标题", "仅在主窗口显示");
-        //anotherWindow2.Close();
+        WeakReferenceMessenger.Default.Send(new OpenAnotherWindowMessage());
+        await Task.Delay(100);
+        await App.Services.GetRequiredKeyedService<IDialogService>("main").ShowOkDialogAsync("标题", "仅在主窗口显示");
+    }
+
+    [RelayCommand]
+    private async Task OpenDialog3()
+    {
+        DialogService.ContainerType = ContainerType;
+        await DialogService.ShowWarningDialogAsync("标题", "警告正文");
+    }
+
+    [RelayCommand]
+    private async Task OpenDialog4()
+    {
+        DialogService.ContainerType = ContainerType;
+        await DialogService.ShowErrorDialogAsync("标题", "错误正文");
+    }
+
+    [RelayCommand]
+    private async Task OpenDialog5()
+    {
+        try
+        {
+            _ = 1 / Array.Empty<int>().Length;
+        }
+        catch (Exception ex)
+        {
+            while (await DialogService.ShowErrorDialogAsync("错误信息", ex, true))
+            {
+            }
+        }
+    }
+    [RelayCommand]
+    private async Task OpenDialog6()
+    {
+        DialogService.ContainerType = ContainerType;
+        Message = (await DialogService.ShowYesNoDialogAsync("标题", "询问内容")).Value ? "单击“是”" : "单击“否”";
+    }
+
+    [RelayCommand]
+    private async Task OpenDialog7()
+    {
+        DialogService.ContainerType = ContainerType;
+        switch (await DialogService.ShowYesNoDialogAsync("标题", "询问内容", cancelButon: true))
+        {
+            case true:
+                Message = "单击“是”";
+                break;
+            case false:
+                Message = "单击“否”";
+                break;
+            case null:
+                Message = "单击“取消”";
+                break;
+        }
+    }
+
+    [RelayCommand]
+    private async Task OpenDialog8()
+    {
+        DialogService.ContainerType = ContainerType;
+        Message = "输入内容：" + await DialogService.ShowInputTextDialogAsync("标题", "请输入：", "默认值", "水印");
+    }
+
+    [RelayCommand]
+    private async Task OpenDialog9()
+    {
+        DialogService.ContainerType = ContainerType;
+        Message = "输入内容：" + await DialogService.ShowInputTextDialogAsync("标题", "必须长度>5且不能出现数字：", "默认值", "水印", text =>
+        {
+            if (text.Length <= 5)
+            {
+                throw new ArgumentException("长度必须>5");
+            }
+
+            if ("0123456789".Any(p => text.Contains(p)))
+            {
+                throw new ArgumentException("不能出现数字");
+            }
+        });
     }
 }
