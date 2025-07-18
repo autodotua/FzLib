@@ -1,0 +1,96 @@
+<UserControl
+    x:Class="FzLib.Avalonia.Test.Views.DialogPanel"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="using:FzLib.Avalonia.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dialogs="using:FzLib.Avalonia.Dialogs"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:me="using:FzLib.Avalonia.MarkupExtensions"
+    xmlns:vm="using:FzLib.Avalonia.Test.ViewModels"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vm:DialogViewModel"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <c:DescriptionConverter
+            x:Key="DialogContainerDescriptionConverter"
+            x:TypeArguments="dialogs:DialogContainerType" />
+    </UserControl.Resources>
+    <WrapPanel>
+        <WrapPanel.Styles>
+            <Style Selector="Button">
+                <Setter Property="Margin" Value="8" />
+            </Style>
+            <Style Selector="ComboBox">
+                <Setter Property="Margin" Value="8" />
+            </Style>
+        </WrapPanel.Styles>
+        <ComboBox
+            DisplayMemberBinding="{Binding ., Converter={StaticResource DialogContainerDescriptionConverter}}"
+            ItemsSource="{me:EnumValues EnumType='dialogs:DialogContainerType'}"
+            SelectedItem="{Binding ContainerType}" />
+
+
+      <Button
+          Command="{Binding OpenDialog1Command}"
+          Content="信息" />
+      <Button
+          Command="{Binding OpenDialog2Command}"
+          Content="信息（带详情）" />
+      <Button
+          Command="{Binding OpenDialog3Command}"
+          Content="警告" />
+      <Button
+          Command="{Binding OpenDialog4Command}"
+          Content="错误" />
+      <Button
+          Command="{Binding OpenDialog5Command}"
+          Content="异常" />
+      <Button
+          Command="{Binding OpenDialog6Command}"
+          Content="是否" />
+      <Button
+          Command="{Binding OpenDialog7Command}"
+          Content="是否和取消" />
+      <Button
+          Command="{Binding OpenDialog8Command}"
+          Content="简单输入" />
+      <Button
+          Command="{Binding OpenDialog9Command}"
+          Content="带验证输入" />
+      <Button
+          Command="{Binding OpenDialog10Command}"
+          Content="输入密码" />
+      <Button
+          Command="{Binding OpenDialog11Command}"
+          Content="输入多行" />
+      <Button
+          Command="{Binding OpenDialog12Command}"
+          Content="输入数字" />
+      <Button
+          Command="{Binding OpenDialog13Command}"
+          Content="输入整数" />
+      <Button
+          Command="{Binding OpenDialog14Command}"
+          Content="单选" />
+      <Button
+          Command="{Binding OpenDialog15Command}"
+          Content="多选" />
+      <Button
+          Command="{Binding OpenDialog16Command}"
+          Content="自定义" />
+      <Button
+          Command="{Binding OpenDialog17Command}"
+          Content="长信息" />
+      <Button
+          Command="{Binding OpenDialog18Command}"
+          Content="使用DialogService触发的信息" />
+      <Button
+          Command="{Binding OpenDialog19Command}"
+          Content="DialogService后台弹窗测试" />
+      <Button
+          Command="{Binding OpenDialog20Command}"
+          Content="DialogService仅允许在主窗口弹窗" />
+    </WrapPanel>
+</UserControl>

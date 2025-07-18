@@ -13,14 +13,14 @@ namespace FzLib.Avalonia.Dialogs
             return services.AddDialogService(null);
         }
 
-        public static IServiceCollection AddDialogService(this IServiceCollection services, string key, global::Avalonia.Controls.TopLevel defaultTopLevel)
+        public static IServiceCollection AddDialogService(this IServiceCollection services, string key, Func<TopLevel> getTopLevel)
         {
             ArgumentNullException.ThrowIfNull(services, nameof(services));
             services.AddKeyedSingleton<IDialogService>(key, (provider, k) =>
             {
                 var dialogService = new DialogService
                 {
-                    DefaultTopLevel = defaultTopLevel
+                    DefaultTopLevel = getTopLevel()
                 };
                 return dialogService;
             });

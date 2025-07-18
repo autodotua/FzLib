@@ -8,13 +8,15 @@ using FzLib.Avalonia.Test;
 using FzLib.Avalonia.Dialogs;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using FzLib.Avalonia.Test.ViewModels;
 
-namespace FzLib.Avalonia.Test;
+namespace FzLib.Avalonia.Test.Views;
 
-public partial class FileSystemPanel : UserControl
+public partial class DialogPanel : UserControl
 {
-    public FileSystemPanel()
+    public DialogPanel()
     {
+        DataContext = App.Services.GetRequiredService<DialogViewModel>();
         InitializeComponent();
     }
 }

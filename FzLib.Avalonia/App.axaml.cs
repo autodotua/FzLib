@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using FzLib.Avalonia.Services;
+using FzLib.Avalonia.Test.ViewModels;
+using FzLib.Avalonia.Test.Views;
 
 namespace FzLib.Avalonia.Test;
 
@@ -20,13 +22,18 @@ public partial class App : global::Avalonia.Application
     {
         AvaloniaXamlLoader.Load(this);
         var builder = Host.CreateApplicationBuilder();
-        var mainWindow = new MainWindow() { DataContext = new MainViewModel() };
-        builder.Services.AddSingleton(s => mainWindow);
+
         builder.Services.AddDialogService();
-        builder.Services.AddDialogService("main", mainWindow);
+        builder.Services.AddDialogService("main", () => (ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow);
+        
         builder.Services.AddStartupManager();
         builder.Services.AddStorageProviderService();
         builder.Services.AddClipboardService();
+
+        builder.Services.AddTransient<DialogViewModel>();
+        builder.Services.AddTransient<FileSystemViewModel>();
+        builder.Services.AddTransient<ConverterViewModel>();
+
         var host = builder.Build();
         Services = host.Services;
         host.Start();
@@ -40,7 +47,7 @@ public partial class App : global::Avalonia.Application
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = Services.GetRequiredService<MainWindow>();
+            desktop.MainWindow = new MainWindow();
         }
 
 

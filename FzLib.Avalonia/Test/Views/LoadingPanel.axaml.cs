@@ -8,11 +8,10 @@ using FzLib.Avalonia.Test;
 using FzLib.Avalonia.Dialogs;
 using System.Threading.Tasks;
 
-namespace FzLib.Avalonia.Test;
+namespace FzLib.Avalonia.Test.Views;
 
 public partial class LoadingPanel : UserControl
 {
-    private MainViewModel VM=>DataContext as MainViewModel;
     public LoadingPanel()
     {
         InitializeComponent();

@@ -7,12 +7,13 @@ using System;
 using FzLib.Avalonia.Test;
 using FzLib.Avalonia.Dialogs;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace FzLib.Avalonia.Test;
+namespace FzLib.Avalonia.Test.Views;
 
-public partial class FormPanel : UserControl
+public partial class FileSystemPanel : UserControl
 {
-    public FormPanel()
+    public FileSystemPanel()
     {
         InitializeComponent();
     }

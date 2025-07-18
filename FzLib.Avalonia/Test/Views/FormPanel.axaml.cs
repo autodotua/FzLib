@@ -8,13 +8,12 @@ using FzLib.Avalonia.Test;
 using FzLib.Avalonia.Dialogs;
 using System.Threading.Tasks;
 
-namespace FzLib.Avalonia.Test;
+namespace FzLib.Avalonia.Test.Views;
 
-public partial class ConverterPanel : UserControl
+public partial class FormPanel : UserControl
 {
-    public ConverterPanel()
+    public FormPanel()
     {
-        DataContext = new ConverterViewModel();
         InitializeComponent();
     }
 }

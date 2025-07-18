@@ -1,20 +1,16 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using FzLib.Avalonia.Dialogs;
 using FzLib.IO;
 using FzLib.Numeric;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace FzLib.Avalonia.Test;
-public partial class MainViewModel : ObservableObject
+namespace FzLib.Avalonia.Test.ViewModels;
+public partial class FileSystemViewModel : ObservableObject
 {
     [ObservableProperty]
     private string message;
-
-    [ObservableProperty]
-    private DialogContainerType containerType;
 
     [ObservableProperty]
     private string file1;

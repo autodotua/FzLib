@@ -32,10 +32,6 @@
     <Compile Remove="Test\Desktop\**" />
     <EmbeddedResource Remove="Test\Desktop\**" />
     <None Remove="Test\Desktop\**" />
-    <Compile Update="Test\ComboboxDialog.axaml.cs">
-      <DependentUpon>ComboboxDialog.axaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -80,25 +76,22 @@
     <Compile Update="Dialogs\InputDialog.axaml.cs">
       <DependentUpon>InputDialog.axaml</DependentUpon>
     </Compile>
-    <Compile Update="Test\FileSystemPanel.axaml.cs">
+    <Compile Update="Test\Views\FileSystemPanel.axaml.cs">
       <DependentUpon>FileSystemPanel.axaml</DependentUpon>
     </Compile>
-    <Compile Update="Test\FilePickerPanel.axaml.cs">
-      <DependentUpon>FilePickerPanel.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Test\ConverterPanel.axaml.cs">
+    <Compile Update="Test\Views\ConverterPanel.axaml.cs">
       <DependentUpon>ConverterPanel.axaml</DependentUpon>
     </Compile>
-    <Compile Update="Test\FormPanel.axaml.cs">
+    <Compile Update="Test\Views\FormPanel.axaml.cs">
       <DependentUpon>FormPanel.axaml</DependentUpon>
     </Compile>
-    <Compile Update="Test\LoadingPanel.axaml.cs">
+    <Compile Update="Test\Views\LoadingPanel.axaml.cs">
       <DependentUpon>LoadingPanel.axaml</DependentUpon>
     </Compile>
-    <Compile Update="Test\MainWindow.axaml.cs">
+    <Compile Update="Test\Views\MainWindow.axaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
-    <Compile Update="Test\DialogPanel.axaml.cs">
+    <Compile Update="Test\Views\DialogPanel.axaml.cs">
       <DependentUpon>DialogPanel.axaml</DependentUpon>
     </Compile>
   </ItemGroup>

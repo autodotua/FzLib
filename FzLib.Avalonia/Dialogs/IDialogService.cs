@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Avalonia.Controls;
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Threading.Tasks;
@@ -7,6 +8,8 @@ namespace FzLib.Avalonia.Dialogs
 {
     public interface IDialogService
     {
+        TopLevel DefaultTopLevel { get; set; }
+        DialogContainerType ContainerType { get; set; }
         #region 信息对话框
         Task ShowOkDialogAsync(string title, string message = null, string detail = null);
 
@@ -68,6 +71,11 @@ namespace FzLib.Avalonia.Dialogs
             string message = null,
             int minCheckCount = 0,
             int maxCheckCount = int.MaxValue);
+        #endregion
+
+        #region 自定义对话框
+        Task ShowCustomDialogAsync(DialogHost dialog);
+        Task<T> ShowCustomDialogAsync<T>(DialogHost dialog);
         #endregion
     }
 }

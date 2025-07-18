@@ -5,7 +5,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 
-namespace FzLib.Avalonia.Test;
+namespace FzLib.Avalonia.Test.ViewModels;
 
 public partial class ConverterViewModel : ObservableObject
 {

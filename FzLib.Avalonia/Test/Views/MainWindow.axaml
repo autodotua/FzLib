@@ -1,0 +1,98 @@
+<c:ExtendedWindow
+    x:Class="FzLib.Avalonia.Test.Views.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="using:FzLib.Avalonia.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:FzLib.Avalonia.Test.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:FzLib.Avalonia.Test"
+    x:Name="root"
+    Title="窗口标题"
+    Width="640"
+    Height="640"
+    Icon="avares://FzLib.Avalonia.Test/Test/favicon.png"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <Design.DataContext>
+        <local:MainViewModel Message="信息" />
+    </Design.DataContext>
+    <c:ExtendedWindow.TitleBarFooter>
+        <StackPanel
+            Orientation="Horizontal"
+            Spacing="16">
+            <ToggleButton
+                Content="自定义标题栏"
+                IsChecked="{Binding #root.CustomTitleBar}" />
+            <Button
+                Click="Button_OnClick"
+                Content="切换暗色模式" />
+        </StackPanel>
+    </c:ExtendedWindow.TitleBarFooter>
+    <Window.Styles>
+        <Style Selector="Expander Button">
+            <Setter Property="Margin" Value="8" />
+        </Style>
+        <Style Selector="Expander">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+    </Window.Styles>
+    <Grid>
+        <TabControl>
+            <TabControl.Template>
+                <ControlTemplate>
+                    <Border
+                        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}">
+                        <DockPanel>
+                            <ItemsPresenter
+                                Name="PART_ItemsPresenter"
+                                DockPanel.Dock="{TemplateBinding TabStripPlacement}"
+                                ItemsPanel="{TemplateBinding ItemsPanel}" />
+                            <ScrollViewer>
+                                <ContentPresenter
+                                    Name="PART_SelectedContentHost"
+                                    Margin="{TemplateBinding Padding}"
+                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    Content="{TemplateBinding SelectedContent}"
+                                    ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
+                            </ScrollViewer>
+                        </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </TabControl.Template>
+
+            <TabItem Header="对话框">
+                <local:DialogPanel />
+            </TabItem>
+
+            <TabItem Header="加载">
+                <local:LoadingPanel />
+            </TabItem>
+
+            <TabItem Header="表单">
+                <StackPanel Orientation="Vertical">
+                    <Button
+                        Margin="8"
+                        Click="RefreshFormPanelButton_Click"
+                        Content="刷新" />
+                    <ContentControl x:Name="formPanelContainer">
+                        <local:FormPanel />
+                    </ContentControl>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="文件系统">
+                <local:FileSystemPanel />
+            </TabItem>
+            <TabItem Header="值转换器">
+                <local:ConverterPanel />
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</c:ExtendedWindow>
