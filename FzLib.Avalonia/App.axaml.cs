@@ -2,15 +2,28 @@
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using FzLib.Application.Startup;
+using FzLib.Avalonia.Dialogs;
 using FzLib.Avalonia.Test;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System;
 
 namespace FzLib.Avalonia.Test;
 
 public partial class App : global::Avalonia.Application
 {
+    public static IServiceProvider Services { get; private set; }
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
+        var builder = Host.CreateApplicationBuilder();
+        builder.Services.AddDialogService();
+        builder.Services.AddStartupManager();
+        var host = builder.Build();
+        Services = host.Services;
+        host.Start();
     }
 
     public override void OnFrameworkInitializationCompleted()

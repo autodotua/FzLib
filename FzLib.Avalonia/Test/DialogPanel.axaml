@@ -99,5 +99,13 @@
             Click="DialogButton_Click"
             Content="长信息"
             Tag="17" />
+        <Button
+            Click="DialogButton_Click"
+            Content="使用DialogService触发的信息"
+            Tag="18" />
+        <Button
+            Click="DialogButton_Click"
+            Content="DialogService后台弹窗测试"
+            Tag="19" />
     </WrapPanel>
 </UserControl>
