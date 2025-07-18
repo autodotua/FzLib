@@ -75,7 +75,7 @@ public static class FileHashHelper
                 SourceFilePath = filePath,
                 DestinationFilePath = null, // 哈希计算没有目标文件
                 TotalBytes = totalBytes,
-                BytesCopied = totalBytesProcessed
+                ProcessedBytes = totalBytesProcessed
             });
 
             ArrayPool<byte>.Shared.Return(buffer);

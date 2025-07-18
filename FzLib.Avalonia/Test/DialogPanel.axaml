@@ -107,5 +107,9 @@
             Click="DialogButton_Click"
             Content="DialogService后台弹窗测试"
             Tag="19" />
+        <Button
+            Click="DialogButton_Click"
+            Content="DialogService仅允许在主窗口弹窗"
+            Tag="20" />
     </WrapPanel>
 </UserControl>

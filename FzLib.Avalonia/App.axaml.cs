@@ -19,7 +19,10 @@ public partial class App : global::Avalonia.Application
     {
         AvaloniaXamlLoader.Load(this);
         var builder = Host.CreateApplicationBuilder();
+        var mainWindow = new MainWindow() { DataContext = new MainViewModel() };
+        builder.Services.AddSingleton(s => mainWindow);
         builder.Services.AddDialogService();
+        builder.Services.AddDialogService("main", mainWindow);
         builder.Services.AddStartupManager();
         var host = builder.Build();
         Services = host.Services;
@@ -34,9 +37,7 @@ public partial class App : global::Avalonia.Application
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new MainWindow
-            {
-            };
+            desktop.MainWindow = Services.GetRequiredService<MainWindow>();
         }
 
 

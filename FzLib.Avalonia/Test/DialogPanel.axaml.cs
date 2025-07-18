@@ -156,6 +156,16 @@ public partial class DialogPanel : UserControl
                 await App.Services.GetRequiredService<IDialogService>().ShowOkDialogAsync("标题", "来自IDialogService的信息");
                 anotherWindow.Close();
                 break;
+
+            case "20":
+                (TopLevel.GetTopLevel(this) as Window).WindowState = WindowState.Minimized;
+                Window anotherWindow2 = new Window() { Title = "另一个窗口", Content = new Grid() };
+                anotherWindow2.Show();
+                anotherWindow2.WindowState = WindowState.Minimized;
+                await Task.Delay(1000);
+                await App.Services.GetRequiredKeyedService<IDialogService>("main").ShowOkDialogAsync("标题", "仅在主窗口显示");
+                anotherWindow2.Close();
+                break;
         }
     }
 }

@@ -3,7 +3,7 @@ using Avalonia.Controls;
 using Avalonia.VisualTree;
 using System.Windows;
 
-namespace FzLib.Avalonia
+namespace FzLib.Avalonia.Controls
 {
     public static class WindowExtension
     {

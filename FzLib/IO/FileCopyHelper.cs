@@ -9,6 +9,81 @@ namespace FzLib.IO
 {
     public static class FileCopyHelper
     {
+        public static async Task CopyDirectoryAsync(
+            string sourceDirPath,
+            string destinationDirPath,
+            int bufferSize = 0,
+            EnumerationOptions enumerationOptions = null,
+            IProgress<DirectoryProcessProgress> progress = null,
+            CancellationToken cancellationToken = default)
+        {
+            enumerationOptions ??= new EnumerationOptions()
+            {
+                IgnoreInaccessible = true,
+                RecurseSubdirectories = true
+            };
+
+            if (!Directory.Exists(sourceDirPath))
+            {
+                throw new DirectoryNotFoundException($"源目录不存在: {sourceDirPath}");
+            }
+            if (!Directory.Exists(destinationDirPath))
+            {
+                Directory.CreateDirectory(destinationDirPath);
+            }
+            var sourceDirInfo = new DirectoryInfo(sourceDirPath);
+            List<FileInfo> files = new List<FileInfo>();
+
+            long totalBytes = 0;
+            long processedBytes = 0;
+            await Task.Run(() =>
+            {
+                foreach (var file in sourceDirInfo.EnumerateFiles("*", enumerationOptions))
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    files.Add(file);
+                    totalBytes += file.Length;
+                }
+            }, cancellationToken);
+            Progress<FileProcessProgress> fileProgress = null;
+            if (progress != null)
+            {
+                fileProgress = new Progress<FileProcessProgress>(p =>
+                {
+                    progress.Report(new DirectoryProcessProgress
+                    {
+                        SourceDirPath = sourceDirPath,
+                        DestinationDirPath = destinationDirPath,
+                        SourceFilePath = p.SourceFilePath,
+                        DestinationFilePath = p.DestinationFilePath,
+                        TotalBytes = totalBytes,
+                        ProcessedBytes = processedBytes + p.ProcessedBytes,
+                        FileTotalBytes = p.TotalBytes,
+                        FileProcessedBytes = p.ProcessedBytes
+                    });
+                });
+            }
+            foreach (FileInfo fileInfo in files)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                var sourceFilePath = fileInfo.FullName;
+                var relativePath = Path.GetRelativePath(sourceDirPath, sourceFilePath);
+                var destinationFilePath = Path.Combine(destinationDirPath, relativePath);
+                await CopyFileAsync(sourceFilePath, destinationFilePath, bufferSize, fileProgress, cancellationToken);
+                processedBytes += fileInfo.Length;
+            }
+            if (progress != null)
+            {
+                progress.Report(new DirectoryProcessProgress
+                {
+                    SourceDirPath = sourceDirPath,
+                    DestinationDirPath = destinationDirPath,
+                    TotalBytes = totalBytes,
+                    ProcessedBytes = processedBytes,
+                });
+            }
+        }
+
         /// <summary>
         /// 高性能文件复制（双缓冲流水线）
         /// </summary>
@@ -16,7 +91,7 @@ namespace FzLib.IO
             string sourceFilePath,
             string destinationFilePath,
             int bufferSize = 0,
-                        IProgress<FileProcessProgress> progress = null,
+            IProgress<FileProcessProgress> progress = null,
             CancellationToken cancellationToken = default)
         {
             if (!File.Exists(sourceFilePath))
@@ -100,10 +175,10 @@ namespace FzLib.IO
         private static async Task WriteDataAsync(
             FileStream destinationStream,
             ChannelReader<(byte[] buffer, int bytesRead)> reader,
-            IProgress<FileProcessProgress> progress, // 新增 progress 参数
-            string sourceFilePath, // 新增 sourceFilePath
-            string destinationFilePath, // 新增 destinationFilePath
-            long totalBytes, // 新增 totalBytes
+            IProgress<FileProcessProgress> progress,
+            string sourceFilePath,
+            string destinationFilePath,
+            long totalBytes,
             CancellationToken ct)
         {
             long totalBytesWritten = 0;
@@ -119,7 +194,7 @@ namespace FzLib.IO
                     SourceFilePath = sourceFilePath,
                     DestinationFilePath = destinationFilePath,
                     TotalBytes = totalBytes,
-                    BytesCopied = totalBytesWritten
+                    ProcessedBytes = totalBytesWritten
                 });
 
                 ArrayPool<byte>.Shared.Return(buffer);

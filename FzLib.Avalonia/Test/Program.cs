@@ -4,7 +4,7 @@ using Avalonia;
 using FzLib.Avalonia.Test;
 using Serilog;
 
-namespace FzLib.Avalonia.Test.Desktop;
+namespace FzLib.Avalonia.Test;
 
 
 class Program

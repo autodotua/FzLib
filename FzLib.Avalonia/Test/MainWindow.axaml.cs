@@ -11,10 +11,9 @@ using FzLib.Avalonia.Controls;
 namespace FzLib.Avalonia.Test;
 public partial class MainWindow : ExtendedWindow
 {
-    private MainViewModel VM { get; }
+    private MainViewModel VM => DataContext as MainViewModel;
     public MainWindow()
     {
-        DataContext = VM = new MainViewModel();
         InitializeComponent();
     }
 

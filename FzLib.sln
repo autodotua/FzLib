@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FzLib.Windows", "FzLib.Wind
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FzLib.Avalonia.Test", "FzLib.Avalonia\FzLib.Avalonia.Test.csproj", "{0FA26E96-BF98-4D67-BED1-268ED0038F5D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FzLib.Avalonia.Test.Desktop", "FzLib.Avalonia\Test\Desktop\FzLib.Avalonia.Test.Desktop.csproj", "{5ECA12BD-2CD2-4FA3-92F7-60F756F7F5D1}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "#", "#", "{E36BA69D-7C15-430B-9374-4AD62EDC9660}"
 	ProjectSection(SolutionItems) = preProject
 		.gitattributes = .gitattributes
@@ -70,14 +68,6 @@ Global
 		{0FA26E96-BF98-4D67-BED1-268ED0038F5D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0FA26E96-BF98-4D67-BED1-268ED0038F5D}.Release|x64.ActiveCfg = Release|Any CPU
 		{0FA26E96-BF98-4D67-BED1-268ED0038F5D}.Release|x64.Build.0 = Release|Any CPU
-		{5ECA12BD-2CD2-4FA3-92F7-60F756F7F5D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5ECA12BD-2CD2-4FA3-92F7-60F756F7F5D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5ECA12BD-2CD2-4FA3-92F7-60F756F7F5D1}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{5ECA12BD-2CD2-4FA3-92F7-60F756F7F5D1}.Debug|x64.Build.0 = Debug|Any CPU
-		{5ECA12BD-2CD2-4FA3-92F7-60F756F7F5D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5ECA12BD-2CD2-4FA3-92F7-60F756F7F5D1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5ECA12BD-2CD2-4FA3-92F7-60F756F7F5D1}.Release|x64.ActiveCfg = Release|Any CPU
-		{5ECA12BD-2CD2-4FA3-92F7-60F756F7F5D1}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

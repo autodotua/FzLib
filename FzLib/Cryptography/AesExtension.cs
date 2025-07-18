@@ -76,7 +76,7 @@ namespace FzLib.Cryptography
                         SourceFilePath = sourcePath,
                         DestinationFilePath = targetPath,
                         TotalBytes = encryptedDataLength,
-                        BytesCopied = totalRead
+                        ProcessedBytes = totalRead
                     });
                 }
 
@@ -159,7 +159,7 @@ namespace FzLib.Cryptography
                         SourceFilePath = sourcePath,
                         DestinationFilePath = targetPath,
                         TotalBytes = fileLength,
-                        BytesCopied = totalRead
+                        ProcessedBytes = totalRead
                     });
                 }
 

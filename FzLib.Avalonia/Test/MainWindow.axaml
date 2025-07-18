@@ -101,6 +101,9 @@
                 <TabItem Header="文件选取器">
                     <local:FilePickerPanel />
                 </TabItem>
+                <TabItem Header="文件系统">
+                    <local:FileSystemPanel />
+                </TabItem>
                 <TabItem Header="值转换器">
                     <local:ConverterPanel />
                 </TabItem>

@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using System.Threading.Tasks;
 using System.Windows;
-namespace FzLib.Avalonia
+namespace FzLib.Avalonia.Controls
 {
     public static class ControlExtension
     {

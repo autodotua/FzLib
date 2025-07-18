@@ -1,12 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>disable</Nullable>
     <LangVersion>latest</LangVersion>
     <RootNamespace>FzLib.Avalonia</RootNamespace>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
   </PropertyGroup>
-  
+
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>$(Temp)\$(AssemblyName)</OutputPath>
   </PropertyGroup>
@@ -14,7 +15,18 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>..\Release</OutputPath>
   </PropertyGroup>
-  
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <PublishAot>true</PublishAot>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- 保留 Serilog -->
+    <TrimmerRootAssembly Include="Serilog" />
+    <!-- 保留 Avalonia.Win32 -->
+    <TrimmerRootAssembly Include="Avalonia.Win32" />
+  </ItemGroup>
+
   <ItemGroup>
     <AvaloniaXaml Remove="Test\Desktop\**" />
     <Compile Remove="Test\Desktop\**" />
@@ -25,11 +37,11 @@
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
-  
+
   <ItemGroup>
     <None Remove="Dialogs\ProgressRing.xaml" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <AvaloniaXaml Include="Dialogs\ProgressRing.xaml" />
   </ItemGroup>
@@ -37,6 +49,9 @@
 
 
   <ItemGroup>
+    <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageReference Include="HotAvalonia"  Version="3.0.0" PrivateAssets="All" Publish="True" />
     <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
     <PackageReference Include="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
@@ -64,6 +79,9 @@
     </Compile>
     <Compile Update="Dialogs\InputDialog.axaml.cs">
       <DependentUpon>InputDialog.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Test\FileSystemPanel.axaml.cs">
+      <DependentUpon>FileSystemPanel.axaml</DependentUpon>
     </Compile>
     <Compile Update="Test\FilePickerPanel.axaml.cs">
       <DependentUpon>FilePickerPanel.axaml</DependentUpon>
