@@ -5,7 +5,6 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using FzLib.Avalonia.Converters;
-using FzLib.Avalonia.Platforms;
 using FzLib.IO;
 using System;
 using System.Collections.Generic;
@@ -134,16 +133,17 @@ public partial class FilePickerTextBox : UserControl
 
     public void Drop(object sender, DragEventArgs e)
     {
-        if (CanDrop(e))
+        if (!CanDrop(e))
         {
-            var files = e.Data.GetFiles()?.Select(p => p.TryGetLocalPath()).ToList();
-            if (files is null or { Count: 0 })
-            {
-                return;
-            }
-
-            FileNames = AllowMultiple ? string.Join(Environment.NewLine, files) : files.First();
+            return;
         }
+        var files = e.Data.GetFiles()?.Select(p => p.TryGetLocalPath()).ToList();
+        if (files is null or { Count: 0 })
+        {
+            return;
+        }
+
+        FileNames = AllowMultiple ? string.Join(Environment.NewLine, files) : files.First();
     }
 
     private async void Button_Click(object sender, RoutedEventArgs e)
@@ -184,7 +184,7 @@ public partial class FilePickerTextBox : UserControl
                     Title = Title,
                     SuggestedStartLocation = suggestedStartLocationUri
                 });
-                if (openFiles != null && openFiles.Count > 0)
+                if (openFiles.Count > 0)
                 {
                     FileNames = string.Join(Environment.NewLine, openFiles.Select(p => GetPath(p)));
                     var a = openFiles[0].TryGetLocalPath();
@@ -229,7 +229,7 @@ public partial class FilePickerTextBox : UserControl
         {
             var fileAttributes = e.Data.GetFiles()
                 .Select(p => p.TryGetLocalPath())
-                .Select(p => File.GetAttributes(p))
+                .Select(File.GetAttributes)
                 .ToList();
             if (Type == PickerType.SaveFile && fileAttributes.Count > 1)
             {
@@ -270,14 +270,22 @@ public partial class FilePickerTextBox : UserControl
 
         return false;
     }
+    
+    public static  string AndroidExternalFilesDir { get; set; }
 
     private string GetPath(IStorageItem file)
     {
         if (OperatingSystem.IsAndroid())
         {
-            var root = PlatformServices.StorageService.GetExternalFilesDir();
+            if (AndroidExternalFilesDir == null)
+            {
+                throw new ArgumentException(
+                    "在Android中使用时，应当设置AndroidExternalFilesDir。" +
+                    "值可以从Android项目中使用GetExternalFilesDir(string.Empty)" +
+                    ".AbsolutePath.Split([\"Android\"], StringSplitOptions.None)[0]赋值");
+            }
             var path = file.Path.LocalPath;
-            return Path.Combine(root, path.Split(':')[^1]);
+            return Path.Combine(AndroidExternalFilesDir, path.Split(':')[^1]);
         }
 
         return file.TryGetLocalPath();
