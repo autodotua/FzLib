@@ -7,16 +7,13 @@ using System;
 using FzLib.Avalonia.Test;
 using FzLib.Avalonia.Dialogs;
 using System.Threading.Tasks;
-using FzLib.Avalonia.Test.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace FzLib.Avalonia.Test.Views;
 
-public partial class FileSystemPanel : UserControl
+public partial class BehaviorPanel : UserControl
 {
-    public FileSystemPanel()
+    public BehaviorPanel()
     {
-        DataContext = new FileSystemViewModel();
         InitializeComponent();
     }
 }

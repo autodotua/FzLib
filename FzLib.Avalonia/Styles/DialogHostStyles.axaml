@@ -1,9 +1,10 @@
+
 <ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:b="clr-namespace:FzLib.Avalonia.Behaviors"
     xmlns:cvt="using:FzLib.Avalonia.Converters"
     xmlns:dialogs="clr-namespace:FzLib.Avalonia.Dialogs">
-
     <ControlTheme
         x:Key="{x:Type dialogs:WindowDialogContainer}"
         BasedOn="{StaticResource {x:Type Window}}"
@@ -67,7 +68,7 @@
 
         <Setter Property="Template">
             <ControlTemplate TargetType="dialogs:DialogHost">
-                <Panel>
+                <Panel x:Name="root">
                     <Grid
                         Margin="24"
                         RowDefinitions="Auto,*,Auto">

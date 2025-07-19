@@ -6,11 +6,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:FzLib.Avalonia.Test.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="using:FzLib.Avalonia.Test"
+    xmlns:viewModels="clr-namespace:FzLib.Avalonia.Test.ViewModels"
+    xmlns:vm="using:FzLib.Avalonia.Test.ViewModels"
     x:Name="root"
     Title="窗口标题"
     Width="640"
     Height="640"
+    x:DataType="viewModels:MainViewModel"
     Icon="avares://FzLib.Avalonia.Test/Test/favicon.png"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
@@ -63,7 +65,11 @@
                     </Border>
                 </ControlTemplate>
             </TabControl.Template>
-
+            <TabItem Header="aa">
+                <c:CancelableTaskButton
+                    CancelCommand="{Binding DoSthCancelCommand}"
+                    TaskCommand="{Binding DoSthCommand}" />
+            </TabItem>
             <TabItem Header="对话框">
                 <local:DialogPanel />
             </TabItem>
@@ -88,6 +94,9 @@
             </TabItem>
             <TabItem Header="值转换器">
                 <local:ConverterPanel />
+            </TabItem>
+            <TabItem Header="行为">
+                <local:BehaviorPanel />
             </TabItem>
         </TabControl>
 

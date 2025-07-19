@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
@@ -32,6 +32,22 @@
     <Compile Remove="Test\Desktop\**" />
     <EmbeddedResource Remove="Test\Desktop\**" />
     <None Remove="Test\Desktop\**" />
+    <Compile Update="Controls\Forms\StackFormItemGroup.axaml.cs">
+      <DependentUpon>StackFormItemGroup.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\Forms\WrapFormItemGroup.axaml.cs">
+      <DependentUpon>WrapFormItemGroup.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\Windows\WindowButtons.axaml.cs">
+      <DependentUpon>WindowButtons.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Test\Views\BehaviorPanel.axaml.cs">
+      <DependentUpon>BehaviorPanel.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -45,15 +61,17 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
-    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
-    <PackageReference Include="HotAvalonia" Version="3.0.0" PrivateAssets="All" Publish="True" />
-    <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)" />
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.7" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.7" />
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
+    <PackageReference Include="Avalonia.Desktop" />
+    <PackageReference Include="Serilog.Sinks.File" />
+    <PackageReference Include="HotAvalonia" />
+    <PackageReference Include="Avalonia" />
+    <PackageReference Include="Avalonia.Themes.Fluent" />
+    <PackageReference Include="CommunityToolkit.Mvvm" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" />
+    <PackageReference Include="System.Reactive" />
+    <PackageReference Include="Xaml.Behaviors.Interactivity" />
   </ItemGroup>
 
   <ItemGroup>

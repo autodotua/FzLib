@@ -14,6 +14,8 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Avalonia.Xaml.Interactivity;
+using FzLib.Avalonia.Behaviors;
 
 namespace FzLib.Avalonia.Dialogs
 {
@@ -71,8 +73,16 @@ namespace FzLib.Avalonia.Dialogs
             {
                 throw new Exception($"{nameof(WindowDialogContainer)}的{nameof(Content)}必须为{nameof(DialogHost)}");
             }
+            
+            var thumb = this.FindThumb();
+            if (thumb is null)
+            {
+                return;
+            }
 
-            new WindowDragHelper(this.FindThumb()).EnableDrag();
+            var behavior = new WindowDragBehavior();
+
+            Interaction.GetBehaviors(thumb).Add(behavior);
         }
     }
 }

@@ -24,12 +24,14 @@ public partial class App : global::Avalonia.Application
         var builder = Host.CreateApplicationBuilder();
 
         builder.Services.AddDialogService();
-        builder.Services.AddDialogService("main", () => (ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow);
-        
+        builder.Services.AddDialogService("main",
+            () => (ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow);
+
         builder.Services.AddStartupManager();
         builder.Services.AddStorageProviderService();
         builder.Services.AddClipboardService();
 
+        builder.Services.AddTransient<MainViewModel>();
         builder.Services.AddTransient<DialogViewModel>();
         builder.Services.AddTransient<FileSystemViewModel>();
         builder.Services.AddTransient<ConverterViewModel>();

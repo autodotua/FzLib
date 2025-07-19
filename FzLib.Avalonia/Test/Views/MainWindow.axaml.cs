@@ -7,12 +7,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Styling;
 using FzLib.Avalonia.Controls;
+using FzLib.Avalonia.Test.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FzLib.Avalonia.Test.Views;
 public partial class MainWindow : ExtendedWindow
 {
     public MainWindow()
     {
+        DataContext = App.Services.GetRequiredService<MainViewModel>();
         InitializeComponent();
     }
 

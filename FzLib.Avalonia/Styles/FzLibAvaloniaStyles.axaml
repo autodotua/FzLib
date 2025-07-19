@@ -1,0 +1,16 @@
+<Styles
+    x:Class="FzLib.Avalonia.Styles.FzLibAvaloniaStyles"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="/Styles/FormItemStyle.axaml" />
+                <ResourceInclude Source="/Styles/ExtendedWindowStyle.axaml" />
+                <ResourceInclude Source="/Styles/DialogHostStyles.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Styles.Resources>
+    <StyleInclude Source="/Styles/GroupBoxStyles.axaml" />
+    <StyleInclude Source="/Styles/BasicControlStyles.axaml" />
+</Styles>

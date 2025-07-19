@@ -131,7 +131,7 @@ public abstract class ExtendedWindow : Window
                 return;
             }
 
-            new WindowDragHelper(titleBar).EnableDrag();
+            // new WindowDragHelper(titleBar).EnableDrag();
 
             titleBar.DoubleTapped += (s, e) =>
             {

@@ -1,6 +1,7 @@
 <ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:b="clr-namespace:FzLib.Avalonia.Behaviors"
     xmlns:c="using:FzLib.Avalonia.Controls"
     xmlns:sys="using:System">
     <sys:Double x:Key="ExtendedWindowShadowRadius">8.0</sys:Double>
@@ -56,7 +57,9 @@
                                 Background="{TemplateBinding TitleBarBackground}"
                                 ColumnDefinitions="Auto,Auto,*,Auto"
                                 IsVisible="{Binding !CustomTitleBar, RelativeSource={RelativeSource TemplatedParent}}">
-                                <!-- <Image Source="{TemplateBinding Icon}" /> -->
+                                <Interaction.Behaviors>
+                                    <b:WindowDragBehavior />
+                                </Interaction.Behaviors>
                                 <Image
                                     Height="18"
                                     Margin="8,0,-4,0"

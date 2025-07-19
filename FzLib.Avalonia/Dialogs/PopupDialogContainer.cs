@@ -9,6 +9,8 @@ using FzLib.Avalonia.Controls;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Avalonia.Xaml.Interactivity;
+using FzLib.Avalonia.Behaviors;
 
 namespace FzLib.Avalonia.Dialogs
 {
@@ -26,6 +28,7 @@ namespace FzLib.Avalonia.Dialogs
             {
                 throw new Exception($"还未调用{nameof(ShowDialog)}");
             }
+
             (Parent as Grid).Children.Remove(this);
             tcs.SetResult(null);
         }
@@ -36,6 +39,7 @@ namespace FzLib.Avalonia.Dialogs
             {
                 throw new Exception($"还未调用{nameof(ShowDialog)}");
             }
+
             (Parent as Grid).Children.Remove(this);
             tcs.SetResult(result);
         }
@@ -73,10 +77,22 @@ namespace FzLib.Avalonia.Dialogs
 
             bdDialog.Loaded += (s, e) =>
             {
-                new VisualDragHelper(this.FindThumb(), bdDialog, this).EnableDrag();
+                var thumb = this.FindThumb();
+                if (thumb is null)
+                {
+                    return;
+                }
+
+                var behavior = new VisualDragBehavior
+                {
+                    Target = bdDialog
+                };
+
+                Interaction.GetBehaviors(thumb).Add(behavior);
             };
 
-            (bdDialog.Effect as DropShadowEffect)[!DropShadowEffectBase.ColorProperty] = new DynamicResourceExtension("SystemControlBackgroundChromeMediumLowBrush");
+            (bdDialog.Effect as DropShadowEffect)[!DropShadowEffectBase.ColorProperty] =
+                new DynamicResourceExtension("SystemControlBackgroundChromeMediumLowBrush");
             bdDialog[!BackgroundProperty] = new DynamicResourceExtension("SystemControlBackgroundChromeMediumLowBrush");
             Children.Add(bdDialog);
 
