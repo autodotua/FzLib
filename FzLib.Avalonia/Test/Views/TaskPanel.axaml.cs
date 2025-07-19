@@ -9,14 +9,15 @@ using FzLib.Avalonia.Dialogs;
 using System.Threading.Tasks;
 using FzLib.Avalonia.Controls;
 using FzLib.Avalonia.Test.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FzLib.Avalonia.Test.Views;
 
-public partial class LoadingPanel : UserControl
+public partial class TaskPanel : UserControl
 {
-    public LoadingPanel()
+    public TaskPanel()
     {
-        DataContext = new LoadingViewModel();
+        DataContext = App.Services.GetRequiredService<TaskViewModel>();
         InitializeComponent();
     }
 }

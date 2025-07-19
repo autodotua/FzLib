@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Avalonia;
+using FzLib.Application;
 using FzLib.Avalonia.Test;
 using Serilog;
+using UnhandledExceptionEventArgs = System.UnhandledExceptionEventArgs;
 
 namespace FzLib.Avalonia.Test;
 
@@ -17,38 +19,13 @@ class Program
             .WriteTo.File("logs/logs.txt", rollingInterval: RollingInterval.Day)
             .CreateLogger();
         Log.Information("程序启动");
-#if !DEBUG
-        TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
-        AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-        try
-        {
-#endif
-        BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
-#if !DEBUG
-         }
-        catch (Exception ex)
-        {
-            Log.Fatal(ex, "未捕获的主线程错误");
-        }
-        finally
-        {
-            Log.CloseAndFlush();
-        }
-#endif
+        UnhandledExceptionCatcher.WithCatcher(() => BuildAvaloniaApp().StartWithClassicDesktopLifetime(args))
+            .Catch((e, s) => { Log.Fatal("未捕获的异常", e); })
+            .Finally(() => { })
+            .Run();
     }
 
-    private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-    {
-        Log.Fatal("未捕获的AppDomain异常", e.ExceptionObject as Exception);
-    }
-
-    private static void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
-    {
-        Log.Fatal("未捕获的TaskScheduler异常", e.Exception);
-    }
-
-    // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()

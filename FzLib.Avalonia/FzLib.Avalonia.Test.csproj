@@ -102,7 +102,7 @@
     <Compile Update="Test\Views\FormPanel.axaml.cs">
       <DependentUpon>FormPanel.axaml</DependentUpon>
     </Compile>
-    <Compile Update="Test\Views\LoadingPanel.axaml.cs">
+    <Compile Update="Test\Views\TaskPanel.axaml.cs">
       <DependentUpon>LoadingPanel.axaml</DependentUpon>
     </Compile>
     <Compile Update="Test\Views\MainWindow.axaml.cs">

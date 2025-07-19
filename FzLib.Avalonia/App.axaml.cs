@@ -35,6 +35,7 @@ public partial class App : global::Avalonia.Application
         builder.Services.AddTransient<DialogViewModel>();
         builder.Services.AddTransient<FileSystemViewModel>();
         builder.Services.AddTransient<ConverterViewModel>();
+        builder.Services.AddTransient<TaskViewModel>();
 
         var host = builder.Build();
         Services = host.Services;

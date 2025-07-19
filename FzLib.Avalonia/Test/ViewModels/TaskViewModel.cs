@@ -1,11 +1,13 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using FzLib.Avalonia.Dialogs;
 
 namespace FzLib.Avalonia.Test.ViewModels;
 
-public partial class LoadingViewModel : ObservableObject
+public partial class TaskViewModel(IDialogService dialogService) : ObservableObject
 {
     [ObservableProperty]
     private bool isActive;
@@ -21,7 +23,7 @@ public partial class LoadingViewModel : ObservableObject
         await Task.Delay(1000);
         IsActive = false;
     }
-    
+
     [RelayCommand]
     private async Task ShowLoading2Async()
     {
@@ -30,7 +32,7 @@ public partial class LoadingViewModel : ObservableObject
         await Task.Delay(2000);
         IsActive = false;
     }
-    
+
     [RelayCommand]
     private async Task ShowLoading3Async()
     {
@@ -38,5 +40,18 @@ public partial class LoadingViewModel : ObservableObject
         IsActive = true;
         await Task.Delay(1000);
         IsActive = false;
+    }
+
+    [RelayCommand(IncludeCancelCommand = true)]
+    private async Task DoSthAsync(CancellationToken cancellationToken)
+    {
+        try
+        {
+            await Task.Delay(10 * 1000, cancellationToken);
+        }
+        catch (OperationCanceledException)
+        {
+            await dialogService.ShowWarningDialogAsync("任务被取消", "任务被取消");
+        }
     }
 }

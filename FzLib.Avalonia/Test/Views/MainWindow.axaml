@@ -35,6 +35,9 @@
         <Style Selector="Expander">
             <Setter Property="HorizontalAlignment" Value="Stretch" />
         </Style>
+        <Style Selector="StackPanel">
+            <Setter Property="Spacing" Value="8" />
+        </Style>
     </Window.Styles>
     <Grid>
         <TabControl>
@@ -67,22 +70,13 @@
             </TabControl.Template>
 
 
-            <TabItem Header="加载">
-                <local:LoadingPanel />
+            <TabItem Header="耗时任务">
+                <local:TaskPanel />
             </TabItem>
-            <TabItem Header="aa">
-                <Grid>
 
-                    <c:CancelableTaskButton
-                        CancelCommand="{Binding DoSthCancelCommand}"
-                        TaskCommand="{Binding DoSthCommand}" />
-                    <c:ProgressRingOverlay IsActive="True" />
-                </Grid>
-            </TabItem>
             <TabItem Header="对话框">
                 <local:DialogPanel />
             </TabItem>
-
 
             <TabItem Header="表单">
                 <StackPanel Orientation="Vertical">

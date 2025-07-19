@@ -1,66 +1,118 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace FzLib.Application
 {
-    public enum ExceptionSource
+    public static class UnhandledExceptionCatcher
     {
-        Task,
-        Thread,
-        UI,
-    }
-
-    public class UnhandledExceptionCatcher
-    {
-        public delegate void UnhandledExceptionEventHandler(object sender, UnhandledExceptionEventArgs e);
-
-        public event UnhandledExceptionEventHandler UnhandledExceptionCaught;
-
-        public void RegisterTaskCatcher()
+        public enum ExceptionSource
         {
-            TaskScheduler.UnobservedTaskException += (p1, p2) => //Task
+            Task,
+            Thread,
+            UI,
+        }
+
+        class UnhandledExceptionEventArgs(Exception exception, ExceptionSource source) : EventArgs
+        {
+            public Exception Exception { get; } = exception ?? throw new ArgumentNullException(nameof(exception));
+            public ExceptionSource Source { get; } = source;
+        }
+
+        public class ExceptionCatcherBuilder
+        {
+            private readonly Action action;
+            private Action<Exception, ExceptionSource> catchHandler;
+            private Action finallyHandler;
+
+            private readonly UnhandledExceptionRegistrar registrar = new();
+
+            internal ExceptionCatcherBuilder(Action action)
             {
-                if (!p2.Observed)
+                this.action = action;
+            }
+
+            public ExceptionCatcherBuilder Catch(Action<Exception, ExceptionSource> handler)
+            {
+                catchHandler = handler;
+                return this;
+            }
+
+            public ExceptionCatcherBuilder Finally(Action handler)
+            {
+                finallyHandler = handler;
+                return this;
+            }
+
+            public void Run()
+            {
+                if (Debugger.IsAttached)
                 {
-                    RaiseEvent(p1, p2.Exception.InnerException, ExceptionSource.Task);
-                    try
-                    {
-                        p2.SetObserved();
-                    }
-                    catch
-                    {
-                    }
+                    action?.Invoke();
+                    return;
                 }
-            };
+
+                registrar.UnhandledExceptionCaught += (s, e) => { catchHandler?.Invoke(e.Exception, e.Source); };
+
+                registrar.RegisterTaskCatcher();
+                registrar.RegisterThreadsCatcher();
+
+                try
+                {
+                    action?.Invoke();
+                }
+                catch (Exception ex)
+                {
+                    catchHandler?.Invoke(ex, ExceptionSource.UI);
+                }
+                finally
+                {
+                    finallyHandler?.Invoke();
+                }
+            }
         }
 
-        public void RegisterThreadsCatcher()
+        class UnhandledExceptionRegistrar
         {
-            AppDomain.CurrentDomain.UnhandledException += (p1, p2) =>//Thread
+            public event EventHandler<UnhandledExceptionEventArgs> UnhandledExceptionCaught;
+
+            public void RegisterTaskCatcher()
             {
-                RaiseEvent(p1, (Exception)p2.ExceptionObject, ExceptionSource.Thread);
-            };
+                TaskScheduler.UnobservedTaskException += (s, e) =>
+                {
+                    if (!e.Observed)
+                    {
+                        RaiseEvent(s, e.Exception.InnerException ?? e.Exception, ExceptionSource.Task);
+                        try
+                        {
+                            e.SetObserved();
+                        }
+                        catch
+                        {
+                        }
+                    }
+                };
+            }
+
+            public void RegisterThreadsCatcher()
+            {
+                AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+                {
+                    RaiseEvent(s, e.ExceptionObject as Exception ?? new Exception("Unknown exception"),
+                        ExceptionSource.Thread);
+                };
+            }
+
+            private void RaiseEvent(object sender, Exception exception, ExceptionSource source)
+            {
+                var args = new UnhandledExceptionEventArgs(exception, source);
+                UnhandledExceptionCaught?.Invoke(sender, args);
+            }
         }
 
-        protected void RaiseEvent(object sender, Exception ex, ExceptionSource source)
+        public static ExceptionCatcherBuilder WithCatcher(Action action)
         {
-            var e = new UnhandledExceptionEventArgs(ex, source);
-            UnhandledExceptionCaught?.Invoke(sender, e);
+            return new ExceptionCatcherBuilder(action);
         }
-    }
-
-    public class UnhandledExceptionEventArgs : EventArgs
-    {
-        public UnhandledExceptionEventArgs(Exception exception, ExceptionSource source)
-        {
-            Exception = exception ?? throw new ArgumentNullException(nameof(exception));
-            Source = source;
-        }
-
-        public Exception Exception { get; private set; }
-        public ExceptionSource Source { get; private set; }
     }
 }
