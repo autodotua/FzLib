@@ -65,18 +65,24 @@
                     </Border>
                 </ControlTemplate>
             </TabControl.Template>
+
+
+            <TabItem Header="加载">
+                <local:LoadingPanel />
+            </TabItem>
             <TabItem Header="aa">
-                <c:CancelableTaskButton
-                    CancelCommand="{Binding DoSthCancelCommand}"
-                    TaskCommand="{Binding DoSthCommand}" />
+                <Grid>
+
+                    <c:CancelableTaskButton
+                        CancelCommand="{Binding DoSthCancelCommand}"
+                        TaskCommand="{Binding DoSthCommand}" />
+                    <c:ProgressRingOverlay IsActive="True" />
+                </Grid>
             </TabItem>
             <TabItem Header="对话框">
                 <local:DialogPanel />
             </TabItem>
 
-            <TabItem Header="加载">
-                <local:LoadingPanel />
-            </TabItem>
 
             <TabItem Header="表单">
                 <StackPanel Orientation="Vertical">

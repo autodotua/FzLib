@@ -1,0 +1,58 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:FzLib.Avalonia.Controls"
+    xmlns:cvt="clr-namespace:FzLib.Avalonia.Converters"
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+    <Design.PreviewWith>
+        <Border
+            Width="500"
+            Height="500"
+            Background="SkyBlue">
+            <c:ProgressRingOverlay IsActive="True" />
+        </Border>
+    </Design.PreviewWith>
+    <sys:TimeSpan x:Key="DefaultRingOverlayDuration">0:0:0.5</sys:TimeSpan>
+
+    <ControlTheme
+        x:Key="{x:Type c:ProgressRingOverlay}"
+        TargetType="c:ProgressRingOverlay">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <Panel
+                            x:Name="OverlayPanel"
+                            IsHitTestVisible="{TemplateBinding IsActive}"
+                            Opacity="{TemplateBinding IsActualActive,
+                                                      Converter={x:Static cvt:Converters.BoldOpacity}}">
+                            <Panel.Transitions>
+                                <Transitions>
+                                    <DoubleTransition
+                                        Easing="QuadraticEaseInOut"
+                                        Property="Opacity"
+                                        Duration="{StaticResource DefaultRingOverlayDuration}" />
+                                </Transitions>
+                            </Panel.Transitions>
+
+                            <Border
+                                Background="{DynamicResource SystemAltHighColor}"
+                                Opacity="0.5" />
+
+                            <c:ProgressRing
+                                Width="{TemplateBinding RingSize}"
+                                Height="{TemplateBinding RingSize}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                IsActive="{TemplateBinding IsActualActive}" />
+                        </Panel>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+
+    </ControlTheme>
+
+</ResourceDictionary>

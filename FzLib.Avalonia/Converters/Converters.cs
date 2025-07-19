@@ -17,6 +17,8 @@ namespace FzLib.Avalonia.Converters
 
         public static readonly Bool2FontWeightConverter BoldFontWeight = new();
 
+        public static readonly Bool2OpacityStyleConverter BoldOpacity = new();
+
         public static readonly Count2BoolConverter CountGreaterThanZero =
             new() { ComparisonValue = 0, Operator = ComparisonOperator.GreaterThan };
 
@@ -40,6 +42,7 @@ namespace FzLib.Avalonia.Converters
         public static readonly TimeSpanConverter TimeSpan = new();
         public static readonly TimeSpanNumberConverter TimeSpanNumber = new();
         public static readonly Bool2TextDecorationConverter UnderlineTextDecoration = new();
+
         public static readonly Bool2TextDecorationConverter OverlineTextDecoration =
             new() { TrueTextDecoration = TextDecorations.Overline };
     }
