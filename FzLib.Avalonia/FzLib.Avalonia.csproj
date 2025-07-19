@@ -36,14 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Dialogs\ProgressRing.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AvaloniaXaml Include="Dialogs\ProgressRing.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" />
     <PackageReference Include="Avalonia" />
     <PackageReference Include="Xaml.Behaviors.Interactivity" />
@@ -52,10 +44,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FzLib\FzLib.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Forms\" />
   </ItemGroup>
 
 </Project>
