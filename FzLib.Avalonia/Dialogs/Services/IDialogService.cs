@@ -8,7 +8,7 @@ namespace FzLib.Avalonia.Dialogs
 {
     public interface IDialogService
     {
-        TopLevel DefaultTopLevel { get; set; }
+        TopLevel DefaultOwner { get; set; }
         DialogContainerType ContainerType { get; set; }
         #region 信息对话框
         Task ShowOkDialogAsync(string title, string message = null, string detail = null);

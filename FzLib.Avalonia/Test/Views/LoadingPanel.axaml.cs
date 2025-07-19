@@ -7,6 +7,7 @@ using System;
 using FzLib.Avalonia.Test;
 using FzLib.Avalonia.Dialogs;
 using System.Threading.Tasks;
+using FzLib.Avalonia.Controls;
 
 namespace FzLib.Avalonia.Test.Views;
 

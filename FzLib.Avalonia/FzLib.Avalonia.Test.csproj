@@ -28,10 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AvaloniaXaml Remove="Test\Desktop\**" />
-    <Compile Remove="Test\Desktop\**" />
-    <EmbeddedResource Remove="Test\Desktop\**" />
-    <None Remove="Test\Desktop\**" />
     <Compile Update="Controls\Forms\StackFormItemGroup.axaml.cs">
       <DependentUpon>StackFormItemGroup.axaml</DependentUpon>
       <SubType>Code</SubType>
@@ -48,14 +44,26 @@
       <DependentUpon>BehaviorPanel.axaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Dialogs\Presets\CheckBoxDialog.axaml.cs">
+      <DependentUpon>CheckBoxDialog.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Dialogs\Presets\InputDialog.axaml.cs">
+      <DependentUpon>InputDialog.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Dialogs\Presets\MessageDialog.axaml.cs">
+      <DependentUpon>MessageDialog.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Dialogs\Presets\SelectItemDialog.axaml.cs">
+      <DependentUpon>SelectItemDialog.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Dialogs\ProgressRing.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AvaloniaXaml Include="Dialogs\ProgressRing.xaml" />
   </ItemGroup>
 
 
@@ -84,15 +92,6 @@
     </Compile>
     <Compile Update="Dialogs\DialogHost.cs">
       <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
-    <Compile Update="Dialogs\CheckBoxDialog.axaml.cs">
-      <DependentUpon>CheckBoxDialog.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Dialogs\SelectItemDialog.axaml.cs">
-      <DependentUpon>SelectItemDialog.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Dialogs\InputDialog.axaml.cs">
-      <DependentUpon>InputDialog.axaml</DependentUpon>
     </Compile>
     <Compile Update="Test\Views\FileSystemPanel.axaml.cs">
       <DependentUpon>FileSystemPanel.axaml</DependentUpon>

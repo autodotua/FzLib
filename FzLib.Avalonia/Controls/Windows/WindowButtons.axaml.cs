@@ -22,7 +22,7 @@ public partial class WindowButtons : StackPanel
 
     private void CloseButton_Click(object sender, RoutedEventArgs e)
     {
-        if (global::Avalonia.Controls.TopLevel.GetTopLevel(this) is Window win)
+        if (TopLevel.GetTopLevel(this) is Window win)
         {
             win.Close();
         }
@@ -34,7 +34,7 @@ public partial class WindowButtons : StackPanel
 
     private void MinimizeButton_Click(object sender, RoutedEventArgs e)
     {
-        if (global::Avalonia.Controls.TopLevel.GetTopLevel(this) is Window win)
+        if (TopLevel.GetTopLevel(this) is Window win)
         {
             win.WindowState = win.WindowState == WindowState.Minimized ? WindowState.Normal : WindowState.Minimized;
         }
@@ -46,7 +46,7 @@ public partial class WindowButtons : StackPanel
 
     private void ResizeButton_Click(object sender, RoutedEventArgs e)
     {
-        if (global::Avalonia.Controls.TopLevel.GetTopLevel(this) is Window win)
+        if (TopLevel.GetTopLevel(this) is Window win)
         {
             win.WindowState = win.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
         }
@@ -58,7 +58,7 @@ public partial class WindowButtons : StackPanel
 
     private void StackPanel_Loaded(object sender, RoutedEventArgs e)
     {
-        if (global::Avalonia.Controls.TopLevel.GetTopLevel(this) is Window win)
+        if (TopLevel.GetTopLevel(this) is Window win)
         {
             UpdateIsMaximized(win);
 

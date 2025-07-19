@@ -20,7 +20,7 @@ namespace FzLib.Avalonia.Dialogs
             {
                 var dialogService = new DialogService
                 {
-                    DefaultTopLevel = getTopLevel()
+                    DefaultOwner = getTopLevel()
                 };
                 return dialogService;
             });
@@ -33,7 +33,7 @@ namespace FzLib.Avalonia.Dialogs
             {
                 var dialogService = new DialogService
                 {
-                    DefaultTopLevel = defaultTopLevel
+                    DefaultOwner = defaultTopLevel
                 };
                 return dialogService;
             });

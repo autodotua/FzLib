@@ -10,8 +10,8 @@ namespace FzLib.Avalonia.Behaviors;
 public class WindowDragBehavior : Behavior<InputElement>
 {
     private Point? startPoint;
-    private Window? window;
-    private InputElement? element;
+    private Window window;
+    private InputElement element;
 
     protected override void OnAttached()
     {
@@ -42,7 +42,7 @@ public class WindowDragBehavior : Behavior<InputElement>
         element = null;
     }
 
-    private void OnAttachedToVisualTree(object? sender, VisualTreeAttachmentEventArgs e)
+    private void OnAttachedToVisualTree(object sender, VisualTreeAttachmentEventArgs e)
     {
         if (element == null)
         {
@@ -56,7 +56,7 @@ public class WindowDragBehavior : Behavior<InputElement>
         }
     }
 
-    private void OnDetachedFromVisualTree(object? sender, VisualTreeAttachmentEventArgs e)
+    private void OnDetachedFromVisualTree(object sender, VisualTreeAttachmentEventArgs e)
     {
         DetachPointerEvents();
         window = null;
@@ -84,7 +84,7 @@ public class WindowDragBehavior : Behavior<InputElement>
         element.PointerReleased -= OnPointerReleased;
     }
 
-    private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
+    private void OnPointerPressed(object sender, PointerPressedEventArgs e)
     {
         if (element == null || window == null || e.Source != sender)
             return;
@@ -99,7 +99,7 @@ public class WindowDragBehavior : Behavior<InputElement>
         }
     }
 
-    private void OnPointerMoved(object? sender, PointerEventArgs e)
+    private void OnPointerMoved(object sender, PointerEventArgs e)
     {
         if (!startPoint.HasValue || window == null)
             return;
@@ -111,7 +111,7 @@ public class WindowDragBehavior : Behavior<InputElement>
         window.Position = new PixelPoint(position.X + (int)offset.X, position.Y + (int)offset.Y);
     }
 
-    private void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
+    private void OnPointerReleased(object sender, PointerReleasedEventArgs e)
     {
         startPoint = null;
     }

@@ -14,7 +14,7 @@ namespace FzLib.Avalonia.Behaviors;
 public class VisualDragBehavior : Behavior<InputElement>
 {
     private Point? startPoint;
-    private TranslateTransform? transform;
+    private TranslateTransform transform;
 
     /// <summary>
     /// 要被拖动的控件（可以是任何 Visual）
@@ -28,13 +28,13 @@ public class VisualDragBehavior : Behavior<InputElement>
     public static readonly StyledProperty<Visual> ParentContainerProperty =
         AvaloniaProperty.Register<VisualDragBehavior, Visual>(nameof(ParentContainer));
 
-    public Visual? Target
+    public Visual Target
     {
         get => GetValue(TargetProperty);
         set => SetValue(TargetProperty, value);
     }
 
-    public Visual? ParentContainer
+    public Visual ParentContainer
     {
         get => GetValue(ParentContainerProperty);
         set => SetValue(ParentContainerProperty, value);
@@ -45,7 +45,9 @@ public class VisualDragBehavior : Behavior<InputElement>
         base.OnAttached();
 
         if (AssociatedObject is null)
+        {
             throw new InvalidOperationException("AssociatedObject is null");
+        }
 
         AssociatedObject.PointerPressed += OnPointerPressed;
         AssociatedObject.PointerMoved += OnPointerMoved;
@@ -81,20 +83,22 @@ public class VisualDragBehavior : Behavior<InputElement>
         transform = null;
     }
 
-    private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
+    private void OnPointerPressed(object sender, PointerPressedEventArgs e)
     {
         if (e.Source != sender || Target == null || transform == null)
             return;
 
         var container = ParentContainer ?? Target.GetVisualParent();
         if (container == null)
+        {
             return;
+        }
 
         var point = e.GetPosition(container);
         startPoint = new Point(point.X - transform.X, point.Y - transform.Y);
     }
 
-    private void OnPointerMoved(object? sender, PointerEventArgs e)
+    private void OnPointerMoved(object sender, PointerEventArgs e)
     {
         if (!startPoint.HasValue || Target == null || transform == null)
             return;
@@ -132,7 +136,7 @@ public class VisualDragBehavior : Behavior<InputElement>
         transform.Y = y;
     }
 
-    private void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
+    private void OnPointerReleased(object sender, PointerReleasedEventArgs e)
     {
         startPoint = null;
     }

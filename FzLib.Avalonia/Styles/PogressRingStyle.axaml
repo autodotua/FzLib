@@ -1,19 +1,107 @@
-﻿<TemplatedControl
-    x:Class="FzLib.Avalonia.Dialogs.ProgressRing"
+<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:FzLib.Avalonia.Dialogs"
-    Width="96"
-    Height="96"
-    x:CompileBindings="True">
-    <TemplatedControl.Styles>
-        <Style Selector="Ellipse.ProgressRingEllipseStyle">
+    xmlns:c="clr-namespace:FzLib.Avalonia.Controls">
+
+    <ControlTheme
+        x:Key="{x:Type c:ProgressRing}"
+        TargetType="c:ProgressRing">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextControlForeground}" />
+        <Setter Property="IsHitTestVisible" Value="False" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="MinHeight" Value="20" />
+        <Setter Property="MinWidth" Value="20" />
+        <Setter Property="ClipToBounds" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border
+                        x:Name="Ring"
+                        MaxWidth="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=MaxSideLength}"
+                        MaxHeight="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=MaxSideLength}"
+                        Padding="{TemplateBinding Padding}"
+                        x:DataType="c:ProgressRing"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="0"
+                        IsVisible="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsActive}">
+                        <Border.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform />
+                                <TranslateTransform />
+                            </TransformGroup>
+                        </Border.RenderTransform>
+                        <Grid>
+                            <Canvas Name="E1R">
+                                <Ellipse
+                                    x:Name="E1"
+                                    Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseDiameter}"
+                                    Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseDiameter}"
+                                    Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseOffset}"
+                                    Classes="ProgressRingEllipseStyle"
+                                    Fill="{TemplateBinding Foreground}" />
+                            </Canvas>
+                            <Canvas Name="E2R">
+                                <Ellipse
+                                    x:Name="E2"
+                                    Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseDiameter}"
+                                    Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseDiameter}"
+                                    Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseOffset}"
+                                    Classes="ProgressRingEllipseStyle"
+                                    Fill="{TemplateBinding Foreground}" />
+                            </Canvas>
+                            <Canvas Name="E3R">
+                                <Ellipse
+                                    x:Name="E3"
+                                    Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseDiameter}"
+                                    Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseDiameter}"
+                                    Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseOffset}"
+                                    Classes="ProgressRingEllipseStyle"
+                                    Fill="{TemplateBinding Foreground}" />
+                            </Canvas>
+                            <Canvas Name="E4R">
+                                <Ellipse
+                                    x:Name="E4"
+                                    Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseDiameter}"
+                                    Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseDiameter}"
+                                    Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseOffset}"
+                                    Classes="ProgressRingEllipseStyle"
+                                    Fill="{TemplateBinding Foreground}" />
+                            </Canvas>
+                            <Canvas Name="E5R">
+                                <Ellipse
+                                    x:Name="E5"
+                                    Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseDiameter}"
+                                    Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseDiameter}"
+                                    Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseOffset}"
+                                    Classes="ProgressRingEllipseStyle"
+                                    Fill="{TemplateBinding Foreground}" />
+                            </Canvas>
+                            <Canvas x:Name="E6R">
+                                <Ellipse
+                                    x:Name="E6"
+                                    Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseDiameter}"
+                                    Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseDiameter}"
+                                    Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseOffset}"
+                                    Classes="ProgressRingEllipseStyle"
+                                    Fill="{TemplateBinding Foreground}" />
+                            </Canvas>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style Selector="^ /template/ Ellipse.ProgressRingEllipseStyle">
             <Setter Property="Opacity" Value="0" />
-            <Setter Property="IsVisible" Value="{Binding $parent[local:ProgressRing].IsActive}" />
+            <Setter Property="IsVisible" Value="{Binding $parent[c:ProgressRing].IsActive}" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Top" />
         </Style>
-        <Style Selector="local|ProgressRing:active /template/ Ellipse#E1">
+        <Style Selector="^:active /template/ Ellipse#E1">
             <Style.Animations>
                 <Animation
                     Delay="0"
@@ -35,7 +123,7 @@
                 </Animation>
             </Style.Animations>
         </Style>
-        <Style Selector="local|ProgressRing:active /template/ Ellipse#E2">
+        <Style Selector="^:active /template/ Ellipse#E2">
             <Style.Animations>
                 <Animation
                     Delay="0:0:0.167"
@@ -57,7 +145,7 @@
                 </Animation>
             </Style.Animations>
         </Style>
-        <Style Selector="local|ProgressRing:active /template/ Ellipse#E3">
+        <Style Selector="^:active /template/ Ellipse#E3">
             <Style.Animations>
                 <Animation
                     Delay="0:0:0.334"
@@ -79,7 +167,7 @@
                 </Animation>
             </Style.Animations>
         </Style>
-        <Style Selector="local|ProgressRing:active /template/ Ellipse#E4">
+        <Style Selector="^:active /template/ Ellipse#E4">
             <Style.Animations>
                 <Animation
                     Delay="0:0:0.501"
@@ -101,7 +189,7 @@
                 </Animation>
             </Style.Animations>
         </Style>
-        <Style Selector="local|ProgressRing:active /template/ Ellipse#E5">
+        <Style Selector="^:active /template/ Ellipse#E5">
             <Style.Animations>
                 <Animation
                     Delay="0:0:0.668"
@@ -123,7 +211,7 @@
                 </Animation>
             </Style.Animations>
         </Style>
-        <Style Selector="local|ProgressRing:active /template/ Ellipse#E6">
+        <Style Selector="^:active /template/ Ellipse#E6">
             <Style.Animations>
                 <Animation
                     Delay="0:0:0.835"
@@ -145,10 +233,8 @@
                 </Animation>
             </Style.Animations>
         </Style>
-        <Style Selector="local|ProgressRing:active /template/ Canvas#E1R">
-            <!--<Style.Setters>
-      <Setter Property="Background" Value="LightBlue"/>
-    </Style.Setters>-->
+        <Style Selector="^:active /template/ Canvas#E1R">
+
             <Style.Animations>
                 <Animation
                     Delay="0:0:0.0"
@@ -192,7 +278,7 @@
                 </Animation>
             </Style.Animations>
         </Style>
-        <Style Selector="local|ProgressRing:active /template/ Canvas#E2R">
+        <Style Selector="^:active /template/ Canvas#E2R">
             <Style.Animations>
                 <Animation
                     Delay="0:0:0.167"
@@ -236,7 +322,7 @@
                 </Animation>
             </Style.Animations>
         </Style>
-        <Style Selector="local|ProgressRing:active /template/ Canvas#E3R">
+        <Style Selector="^:active /template/ Canvas#E3R">
             <Style.Setters>
                 <Setter Property="IsVisible" Value="True" />
             </Style.Setters>
@@ -283,7 +369,7 @@
                 </Animation>
             </Style.Animations>
         </Style>
-        <Style Selector="local|ProgressRing:active /template/ Canvas#E4R">
+        <Style Selector="^:active /template/ Canvas#E4R">
             <Style.Setters>
                 <Setter Property="IsVisible" Value="True" />
             </Style.Setters>
@@ -330,7 +416,7 @@
                 </Animation>
             </Style.Animations>
         </Style>
-        <Style Selector="local|ProgressRing:active /template/ Canvas#E5R">
+        <Style Selector="^:active /template/ Canvas#E5R">
             <Style.Setters>
                 <Setter Property="IsVisible" Value="True" />
             </Style.Setters>
@@ -377,7 +463,7 @@
                 </Animation>
             </Style.Animations>
         </Style>
-        <Style Selector="local|ProgressRing:active /template/ Canvas#E6R">
+        <Style Selector="^:active /template/ Canvas#E6R">
             <Style.Setters>
                 <Setter Property="IsVisible" Value="True" />
             </Style.Setters>
@@ -425,110 +511,17 @@
             </Style.Animations>
         </Style>
 
-        <Style Selector="local|ProgressRing:small /template/ Canvas#E6R">
+        <Style Selector="^:small /template/ Canvas#E6R">
             <Style.Setters>
                 <Setter Property="IsVisible" Value="False" />
             </Style.Setters>
         </Style>
-        <Style Selector="local|ProgressRing:large /template/ Canvas#E6R">
+        <Style Selector="^:large /template/ Canvas#E6R">
             <Style.Setters>
                 <Setter Property="IsVisible" Value="True" />
             </Style.Setters>
         </Style>
 
-    </TemplatedControl.Styles>
+    </ControlTheme>
 
-    <TemplatedControl.Theme>
-        <ControlTheme TargetType="local:ProgressRing">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Foreground" Value="{DynamicResource TextControlForeground}" />
-            <Setter Property="IsHitTestVisible" Value="False" />
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="MinHeight" Value="20" />
-            <Setter Property="MinWidth" Value="20" />
-            <Setter Property="ClipToBounds" Value="True" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Border
-                            x:Name="Ring"
-                            MaxWidth="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=MaxSideLength}"
-                            MaxHeight="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=MaxSideLength}"
-                            Padding="{TemplateBinding Padding}"
-                            x:DataType="local:ProgressRing"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="0"
-                            IsVisible="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsActive}">
-                            <Border.RenderTransform>
-                                <TransformGroup>
-                                    <RotateTransform />
-                                    <TranslateTransform />
-                                </TransformGroup>
-                            </Border.RenderTransform>
-                            <Grid>
-                                <Canvas Name="E1R">
-                                    <Ellipse
-                                        x:Name="E1"
-                                        Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseDiameter}"
-                                        Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseDiameter}"
-                                        Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseOffset}"
-                                        Classes="ProgressRingEllipseStyle"
-                                        Fill="{TemplateBinding Foreground}" />
-                                </Canvas>
-                                <Canvas Name="E2R">
-                                    <Ellipse
-                                        x:Name="E2"
-                                        Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseDiameter}"
-                                        Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseDiameter}"
-                                        Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseOffset}"
-                                        Classes="ProgressRingEllipseStyle"
-                                        Fill="{TemplateBinding Foreground}" />
-                                </Canvas>
-                                <Canvas Name="E3R">
-                                    <Ellipse
-                                        x:Name="E3"
-                                        Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseDiameter}"
-                                        Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseDiameter}"
-                                        Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseOffset}"
-                                        Classes="ProgressRingEllipseStyle"
-                                        Fill="{TemplateBinding Foreground}" />
-                                </Canvas>
-                                <Canvas Name="E4R">
-                                    <Ellipse
-                                        x:Name="E4"
-                                        Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseDiameter}"
-                                        Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseDiameter}"
-                                        Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseOffset}"
-                                        Classes="ProgressRingEllipseStyle"
-                                        Fill="{TemplateBinding Foreground}" />
-                                </Canvas>
-                                <Canvas Name="E5R">
-                                    <Ellipse
-                                        x:Name="E5"
-                                        Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseDiameter}"
-                                        Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseDiameter}"
-                                        Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseOffset}"
-                                        Classes="ProgressRingEllipseStyle"
-                                        Fill="{TemplateBinding Foreground}" />
-                                </Canvas>
-                                <Canvas x:Name="E6R">
-                                    <Ellipse
-                                        x:Name="E6"
-                                        Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseDiameter}"
-                                        Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseDiameter}"
-                                        Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EllipseOffset}"
-                                        Classes="ProgressRingEllipseStyle"
-                                        Fill="{TemplateBinding Foreground}" />
-                                </Canvas>
-                            </Grid>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </ControlTheme>
-    </TemplatedControl.Theme>
-
-</TemplatedControl>
+</ResourceDictionary>

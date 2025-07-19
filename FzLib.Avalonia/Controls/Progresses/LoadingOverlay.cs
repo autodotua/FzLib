@@ -1,25 +1,20 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
+using Avalonia;
+using Avalonia.Animation;
+using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Markup.Xaml.MarkupExtensions;
-using System.Threading;
 using Avalonia.Threading;
-using Avalonia.Interactivity;
-using Avalonia.Animation;
-using Avalonia.Styling;
+using FzLib.Avalonia.Dialogs;
 
-namespace FzLib.Avalonia.Dialogs
+namespace FzLib.Avalonia.Controls
 {
     public class LoadingOverlay : Border
     {
         private static readonly TimeSpan AnimationTime = TimeSpan.FromSeconds(0.25);
+
         public LoadingOverlay()
         {
             this.Child = new ProgressRing()
@@ -41,7 +36,6 @@ namespace FzLib.Avalonia.Dialogs
             ];
             this[!BackgroundProperty] = new DynamicResourceExtension("SystemAltMediumColor");
         }
-
 
         public static CancellationTokenSource ShowLoading(Visual visual, TimeSpan delay = default)
         {

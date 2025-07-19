@@ -14,24 +14,35 @@ using static FzLib.Avalonia.Dialogs.MessageDialog.MessageDialogButtonDefinition;
 
 namespace FzLib.Avalonia.Dialogs
 {
-
     public class DialogService : IDialogService
     {
+        public DialogService()
+        {
+        }
+
+        public DialogService(TopLevel owner)
+        {
+            DefaultOwner = owner;
+        }
+
         public DialogContainerType ContainerType { get; set; }
 
-        public TopLevel DefaultTopLevel { get; set; } = null;
+        public TopLevel DefaultOwner { get; set; } = null;
 
         private Task<TopLevel> GetActiveTopLevelAsync()
         {
-            if (DefaultTopLevel != null)
+            if (DefaultOwner != null)
             {
-                return Task.FromResult(DefaultTopLevel);
+                return Task.FromResult(DefaultOwner);
             }
+
             return TopLevelExtension.GetActiveTopLevelAsync(CancellationToken.None);
         }
 
         #region 信息
-        public async Task<bool> ShowErrorDialogAsync(string title, string message = null, string detail = null, bool retryButton = false)
+
+        public async Task<bool> ShowErrorDialogAsync(string title, string message = null, string detail = null,
+            bool retryButton = false)
         {
             MessageDialog dialog = new MessageDialog(new MessageDialogViewModel()
             {
@@ -82,7 +93,9 @@ namespace FzLib.Avalonia.Dialogs
             }, OK);
             await dialog.ShowDialog(ContainerType, await GetActiveTopLevelAsync());
         }
-        public async Task<bool?> ShowYesNoDialogAsync(string title, string message = null, string detail = null, bool cancelButon = false)
+
+        public async Task<bool?> ShowYesNoDialogAsync(string title, string message = null, string detail = null,
+            bool cancelButon = false)
         {
             MessageDialog dialog = new MessageDialog(new MessageDialogViewModel()
             {
@@ -94,17 +107,19 @@ namespace FzLib.Avalonia.Dialogs
             }, cancelButon ? YesNoCancel : YesNo);
             return await dialog.ShowDialog<bool?>(ContainerType, await GetActiveTopLevelAsync());
         }
+
         #endregion
 
         #region 输入
+
         public async Task<string> ShowInputMultiLinesTextDialogAsync(
-                                                                 string title,
-                                                                 string message,
-                                                                 int minLines = 3,
-                                                                 int maxLines = 10,
-                                                                 string defaultText = null,
-                                                                 string watermark = null,
-                                                                 Action<string> validation = null)
+            string title,
+            string message,
+            int minLines = 3,
+            int maxLines = 10,
+            string defaultText = null,
+            string watermark = null,
+            Action<string> validation = null)
         {
             InputDialog dialog = new InputDialog(new InputDialogViewModel()
             {
@@ -121,27 +136,27 @@ namespace FzLib.Avalonia.Dialogs
         }
 
         public async Task<T?> ShowInputNumberDialogAsync<T>(
-                                                                 string title,
-                                                                 string message,
-                                                                 string watermark = null) where T : struct, INumber<T>
+            string title,
+            string message,
+            string watermark = null) where T : struct, INumber<T>
         {
             return await ShowInputNumberDialogAsync<T>(title, message, false, default, watermark);
         }
 
         public async Task<T?> ShowInputNumberDialogAsync<T>(
-                                                                 string title,
-                                                                 string message,
-                                                                 T defaultValue,
-                                                                 string watermark = null) where T : struct, INumber<T>
+            string title,
+            string message,
+            T defaultValue,
+            string watermark = null) where T : struct, INumber<T>
         {
             return await ShowInputNumberDialogAsync<T>(title, message, true, defaultValue, watermark);
         }
 
         public async Task<string> ShowInputPasswordDialogAsync(
-                                                                 string title,
-                                                                 string message,
-                                                                 string watermark = null,
-                                                                 Action<string> validation = null)
+            string title,
+            string message,
+            string watermark = null,
+            Action<string> validation = null)
         {
             InputDialog dialog = new InputDialog(new InputDialogViewModel()
             {
@@ -155,11 +170,11 @@ namespace FzLib.Avalonia.Dialogs
         }
 
         public async Task<string> ShowInputTextDialogAsync(
-                                                                                                 string title,
-                                                                 string message,
-                                                                 string defaultText = null,
-                                                                 string watermark = null,
-                                                                 Action<string> validation = null)
+            string title,
+            string message,
+            string defaultText = null,
+            string watermark = null,
+            Action<string> validation = null)
         {
             InputDialog dialog = new InputDialog(new InputDialogViewModel()
             {
@@ -171,12 +186,13 @@ namespace FzLib.Avalonia.Dialogs
             });
             return await dialog.ShowDialog<string>(ContainerType, await GetActiveTopLevelAsync());
         }
+
         private async Task<T?> ShowInputNumberDialogAsync<T>(
-                                                                  string title,
-                                                                  string message,
-                                                                  bool hasDefaultValue,
-                                                                  T defaultValue,
-                                                                  string watermark = null) where T : struct, INumber<T>
+            string title,
+            string message,
+            bool hasDefaultValue,
+            T defaultValue,
+            string watermark = null) where T : struct, INumber<T>
         {
             InputDialog dialog = new InputDialog(new InputDialogViewModel()
             {
@@ -189,12 +205,14 @@ namespace FzLib.Avalonia.Dialogs
             var result = await dialog.ShowDialog<string>(ContainerType, await GetActiveTopLevelAsync());
 
             return result == null ? null : T.Parse(result, CultureInfo.InvariantCulture);
-
         }
+
         #endregion
 
         #region 选择
-        public async Task<bool> ShowCheckItemDialog(string title, IList<CheckDialogItem> items, string message = null, int minCheckCount = 0, int maxCheckCount = int.MaxValue)
+
+        public async Task<bool> ShowCheckItemDialog(string title, IList<CheckDialogItem> items, string message = null,
+            int minCheckCount = 0, int maxCheckCount = int.MaxValue)
         {
             CheckBoxDialog dialog = new CheckBoxDialog(new CheckBoxDialogViewModel()
             {
@@ -205,7 +223,8 @@ namespace FzLib.Avalonia.Dialogs
             return await dialog.ShowDialog<bool>(ContainerType, await GetActiveTopLevelAsync());
         }
 
-        public async Task<int?> ShowSelectItemDialog(string title, IList<SelectDialogItem> items, string message = null, object buttonContent = null, Action buttonCommand = null)
+        public async Task<int?> ShowSelectItemDialog(string title, IList<SelectDialogItem> items, string message = null,
+            object buttonContent = null, Action buttonCommand = null)
         {
             SelectItemDialog dialog = new SelectItemDialog(new SelectItemDialogViewModel()
             {
@@ -218,6 +237,8 @@ namespace FzLib.Avalonia.Dialogs
 
         #endregion
 
+        #region 自定义
+
         public async Task ShowCustomDialogAsync(DialogHost dialog)
         {
             await dialog.ShowDialog(ContainerType, await GetActiveTopLevelAsync());
@@ -227,5 +248,7 @@ namespace FzLib.Avalonia.Dialogs
         {
             return await dialog.ShowDialog<T>(ContainerType, await GetActiveTopLevelAsync());
         }
+
+        #endregion
     }
 }

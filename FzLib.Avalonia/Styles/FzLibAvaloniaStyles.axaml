@@ -8,6 +8,7 @@
                 <ResourceInclude Source="/Styles/FormItemStyle.axaml" />
                 <ResourceInclude Source="/Styles/ExtendedWindowStyle.axaml" />
                 <ResourceInclude Source="/Styles/DialogHostStyles.axaml" />
+                <ResourceInclude Source="/Styles/PogressRingStyle.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>
