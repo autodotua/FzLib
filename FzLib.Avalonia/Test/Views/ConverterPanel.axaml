@@ -188,12 +188,12 @@
                         <CheckBox
                             Grid.Column="2"
                             Content="输入值为abc"
-                            IsChecked="{Binding #tEqual.Text, Converter={x:Static cvt:Converters.Equal}, ConverterParameter=abc, Mode=OneWay}"
+                            IsChecked="{Binding #tEqual.Text, Converter={x:Static cvt:Converters.EqualWithParameter}, ConverterParameter=abc, Mode=OneWay}"
                             IsEnabled="False" />
                         <CheckBox
                             Grid.Column="4"
                             Content="输入值不为abc"
-                            IsChecked="{Binding #tEqual.Text, Converter={x:Static cvt:Converters.NotEqual}, ConverterParameter=abc, Mode=OneWay}"
+                            IsChecked="{Binding #tEqual.Text, Converter={x:Static cvt:Converters.NotEqualWithParameter}, ConverterParameter=abc, Mode=OneWay}"
                             IsEnabled="False" />
                     </Grid>
                 </c:FormItem>

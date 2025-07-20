@@ -10,6 +10,9 @@ namespace FzLib.Avalonia.Services
         Task<IReadOnlyList<IStorageFolder>> OpenFolderPickerAsync(FolderPickerOpenOptions options);
         Task<IStorageFile> SaveFilePickerAsync(FilePickerSaveOptions options);
         Task<IStorageFolder> TryGetWellKnownFolderAsync(WellKnownFolder wellKnownFolder);
+        Task<string> OpenFilePickerAndGetFirstAsync(FilePickerOpenOptions options);
+        Task<string> OpenFolderPickerAndGetFirstAsync(FolderPickerOpenOptions options);
+        Task<string> SaveFilePickerAndGetPathAsync(FilePickerSaveOptions options);
         bool CanPickFolder { get; }
         bool CanOpen { get; }
         bool CanSave { get; }

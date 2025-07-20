@@ -2,6 +2,7 @@
 using Avalonia.Media;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,7 +27,7 @@ namespace FzLib.Avalonia.Converters
             { ComparisonValue = 0, Operator = ComparisonOperator.Equal };
 
         public static readonly DescriptionConverter Description = new();
-        public static readonly Equal2BoolConverter Equal = new();
+        public static readonly Equal2BoolConverter EqualWithParameter = new();
         public static readonly FileLengthConverter FileLength = new();
         public static readonly FilePickerFilterConverter FilePickerFilter = new();
         public static readonly InverseBoolConverter InverseBool = new();
@@ -34,7 +35,7 @@ namespace FzLib.Avalonia.Converters
         public static readonly Null2BoolConverter IsNull = new() { ValueWhenNull = true };
         public static readonly Bool2FontStyleConverter ItalicFontStyle = new();
         public static readonly Bool2FontWeightConverter LightFontWeight = new() { TrueFontWeight = FontWeight.Light };
-        public static readonly Equal2BoolConverter NotEqual = new() { InverseResult = true };
+        public static readonly Equal2BoolConverter NotEqualWithParameter = new() { InverseResult = true };
         public static readonly BoolLogicConverter OrLogic = new() { Operator = BoolLogicConverter.LogicalOperator.Or };
         public static readonly StringListConverter StringList = new();
         public static readonly Bool2TextWrappingConverter TextWrapping = new();
@@ -42,7 +43,7 @@ namespace FzLib.Avalonia.Converters
         public static readonly TimeSpanConverter TimeSpan = new();
         public static readonly TimeSpanNumberConverter TimeSpanNumber = new();
         public static readonly Bool2TextDecorationConverter UnderlineTextDecoration = new();
-
+        public static readonly DateTimeConverter DateTime = new();
         public static readonly Bool2TextDecorationConverter OverlineTextDecoration =
             new() { TrueTextDecoration = TextDecorations.Overline };
     }
