@@ -14,7 +14,7 @@ namespace FzLib.Avalonia.Services
 
         public bool CanSave => StorageProvider?.CanSave ?? false;
 
-        protected virtual IStorageProvider? StorageProvider => TopLevelExtension.GetMainTopLevel()?.StorageProvider ??
+        protected virtual IStorageProvider StorageProvider => TopLevelExtension.GetMainTopLevel()?.StorageProvider ??
                                     throw new InvalidOperationException("找不到存储提供程序");
 
         public async Task<string> OpenFilePickerAndGetFirstAsync(FilePickerOpenOptions options)

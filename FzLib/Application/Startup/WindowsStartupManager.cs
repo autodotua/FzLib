@@ -4,6 +4,7 @@ using Microsoft.Win32;
 
 namespace FzLib.Application.Startup
 {
+    [SupportedOSPlatform("windows")]
     public class WindowsStartupManager : IStartupManager
     {
         private const string RegistryPath = @"Software\Microsoft\Windows\CurrentVersion\Run";

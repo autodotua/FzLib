@@ -36,6 +36,7 @@ namespace FzLib.Avalonia.Converters
                     LogicalOperator.Nor => !(result || current),
                     LogicalOperator.Xor => result ^ current,
                     LogicalOperator.Nand => !(result && current),
+                    _ => throw new ArgumentOutOfRangeException()
                 };
             }
 

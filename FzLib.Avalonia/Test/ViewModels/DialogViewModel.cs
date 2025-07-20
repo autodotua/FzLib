@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using System;
 using System.Threading.Tasks;
-using Tmds.DBus.Protocol;
 using FzLib.Avalonia.Test.Views;
 using FzLib.Avalonia.Services;
 using CommunityToolkit.Mvvm.Messaging;

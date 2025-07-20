@@ -31,6 +31,11 @@ namespace FzLib.Avalonia.Dialogs
 
         private Task<TopLevel> GetActiveTopLevelAsync()
         {
+            if (ContainerType == DialogContainerType.ModelessWindow)
+            {
+                return Task.FromResult<TopLevel>(null);
+            }
+
             if (DefaultOwner != null)
             {
                 return Task.FromResult(DefaultOwner);
