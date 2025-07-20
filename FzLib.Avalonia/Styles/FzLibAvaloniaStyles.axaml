@@ -15,5 +15,4 @@
         </ResourceDictionary>
     </Styles.Resources>
     <StyleInclude Source="/Styles/GroupBoxStyles.axaml" />
-    <StyleInclude Source="/Styles/BasicControlStyles.axaml" />
 </Styles>
