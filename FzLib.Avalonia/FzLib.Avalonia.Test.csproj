@@ -20,12 +20,12 @@
     <PublishAot>true</PublishAot>
   </PropertyGroup>
 
-  <ItemGroup>
-    <!-- 保留 Serilog -->
+  <!--<ItemGroup>
+    --><!-- 保留 Serilog --><!--
     <TrimmerRootAssembly Include="Serilog" />
-    <!-- 保留 Avalonia.Win32 -->
+    --><!-- 保留 Avalonia.Win32 --><!--
     <TrimmerRootAssembly Include="Avalonia.Win32" />
-  </ItemGroup>
+  </ItemGroup>-->
 
   <ItemGroup>
     <Compile Update="Controls\Forms\StackFormItemGroup.axaml.cs">
