@@ -4,18 +4,16 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using System.Linq;
 using System;
-using FzLib.Avalonia.Test;
+using FzLib.Samples;
 using FzLib.Avalonia.Dialogs;
 using System.Threading.Tasks;
-using FzLib.Avalonia.Test.ViewModels;
 
-namespace FzLib.Avalonia.Test.Views;
+namespace FzLib.Samples.Views;
 
-public partial class ConverterPanel : UserControl
+public partial class BehaviorPanel : UserControl
 {
-    public ConverterPanel()
+    public BehaviorPanel()
     {
-        DataContext = new ConverterViewModel();
         InitializeComponent();
     }
 }

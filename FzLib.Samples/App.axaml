@@ -1,8 +1,8 @@
 <Application
-    x:Class="FzLib.Avalonia.Test.App"
+    x:Class="FzLib.Samples.App"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:styles="clr-namespace:FzLib.Avalonia.Styles"
+    xmlns:styles="using:FzLib.Avalonia.Styles"
     RequestedThemeVariant="Default">
     <!--  "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options.  -->
 

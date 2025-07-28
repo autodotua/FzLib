@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Avalonia.Styling;
 using FzLib.Avalonia.Controls;
 
-namespace FzLib.Avalonia.Test.Views;
+namespace FzLib.Samples.Views;
 public partial class ComboBoxDialog : DialogHost
 {
     public ComboBoxDialog()

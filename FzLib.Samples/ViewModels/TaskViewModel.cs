@@ -5,7 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FzLib.Avalonia.Dialogs;
 
-namespace FzLib.Avalonia.Test.ViewModels;
+namespace FzLib.Samples.ViewModels;
 
 public partial class TaskViewModel(IDialogService dialogService) : ObservableObject
 {

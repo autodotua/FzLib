@@ -6,11 +6,11 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using System;
 using System.Threading.Tasks;
-using FzLib.Avalonia.Test.Views;
+using FzLib.Samples.Views;
 using FzLib.Avalonia.Services;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace FzLib.Avalonia.Test.ViewModels;
+namespace FzLib.Samples.ViewModels;
 
 public partial class DialogViewModel(IDialogService dialogService) : ObservableObject
 {

@@ -2,11 +2,11 @@
 using System.Threading.Tasks;
 using Avalonia;
 using FzLib.Application;
-using FzLib.Avalonia.Test;
+using FzLib.Samples;
 using Serilog;
 using UnhandledExceptionEventArgs = System.UnhandledExceptionEventArgs;
 
-namespace FzLib.Avalonia.Test;
+namespace FzLib.Samples;
 
 
 class Program

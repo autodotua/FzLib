@@ -6,7 +6,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace FzLib.Avalonia.Test.ViewModels;
+namespace FzLib.Samples.ViewModels;
 public partial class FileSystemViewModel : ObservableObject
 {
     [ObservableProperty]

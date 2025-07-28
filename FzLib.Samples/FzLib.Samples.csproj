@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>disable</Nullable>
     <LangVersion>latest</LangVersion>
-    <RootNamespace>FzLib.Avalonia</RootNamespace>
+    <RootNamespace>FzLib.Samples</RootNamespace>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
   </PropertyGroup>
 
@@ -84,6 +84,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FzLib.Avalonia\FzLib.Avalonia.csproj" />
     <ProjectReference Include="..\FzLib\FzLib.csproj" />
   </ItemGroup>
 
@@ -115,8 +116,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AvaloniaResource Include="Test\favicon.ico" />
-    <None Remove="Test\favicon.png" />
-    <AvaloniaResource Include="Test\favicon.png" />
+    <AvaloniaResource Include="favicon.ico" />
+    <None Remove="favicon.png" />
+    <AvaloniaResource Include="favicon.png" />
   </ItemGroup>
 </Project>

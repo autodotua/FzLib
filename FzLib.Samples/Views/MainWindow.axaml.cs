@@ -7,10 +7,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Styling;
 using FzLib.Avalonia.Controls;
-using FzLib.Avalonia.Test.ViewModels;
+using FzLib.Samples.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FzLib.Avalonia.Test.Views;
+namespace FzLib.Samples.Views;
 public partial class MainWindow : ExtendedWindow
 {
     public MainWindow()

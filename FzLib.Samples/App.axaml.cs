@@ -4,15 +4,15 @@ using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using FzLib.Application.Startup;
 using FzLib.Avalonia.Dialogs;
-using FzLib.Avalonia.Test;
+using FzLib.Samples;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using FzLib.Avalonia.Services;
-using FzLib.Avalonia.Test.ViewModels;
-using FzLib.Avalonia.Test.Views;
+using FzLib.Samples.ViewModels;
+using FzLib.Samples.Views;
 
-namespace FzLib.Avalonia.Test;
+namespace FzLib.Samples;
 
 public partial class App : global::Avalonia.Application
 {

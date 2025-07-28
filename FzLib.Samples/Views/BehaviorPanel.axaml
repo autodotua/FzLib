@@ -1,8 +1,8 @@
 <UserControl
-    x:Class="FzLib.Avalonia.Test.Views.BehaviorPanel"
+    x:Class="FzLib.Samples.Views.BehaviorPanel"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:b="clr-namespace:FzLib.Avalonia.Behaviors"
+    xmlns:b="using:FzLib.Avalonia.Behaviors"
     xmlns:c="using:FzLib.Avalonia.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"

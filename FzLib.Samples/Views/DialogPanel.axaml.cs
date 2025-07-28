@@ -4,15 +4,15 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using System.Linq;
 using System;
-using FzLib.Avalonia.Test;
+using FzLib.Samples;
 using FzLib.Avalonia.Dialogs;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using FzLib.Avalonia.Test.ViewModels;
+using FzLib.Samples.ViewModels;
 using CommunityToolkit.Mvvm.Messaging;
-using static FzLib.Avalonia.Test.ViewModels.DialogViewModel;
+using static FzLib.Samples.ViewModels.DialogViewModel;
 
-namespace FzLib.Avalonia.Test.Views;
+namespace FzLib.Samples.Views;
 
 public partial class DialogPanel : UserControl
 {
@@ -23,7 +23,7 @@ public partial class DialogPanel : UserControl
         WeakReferenceMessenger.Default.Register<OpenAnotherWindowMessage>(this, (m, _) =>
         {
             (TopLevel.GetTopLevel(this) as Window).WindowState = WindowState.Minimized;
-            Window anotherWindow = new Window() { Title = "ÁíÒ»¸ö´°¿Ú", Content = new Grid() };
+            Window anotherWindow = new Window() { Title = "ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", Content = new Grid() };
             anotherWindow.Show();
             anotherWindow.WindowState = WindowState.Minimized;
         });
