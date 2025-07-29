@@ -49,68 +49,35 @@ namespace FzLib.Avalonia.Dialogs
         public async Task<bool> ShowErrorDialogAsync(string title, string message = null, string detail = null,
             bool retryButton = false)
         {
-            MessageDialog dialog = new MessageDialog(new MessageDialogViewModel()
-            {
-                Title = title,
-                Message = message,
-                Detail = detail,
-                Icon = MessageDialog.ErrorIcon,
-                IconBrush = Brushes.Red
-            }, retryButton ? RetryCancel : OK);
-            return await dialog.ShowDialog<bool?>(ContainerType, await GetActiveTopLevelAsync()) == true;
+            return await new MessageDialog(retryButton ? RetryCancel : OK, title, message, detail,
+                    MessageDialogContent.ErrorIcon, Brushes.Red)
+                .ShowDialog<bool?>(ContainerType, await GetActiveTopLevelAsync()) == true;
         }
 
-        public async Task<bool> ShowErrorDialogAsync(string title, Exception ex, bool retryButton = false)
+        public Task<bool> ShowErrorDialogAsync(string title, Exception ex, bool retryButton = false)
         {
-            MessageDialog dialog = new MessageDialog(new MessageDialogViewModel()
-            {
-                Title = title,
-                Message = ex.Message,
-                Detail = ex.ToString(),
-                Icon = MessageDialog.ErrorIcon,
-                IconBrush = Brushes.Red
-            }, retryButton ? RetryCancel : OK);
-            return await dialog.ShowDialog<bool?>(ContainerType, await GetActiveTopLevelAsync()) == true;
+            return ShowErrorDialogAsync(title, ex.Message, ex.ToString(), retryButton);
         }
 
         public async Task ShowOkDialogAsync(string title, string message = null, string detail = null)
         {
-            MessageDialog dialog = new MessageDialog(new MessageDialogViewModel()
-            {
-                Title = title,
-                Message = message,
-                Detail = detail,
-                //Icon = MessageDialog.InfoIcon,
-                //IconBrush = grid.Foreground
-            }, OK);
-            await dialog.ShowDialog(ContainerType, await GetActiveTopLevelAsync());
+            await new MessageDialog(OK, title, message, detail)
+                .ShowDialog(ContainerType, await GetActiveTopLevelAsync());
         }
 
         public async Task ShowWarningDialogAsync(string title, string message = null, string detail = null)
         {
-            MessageDialog dialog = new MessageDialog(new MessageDialogViewModel()
-            {
-                Title = title,
-                Message = message,
-                Detail = detail,
-                Icon = MessageDialog.WarningIcon,
-                IconBrush = SolidColorBrush.Parse("#ffb900")
-            }, OK);
-            await dialog.ShowDialog(ContainerType, await GetActiveTopLevelAsync());
+            await new MessageDialog(OK, title, message, detail,
+                    MessageDialogContent.WarningIcon, SolidColorBrush.Parse("#ffb900"))
+                .ShowDialog(ContainerType, await GetActiveTopLevelAsync());
         }
 
         public async Task<bool?> ShowYesNoDialogAsync(string title, string message = null, string detail = null,
             bool cancelButon = false)
         {
-            MessageDialog dialog = new MessageDialog(new MessageDialogViewModel()
-            {
-                Title = title,
-                Message = message,
-                Detail = detail,
-                Icon = MessageDialog.QuestionIcon,
-                IconBrush = SolidColorBrush.Parse("#ffb900")
-            }, cancelButon ? YesNoCancel : YesNo);
-            return await dialog.ShowDialog<bool?>(ContainerType, await GetActiveTopLevelAsync());
+            return await new MessageDialog(cancelButon ? YesNoCancel : YesNo, title, message, detail,
+                    MessageDialogContent.QuestionIcon, SolidColorBrush.Parse("#ffb900"))
+                .ShowDialog<bool?>(ContainerType, await GetActiveTopLevelAsync());
         }
 
         #endregion

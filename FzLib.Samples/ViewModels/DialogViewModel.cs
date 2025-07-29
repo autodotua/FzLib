@@ -118,7 +118,7 @@ public partial class DialogViewModel(IDialogService dialogService) : ObservableO
     private async Task OpenDialog2()
     {
         DialogService.ContainerType = ContainerType;
-        await DialogService.ShowOkDialogAsync("标题", "信息正文", string.Concat(Enumerable.Repeat("详细内容", 1000)));
+        await DialogService.ShowOkDialogAsync("标题", string.Concat(Enumerable.Repeat("信息正文", 100)), string.Concat(Enumerable.Repeat("详细内容", 1000)));
     }
 
     public class OpenAnotherWindowMessage
