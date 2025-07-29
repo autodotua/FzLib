@@ -9,56 +9,78 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
+using Avalonia;
 
 
 namespace FzLib.Avalonia.Dialogs
 {
-    public partial class CheckBoxDialogViewModel : ObservableObject
+    internal class CheckBoxDialogContent : ContentControl
     {
-        [ObservableProperty]
-        private string title;
+        protected override Type StyleKeyOverride { get; } = typeof(CheckBoxDialogContent);
 
-        [ObservableProperty]
-        private string message;
+        public static readonly StyledProperty<string> TitleProperty =
+            AvaloniaProperty.Register<CheckBoxDialogContent, string>(nameof(Title));
 
-        [ObservableProperty]
-        private IList<CheckDialogItem> items;
+        public static readonly StyledProperty<string> MessageProperty =
+            AvaloniaProperty.Register<CheckBoxDialogContent, string>(nameof(Message));
+
+        public static readonly StyledProperty<IList<CheckDialogItem>> ItemsProperty =
+            AvaloniaProperty.Register<CheckBoxDialogContent, IList<CheckDialogItem>>(nameof(Items));
+
+        public string Title
+        {
+            get => GetValue(TitleProperty);
+            set => SetValue(TitleProperty, value);
+        }
+
+        public string Message
+        {
+            get => GetValue(MessageProperty);
+            set => SetValue(MessageProperty, value);
+        }
+
+        public IList<CheckDialogItem> Items
+        {
+            get => GetValue(ItemsProperty);
+            set => SetValue(ItemsProperty, value);
+        }
     }
-
 
     public partial class CheckBoxDialog : DialogHost
     {
         private readonly int minCheckCount;
         private readonly int maxCheckCount;
 
-        public CheckBoxDialog() : this(new CheckBoxDialogViewModel(), 0, 1)
+        public CheckBoxDialog(string title, string message, IEnumerable<CheckDialogItem> items, int minCheckCount = 1,
+            int maxCheckCount = int.MaxValue)
         {
-        }
-        public CheckBoxDialog(CheckBoxDialogViewModel vm, int minCheckCount,int maxCheckCount)
-        {
-            Title=vm.Title;
+            Title = title;
+            var itemList = items.ToList();
+            Content = new CheckBoxDialogContent
+            {
+                Message = message,
+                Items = itemList
+            };
             if (minCheckCount < 0)
             {
                 throw new ArgumentException("值不可小于0", nameof(minCheckCount));
             }
+
             if (maxCheckCount < 0)
             {
                 throw new ArgumentException("值不可小于0", nameof(maxCheckCount));
             }
-            if (minCheckCount > vm.Items.Count)
-            {
-                throw new ArgumentException("值不可大于选择项", nameof(minCheckCount));
-            }
+
             if (maxCheckCount < minCheckCount)
             {
                 throw new ArgumentException("值不可小于minCheckCount", nameof(maxCheckCount));
             }
-            DataContext = vm;
-            foreach (var item in vm.Items)
+
+            foreach (var item in itemList)
             {
                 item.PropertyChanged += Item_PropertyChanged;
             }
-            InitializeComponent();
+
             CheckCanApply();
             this.minCheckCount = minCheckCount;
             this.maxCheckCount = maxCheckCount;
@@ -74,13 +96,12 @@ namespace FzLib.Avalonia.Dialogs
 
         private void CheckCanApply()
         {
-            int count = (DataContext as CheckBoxDialogViewModel).Items.Where(p => p.IsChecked).Count();
+            int count = (Content as CheckBoxDialogContent).Items.Count(p => p.IsChecked);
             PrimaryButtonEnable = count >= minCheckCount && count <= maxCheckCount;
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
-
             PrimaryButtonContent = DialogHost.OkButtonText;
             CloseButtonContent = DialogHost.CancelButtonText;
 
@@ -91,10 +112,12 @@ namespace FzLib.Avalonia.Dialogs
         {
             Close(true);
         }
+
         protected override void OnSecondaryButtonClick()
         {
             throw new NotImplementedException();
         }
+
         protected override void OnCloseButtonClick()
         {
             Close(false);

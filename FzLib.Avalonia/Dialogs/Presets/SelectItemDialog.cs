@@ -8,20 +8,32 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Numerics;
+using Avalonia;
 
 
 namespace FzLib.Avalonia.Dialogs
 {
-    public partial class SelectItemDialogViewModel : ObservableObject
+    internal class SelectItemDialogContent : ContentControl
     {
-        [ObservableProperty]
-        private string title;
+        protected override Type StyleKeyOverride { get; } = typeof(SelectItemDialogContent);
 
-        [ObservableProperty]
-        private string message;
+        public static readonly StyledProperty<string> MessageProperty =
+            AvaloniaProperty.Register<SelectItemDialogContent, string>(nameof(Message));
 
-        [ObservableProperty]
-        private IList<SelectDialogItem> items;
+        public static readonly StyledProperty<IList<SelectDialogItem>> ItemsProperty =
+            AvaloniaProperty.Register<SelectItemDialogContent, IList<SelectDialogItem>>(nameof(Items));
+        
+        public string Message
+        {
+            get => GetValue(MessageProperty);
+            set => SetValue(MessageProperty, value);
+        }
+
+        public IList<SelectDialogItem> Items
+        {
+            get => GetValue(ItemsProperty);
+            set => SetValue(ItemsProperty, value);
+        }
     }
 
 
@@ -30,22 +42,23 @@ namespace FzLib.Avalonia.Dialogs
         private readonly object buttonContent;
         private readonly Action buttonCommand;
 
-        public SelectItemDialog() : this(new SelectItemDialogViewModel(), "", null)
+        public SelectItemDialog(string title, string message, IEnumerable<SelectDialogItem> items, object buttonContent = null, Action buttonCommand = null)
         {
-
-        }
-        public SelectItemDialog(SelectItemDialogViewModel vm, object buttonContent, Action buttonCommand)
-        {
-            Title = vm.Title;
-            DataContext = vm;
-            InitializeComponent();
+            Title = title;
+            Content = new SelectItemDialogContent
+            {
+                Message = message,
+                Items = new List<SelectDialogItem>(items)
+            };
             this.buttonContent = buttonContent;
             this.buttonCommand = buttonCommand;
         }
+      
 
         private void DialogWindow_Loaded(object sender, RoutedEventArgs e)
         {
         }
+        
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int index=(sender as ListBox).SelectedIndex;

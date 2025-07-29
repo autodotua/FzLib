@@ -93,18 +93,10 @@ namespace FzLib.Avalonia.Dialogs
             string watermark = null,
             Action<string> validation = null)
         {
-            InputDialog dialog = new InputDialog(new InputDialogViewModel()
-            {
-                Title = title,
-                Message = message,
-                text = defaultText,
-                Watermark = watermark,
-                MultiLines = true,
-                MaxLines = maxLines,
-                MinHeight = minLines * 24,
-                Validations = { validation, InputDialog.NotNullValidation }
-            });
-            return await dialog.ShowDialog<string>(ContainerType, await GetActiveTopLevelAsync());
+            return await new InputDialog(title, message, defaultText,
+                    true, minLines, maxLines,
+                    validations: [validation, InputDialog.NotNullValidation])
+                .ShowDialog<string>(ContainerType, await GetActiveTopLevelAsync());
         }
 
         public async Task<T?> ShowInputNumberDialogAsync<T>(
@@ -130,15 +122,9 @@ namespace FzLib.Avalonia.Dialogs
             string watermark = null,
             Action<string> validation = null)
         {
-            InputDialog dialog = new InputDialog(new InputDialogViewModel()
-            {
-                Title = title,
-                Message = message,
-                Watermark = watermark,
-                PasswordChar = '*',
-                Validations = { validation, InputDialog.NotNullValidation }
-            });
-            return await dialog.ShowDialog<string>(ContainerType, await GetActiveTopLevelAsync());
+            return await new InputDialog(title, message, passwordChar: '*', watermark: watermark,
+                    validations: [validation, InputDialog.NotNullValidation])
+                .ShowDialog<string>(ContainerType, await GetActiveTopLevelAsync());
         }
 
         public async Task<string> ShowInputTextDialogAsync(
@@ -148,15 +134,9 @@ namespace FzLib.Avalonia.Dialogs
             string watermark = null,
             Action<string> validation = null)
         {
-            InputDialog dialog = new InputDialog(new InputDialogViewModel()
-            {
-                Title = title,
-                Message = message,
-                text = defaultText,
-                Watermark = watermark,
-                Validations = { validation, InputDialog.NotNullValidation }
-            });
-            return await dialog.ShowDialog<string>(ContainerType, await GetActiveTopLevelAsync());
+            return await new InputDialog(title, message, defaultText, watermark: watermark,
+                    validations: [validation, InputDialog.NotNullValidation])
+                .ShowDialog<string>(ContainerType, await GetActiveTopLevelAsync());
         }
 
         private async Task<T?> ShowInputNumberDialogAsync<T>(
@@ -166,15 +146,10 @@ namespace FzLib.Avalonia.Dialogs
             T defaultValue,
             string watermark = null) where T : struct, INumber<T>
         {
-            InputDialog dialog = new InputDialog(new InputDialogViewModel()
-            {
-                Title = title,
-                Message = message,
-                Watermark = watermark,
-                text = hasDefaultValue ? defaultValue.ToString() : null,
-                Validations = { InputDialog.NotNullValidation, InputDialog.GetNumberValidation<T>() }
-            });
-            var result = await dialog.ShowDialog<string>(ContainerType, await GetActiveTopLevelAsync());
+            var result = await new InputDialog(title, message, hasDefaultValue ? defaultValue.ToString() : null,
+                    watermark: watermark,
+                    validations: [InputDialog.NotNullValidation, InputDialog.GetNumberValidation<T>()])
+                .ShowDialog<string>(ContainerType, await GetActiveTopLevelAsync());
 
             return result == null ? null : T.Parse(result, CultureInfo.InvariantCulture);
         }
@@ -186,25 +161,15 @@ namespace FzLib.Avalonia.Dialogs
         public async Task<bool> ShowCheckItemDialog(string title, IList<CheckDialogItem> items, string message = null,
             int minCheckCount = 0, int maxCheckCount = int.MaxValue)
         {
-            CheckBoxDialog dialog = new CheckBoxDialog(new CheckBoxDialogViewModel()
-            {
-                Title = title,
-                Items = items,
-                Message = message,
-            }, minCheckCount, maxCheckCount);
-            return await dialog.ShowDialog<bool>(ContainerType, await GetActiveTopLevelAsync());
+            return await new CheckBoxDialog(title, message, items, minCheckCount, maxCheckCount)
+                .ShowDialog<bool>(ContainerType, await GetActiveTopLevelAsync());
         }
 
         public async Task<int?> ShowSelectItemDialog(string title, IList<SelectDialogItem> items, string message = null,
             object buttonContent = null, Action buttonCommand = null)
         {
-            SelectItemDialog dialog = new SelectItemDialog(new SelectItemDialogViewModel()
-            {
-                Title = title,
-                Items = items,
-                Message = message,
-            }, buttonContent, buttonCommand);
-            return await dialog.ShowDialog<int?>(ContainerType, await GetActiveTopLevelAsync());
+            return await new SelectItemDialog(title, message, items)
+                .ShowDialog<int?>(ContainerType, await GetActiveTopLevelAsync());
         }
 
         #endregion
