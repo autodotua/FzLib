@@ -22,7 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "#", "#", "{E36BA69D-7C15-43
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		build.ps1 = build.ps1
-		build_test.ps1 = build_test.ps1
+		build_samples.ps1 = build_samples.ps1
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject

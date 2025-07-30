@@ -8,6 +8,31 @@
         x:Key="ExpanderHeaderBackgroundPressed"
         ResourceKey="SystemControlBackgroundBaseLowBrush" />
 
+    <DataTemplate
+        x:Key="SelectDialogListBoxTemplate"
+        x:DataType="d:SelectDialogItem">
+        <Border Padding="0,4">
+            <Grid
+                MinWidth="300"
+                MinHeight="32"
+                VerticalAlignment="Center"
+                RowDefinitions="*,Auto">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontWeight="Bold"
+                    Text="{Binding Title}" />
+                <TextBlock
+                    Grid.Row="1"
+                    Margin="0,4"
+                    VerticalAlignment="Center"
+                    IsVisible="{Binding Detail, Converter={x:Static cvt:Converters.IsNotNull}}"
+                    Opacity="0.8"
+                    Text="{Binding Detail}"
+                    TextWrapping="Wrap" />
+            </Grid>
+        </Border>
+    </DataTemplate>
+
     <ControlTheme
         x:Key="{x:Type d:SelectItemDialogContent}"
         TargetType="d:SelectItemDialogContent">
@@ -21,42 +46,20 @@
                     <ListBox
                         x:Name="PART_ListBox"
                         Grid.Row="2"
+                        ItemTemplate="{StaticResource SelectDialogListBoxTemplate}"
                         ItemsSource="{TemplateBinding Items}">
                         <ListBox.Styles>
                             <Style Selector="ListBoxItem">
                                 <Setter Property="Padding" Value="4,0" />
                             </Style>
                         </ListBox.Styles>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate x:DataType="d:SelectDialogItem">
-                                <Border Padding="0,4">
-                                    <Grid
-                                        MinWidth="300"
-                                        MinHeight="32"
-                                        VerticalAlignment="Center"
-                                        RowDefinitions="*,Auto">
-                                        <TextBlock
-                                            VerticalAlignment="Center"
-                                            FontWeight="Bold"
-                                            Text="{Binding Title}" />
-                                        <TextBlock
-                                            Grid.Row="1"
-                                            Margin="0,4"
-                                            VerticalAlignment="Center"
-                                            IsVisible="{Binding Detail, Converter={x:Static cvt:Converters.IsNotNull}}"
-                                            Opacity="0.8"
-                                            Text="{Binding Detail}"
-                                            TextWrapping="Wrap" />
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
                     </ListBox>
 
                 </Grid>
             </ControlTemplate>
         </Setter>
     </ControlTheme>
+
     <ControlTheme
         x:Key="{x:Type d:InputDialogContent}"
         TargetType="d:InputDialogContent">
@@ -91,6 +94,36 @@
             </ControlTemplate>
         </Setter>
     </ControlTheme>
+
+    <DataTemplate
+        x:Key="CheckItemDialogListBoxTemplate"
+        x:DataType="d:CheckDialogItem">
+        <Border Padding="0,8">
+            <CheckBox
+                VerticalContentAlignment="Center"
+                IsChecked="{Binding IsChecked}"
+                IsEnabled="{Binding IsEnabled}">
+                <Grid
+                    Width="300"
+                    VerticalAlignment="Center"
+                    RowDefinitions="*,Auto">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="{Binding Title}" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Margin="0,4"
+                        VerticalAlignment="Center"
+                        IsVisible="{Binding Detail, Converter={x:Static cvt:Converters.IsNotNull}}"
+                        Opacity="0.8"
+                        Text="{Binding Detail}"
+                        TextWrapping="Wrap" />
+                </Grid>
+            </CheckBox>
+        </Border>
+    </DataTemplate>
+
     <ControlTheme
         x:Key="{x:Type d:CheckBoxDialogContent}"
         TargetType="d:CheckBoxDialogContent">
@@ -103,36 +136,8 @@
                     <TextBlock Text="{TemplateBinding Message}" />
                     <ItemsControl
                         Grid.Row="2"
-                        ItemsSource="{TemplateBinding Items}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="d:CheckDialogItem">
-                                <Border Padding="0,8">
-                                    <CheckBox
-                                        VerticalContentAlignment="Center"
-                                        IsChecked="{Binding IsChecked}"
-                                        IsEnabled="{Binding IsEnabled}">
-                                        <Grid
-                                            Width="300"
-                                            VerticalAlignment="Center"
-                                            RowDefinitions="*,Auto">
-                                            <TextBlock
-                                                VerticalAlignment="Center"
-                                                FontWeight="Bold"
-                                                Text="{Binding Title}" />
-                                            <TextBlock
-                                                Grid.Row="1"
-                                                Margin="0,4"
-                                                VerticalAlignment="Center"
-                                                IsVisible="{Binding Detail, Converter={x:Static cvt:Converters.IsNotNull}}"
-                                                Opacity="0.8"
-                                                Text="{Binding Detail}"
-                                                TextWrapping="Wrap" />
-                                        </Grid>
-                                    </CheckBox>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                        ItemTemplate="{StaticResource CheckItemDialogListBoxTemplate}"
+                        ItemsSource="{TemplateBinding Items}" />
                 </Grid>
             </ControlTemplate>
         </Setter>

@@ -23,7 +23,7 @@ public partial class DialogPanel : UserControl
         WeakReferenceMessenger.Default.Register<OpenAnotherWindowMessage>(this, (m, _) =>
         {
             (TopLevel.GetTopLevel(this) as Window).WindowState = WindowState.Minimized;
-            Window anotherWindow = new Window() { Title = "��һ������", Content = new Grid() };
+            Window anotherWindow = new Window() { Title = "另一个窗口", Content = new Grid() };
             anotherWindow.Show();
             anotherWindow.WindowState = WindowState.Minimized;
         });

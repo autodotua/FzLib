@@ -1,56 +1,20 @@
-﻿using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
+﻿using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Media;
-using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
-using Avalonia;
 
 
 namespace FzLib.Avalonia.Dialogs
 {
-    internal class CheckBoxDialogContent : ContentControl
-    {
-        protected override Type StyleKeyOverride { get; } = typeof(CheckBoxDialogContent);
-
-        public static readonly StyledProperty<string> TitleProperty =
-            AvaloniaProperty.Register<CheckBoxDialogContent, string>(nameof(Title));
-
-        public static readonly StyledProperty<string> MessageProperty =
-            AvaloniaProperty.Register<CheckBoxDialogContent, string>(nameof(Message));
-
-        public static readonly StyledProperty<IList<CheckDialogItem>> ItemsProperty =
-            AvaloniaProperty.Register<CheckBoxDialogContent, IList<CheckDialogItem>>(nameof(Items));
-
-        public string Title
-        {
-            get => GetValue(TitleProperty);
-            set => SetValue(TitleProperty, value);
-        }
-
-        public string Message
-        {
-            get => GetValue(MessageProperty);
-            set => SetValue(MessageProperty, value);
-        }
-
-        public IList<CheckDialogItem> Items
-        {
-            get => GetValue(ItemsProperty);
-            set => SetValue(ItemsProperty, value);
-        }
-    }
-
     public partial class CheckBoxDialog : DialogHost
     {
-        private readonly int minCheckCount;
         private readonly int maxCheckCount;
-
+        private readonly int minCheckCount;
         public CheckBoxDialog(string title, string message, IEnumerable<CheckDialogItem> items, int minCheckCount = 1,
             int maxCheckCount = int.MaxValue)
         {
@@ -78,26 +42,12 @@ namespace FzLib.Avalonia.Dialogs
 
             foreach (var item in itemList)
             {
-                item.PropertyChanged += Item_PropertyChanged;
+                item.IsCheckedChanged += (s, e) => CheckCanApply();
             }
 
-            CheckCanApply();
             this.minCheckCount = minCheckCount;
             this.maxCheckCount = maxCheckCount;
-        }
-
-        private void Item_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(CheckDialogItem.IsChecked))
-            {
-                CheckCanApply();
-            }
-        }
-
-        private void CheckCanApply()
-        {
-            int count = (Content as CheckBoxDialogContent).Items.Count(p => p.IsChecked);
-            PrimaryButtonEnable = count >= minCheckCount && count <= maxCheckCount;
+            CheckCanApply();
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -106,6 +56,11 @@ namespace FzLib.Avalonia.Dialogs
             CloseButtonContent = DialogHost.CancelButtonText;
 
             base.OnApplyTemplate(e);
+        }
+
+        protected override void OnCloseButtonClick()
+        {
+            Close(false);
         }
 
         protected override void OnPrimaryButtonClick()
@@ -118,9 +73,10 @@ namespace FzLib.Avalonia.Dialogs
             throw new NotImplementedException();
         }
 
-        protected override void OnCloseButtonClick()
+        private void CheckCanApply()
         {
-            Close(false);
+            int count = (Content as CheckBoxDialogContent).Items.Count(p => p.IsChecked);
+            PrimaryButtonEnable = count >= minCheckCount && count <= maxCheckCount;
         }
     }
 }

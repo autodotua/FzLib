@@ -12,6 +12,7 @@
 
     Write-Output "正在发布win-x64"
     dotnet publish FzLib.Samples -r win-x64 -c Release -o Publish/Samples/win-x64 --self-contained true /p:PublishSingleFile=$s 
+    rm Publish/Samples/win-x64/*.pdb
    
     Write-Output "正在发布linux-x64"
  #   dotnet publish FzLib.Avalonia/FzLib.Samples.csproj -r linux-x64 -c Release -o Publish/Test/Linux --self-contained true /p:PublishSingleFile=$s 

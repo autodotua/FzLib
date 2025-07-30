@@ -2,57 +2,20 @@
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Media;
-using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Numerics;
-using Avalonia;
 
 
 namespace FzLib.Avalonia.Dialogs
 {
-    internal class SelectItemDialogContent : ContentControl
-    {
-        protected override Type StyleKeyOverride { get; } = typeof(SelectItemDialogContent);
-
-        public static readonly StyledProperty<string> MessageProperty =
-            AvaloniaProperty.Register<SelectItemDialogContent, string>(nameof(Message));
-
-        public static readonly StyledProperty<IList<SelectDialogItem>> ItemsProperty =
-            AvaloniaProperty.Register<SelectItemDialogContent, IList<SelectDialogItem>>(nameof(Items));
-
-        public string Message
-        {
-            get => GetValue(MessageProperty);
-            set => SetValue(MessageProperty, value);
-        }
-
-        public IList<SelectDialogItem> Items
-        {
-            get => GetValue(ItemsProperty);
-            set => SetValue(ItemsProperty, value);
-        }
-
-        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
-        {
-            base.OnApplyTemplate(e);
-
-            var lst = e.NameScope.Find<ListBox>("PART_ListBox");
-            lst.SelectionChanged += SelectionChanged;
-
-        }
-
-        public event EventHandler<SelectionChangedEventArgs> SelectionChanged;
-    }
-
-
     public partial class SelectItemDialog : DialogHost
     {
-        private readonly object buttonContent;
         private readonly Action buttonCommand;
-
+        private readonly object buttonContent;
         public SelectItemDialog(string title, string message, IEnumerable<SelectDialogItem> items, object buttonContent = null, Action buttonCommand = null)
         {
             Title = title;
@@ -66,28 +29,19 @@ namespace FzLib.Avalonia.Dialogs
             this.buttonCommand = buttonCommand;
         }
 
-
-        private void DialogWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            int index = (sender as ListBox).SelectedIndex;
-            var item = (sender as ListBox).SelectedItem as SelectDialogItem;
-            item.SelectAction?.Invoke();
-            Close(index);
-        }
-
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
+            base.OnApplyTemplate(e);
             if (buttonContent != null)
             {
                 SecondaryButtonContent = buttonContent;
             }
-            CloseButtonContent = DialogHost.CancelButtonText;
-            base.OnApplyTemplate(e);
+            CloseButtonContent = CancelButtonText;
+        }
 
+        protected override void OnCloseButtonClick()
+        {
+            Close(null);
         }
 
         protected override void OnPrimaryButtonClick()
@@ -101,9 +55,12 @@ namespace FzLib.Avalonia.Dialogs
             Close(null);
         }
 
-        protected override void OnCloseButtonClick()
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Close(null);
+            int index = (sender as ListBox).SelectedIndex;
+            var item = (sender as ListBox).SelectedItem as SelectDialogItem;
+            item.SelectAction?.Invoke();
+            Close(index);
         }
     }
 }

@@ -8,6 +8,7 @@ using FzLib.Samples;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using FzLib.Avalonia.Services;
 using FzLib.Samples.ViewModels;
 using FzLib.Samples.Views;
@@ -18,8 +19,17 @@ public partial class App : global::Avalonia.Application
 {
     public static IServiceProvider Services { get; private set; }
 
+    void Preserve()
+    {
+        
+    }
+    
     public override void Initialize()
     {
+        Preserve();
+        _ = typeof(DialogItemBase);
+        _ = typeof(SelectDialogItem);
+        _ = typeof(CheckDialogItem);
         AvaloniaXamlLoader.Load(this);
         var builder = Host.CreateApplicationBuilder();
 
