@@ -1,5 +1,4 @@
-﻿
-<ResourceDictionary
+﻿<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:cvt="using:FzLib.Avalonia.Converters"
@@ -20,6 +19,7 @@
                     RowDefinitions="Auto,4,*">
                     <TextBlock Text="{TemplateBinding Message}" />
                     <ListBox
+                        x:Name="PART_ListBox"
                         Grid.Row="2"
                         ItemsSource="{TemplateBinding Items}">
                         <ListBox.Styles>
@@ -36,7 +36,11 @@
                                         VerticalAlignment="Center"
                                         RowDefinitions="*,Auto">
                                         <TextBlock
-                                            Grid.Row="2"
+                                            VerticalAlignment="Center"
+                                            FontWeight="Bold"
+                                            Text="{Binding Title}" />
+                                        <TextBlock
+                                            Grid.Row="1"
                                             Margin="0,4"
                                             VerticalAlignment="Center"
                                             IsVisible="{Binding Detail, Converter={x:Static cvt:Converters.IsNotNull}}"
@@ -61,63 +65,31 @@
                 <Grid
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
-                    RowDefinitions="Auto,4,*">
+                    RowDefinitions="Auto,4,*,Auto">
                     <TextBlock Text="{TemplateBinding Message}" />
                     <TextBox
-                        x:Name="txt"
+                        x:Name="PART_TextBox"
                         Grid.Row="2"
                         VerticalAlignment="Center"
                         AcceptsReturn="{TemplateBinding MultiLines}"
                         MaxLines="{TemplateBinding MaxLines}"
                         MinLines="{TemplateBinding MinLines}"
                         PasswordChar="{TemplateBinding PasswordChar}"
-                        Text="{TemplateBinding Text}"
+                        Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}}"
                         Watermark="{TemplateBinding Watermark}" />
-
+                    <!--  由于性能原因，TemplateBinding 只支持 OneWay 模式（这与 WPF 相同）。这意味着 TemplateBinding 实际上等同于 {Binding RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}。如果在控件模板中需要 TwoWay 绑定，则需要使用完整的语法，如下所示。请注意，Binding 也将使用默认的绑定模式，不同于 TemplateBinding。  -->
+                    <!--  {Binding RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}  -->
+                    <!--  TemplateBinding 只能在 IStyledElement 上使用。  -->
+                    <TextBlock
+                        Grid.Row="3"
+                        Margin="0,8,0,0"
+                        Foreground="Yellow"
+                        IsVisible="{Binding HasError, RelativeSource={RelativeSource TemplatedParent}}"
+                        Text="{Binding ErrorMessage, RelativeSource={RelativeSource TemplatedParent}}" />
                 </Grid>
 
             </ControlTemplate>
         </Setter>
-        <Style Selector="DataValidationErrors">
-            <Setter Property="Template">
-                <ControlTemplate>
-                    <DockPanel LastChildFill="True">
-                        <ContentControl
-                            Content="{TemplateBinding (DataValidationErrors.Errors)}"
-                            ContentTemplate="{TemplateBinding ErrorTemplate}"
-                            DataContext="{TemplateBinding Owner}"
-                            DockPanel.Dock="Right"
-                            IsVisible="{TemplateBinding (DataValidationErrors.HasErrors)}" />
-                        <ContentPresenter
-                            Name="PART_ContentPresenter"
-                            Padding="{TemplateBinding Padding}"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            CornerRadius="{TemplateBinding CornerRadius}" />
-                    </DockPanel>
-                </ControlTemplate>
-            </Setter>
-            <Setter Property="ErrorTemplate">
-                <DataTemplate>
-                    <Canvas
-                        Width="14"
-                        Height="14"
-                        Margin="4,0,1,0"
-                        Background="Transparent">
-                        <ToolTip.Tip>
-                            <ItemsControl ItemsSource="{Binding}" />
-                        </ToolTip.Tip>
-                        <Path
-                            Data="M14,7 A7,7 0 0,0 0,7 M0,7 A7,7 0 1,0 14,7 M7,3l0,5 M7,9l0,2"
-                            Stroke="Red"
-                            StrokeThickness="2" />
-                    </Canvas>
-                </DataTemplate>
-            </Setter>
-        </Style>
     </ControlTheme>
     <ControlTheme
         x:Key="{x:Type d:CheckBoxDialogContent}"
@@ -144,7 +116,11 @@
                                             VerticalAlignment="Center"
                                             RowDefinitions="*,Auto">
                                             <TextBlock
-                                                Grid.Row="2"
+                                                VerticalAlignment="Center"
+                                                FontWeight="Bold"
+                                                Text="{Binding Title}" />
+                                            <TextBlock
+                                                Grid.Row="1"
                                                 Margin="0,4"
                                                 VerticalAlignment="Center"
                                                 IsVisible="{Binding Detail, Converter={x:Static cvt:Converters.IsNotNull}}"

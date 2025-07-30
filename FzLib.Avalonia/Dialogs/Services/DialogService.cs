@@ -91,7 +91,7 @@ namespace FzLib.Avalonia.Dialogs
             int maxLines = 10,
             string defaultText = null,
             string watermark = null,
-            Action<string> validation = null)
+            Func<string, ValidationResult> validation = null)
         {
             return await new InputDialog(title, message, defaultText,
                     true, minLines, maxLines,
@@ -120,7 +120,7 @@ namespace FzLib.Avalonia.Dialogs
             string title,
             string message,
             string watermark = null,
-            Action<string> validation = null)
+            Func<string, ValidationResult> validation = null)
         {
             return await new InputDialog(title, message, passwordChar: '*', watermark: watermark,
                     validations: [validation, InputDialog.NotNullValidation])
@@ -132,7 +132,7 @@ namespace FzLib.Avalonia.Dialogs
             string message,
             string defaultText = null,
             string watermark = null,
-            Action<string> validation = null)
+            Func<string, ValidationResult> validation = null)
         {
             return await new InputDialog(title, message, defaultText, watermark: watermark,
                     validations: [validation, InputDialog.NotNullValidation])

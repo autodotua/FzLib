@@ -9,12 +9,39 @@ using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using Avalonia;
+using Avalonia.Data;
 
 
 namespace FzLib.Avalonia.Dialogs
 {
     internal class InputDialogContent : ContentControl
     {
+        public InputDialogContent()
+        {
+            this.GetObservable(TextProperty).Subscribe(OnTextChanged);
+        }
+
+        private void OnTextChanged(string text)
+        {
+            if (Validations == null || Validations.Count == 0)
+            {
+                return;
+            }
+
+            foreach (var validation in Validations.Where(p => p != null))
+            {
+                var ex = validation(text);
+                if (!ex.IsValid)
+                {
+                    HasError = true;
+                    ErrorMessage = ex.ErrorMessage;
+                    return;
+                }
+            }
+
+            HasError = false;
+        }
+
         protected override Type StyleKeyOverride { get; } = typeof(InputDialogContent);
 
         public static readonly StyledProperty<string> TitleProperty =
@@ -40,15 +67,37 @@ namespace FzLib.Avalonia.Dialogs
 
         public static readonly StyledProperty<string> TextProperty =
             AvaloniaProperty.Register<InputDialogContent, string>(
-                nameof(Text),
-                coerce: OnTextCoerce);
+                nameof(Text), defaultBindingMode: BindingMode.TwoWay);
 
-        public static readonly DirectProperty<InputDialogContent, List<Action<string>>> ValidationsProperty =
-            AvaloniaProperty.RegisterDirect<InputDialogContent, List<Action<string>>>(
-                nameof(Validations),
-                o => o.Validations);
+        public static readonly DirectProperty<InputDialogContent, List<Func<string, ValidationResult>>>
+            ValidationsProperty =
+                AvaloniaProperty.RegisterDirect<InputDialogContent, List<Func<string, ValidationResult>>>(
+                    nameof(Validations),
+                    o => o.Validations);
 
-        public event EventHandler ValidationError;
+        private bool hasError;
+
+        public static readonly DirectProperty<InputDialogContent, bool> HasErrorProperty =
+            AvaloniaProperty.RegisterDirect<InputDialogContent, bool>(
+                nameof(HasError), o => o.HasError, (o, v) => o.HasError = v);
+
+        private string errorMessage;
+
+        public static readonly DirectProperty<InputDialogContent, string> ErrorMessageProperty =
+            AvaloniaProperty.RegisterDirect<InputDialogContent, string>(
+                nameof(ErrorMessage), o => o.ErrorMessage, (o, v) => o.ErrorMessage = v);
+
+        public string ErrorMessage
+        {
+            get => errorMessage;
+            set => SetAndRaise(ErrorMessageProperty, ref errorMessage, value);
+        }
+
+        public bool HasError
+        {
+            get => hasError;
+            set => SetAndRaise(HasErrorProperty, ref hasError, value);
+        }
 
         public string Title
         {
@@ -79,6 +128,7 @@ namespace FzLib.Avalonia.Dialogs
             get => GetValue(PasswordCharProperty);
             set => SetValue(PasswordCharProperty, value);
         }
+
         public int MaxLines
         {
             get => GetValue(MaxLinesProperty);
@@ -97,74 +147,49 @@ namespace FzLib.Avalonia.Dialogs
             set => SetValue(TextProperty, value);
         }
 
-        public List<Action<string>> Validations { get; init; } = new List<Action<string>>();
+        public List<Func<string, ValidationResult>> Validations { get; init; }
 
-        private static string OnTextCoerce(AvaloniaObject obj, string value)
+        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
-            if (obj is InputDialogContent control)
-            {
-                try
-                {
-                    foreach (var validation in control.Validations)
-                    {
-                        validation?.Invoke(value);
-                    }
+            base.OnApplyTemplate(e);
 
-                    return value;
-                }
-                catch (Exception ex)
-                {
-                    control.ValidationError?.Invoke(control, EventArgs.Empty);
-                    throw new ValidationException(ex.Message);
-                }
-            }
-
-            return value;
-        }
-
-        public class ValidationException : Exception
-        {
-            public ValidationException(string message) : base(message)
-            {
-            }
-
-            public override string ToString()
-            {
-                return Message;
-            }
+            var txt = e.NameScope.Find<TextBox>("PART_TextBox");
+            txt.Focus();
+            txt.SelectAll();
         }
     }
 
 
     public partial class InputDialog : DialogHost
     {
-        internal static readonly Action<string> NotNullValidation = text =>
+        internal static readonly Func<string, ValidationResult> NotNullValidation = text =>
         {
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                throw new ArgumentException("输入为空");
-            }
+            return string.IsNullOrWhiteSpace(text) ? ValidationResult.Error("输入为空") : ValidationResult.Valid();
         };
 
-        internal static Action<string> GetNumberValidation<T>() where T : INumber<T>
+        internal static Func<string, ValidationResult> GetNumberValidation<T>() where T : INumber<T>
         {
             return text =>
             {
                 if (!T.TryParse(text, CultureInfo.InvariantCulture, out _))
                 {
-                    throw new ArgumentException("无法转为数字");
+                    return ValidationResult.Error("无法转为数字");
                 }
+
+                return ValidationResult.Valid();
             };
         }
 
         public InputDialog(string title, string message, string defaultText = null,
             bool multiLines = false, int minLines = 1, int maxLines = 10,
             string watermark = null, char passwordChar = '\0',
-            IEnumerable<Action<string>> validations = null)
+            IEnumerable<Func<string, ValidationResult>> validations = null)
         {
+            PrimaryButtonEnable = true;
             Title = title;
             var content = new InputDialogContent
             {
+                Validations = validations?.ToList(), //先设置Validation在设置默认值
                 Message = message,
                 Text = defaultText,
                 MultiLines = multiLines,
@@ -172,45 +197,22 @@ namespace FzLib.Avalonia.Dialogs
                 PasswordChar = passwordChar,
                 MinLines = minLines,
                 MaxLines = maxLines,
-                Validations = validations?.ToList() ?? new List<Action<string>>()
             };
             Content = content;
-            content.ValidationError += OnValidationError;
-            foreach (var v in content.Validations)
-            {
-                try
-                {
-                    v?.Invoke(content.Text);
-                }
-                catch
-                {
-                    PrimaryButtonEnable = false;
-                    break;
-                }
-            }
+            content.GetObservable(InputDialogContent.HasErrorProperty).Subscribe(OnValidationChanged);
         }
 
-        private void OnValidationError(object sender, EventArgs e)
+        private void OnValidationChanged(bool hasError)
         {
-            PrimaryButtonEnable = false;
+            PrimaryButtonEnable = !hasError;
         }
 
-
-        private void DialogWindow_Loaded(object sender, global::Avalonia.Interactivity.RoutedEventArgs e)
-        {
-            // txt.Focus();
-            // if (!string.IsNullOrEmpty((DataContext as InputDialogViewModel).Text))
-            // {
-            //     txt.SelectAll();
-            // }
-        }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
-            PrimaryButtonContent = DialogHost.OkButtonText;
-            CloseButtonContent = DialogHost.CancelButtonText;
-
             base.OnApplyTemplate(e);
+            PrimaryButtonContent = OkButtonText;
+            CloseButtonContent = CancelButtonText;
         }
 
         protected override void OnPrimaryButtonClick()

@@ -22,7 +22,7 @@ namespace FzLib.Avalonia.Dialogs
 
         public static readonly StyledProperty<IList<SelectDialogItem>> ItemsProperty =
             AvaloniaProperty.Register<SelectItemDialogContent, IList<SelectDialogItem>>(nameof(Items));
-        
+
         public string Message
         {
             get => GetValue(MessageProperty);
@@ -34,6 +34,17 @@ namespace FzLib.Avalonia.Dialogs
             get => GetValue(ItemsProperty);
             set => SetValue(ItemsProperty, value);
         }
+
+        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+        {
+            base.OnApplyTemplate(e);
+
+            var lst = e.NameScope.Find<ListBox>("PART_ListBox");
+            lst.SelectionChanged += SelectionChanged;
+
+        }
+
+        public event EventHandler<SelectionChangedEventArgs> SelectionChanged;
     }
 
 
@@ -50,19 +61,20 @@ namespace FzLib.Avalonia.Dialogs
                 Message = message,
                 Items = new List<SelectDialogItem>(items)
             };
+            (Content as SelectItemDialogContent).SelectionChanged += ListBox_SelectionChanged;
             this.buttonContent = buttonContent;
             this.buttonCommand = buttonCommand;
         }
-      
+
 
         private void DialogWindow_Loaded(object sender, RoutedEventArgs e)
         {
         }
-        
+
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int index=(sender as ListBox).SelectedIndex;
-            var item=(sender as ListBox).SelectedItem as SelectDialogItem;
+            int index = (sender as ListBox).SelectedIndex;
+            var item = (sender as ListBox).SelectedItem as SelectDialogItem;
             item.SelectAction?.Invoke();
             Close(index);
         }
@@ -74,8 +86,8 @@ namespace FzLib.Avalonia.Dialogs
                 SecondaryButtonContent = buttonContent;
             }
             CloseButtonContent = DialogHost.CancelButtonText;
-
             base.OnApplyTemplate(e);
+
         }
 
         protected override void OnPrimaryButtonClick()

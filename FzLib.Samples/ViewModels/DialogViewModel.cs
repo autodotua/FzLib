@@ -64,10 +64,10 @@ public partial class DialogViewModel(IDialogService dialogService) : ObservableO
         SelectDialogItem[] items =
         [
             new SelectDialogItem("第一条", "详情"),
-                new SelectDialogItem("第二条", "详情"),
-                new SelectDialogItem("第三条"),
-                new SelectDialogItem("第四条", "单击直接触发", async () => await DialogService.ShowOkDialogAsync("单击了第四条")),
-            ];
+            new SelectDialogItem("第二条", "详情"),
+            new SelectDialogItem("第三条"),
+            new SelectDialogItem("第四条", "单击直接触发", async () => await DialogService.ShowOkDialogAsync("单击了第四条")),
+        ];
         int? index = await DialogService.ShowSelectItemDialog("标题", items, "提示消息", "额外按钮",
             async () => await DialogService.ShowOkDialogAsync("单击了额外按钮"));
         Message = index.HasValue ? $"单击了{items[index.Value].Title}" : "没有选择";
@@ -80,12 +80,12 @@ public partial class DialogViewModel(IDialogService dialogService) : ObservableO
         CheckDialogItem[] checkItems =
         [
             new CheckDialogItem("第一条", "详情"),
-                new CheckDialogItem("第二条"),
-                new CheckDialogItem("第三条", "禁用", false, false),
-                new CheckDialogItem("第四条", "默认选择", true, true),
-                new CheckDialogItem("第五条", "禁用", false, true),
-                new CheckDialogItem("第六条"),
-            ];
+            new CheckDialogItem("第二条"),
+            new CheckDialogItem("第三条", "禁用", false, false),
+            new CheckDialogItem("第四条", "默认选择", true, true),
+            new CheckDialogItem("第五条", "禁用", false, true),
+            new CheckDialogItem("第六条"),
+        ];
         bool result = await DialogService.ShowCheckItemDialog("标题", checkItems, "需要选择2-4个", 2, 4);
         Message = result
             ? $"选择了{string.Join('，', checkItems.Where(p => p.IsChecked).Select(p => p.Title))}"
@@ -118,12 +118,12 @@ public partial class DialogViewModel(IDialogService dialogService) : ObservableO
     private async Task OpenDialog2()
     {
         DialogService.ContainerType = ContainerType;
-        await DialogService.ShowOkDialogAsync("标题", string.Concat(Enumerable.Repeat("信息正文", 100)), string.Concat(Enumerable.Repeat("详细内容", 1000)));
+        await DialogService.ShowOkDialogAsync("标题", string.Concat(Enumerable.Repeat("信息正文", 100)),
+            string.Concat(Enumerable.Repeat("详细内容", 1000)));
     }
 
     public class OpenAnotherWindowMessage
     {
-
     }
 
     [RelayCommand]
@@ -162,6 +162,7 @@ public partial class DialogViewModel(IDialogService dialogService) : ObservableO
             }
         }
     }
+
     [RelayCommand]
     private async Task OpenDialog6()
     {
@@ -202,13 +203,15 @@ public partial class DialogViewModel(IDialogService dialogService) : ObservableO
         {
             if (text.Length <= 5)
             {
-                throw new ArgumentException("长度必须>5");
+                return ValidationResult.Error("长度必须>5");
             }
 
-            if ("0123456789".Any(p => text.Contains(p)))
+            if ("0123456789".Any(text.Contains))
             {
-                throw new ArgumentException("不能出现数字");
+                return ValidationResult.Error("不能出现数字");
             }
+
+            return ValidationResult.Valid();
         });
     }
 }
