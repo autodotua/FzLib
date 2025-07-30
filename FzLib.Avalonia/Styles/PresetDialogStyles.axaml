@@ -1,0 +1,216 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cvt="using:FzLib.Avalonia.Converters"
+    xmlns:d="clr-namespace:FzLib.Avalonia.Dialogs">
+
+    <StaticResource
+        x:Key="ExpanderHeaderBackgroundPressed"
+        ResourceKey="SystemControlBackgroundBaseLowBrush" />
+
+    <DataTemplate
+        x:Key="SelectDialogListBoxTemplate"
+        x:DataType="d:SelectDialogItem">
+        <Border Padding="0,4">
+            <Grid
+                MinWidth="300"
+                MinHeight="32"
+                VerticalAlignment="Center"
+                RowDefinitions="*,Auto">
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontWeight="Bold"
+                    Text="{Binding Title}" />
+                <TextBlock
+                    Grid.Row="1"
+                    Margin="0,4"
+                    VerticalAlignment="Center"
+                    IsVisible="{Binding Detail, Converter={x:Static cvt:Converters.IsNotNull}}"
+                    Opacity="0.8"
+                    Text="{Binding Detail}"
+                    TextWrapping="Wrap" />
+            </Grid>
+        </Border>
+    </DataTemplate>
+
+    <ControlTheme
+        x:Key="{x:Type d:SelectItemDialogContent}"
+        TargetType="d:SelectItemDialogContent">
+        <Setter Property="Template">
+            <ControlTemplate TargetType="d:SelectItemDialogContent">
+                <Grid
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    RowDefinitions="Auto,4,*">
+                    <TextBlock Text="{TemplateBinding Message}" />
+                    <ListBox
+                        x:Name="PART_ListBox"
+                        Grid.Row="2"
+                        ItemTemplate="{StaticResource SelectDialogListBoxTemplate}"
+                        ItemsSource="{TemplateBinding Items}">
+                        <ListBox.Styles>
+                            <Style Selector="ListBoxItem">
+                                <Setter Property="Padding" Value="4,0" />
+                            </Style>
+                        </ListBox.Styles>
+                    </ListBox>
+
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+    <ControlTheme
+        x:Key="{x:Type d:InputDialogContent}"
+        TargetType="d:InputDialogContent">
+        <Setter Property="Template">
+            <ControlTemplate TargetType="d:InputDialogContent">
+                <Grid
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    RowDefinitions="Auto,4,*,Auto">
+                    <TextBlock Text="{TemplateBinding Message}" />
+                    <TextBox
+                        x:Name="PART_TextBox"
+                        Grid.Row="2"
+                        VerticalAlignment="Center"
+                        AcceptsReturn="{TemplateBinding MultiLines}"
+                        MaxLines="{TemplateBinding MaxLines}"
+                        MinLines="{TemplateBinding MinLines}"
+                        PasswordChar="{TemplateBinding PasswordChar}"
+                        Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}}"
+                        Watermark="{TemplateBinding Watermark}" />
+                    <!--  由于性能原因，TemplateBinding 只支持 OneWay 模式（这与 WPF 相同）。这意味着 TemplateBinding 实际上等同于 {Binding RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}。如果在控件模板中需要 TwoWay 绑定，则需要使用完整的语法，如下所示。请注意，Binding 也将使用默认的绑定模式，不同于 TemplateBinding。  -->
+                    <!--  {Binding RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}  -->
+                    <!--  TemplateBinding 只能在 IStyledElement 上使用。  -->
+                    <TextBlock
+                        Grid.Row="3"
+                        Margin="0,8,0,0"
+                        Foreground="Yellow"
+                        IsVisible="{Binding HasError, RelativeSource={RelativeSource TemplatedParent}}"
+                        Text="{Binding ErrorMessage, RelativeSource={RelativeSource TemplatedParent}}" />
+                </Grid>
+
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+    <DataTemplate
+        x:Key="CheckItemDialogListBoxTemplate"
+        x:DataType="d:CheckDialogItem">
+        <Border Padding="0,8">
+            <CheckBox
+                VerticalContentAlignment="Center"
+                IsChecked="{Binding IsChecked}"
+                IsEnabled="{Binding IsEnabled}">
+                <Grid
+                    Width="300"
+                    VerticalAlignment="Center"
+                    RowDefinitions="*,Auto">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="{Binding Title}" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Margin="0,4"
+                        VerticalAlignment="Center"
+                        IsVisible="{Binding Detail, Converter={x:Static cvt:Converters.IsNotNull}}"
+                        Opacity="0.8"
+                        Text="{Binding Detail}"
+                        TextWrapping="Wrap" />
+                </Grid>
+            </CheckBox>
+        </Border>
+    </DataTemplate>
+
+    <ControlTheme
+        x:Key="{x:Type d:CheckBoxDialogContent}"
+        TargetType="d:CheckBoxDialogContent">
+        <Setter Property="Template">
+            <ControlTemplate TargetType="d:CheckBoxDialogContent">
+                <Grid
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    RowDefinitions="Auto,4,*">
+                    <TextBlock Text="{TemplateBinding Message}" />
+                    <ItemsControl
+                        Grid.Row="2"
+                        ItemTemplate="{StaticResource CheckItemDialogListBoxTemplate}"
+                        ItemsSource="{TemplateBinding Items}" />
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+    <ControlTheme
+        x:Key="{x:Type d:MessageDialogContent}"
+        TargetType="d:MessageDialogContent">
+
+        <Setter Property="Template">
+            <ControlTemplate TargetType="d:MessageDialogContent">
+                <Grid
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    ColumnDefinitions="Auto,*"
+                    RowDefinitions="*,Auto">
+                    <ScrollViewer
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        IsVisible="{TemplateBinding Message,
+                                                    Converter={x:Static cvt:Converters.IsNotNull}}"
+                        VerticalScrollBarVisibility="Auto">
+                        <SelectableTextBlock
+                            FontSize="16"
+                            MaxLines="3"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            Text="{TemplateBinding Message}"
+                            TextWrapping="Wrap" />
+                    </ScrollViewer>
+                    <Expander
+                        Grid.Row="2"
+                        Grid.ColumnSpan="2"
+                        Margin="0,16,0,0"
+                        HorizontalAlignment="Stretch"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Header="详情"
+                        IsVisible="{TemplateBinding Detail,
+                                                    Converter={x:Static cvt:Converters.IsNotNull}}">
+                        <Expander.Resources>
+                            <Thickness x:Key="ExpanderHeaderBorderThickness">0</Thickness>
+                            <Thickness x:Key="ExpanderContentPadding">8</Thickness>
+                            <Thickness x:Key="ExpanderContentLeftBorderThickness">0</Thickness>
+                            <Thickness x:Key="ExpanderContentUpBorderThickness">0</Thickness>
+                            <Thickness x:Key="ExpanderContentRightBorderThickness">0</Thickness>
+                            <Thickness x:Key="ExpanderContentDownBorderThickness">0</Thickness>
+                            <Thickness x:Key="ExpanderChevronMargin">12,0,8,0</Thickness>
+                            <Thickness x:Key="ExpanderHeaderPadding">8,0,0,0</Thickness>
+                            <SolidColorBrush x:Key="ExpanderHeaderBackground">Transparent</SolidColorBrush>
+                            <SolidColorBrush x:Key="ExpanderHeaderBackgroundPointerOver">Transparent</SolidColorBrush>
+                        </Expander.Resources>
+                        <ScrollViewer
+                            MaxHeight="320"
+                            HorizontalScrollBarVisibility="Disabled"
+                            VerticalScrollBarVisibility="Auto">
+                            <SelectableTextBlock
+                                Margin="0,8,0,0"
+                                Text="{TemplateBinding Detail}"
+                                TextWrapping="Wrap" />
+                        </ScrollViewer>
+                    </Expander>
+
+                    <PathIcon
+                        Width="30"
+                        Height="30"
+                        Margin="0,4,8,0"
+                        VerticalAlignment="Top"
+                        Data="{TemplateBinding Icon}"
+                        Foreground="{TemplateBinding IconBrush}"
+                        IsVisible="{TemplateBinding Icon,
+                                                    Converter={x:Static cvt:Converters.IsNotNull}}" />
+
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

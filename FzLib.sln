@@ -15,14 +15,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FzLib.Avalonia", "FzLib.Ava
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FzLib", "FzLib\FzLib.csproj", "{FEAED9B0-5F7A-4CA1-9F40-E084A84BE994}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FzLib.Avalonia.Test", "FzLib.Avalonia\FzLib.Avalonia.Test.csproj", "{0FA26E96-BF98-4D67-BED1-268ED0038F5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FzLib.Samples", "FzLib.Samples\FzLib.Samples.csproj", "{0FA26E96-BF98-4D67-BED1-268ED0038F5D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "#", "#", "{E36BA69D-7C15-430B-9374-4AD62EDC9660}"
 	ProjectSection(SolutionItems) = preProject
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		build.ps1 = build.ps1
-		build_test.ps1 = build_test.ps1
+		build_samples.ps1 = build_samples.ps1
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject

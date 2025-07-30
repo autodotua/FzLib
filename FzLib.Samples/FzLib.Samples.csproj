@@ -1,0 +1,123 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>FzLib.Samples</RootNamespace>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>$(Temp)\$(AssemblyName)\Debug</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>$(Temp)\$(AssemblyName)\Release</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <PublishAot>true</PublishAot>
+  </PropertyGroup>
+
+  <!--<ItemGroup>
+    --><!-- 保留 Serilog --><!--
+    <TrimmerRootAssembly Include="Serilog" />
+    --><!-- 保留 Avalonia.Win32 --><!--
+    <TrimmerRootAssembly Include="Avalonia.Win32" />
+  </ItemGroup>-->
+
+  <ItemGroup>
+    <Compile Update="Controls\Forms\StackFormItemGroup.axaml.cs">
+      <DependentUpon>StackFormItemGroup.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\Forms\WrapFormItemGroup.axaml.cs">
+      <DependentUpon>WrapFormItemGroup.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\Windows\WindowButtons.axaml.cs">
+      <DependentUpon>WindowButtons.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Test\Views\BehaviorPanel.axaml.cs">
+      <DependentUpon>BehaviorPanel.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Dialogs\Presets\CheckBoxDialog.axaml.cs">
+      <DependentUpon>CheckBoxDialog.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Dialogs\Presets\InputDialog.axaml.cs">
+      <DependentUpon>InputDialog.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Dialogs\Presets\MessageDialog.axaml.cs">
+      <DependentUpon>MessageDialog.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Dialogs\Presets\SelectItemDialog.axaml.cs">
+      <DependentUpon>SelectItemDialog.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Dialogs\ProgressRing.xaml" />
+  </ItemGroup>
+
+
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia.Desktop" />
+    <PackageReference Include="Serilog" />
+    <PackageReference Include="Serilog.Sinks.File" />
+    <PackageReference Include="HotAvalonia" />
+    <PackageReference Include="Avalonia" />
+    <PackageReference Include="Avalonia.Themes.Fluent" />
+    <PackageReference Include="CommunityToolkit.Mvvm" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" />
+    <PackageReference Include="System.Reactive" />
+    <PackageReference Include="Xaml.Behaviors.Interactivity" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FzLib.Avalonia\FzLib.Avalonia.csproj" />
+    <ProjectReference Include="..\FzLib\FzLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="App.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Dialogs\DialogHost.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Test\Views\FileSystemPanel.axaml.cs">
+      <DependentUpon>FileSystemPanel.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Test\Views\ConverterPanel.axaml.cs">
+      <DependentUpon>ConverterPanel.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Test\Views\FormPanel.axaml.cs">
+      <DependentUpon>FormPanel.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Test\Views\TaskPanel.axaml.cs">
+      <DependentUpon>LoadingPanel.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Test\Views\MainWindow.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Test\Views\DialogPanel.axaml.cs">
+      <DependentUpon>DialogPanel.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="favicon.ico" />
+    <None Remove="favicon.png" />
+    <AvaloniaResource Include="favicon.png" />
+  </ItemGroup>
+</Project>

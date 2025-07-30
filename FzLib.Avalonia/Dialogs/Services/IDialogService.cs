@@ -28,7 +28,7 @@ namespace FzLib.Avalonia.Dialogs
             string message,
             string defaultText = null,
             string watermark = null,
-            Action<string> validation = null);
+            Func<string, ValidationResult> validation = null);
 
         Task<string> ShowInputMultiLinesTextDialogAsync(
             string title,
@@ -37,13 +37,13 @@ namespace FzLib.Avalonia.Dialogs
             int maxLines = 10,
             string defaultText = null,
             string watermark = null,
-            Action<string> validation = null);
+            Func<string, ValidationResult> validation = null);
 
         Task<string> ShowInputPasswordDialogAsync(
             string title,
             string message,
             string watermark = null,
-            Action<string> validation = null);
+            Func<string, ValidationResult> validation = null);
 
         Task<T?> ShowInputNumberDialogAsync<T>(
             string title,

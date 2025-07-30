@@ -1,0 +1,86 @@
+<UserControl
+    x:Class="FzLib.Samples.Views.FileSystemPanel"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="using:FzLib.Avalonia.Converters"
+    xmlns:ct="using:FzLib.Avalonia.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dialogs="using:FzLib.Avalonia.Dialogs"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:me="using:FzLib.Avalonia.MarkupExtensions"
+    xmlns:vm="using:FzLib.Samples.ViewModels"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    x:DataType="vm:FileSystemViewModel"
+    mc:Ignorable="d">
+    <StackPanel Spacing="8">
+        <HeaderedContentControl
+            Classes="GroupBox"
+            Header="文件选取">
+            <StackPanel
+                Orientation="Vertical"
+                Spacing="8 ">
+                <ct:FilePickerTextBox
+                    Label="打开文件："
+                    Type="OpenFile" />
+                <ct:FilePickerTextBox
+                    Label="打开文件（仅JPG和PNG）："
+                    StringFileTypeFilter="JPEG图片;*.jpg,*.jpeg;image/jpeg;|PNG图片;*.png;image/png;"
+                    Type="OpenFile" />
+                <ct:FilePickerTextBox
+                    Label="保存文件："
+                    SaveFileSuggestedFileName="建议的文件名"
+                    Type="SaveFile" />
+                <ct:FilePickerTextBox
+                    Label="打开目录："
+                    Type="OpenFolder" />
+                <ct:FilePickerTextBox
+                    ButtonContent="打开目录（无标签）"
+                    Type="OpenFolder" />
+            </StackPanel>
+
+        </HeaderedContentControl>
+
+        <HeaderedContentControl
+            Classes="GroupBox"
+            Header="文件复制">
+
+            <ct:StackFormItemGroup>
+                <ct:FormItem Label="文件1：">
+                    <ct:FilePickerTextBox
+                        FileNames="{Binding File1}"
+                        Type="OpenFile" />
+                </ct:FormItem>
+                <ct:FormItem Label="文件2：">
+                    <ct:FilePickerTextBox
+                        FileNames="{Binding File2}"
+                        Type="SaveFile" />
+                </ct:FormItem>
+                <ct:FormItem Label="文件夹1：">
+                    <ct:FilePickerTextBox
+                        FileNames="{Binding Dir1}"
+                        Type="OpenFolder" />
+                </ct:FormItem>
+                <ct:FormItem Label="文件夹2：">
+                    <ct:FilePickerTextBox
+                        FileNames="{Binding Dir2}"
+                        Type="OpenFolder" />
+                </ct:FormItem>
+
+                <Grid ColumnDefinitions="*,8,*,8,*">
+                    <Button
+                        Command="{Binding CopyFile1ToFile2Command}"
+                        Content="复制文件1到文件2" />
+                    <Button
+                        Grid.Column="2"
+                        Command="{Binding CopyDir1ToDir2Command}"
+                        Content="复制文件夹1到文件夹2" />
+                </Grid>
+                <ProgressBar
+                    Maximum="1"
+                    Minimum="0"
+                    Value="{Binding FileCopyProgress}" />
+            </ct:StackFormItemGroup>
+        </HeaderedContentControl>
+    </StackPanel>
+</UserControl>
