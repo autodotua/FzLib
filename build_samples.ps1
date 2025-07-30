@@ -1,24 +1,38 @@
 ﻿try {
-    try {
-        dotnet
-    }
-    catch {
-        throw "未安装.NET SDK"
-    }
-
     $s = $false
+    $currentRuntime = ""
     
-    Clear-Host
+    # 检测当前系统
+    if ($IsWindows) {
+        $currentRuntime = "win-x64"
+    } elseif ($IsLinux) {
+        $currentRuntime = "linux-x64"
+    } elseif ($IsMacOS) {
+        $currentRuntime = "osx-x64"
+    } else {
+        throw "无法确定当前操作系统"
+    }
 
-    Write-Output "正在发布win-x64"
-    dotnet publish FzLib.Samples -r win-x64 -c Release -o Publish/Samples/win-x64 --self-contained true /p:PublishSingleFile=$s 
-    rm Publish/Samples/win-x64/*.pdb
+    Write-Host "当前系统："
+    Write-Host $currentRuntime
+
+    # 发布win-x64
+    $aot = $currentRuntime -eq "win-x64"
+    Write-Output "正在发布win-x64 (AOT: $aot)"
+    dotnet publish FzLib.Samples -r win-x64 -c Release -o Publish/samples/win-x64 --self-contained true /p:PublishSingleFile=$s /p:PublishAot=$aot
+    rm Publish/samples/win-x64/*.pdb
    
-    Write-Output "正在发布linux-x64"
- #   dotnet publish FzLib.Avalonia/FzLib.Samples.csproj -r linux-x64 -c Release -o Publish/Test/Linux --self-contained true /p:PublishSingleFile=$s 
+    # 发布linux-x64
+    $aot = $currentRuntime -eq "linux-x64"
+    Write-Output "正在发布linux-x64 (AOT: $aot)"
+    dotnet publish FzLib.Samples -r linux-x64 -c Release -o Publish/samples/linux-x64 --self-contained true /p:PublishSingleFile=$s /p:PublishAot=$aot
+    rm Publish/samples/linux-x64/*.pdb
    
-    Write-Output "正在发布macos-x64"
-#    dotnet publish FzLib.Avalonia/FzLib.Samples.csproj -r osx-x64 -c Release -o Publish/Test/MacOS --self-contained true /p:PublishSingleFile=$s 
+    # 发布macos-x64
+    $aot = $currentRuntime -eq "osx-x64"
+    Write-Output "正在发布macos-x64 (AOT: $aot)"
+    dotnet publish FzLib.Samples -r osx-x64 -c Release -o Publish/samples/osx-x64 --self-contained true /p:PublishSingleFile=$s /p:PublishAot=$aot
+    rm Publish/samples/osx-x64/*.pdb
     
     Write-Output "操作完成"
 
@@ -27,4 +41,5 @@
 }
 catch {
     Write-Error $_
+    pause
 }
