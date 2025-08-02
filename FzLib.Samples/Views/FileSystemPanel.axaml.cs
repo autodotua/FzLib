@@ -16,7 +16,7 @@ public partial class FileSystemPanel : UserControl
 {
     public FileSystemPanel()
     {
-        DataContext = new FileSystemViewModel();
+        DataContext = App.Services.GetRequiredService<FileSystemViewModel>();
         InitializeComponent();
     }
 }

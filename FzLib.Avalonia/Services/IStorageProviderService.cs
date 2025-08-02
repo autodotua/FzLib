@@ -1,4 +1,5 @@
 ﻿using Avalonia.Platform.Storage;
+using FzLib.Avalonia.Dialogs.Pickers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,15 +7,26 @@ namespace FzLib.Avalonia.Services
 {
     public interface IStorageProviderService
     {
-        Task<IReadOnlyList<IStorageFile>> OpenFilePickerAsync(FilePickerOpenOptions options);
-        Task<IReadOnlyList<IStorageFolder>> OpenFolderPickerAsync(FolderPickerOpenOptions options);
-        Task<IStorageFile> SaveFilePickerAsync(FilePickerSaveOptions options);
-        Task<IStorageFolder> TryGetWellKnownFolderAsync(WellKnownFolder wellKnownFolder);
-        Task<string> OpenFilePickerAndGetFirstAsync(FilePickerOpenOptions options);
-        Task<string> OpenFolderPickerAndGetFirstAsync(FolderPickerOpenOptions options);
-        Task<string> SaveFilePickerAndGetPathAsync(FilePickerSaveOptions options);
-        bool CanPickFolder { get; }
         bool CanOpen { get; }
+
+        bool CanPickFolder { get; }
+
         bool CanSave { get; }
+
+        IStorageProviderServicePickerBuilder CreatePickerBuilder();
+
+        Task<string> OpenFilePickerAndGetFirstAsync(FilePickerOpenOptions options);
+
+        Task<IReadOnlyList<IStorageFile>> OpenFilePickerAsync(FilePickerOpenOptions options);
+
+        Task<string> OpenFolderPickerAndGetFirstAsync(FolderPickerOpenOptions options);
+
+        Task<IReadOnlyList<IStorageFolder>> OpenFolderPickerAsync(FolderPickerOpenOptions options);
+
+        Task<string> SaveFilePickerAndGetPathAsync(FilePickerSaveOptions options);
+
+        Task<IStorageFile> SaveFilePickerAsync(FilePickerSaveOptions options);
+
+        Task<IStorageFolder> TryGetWellKnownFolderAsync(WellKnownFolder wellKnownFolder);
     }
 }

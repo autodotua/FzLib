@@ -16,7 +16,7 @@
     <StackPanel Spacing="8">
         <HeaderedContentControl
             Classes="GroupBox"
-            Header="文件选取">
+            Header="文件选取文本框">
             <StackPanel
                 Orientation="Vertical"
                 Spacing="8 ">
@@ -37,6 +37,38 @@
                 <ct:FilePickerTextBox
                     ButtonContent="打开目录（无标签）"
                     Type="OpenFolder" />
+            </StackPanel>
+
+        </HeaderedContentControl>
+
+
+        <HeaderedContentControl
+            Classes="GroupBox"
+            Header="文件选取链式调用（FilePickerOptionsBuilder）">
+            <StackPanel
+                Orientation="Vertical"
+                Spacing="8 ">
+                <WrapPanel>
+                    <WrapPanel.Styles>
+                        <Style Selector="Button">
+                            <Setter Property="HorizontalAlignment" Value="Stretch" />
+                            <Setter Property="Margin" Value="4" />
+                        </Style>
+                    </WrapPanel.Styles>
+                    <Button
+                        Command="{Binding OpenFile1Command}"
+                        Content="打开文本文件（FileDialogFilterBuilder.Create()）" />
+                    <Button
+                        Command="{Binding OpenFile2Command}"
+                        Content="打开图像文件（StorageProviderService.CreatePickerBuilder()）" />
+                    <Button
+                        Command="{Binding SaveFileCommand}"
+                        Content="保存音频文件（StorageProviderService.CreatePickerBuilder()）" />
+                    <Button
+                        Command="{Binding OpenFolderCommand}"
+                        Content="选取文件夹（StorageProviderService.CreatePickerBuilder()）" />
+                </WrapPanel>
+                <TextBlock Text="{Binding PickerFiles}" />
             </StackPanel>
 
         </HeaderedContentControl>

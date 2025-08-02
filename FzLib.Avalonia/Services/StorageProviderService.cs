@@ -3,6 +3,7 @@ using Avalonia.Platform.Storage;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using FzLib.Avalonia.Dialogs.Pickers;
 
 namespace FzLib.Avalonia.Services
 {
@@ -16,6 +17,11 @@ namespace FzLib.Avalonia.Services
 
         protected virtual IStorageProvider StorageProvider => TopLevelExtension.GetMainTopLevel()?.StorageProvider ??
                                     throw new InvalidOperationException("找不到存储提供程序");
+
+        public IStorageProviderServicePickerBuilder CreatePickerBuilder()
+        {
+            return new FilePickerOptionsBuilder(this);
+        }
 
         public async Task<string> OpenFilePickerAndGetFirstAsync(FilePickerOpenOptions options)
         {
