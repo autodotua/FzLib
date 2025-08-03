@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FzLib.Programming
@@ -25,7 +24,7 @@ namespace FzLib.Programming
             }
         }
 
-        public async static Task ForEachAsync<T>(this IEnumerable<T> list, Func<T, Task> action)
+        public static async Task ForEachAsync<T>(this IEnumerable<T> list, Func<T, Task> action)
         {
             foreach (var item in list)
             {
