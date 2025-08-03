@@ -4,7 +4,7 @@ using Avalonia.Data.Converters;
 
 namespace FzLib.Avalonia.Converters
 {
-    public abstract class Value2BoolConverter<T> : IValueConverter
+    public abstract class ValueToBoolConverter<T> : IValueConverter
     {
         public virtual bool ThrowIfNull { get; set; } = false;
 

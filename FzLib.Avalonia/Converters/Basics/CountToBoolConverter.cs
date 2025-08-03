@@ -12,7 +12,7 @@ namespace FzLib.Avalonia.Converters;
 ///   Count >= 5:  ComparisonValue=5, Operator=GreaterThanOrEqual
 ///   Count != 0:  ComparisonValue=0, Operator=NotEqual
 /// </summary>
-public class Count2BoolConverter : IValueConverter
+public class CountToBoolConverter : IValueConverter
 {
     /// <summary>
     /// 比较的基准值（默认0）

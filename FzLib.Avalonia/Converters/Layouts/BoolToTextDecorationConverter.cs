@@ -1,7 +1,7 @@
 ﻿using Avalonia.Media;
 
 namespace FzLib.Avalonia.Converters;
-public class Bool2TextDecorationConverter : Bool2ValueConverterBase<TextDecorationCollection>
+public class BoolToTextDecorationConverter : BoolToValueConverterBase<TextDecorationCollection>
 {
     public TextDecorationCollection TrueTextDecoration { get; set; } = TextDecorations.Underline;
     protected override TextDecorationCollection TrueValue => TrueTextDecoration;

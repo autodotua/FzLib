@@ -8,7 +8,7 @@ namespace FzLib.Avalonia.Converters
     /// <summary>
     /// 数字与四边等宽的Thickness互相转换
     /// </summary>
-    public class Number2ThicknessConverter : IValueConverter
+    public class NumberToThicknessConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

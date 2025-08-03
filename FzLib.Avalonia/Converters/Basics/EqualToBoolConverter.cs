@@ -6,7 +6,7 @@ using Avalonia.Data.Converters;
 
 namespace FzLib.Avalonia.Converters;
 
-public class Equal2BoolConverter : Value2BoolConverter<object>
+public class EqualToBoolConverter : ValueToBoolConverter<object>
 {
     public StringComparison StringComparison { get; set; } = StringComparison.OrdinalIgnoreCase;
 

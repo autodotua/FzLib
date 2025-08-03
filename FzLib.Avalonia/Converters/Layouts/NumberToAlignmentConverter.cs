@@ -9,7 +9,7 @@ namespace FzLib.Avalonia.Converters
     /// <summary>
     /// 数字（int）转对齐类型。1：左/上；2：中；3：右/下；0：拉伸
     /// </summary>
-    public class Number2AlignmentConverter : IValueConverter
+    public class NumberToAlignmentConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

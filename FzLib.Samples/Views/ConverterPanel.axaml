@@ -26,7 +26,7 @@
             <StackPanel>
                 <c:FormItem Header="Bool转字符串 Bool2StringConverter">
                     <c:FormItem.Resources>
-                        <cvt:Bool2StringConverter
+                        <cvt:BoolToStringConverter
                             x:Key="Bool2StringConverter"
                             FalseString="未选中"
                             TrueString="已选中" />
@@ -76,19 +76,19 @@
 
                 <c:FormItem Header="集合数量判断 Count2BoolConverter">
                     <c:FormItem.Resources>
-                        <cvt:Count2BoolConverter
+                        <cvt:CountToBoolConverter
                             x:Key="CountEquals2"
                             ComparisonValue="2"
                             Operator="Equal" />
-                        <cvt:Count2BoolConverter
+                        <cvt:CountToBoolConverter
                             x:Key="CountGreaterThan2"
                             ComparisonValue="2"
                             Operator="GreaterThan" />
-                        <cvt:Count2BoolConverter
+                        <cvt:CountToBoolConverter
                             x:Key="CountLessThanOrEqual2"
                             ComparisonValue="2"
                             Operator="LessThanOrEqual" />
-                        <cvt:Count2BoolConverter
+                        <cvt:CountToBoolConverter
                             x:Key="CountNotEqual2"
                             ComparisonValue="2"
                             Operator="NotEqual" />
@@ -162,12 +162,12 @@
                     <c:FormItem.Resources>
                         <sys:DayOfWeek x:Key="Sun">Sunday</sys:DayOfWeek>
                         <sys:DayOfWeek x:Key="Mon">Monday</sys:DayOfWeek>
-                        <cvt:Enum2BoolConverter x:Key="IsWeekendConverter">
-                            <cvt:Enum2BoolConverter.TrueValues>
+                        <cvt:EnumToBoolConverter x:Key="IsWeekendConverter">
+                            <cvt:EnumToBoolConverter.TrueValues>
                                 <sys:DayOfWeek>Sunday</sys:DayOfWeek>
                                 <sys:DayOfWeek>Saturday</sys:DayOfWeek>
-                            </cvt:Enum2BoolConverter.TrueValues>
-                        </cvt:Enum2BoolConverter>
+                            </cvt:EnumToBoolConverter.TrueValues>
+                        </cvt:EnumToBoolConverter>
                     </c:FormItem.Resources>
                     <StackPanel Orientation="Horizontal">
                         <CheckBox

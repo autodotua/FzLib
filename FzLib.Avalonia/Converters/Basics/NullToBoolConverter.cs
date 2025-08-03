@@ -5,7 +5,7 @@ using Avalonia.Data.Converters;
 
 namespace FzLib.Avalonia.Converters
 {
-    public class Null2BoolConverter : IValueConverter
+    public class NullToBoolConverter : IValueConverter
     {
         public bool ValueWhenNull { get; set; } = false;
         public bool AsNullIfStringWhiteSpace { get; set; } = true;

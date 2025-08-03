@@ -6,7 +6,7 @@ using Avalonia.Data.Converters;
 
 namespace FzLib.Avalonia.Converters
 {
-    public class Enum2BoolConverter : Value2BoolConverter<Enum>
+    public class EnumToBoolConverter : ValueToBoolConverter<Enum>
     {
         public List<Enum> TrueValues { get; set; } = new List<Enum>();
 

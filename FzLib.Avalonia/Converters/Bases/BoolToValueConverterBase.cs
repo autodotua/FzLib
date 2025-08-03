@@ -4,7 +4,7 @@ using Avalonia.Data.Converters;
 
 namespace FzLib.Avalonia.Converters;
 
-public abstract class Bool2ValueConverterBase<T> : IValueConverter
+public abstract class BoolToValueConverterBase<T> : IValueConverter
 {
     protected abstract T TrueValue { get; }
 
