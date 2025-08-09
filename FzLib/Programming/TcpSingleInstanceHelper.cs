@@ -8,20 +8,35 @@ namespace FzLib.Programming;
 
 public static class TcpSingleInstanceHelper
 {
+    static TcpSingleInstanceHelper()
+    {
+        TcpPort = CalculatePortFromAssemblyName();
+    }
+
     public const string ActivateCommand = "ACTIVATE";
+    public static int TcpPort { get; private set; }
     private static TcpListener listener;
     private static CancellationTokenSource cts;
 
     public static async Task<bool> EnsureSingleInstanceAsync(Func<Task> onActivated = null)
     {
-        int port = CalculatePortFromAssemblyName();
-
-        if (await TryNotifyExistingInstanceAsync(port))
+        if (await TryNotifyExistingInstanceAsync(TcpPort))
         {
             return false; // 已有实例，退出
         }
 
-        StartListener(port, onActivated);
+        StartListener(TcpPort, onActivated);
+        return true; // 是主实例
+    }
+
+    public static bool EnsureSingleInstance(Func<Task> onActivated = null)
+    {
+        if (TryNotifyExistingInstance(TcpPort))
+        {
+            return false; // 已有实例，退出
+        }
+
+        StartListener(TcpPort, onActivated);
         return true; // 是主实例
     }
 
@@ -29,13 +44,7 @@ public static class TcpSingleInstanceHelper
     {
         string name = ApplicationInfo.ProgramFilePath;
 
-        // Hash name to int32
-        byte[] hash;
-        using (var sha1 = SHA1.Create())
-        {
-            hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(name));
-        }
-
+        byte[] hash = SHA1.HashData(Encoding.UTF8.GetBytes(name));
         int value = BitConverter.ToInt32(hash, 0);
         value = Math.Abs(value); // 去符号
         int port = 10000 + (value % (65535 - 10000)); // 保证端口 > 10000 且 < 65535
@@ -51,6 +60,23 @@ public static class TcpSingleInstanceHelper
             await using var writer = new StreamWriter(client.GetStream(), Encoding.UTF8);
             await writer.WriteLineAsync(ActivateCommand);
             await writer.FlushAsync();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private static bool TryNotifyExistingInstance(int port)
+    {
+        try
+        {
+            using var client = new TcpClient();
+            client.Connect("127.0.0.1", port);
+            using var writer = new StreamWriter(client.GetStream(), Encoding.UTF8);
+            writer.WriteLine(ActivateCommand);
+            writer.Flush();
             return true;
         }
         catch
