@@ -1,13 +1,15 @@
 ﻿using FzLib;
+using FzLib.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Authentication;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using FzLib.IO;
+using HashAlgorithmType = FzLib.IO.HashAlgorithmType;
 
 namespace FzLib.Cryptography
 {
@@ -32,9 +34,10 @@ namespace FzLib.Cryptography
             return decryptor.TransformFinalBlock(ciphertext, 0, ciphertext.Length);
         }
 
-        public static async Task DecryptFileAsync(this Aes manager, string sourcePath, string targetPath,
+        public static async Task<byte[]> DecryptFileAsync(this Aes manager, string sourcePath, string targetPath,
             int bufferLength = 0,
             IProgress<FileProcessProgress> progress = null,
+            HashAlgorithmType? hashAlgorithmType = null,
             CancellationToken cancellationToken = default)
         {
             if (File.Exists(targetPath))
@@ -44,6 +47,12 @@ namespace FzLib.Cryptography
             {
                 var fileInfo = new FileInfo(sourcePath);
                 bufferLength = FileIOHelper.GetOptimalBufferSize(fileInfo.Length);
+            }
+
+            HashAlgorithm hasher = null;
+            if (hashAlgorithmType.HasValue)
+            {
+                hasher = FileHashHelper.CreateHashAlgorithm(hashAlgorithmType.Value);
             }
 
             try
@@ -69,6 +78,8 @@ namespace FzLib.Cryptography
                 while ((read = await cryptoStream.ReadAsync(buffer, cancellationToken)) > 0)
                 {
                     await streamTarget.WriteAsync(buffer.AsMemory(0, read), cancellationToken);
+                    hasher?.TransformBlock(buffer, 0, read, null, 0);
+
                     totalRead += read;
 
                     progress?.Report(new FileProcessProgress
@@ -80,6 +91,9 @@ namespace FzLib.Cryptography
                     });
                 }
 
+                hasher?.TransformFinalBlock([], 0, 0);
+                var hash = hasher?.Hash;
+
                 try
                 {
                     File.SetAttributes(targetPath, File.GetAttributes(sourcePath));
@@ -87,6 +101,7 @@ namespace FzLib.Cryptography
                 catch
                 {
                 }
+                return hash;
             }
             catch (Exception ex)
             {
@@ -116,13 +131,16 @@ namespace FzLib.Cryptography
             return result;
         }
 
-        public static async Task EncryptFileAsync(this Aes manager, string sourcePath, string targetPath,
+        public static async Task<byte[]> EncryptFileAsync(this Aes manager, string sourcePath, string targetPath,
                                     int bufferLength = 0,
             IProgress<FileProcessProgress> progress = null,
+            HashAlgorithmType? hashAlgorithmType = null,
             CancellationToken cancellationToken = default)
         {
             if (File.Exists(targetPath))
+            {
                 throw new IOException($"目标文件{targetPath}已存在");
+            }
 
             manager.GenerateIV();
 
@@ -130,6 +148,12 @@ namespace FzLib.Cryptography
             {
                 var fileInfo = new FileInfo(sourcePath);
                 bufferLength = FileIOHelper.GetOptimalBufferSize(fileInfo.Length);
+            }
+
+            HashAlgorithm hasher = null;
+            if (hashAlgorithmType.HasValue)
+            {
+                hasher = FileHashHelper.CreateHashAlgorithm(hashAlgorithmType.Value);
             }
 
             try
@@ -152,6 +176,7 @@ namespace FzLib.Cryptography
                 while ((read = await streamSource.ReadAsync(buffer, cancellationToken)) > 0)
                 {
                     await cryptoStream.WriteAsync(buffer.AsMemory(0, read), cancellationToken);
+                    hasher?.TransformBlock(buffer, 0, read, null, 0);
                     totalRead += read;
 
                     progress?.Report(new FileProcessProgress
@@ -162,6 +187,8 @@ namespace FzLib.Cryptography
                         ProcessedBytes = totalRead
                     });
                 }
+                hasher?.TransformFinalBlock([], 0, 0);
+                var hash = hasher?.Hash;
 
                 await cryptoStream.FlushAsync(cancellationToken);
                 await cryptoStream.FlushFinalBlockAsync(cancellationToken);
@@ -173,6 +200,7 @@ namespace FzLib.Cryptography
                 catch
                 {
                 }
+                return hash;
             }
             catch (Exception ex)
             {

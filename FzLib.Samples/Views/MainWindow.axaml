@@ -41,7 +41,7 @@
     </Window.Styles>
     <Grid>
         <TabControl>
-            <TabControl.Template>
+            <!--<TabControl.Template>
                 <ControlTemplate>
                     <Border
                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
@@ -67,7 +67,7 @@
                         </DockPanel>
                     </Border>
                 </ControlTemplate>
-            </TabControl.Template>
+            </TabControl.Template>-->
 
 
             <TabItem Header="耗时任务">
@@ -79,18 +79,19 @@
             </TabItem>
 
             <TabItem Header="表单">
-                <StackPanel Orientation="Vertical">
+                <DockPanel>
                     <Button
                         Margin="8"
                         Click="RefreshFormPanelButton_Click"
-                        Content="刷新" />
+                        Content="刷新"
+                        DockPanel.Dock="Top" />
                     <ContentControl x:Name="formPanelContainer">
                         <local:FormPanel />
                     </ContentControl>
-                </StackPanel>
+                </DockPanel>
             </TabItem>
             <TabItem Header="文件系统">
-                <local:FileSystemPanel />
+                <local:FileSystemPanel ScrollViewer.VerticalScrollBarVisibility="Disabled" />
             </TabItem>
             <TabItem Header="值转换器">
                 <local:ConverterPanel />

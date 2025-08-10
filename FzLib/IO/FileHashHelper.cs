@@ -9,12 +9,12 @@ public static class FileHashHelper
     /// <summary>
     /// 高性能哈希计算（双缓冲流水线）
     /// </summary>
-    public static async Task<string> ComputeHashAsync(
+    public static async Task<byte[]> ComputeHashAsync(
         string filePath,
         HashAlgorithmType algorithmType = HashAlgorithmType.SHA1,
-        CancellationToken cancellationToken = default,
         int bufferSize = 0,
-        IProgress<FileProcessProgress> progress = null)
+        IProgress<FileProcessProgress> progress = null,
+        CancellationToken cancellationToken = default)
     {
         if (bufferSize <= 0)
         {
@@ -38,10 +38,50 @@ public static class FileHashHelper
             cancellationToken);
 
         await Task.WhenAll(readTask, computeTask);
-        return Convert.ToHexString(hashAlgorithm.Hash!);
+        return hashAlgorithm.Hash;
     }
 
-    private static HashAlgorithm CreateHashAlgorithm(HashAlgorithmType algorithmType)
+    public static async Task<string> ComputeHashStringAsync(
+            string filePath,
+        HashAlgorithmType algorithmType = HashAlgorithmType.SHA1,
+        int bufferSize = 0,
+        IProgress<FileProcessProgress> progress = null,
+        CancellationToken cancellationToken = default)
+    {
+
+        return Convert.ToHexString(await ComputeHashAsync(filePath, algorithmType, bufferSize, progress, cancellationToken));
+    }
+    public static bool IsValidHashString(string hash, HashAlgorithmType type)
+    {
+        if (string.IsNullOrEmpty(hash))
+            return false;
+
+        int expectedLength = type switch
+        {
+            HashAlgorithmType.MD5 => 32,
+            HashAlgorithmType.SHA1 => 40,
+            HashAlgorithmType.SHA256 => 64,
+            HashAlgorithmType.SHA384 => 96,
+            HashAlgorithmType.SHA512 => 128,
+            _ => 0
+        };
+
+        if (hash.Length != expectedLength)
+            return false;
+
+        foreach (char c in hash)
+        {
+            bool isHexDigit = c is >= '0' and <= '9' or >= 'a' and <= 'f' or >= 'A' and <= 'F';
+            if (!isHexDigit)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    internal static HashAlgorithm CreateHashAlgorithm(HashAlgorithmType algorithmType)
     {
         return algorithmType switch
         {
@@ -82,14 +122,5 @@ public static class FileHashHelper
         }
 
         hashAlgorithm.TransformFinalBlock([], 0, 0);
-    }
-
-    public enum HashAlgorithmType
-    {
-        MD5,
-        SHA1,
-        SHA256,
-        SHA384,
-        SHA512
     }
 }

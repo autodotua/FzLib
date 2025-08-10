@@ -1,6 +1,7 @@
 using System;
 using System.Buffers;
 using System.IO;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
@@ -69,7 +70,7 @@ namespace FzLib.IO
                 var sourceFilePath = fileInfo.FullName;
                 var relativePath = Path.GetRelativePath(sourceDirPath, sourceFilePath);
                 var destinationFilePath = Path.Combine(destinationDirPath, relativePath);
-                await CopyFileAsync(sourceFilePath, destinationFilePath, bufferSize, fileProgress, cancellationToken);
+                await CopyFileAsync(sourceFilePath, destinationFilePath, bufferSize, fileProgress, null, cancellationToken);
                 processedBytes += fileInfo.Length;
             }
             if (progress != null)
@@ -87,11 +88,12 @@ namespace FzLib.IO
         /// <summary>
         /// 高性能文件复制（双缓冲流水线）
         /// </summary>
-        public static async Task CopyFileAsync(
+        public static async Task<byte[]> CopyFileAsync(
             string sourceFilePath,
             string destinationFilePath,
             int bufferSize = 0,
             IProgress<FileProcessProgress> progress = null,
+            HashAlgorithmType? hashAlgorithmType = null,
             CancellationToken cancellationToken = default)
         {
             if (!File.Exists(sourceFilePath))
@@ -122,6 +124,12 @@ namespace FzLib.IO
                     FullMode = BoundedChannelFullMode.Wait
                 });
 
+            HashAlgorithm hasher = null;
+            if (hashAlgorithmType.HasValue)
+            {
+                hasher = FileHashHelper.CreateHashAlgorithm(hashAlgorithmType.Value);
+            }
+
             try
             {
                 await using var sourceStream = new FileStream(
@@ -139,13 +147,12 @@ namespace FzLib.IO
                     FileShare.None,
                     bufferSize,
                     FileOptions.Asynchronous | FileOptions.WriteThrough);
+
                 long totalBytes = sourceStream.Length;
 
-                // 启动并行任务
-                var readTask =
-                    FileIOHelper.ReadDataAsync(sourceStream, bufferChannel.Writer, bufferSize, cancellationToken);
-                var writeTask = WriteDataAsync(destinationStream, bufferChannel.Reader, progress, sourceFilePath,
-                    destinationFilePath, totalBytes, cancellationToken);
+                var readTask = FileIOHelper.ReadDataAsync(sourceStream, bufferChannel.Writer, bufferSize, cancellationToken);
+                var writeTask = WriteDataAsync(destinationStream, bufferChannel.Reader, progress,
+                    sourceFilePath, destinationFilePath, totalBytes, hasher, cancellationToken);
 
                 await Task.WhenAll(readTask, writeTask);
 
@@ -156,10 +163,9 @@ namespace FzLib.IO
                 {
                     File.SetCreationTimeUtc(destinationFilePath, sourceInfo.CreationTimeUtc);
                 }
-                catch
-                {
-                    // ignored
-                }
+                catch { }
+
+                return hasher?.Hash;
             }
             catch (OperationCanceledException)
             {
@@ -169,8 +175,11 @@ namespace FzLib.IO
                 }
                 throw;
             }
+            finally
+            {
+                hasher?.Dispose();
+            }
         }
-
 
         private static async Task WriteDataAsync(
             FileStream destinationStream,
@@ -179,16 +188,19 @@ namespace FzLib.IO
             string sourceFilePath,
             string destinationFilePath,
             long totalBytes,
-            CancellationToken ct)
+            HashAlgorithm hasher = null,
+            CancellationToken ct = default)
         {
             long totalBytesWritten = 0;
 
             await foreach (var (buffer, bytesRead) in reader.ReadAllAsync(ct))
             {
                 await destinationStream.WriteAsync(buffer.AsMemory(0, bytesRead), ct);
-                totalBytesWritten += bytesRead;
 
-                // 报告进度（基于已写入的字节数）
+                // 如果需要计算哈希，则在写入时顺便更新
+                hasher?.TransformBlock(buffer, 0, bytesRead, null, 0);
+
+                totalBytesWritten += bytesRead;
                 progress?.Report(new FileProcessProgress
                 {
                     SourceFilePath = sourceFilePath,
@@ -199,6 +211,8 @@ namespace FzLib.IO
 
                 ArrayPool<byte>.Shared.Return(buffer);
             }
+
+            hasher?.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
         }
     }
 }

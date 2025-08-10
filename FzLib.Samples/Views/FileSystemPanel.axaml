@@ -13,106 +13,125 @@
     d:DesignWidth="800"
     x:DataType="vm:FileSystemViewModel"
     mc:Ignorable="d">
-    <StackPanel Spacing="8">
-        <HeaderedContentControl
-            Classes="GroupBox"
-            Header="文件选取文本框">
-            <StackPanel
-                Orientation="Vertical"
-                Spacing="8 ">
-                <ct:FilePickerTextBox
-                    Label="打开文件："
-                    Type="OpenFile" />
-                <ct:FilePickerTextBox
-                    Label="打开文件（仅JPG和PNG）："
-                    StringFileTypeFilter="JPEG图片;*.jpg,*.jpeg;image/jpeg;|PNG图片;*.png;image/png;"
-                    Type="OpenFile" />
-                <ct:FilePickerTextBox
-                    Label="保存文件："
-                    SaveFileSuggestedFileName="建议的文件名"
-                    Type="SaveFile" />
-                <ct:FilePickerTextBox
-                    Label="打开目录："
-                    Type="OpenFolder" />
-                <ct:FilePickerTextBox
-                    ButtonContent="打开目录（无标签）"
-                    Type="OpenFolder" />
+    <Grid
+        Margin="8"
+        RowDefinitions="*,8,Auto">
+        <TextBlock
+            Grid.Row="2"
+            Text="{Binding Message}"
+            TextWrapping="Wrap" />
+        <ScrollViewer
+            HorizontalScrollBarVisibility="Disabled"
+            VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="8">
+                <HeaderedContentControl
+                    Classes="GroupBox"
+                    Header="文件选取文本框">
+                    <StackPanel
+                        Orientation="Vertical"
+                        Spacing="8 ">
+                        <ct:FilePickerTextBox
+                            Label="打开文件："
+                            Type="OpenFile" />
+                        <ct:FilePickerTextBox
+                            Label="打开文件（仅JPG和PNG）："
+                            StringFileTypeFilter="JPEG图片;*.jpg,*.jpeg;image/jpeg;|PNG图片;*.png;image/png;"
+                            Type="OpenFile" />
+                        <ct:FilePickerTextBox
+                            Label="保存文件："
+                            SaveFileSuggestedFileName="建议的文件名"
+                            Type="SaveFile" />
+                        <ct:FilePickerTextBox
+                            Label="打开目录："
+                            Type="OpenFolder" />
+                        <ct:FilePickerTextBox
+                            ButtonContent="打开目录（无标签）"
+                            Type="OpenFolder" />
+                    </StackPanel>
+
+                </HeaderedContentControl>
+
+
+                <HeaderedContentControl
+                    Classes="GroupBox"
+                    Header="文件选取链式调用（FilePickerOptionsBuilder）">
+                    <StackPanel
+                        Orientation="Vertical"
+                        Spacing="8 ">
+                        <WrapPanel>
+                            <WrapPanel.Styles>
+                                <Style Selector="Button">
+                                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                    <Setter Property="Margin" Value="4" />
+                                </Style>
+                            </WrapPanel.Styles>
+                            <Button
+                                Command="{Binding OpenFile1Command}"
+                                Content="打开文本文件（FileDialogFilterBuilder.Create()）" />
+                            <Button
+                                Command="{Binding OpenFile2Command}"
+                                Content="打开图像文件（StorageProviderService.CreatePickerBuilder()）" />
+                            <Button
+                                Command="{Binding SaveFileCommand}"
+                                Content="保存音频文件（StorageProviderService.CreatePickerBuilder()）" />
+                            <Button
+                                Command="{Binding OpenFolderCommand}"
+                                Content="选取文件夹（StorageProviderService.CreatePickerBuilder()）" />
+                        </WrapPanel>
+                        <TextBlock Text="{Binding PickerFiles}" />
+                    </StackPanel>
+
+                </HeaderedContentControl>
+
+                <HeaderedContentControl
+                    Classes="GroupBox"
+                    Header="文件复制">
+
+                    <ct:StackFormItemGroup>
+                        <ct:FormItem Label="文件1：">
+                            <ct:FilePickerTextBox
+                                FileNames="{Binding File1}"
+                                Type="OpenFile" />
+                        </ct:FormItem>
+                        <ct:FormItem Label="文件2：">
+                            <ct:FilePickerTextBox
+                                FileNames="{Binding File2}"
+                                Type="SaveFile" />
+                        </ct:FormItem>
+                        <ct:FormItem Label="文件夹1：">
+                            <ct:FilePickerTextBox
+                                FileNames="{Binding Dir1}"
+                                Type="OpenFolder" />
+                        </ct:FormItem>
+                        <ct:FormItem Label="文件夹2：">
+                            <ct:FilePickerTextBox
+                                FileNames="{Binding Dir2}"
+                                Type="OpenFolder" />
+                        </ct:FormItem>
+
+                        <StackPanel
+                            Orientation="Vertical"
+                            Spacing="8">
+                            <Button
+                                Command="{Binding CopyFile1ToFile2Command}"
+                                Content="复制文件1到文件2" />
+                            <Button
+                                Command="{Binding CopyDir1ToDir2Command}"
+                                Content="复制文件夹1到文件夹2" />
+                            <Button
+                                Command="{Binding EncryptFile1ToFile2Command}"
+                                Content="加密文件1到文件2（密码12345678）" />
+                            <Button
+                                Command="{Binding DecryptFile2ToFile1Command}"
+                                Content="解密文件2到文件1（密码12345678）" />
+                        </StackPanel>
+                        <ProgressBar
+                            Maximum="1"
+                            Minimum="0"
+                            Value="{Binding FileCopyProgress}" />
+                    </ct:StackFormItemGroup>
+                </HeaderedContentControl>
             </StackPanel>
-
-        </HeaderedContentControl>
-
-
-        <HeaderedContentControl
-            Classes="GroupBox"
-            Header="文件选取链式调用（FilePickerOptionsBuilder）">
-            <StackPanel
-                Orientation="Vertical"
-                Spacing="8 ">
-                <WrapPanel>
-                    <WrapPanel.Styles>
-                        <Style Selector="Button">
-                            <Setter Property="HorizontalAlignment" Value="Stretch" />
-                            <Setter Property="Margin" Value="4" />
-                        </Style>
-                    </WrapPanel.Styles>
-                    <Button
-                        Command="{Binding OpenFile1Command}"
-                        Content="打开文本文件（FileDialogFilterBuilder.Create()）" />
-                    <Button
-                        Command="{Binding OpenFile2Command}"
-                        Content="打开图像文件（StorageProviderService.CreatePickerBuilder()）" />
-                    <Button
-                        Command="{Binding SaveFileCommand}"
-                        Content="保存音频文件（StorageProviderService.CreatePickerBuilder()）" />
-                    <Button
-                        Command="{Binding OpenFolderCommand}"
-                        Content="选取文件夹（StorageProviderService.CreatePickerBuilder()）" />
-                </WrapPanel>
-                <TextBlock Text="{Binding PickerFiles}" />
-            </StackPanel>
-
-        </HeaderedContentControl>
-
-        <HeaderedContentControl
-            Classes="GroupBox"
-            Header="文件复制">
-
-            <ct:StackFormItemGroup>
-                <ct:FormItem Label="文件1：">
-                    <ct:FilePickerTextBox
-                        FileNames="{Binding File1}"
-                        Type="OpenFile" />
-                </ct:FormItem>
-                <ct:FormItem Label="文件2：">
-                    <ct:FilePickerTextBox
-                        FileNames="{Binding File2}"
-                        Type="SaveFile" />
-                </ct:FormItem>
-                <ct:FormItem Label="文件夹1：">
-                    <ct:FilePickerTextBox
-                        FileNames="{Binding Dir1}"
-                        Type="OpenFolder" />
-                </ct:FormItem>
-                <ct:FormItem Label="文件夹2：">
-                    <ct:FilePickerTextBox
-                        FileNames="{Binding Dir2}"
-                        Type="OpenFolder" />
-                </ct:FormItem>
-
-                <Grid ColumnDefinitions="*,8,*,8,*">
-                    <Button
-                        Command="{Binding CopyFile1ToFile2Command}"
-                        Content="复制文件1到文件2" />
-                    <Button
-                        Grid.Column="2"
-                        Command="{Binding CopyDir1ToDir2Command}"
-                        Content="复制文件夹1到文件夹2" />
-                </Grid>
-                <ProgressBar
-                    Maximum="1"
-                    Minimum="0"
-                    Value="{Binding FileCopyProgress}" />
-            </ct:StackFormItemGroup>
-        </HeaderedContentControl>
-    </StackPanel>
+        </ScrollViewer>
+    </Grid>
 </UserControl>

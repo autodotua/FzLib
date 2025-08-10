@@ -1,14 +1,17 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Platform.Storage;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using FzLib.Avalonia.Dialogs.Pickers;
+using FzLib.Avalonia.Services;
+using FzLib.Cryptography;
 using FzLib.IO;
 using FzLib.Numeric;
 using System;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
-using Avalonia.Platform.Storage;
-using FzLib.Avalonia.Dialogs.Pickers;
-using FzLib.Avalonia.Services;
 
 namespace FzLib.Samples.ViewModels;
 
@@ -46,13 +49,63 @@ public partial class FileSystemViewModel(IStorageProviderService storage) : Obse
             return;
         }
 
-        await FileCopyHelper.CopyFileAsync(File1, File2, progress: new Progress<FileProcessProgress>(p =>
+        var hash = await FileCopyHelper.CopyFileAsync(File1, File2, progress: new Progress<FileProcessProgress>(p =>
+             {
+                 FileCopyProgress = p.ProcessedBytes / (double)p.TotalBytes;
+                 Message =
+                     $"正在复制文件：{Path.GetFileName(p.SourceFilePath)} 到 {Path.GetFileName(p.DestinationFilePath)}（{NumberConverter.ByteToFitString(p.ProcessedBytes)} / {NumberConverter.ByteToFitString(p.TotalBytes)})";
+             }), hashAlgorithmType: HashAlgorithmType.SHA1);
+        Message = $"文件复制完成：{File1} 到 {File2}，SHA1={BitConverter.ToString(hash)}";
+    }
+
+    [RelayCommand]
+    private async Task EncryptFile1ToFile2Async()
+    {
+        if (string.IsNullOrWhiteSpace(File1) || string.IsNullOrWhiteSpace(File2))
         {
-            FileCopyProgress = p.ProcessedBytes / (double)p.TotalBytes;
-            Message =
-                $"正在复制文件：{Path.GetFileName(p.SourceFilePath)} 到 {Path.GetFileName(p.DestinationFilePath)}（{NumberConverter.ByteToFitString(p.ProcessedBytes)} / {NumberConverter.ByteToFitString(p.TotalBytes)})";
-        }));
-        Message = $"文件复制完成：{File1} 到 {File2}";
+            Message = "请先选择文件";
+            return;
+        }
+
+        string password = "12345678";
+
+        Aes aes = Aes.Create();
+        aes.Mode = CipherMode.CBC;
+        aes.Padding = PaddingMode.PKCS7;
+        aes.SetStringKey(Encoding.UTF8.GetBytes(nameof(FzLib)), password);
+
+        var hash = await aes.EncryptFileAsync(File1, File2, progress: new Progress<FileProcessProgress>(p =>
+             {
+                 FileCopyProgress = p.ProcessedBytes / (double)p.TotalBytes;
+                 Message =
+                     $"正在复制文件：{Path.GetFileName(p.SourceFilePath)} 到 {Path.GetFileName(p.DestinationFilePath)}（{NumberConverter.ByteToFitString(p.ProcessedBytes)} / {NumberConverter.ByteToFitString(p.TotalBytes)})";
+             }), hashAlgorithmType: HashAlgorithmType.SHA1);
+        Message = $"文件加密完成：{File1} 到 {File2}，SHA1={BitConverter.ToString(hash)}";
+    }
+
+    [RelayCommand]
+    private async Task DecryptFile2ToFile1Async()
+    {
+        if (string.IsNullOrWhiteSpace(File1) || string.IsNullOrWhiteSpace(File2))
+        {
+            Message = "请先选择文件";
+            return;
+        }
+
+        string password = "12345678";
+
+        Aes aes = Aes.Create();
+        aes.Mode = CipherMode.CBC;
+        aes.Padding = PaddingMode.PKCS7;
+        aes.SetStringKey(Encoding.UTF8.GetBytes(nameof(FzLib)), password);
+
+        var hash = await aes.DecryptFileAsync(File2, File1, progress: new Progress<FileProcessProgress>(p =>
+             {
+                 FileCopyProgress = p.ProcessedBytes / (double)p.TotalBytes;
+                 Message =
+                     $"正在复制文件：{Path.GetFileName(p.SourceFilePath)} 到 {Path.GetFileName(p.DestinationFilePath)}（{NumberConverter.ByteToFitString(p.ProcessedBytes)} / {NumberConverter.ByteToFitString(p.TotalBytes)})";
+             }), hashAlgorithmType: HashAlgorithmType.SHA1);
+        Message = $"文件解密完成：{File2} 到 {File1}，SHA1={BitConverter.ToString(hash)}";
     }
 
     [RelayCommand]
