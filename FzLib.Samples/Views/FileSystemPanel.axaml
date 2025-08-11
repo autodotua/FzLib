@@ -124,6 +124,9 @@
                             <Button
                                 Command="{Binding DecryptFile2ToFile1Command}"
                                 Content="解密文件2到文件1（密码12345678）" />
+                            <Button
+                                Command="{Binding GetDecryptedFile2HashCommand}"
+                                Content="获取文件2解密后的Hash（密码12345678）" />
                         </StackPanel>
                         <ProgressBar
                             Maximum="1"

@@ -209,6 +209,55 @@ namespace FzLib.Cryptography
             }
         }
 
+        public static async Task<byte[]> GetDecryptedFileHashAsync(this Aes manager, string sourcePath,
+            HashAlgorithmType hashAlgorithmType,
+            int bufferLength = 0,
+            IProgress<FileProcessProgress> progress = null,
+            CancellationToken cancellationToken = default)
+        {
+            if (bufferLength <= 0)
+            {
+                var fileInfo = new FileInfo(sourcePath);
+                bufferLength = FileIOHelper.GetOptimalBufferSize(fileInfo.Length);
+            }
+
+            HashAlgorithm hasher = FileHashHelper.CreateHashAlgorithm(hashAlgorithmType);
+
+            await using var streamSource = new FileStream(sourcePath, FileMode.Open, FileAccess.Read,
+                FileShare.Read, bufferLength, useAsync: true);
+
+            byte[] iv = new byte[manager.BlockSize / 8];
+            await streamSource.ReadAsync(iv, cancellationToken);
+            manager.IV = iv;
+
+            await using var cryptoStream = new CryptoStream(streamSource, manager.CreateDecryptor(),
+                CryptoStreamMode.Read, leaveOpen: false);
+
+            byte[] buffer = new byte[bufferLength];
+            long totalRead = 0;
+            int read;
+            long fileLength = streamSource.Length;
+            long encryptedDataLength = fileLength - iv.Length;
+
+            while ((read = await cryptoStream.ReadAsync(buffer, cancellationToken)) > 0)
+            {
+                hasher.TransformBlock(buffer, 0, read, null, 0);
+                totalRead += read;
+
+                progress?.Report(new FileProcessProgress
+                {
+                    SourceFilePath = sourcePath,
+                    DestinationFilePath = null, // 没有目标文件
+                    TotalBytes = encryptedDataLength,
+                    ProcessedBytes = totalRead
+                });
+            }
+
+            hasher.TransformFinalBlock([], 0, 0);
+            return hasher.Hash;
+
+        }
+
         public static long GetEncryptedFileSize(long originalSize, int blockSizeBytes = 16, int ivSizeBytes = 16,
             PaddingMode padding = PaddingMode.PKCS7)
         {
