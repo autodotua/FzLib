@@ -65,3 +65,16 @@
 	
 20241027
 	【FzLib】重新支持开机自启功能，支持跨平台，在Windows和Linux进行了测试
+
+20241125
+	【FzLib.Avalonia】支持了非模态窗口的对话框
+
+20250406
+	【FzLib.Avalonia】优化了一下导致不支持AOT的因素
+
+20250703
+	【FzLib.Avalonia】为FormItem新增了控件上方的标签（Header）
+
+20250715~16
+	【FzLib.Avalonia】优化了一些值转换器
+	【FzLib.Avalonia】新增Bool2TextWrappingConverter
