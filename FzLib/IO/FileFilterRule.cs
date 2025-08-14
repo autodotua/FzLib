@@ -6,11 +6,12 @@ namespace FzLib.IO;
 
 public class FileFilterRule : NotifyPropertyChangedBase, IFileFilterRule
 {
-
     private static readonly string DefaultExcludeFiles = $"Thumbs.db{Environment.NewLine}Thumb.db{Environment.NewLine}desktop.ini";
     private static readonly string DefaultExcludeFilesR = @"^(Thumbs?\.db)|(desktop.ini)$";
     private static readonly string DefaultExcludeFolders = "$*";
     private static readonly string DefaultExcludeFoldersR = @"\$.*";
+
+    private bool isEnabled = true;
 
     private string excludeFiles = DefaultExcludeFiles;
     private string excludeFolders = DefaultExcludeFolders;
@@ -19,6 +20,12 @@ public class FileFilterRule : NotifyPropertyChangedBase, IFileFilterRule
     private string includeFolders = "*";
     private string includePaths = "*";
     private bool useRegex;
+
+    public bool IsEnabled
+    {
+        get => isEnabled;
+        set => SetField(ref isEnabled, value);
+    }
 
     public string ExcludeFiles
     {
