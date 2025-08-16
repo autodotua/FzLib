@@ -8,19 +8,39 @@ namespace FzLib.Programming;
 
 public static class TcpSingleInstanceHelper
 {
+    public const string ActivateCommand = "ACTIVATE";
+
+    private static CancellationTokenSource cts;
+
+    private static TcpListener listener;
+
     static TcpSingleInstanceHelper()
     {
         TcpPort = CalculatePortFromAssemblyName();
     }
 
-    public const string ActivateCommand = "ACTIVATE";
-    public static int TcpPort { get; private set; }
-    private static TcpListener listener;
-    private static CancellationTokenSource cts;
+    public static TimeSpan ConnectTimeout { get; set; } = TimeSpan.FromSeconds(0.2);
 
-    public static async Task<bool> EnsureSingleInstanceAsync(Func<Task> onActivated = null)
+    public static int TcpPort { get; private set; }
+
+    public static void Dispose()
     {
-        if (await TryNotifyExistingInstanceAsync(TcpPort))
+        try
+        {
+            cts?.Cancel();
+            listener?.Stop();
+            listener = null;
+            cts?.Dispose();
+        }
+        catch
+        {
+            // 忽略清理时的错误
+        }
+    }
+
+    public static bool EnsureSingleInstance(Func<Task> onActivated = null)
+    {
+        if (TryNotifyExistingInstance(TcpPort))
         {
             return false; // 已有实例，退出
         }
@@ -29,9 +49,9 @@ public static class TcpSingleInstanceHelper
         return true; // 是主实例
     }
 
-    public static bool EnsureSingleInstance(Func<Task> onActivated = null)
+    public static async Task<bool> EnsureSingleInstanceAsync(Func<Task> onActivated = null)
     {
-        if (TryNotifyExistingInstance(TcpPort))
+        if (await TryNotifyExistingInstanceAsync(TcpPort))
         {
             return false; // 已有实例，退出
         }
@@ -49,40 +69,6 @@ public static class TcpSingleInstanceHelper
         value = Math.Abs(value); // 去符号
         int port = 10000 + (value % (65535 - 10000)); // 保证端口 > 10000 且 < 65535
         return port;
-    }
-
-    private static async Task<bool> TryNotifyExistingInstanceAsync(int port)
-    {
-        try
-        {
-            using var client = new TcpClient();
-            await client.ConnectAsync("127.0.0.1", port);
-            await using var writer = new StreamWriter(client.GetStream(), Encoding.UTF8);
-            await writer.WriteLineAsync(ActivateCommand);
-            await writer.FlushAsync();
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
-    private static bool TryNotifyExistingInstance(int port)
-    {
-        try
-        {
-            using var client = new TcpClient();
-            client.Connect("127.0.0.1", port);
-            using var writer = new StreamWriter(client.GetStream(), Encoding.UTF8);
-            writer.WriteLine(ActivateCommand);
-            writer.Flush();
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
     }
 
     private static void StartListener(int port, Func<Task> onActivated)
@@ -120,18 +106,49 @@ public static class TcpSingleInstanceHelper
         }, cts.Token);
     }
 
-    public static void Dispose()
+    private static bool TryNotifyExistingInstance(int port)
     {
         try
         {
-            cts?.Cancel();
-            listener?.Stop();
-            listener = null;
-            cts?.Dispose();
+            using var tcpClient = new TcpClient();
+            var task = tcpClient.ConnectAsync("127.0.0.1", port);
+            if (!task.Wait(ConnectTimeout))
+            {
+                return false; // 超时
+            }
+            using var writer = new StreamWriter(tcpClient.GetStream(), Encoding.UTF8);
+            writer.WriteLine(ActivateCommand);
+            writer.Flush();
+            return true;
         }
         catch
         {
-            // 忽略清理时的错误
+            return false;
         }
     }
+
+
+    private static async Task<bool> TryNotifyExistingInstanceAsync(int port)
+    {
+        try
+        {
+            using var tcpClient = new TcpClient();
+            var connectTask = tcpClient.ConnectAsync("127.0.0.1", port);
+            if (await Task.WhenAny(connectTask, Task.Delay(ConnectTimeout)) != connectTask)
+            {
+                return false; // 超时
+            }
+            await connectTask;
+
+            using var writer = new StreamWriter(tcpClient.GetStream(), Encoding.UTF8);
+            await writer.WriteLineAsync(ActivateCommand);
+            await writer.FlushAsync();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
 }
