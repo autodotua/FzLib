@@ -10,9 +10,13 @@ namespace FzLib.Avalonia.Converters
     /// </summary>
     public class FileLengthConverter : IValueConverter
     {
-        public string[] Units { get; set; } = ["B", "KB", "MB", "GB", "TB"];
+        public string[] Units { get; set; } = [" B", " KB", " MB", " GB", " TB"];
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == null)
+            {
+                return null;
+            }
             return NumberConverter.ByteToFitString((long)value, Units);
         }
 
@@ -21,4 +25,5 @@ namespace FzLib.Avalonia.Converters
             throw new NotImplementedException();
         }
     }
+
 }

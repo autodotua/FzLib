@@ -29,6 +29,7 @@ namespace FzLib.Avalonia.Converters
         public static readonly DescriptionConverter Description = new();
         public static readonly EqualToBoolConverter EqualWithParameter = new();
         public static readonly FileLengthConverter FileLength = new();
+        public static readonly TransferSpeedConverter TransferSpeed = new();
         public static readonly FilePickerFilterConverter FilePickerFilter = new();
         public static readonly InverseBoolConverter InverseBool = new();
         public static readonly NullToBoolConverter IsNotNull = new();
