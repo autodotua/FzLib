@@ -49,6 +49,19 @@
 
             <HeaderedContentControl
                 Classes="GroupBox"
+                Header="基于服务的进度遮罩">
+                <StackPanel Orientation="Horizontal">
+                    <Button
+                        Command="{Binding ShowLoading8Command}"
+                        Content="中途改变提示信息" />
+                    <Button
+                        Command="{Binding ShowLoading9Command}"
+                        Content="包含取消按钮" />
+                </StackPanel>
+            </HeaderedContentControl>
+
+            <HeaderedContentControl
+                Classes="GroupBox"
                 Header="可取消按钮">
                 <StackPanel Orientation="Horizontal">
                     <c:CancelableTaskButton
@@ -62,9 +75,11 @@
             </HeaderedContentControl>
         </StackPanel>
         <c:ProgressRingOverlay
+            x:Name="loading1"
             Delay="{Binding Delay1}"
             IsActive="{Binding IsActive1}" />
         <c:ProgressRingBoxOverlay
+            x:Name="loading2"
             Title="{Binding Title2}"
             CanCancel="{Binding CanCancel}"
             CancelCommand="{Binding CancelCommand}"

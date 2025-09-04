@@ -9,7 +9,7 @@ namespace FzLib.Avalonia.Services
 {
     public class ClipboardService : IClipboardService
     {
-        public IClipboard Clipboard => TopLevelExtension.GetMainTopLevel()?.Clipboard ??
+        public IClipboard Clipboard => ServiceExtension.GetMainTopLevel()?.Clipboard ??
             throw new InvalidOperationException("找不到剪贴板");
 
         public Task ClearAsync() => Clipboard?.ClearAsync() ?? Task.CompletedTask;

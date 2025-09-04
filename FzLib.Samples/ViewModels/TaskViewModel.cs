@@ -1,13 +1,14 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using FzLib.Avalonia.Controls;
+using FzLib.Avalonia.Dialogs;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using FzLib.Avalonia.Dialogs;
 
 namespace FzLib.Samples.ViewModels;
 
-public partial class TaskViewModel(IDialogService dialogService) : ObservableObject
+public partial class TaskViewModel(IDialogService dialogService, IProgressOverlayService progressOverlay) : ObservableObject
 {
     [ObservableProperty]
     private bool canCancel;
@@ -29,6 +30,8 @@ public partial class TaskViewModel(IDialogService dialogService) : ObservableObj
 
     [ObservableProperty]
     private string title2;
+
+    public IProgressOverlayService ProgressOverlay { get; } = progressOverlay;
 
     [RelayCommand]
     private async Task CancelAsync()
@@ -129,5 +132,29 @@ public partial class TaskViewModel(IDialogService dialogService) : ObservableObj
         Message2 = "正在处理（不会自动停止）";
         CanCancel = true;
         IsActive2 = true;
+    }
+
+    [RelayCommand]
+    private Task ShowLoading8Async()
+    {
+        return ProgressOverlay.WithOverlayAsync(async setMessage =>
+          {
+              setMessage("正在处理（1/3）");
+              await Task.Delay(1000);
+              setMessage("正在处理（2/3）");
+              await Task.Delay(1000);
+              setMessage("正在处理（3/3）");
+              await Task.Delay(1000);
+          });
+    }
+
+    [RelayCommand]
+    private Task ShowLoading9Async()
+    {
+        return ProgressOverlay.WithOverlayAsync(async (setMessage,ct) =>
+        {
+            setMessage("执行1小时");
+            await Task.Delay(TimeSpan.FromHours(1), ct);
+        });
     }
 }

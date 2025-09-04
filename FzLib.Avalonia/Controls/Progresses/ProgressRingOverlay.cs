@@ -9,12 +9,9 @@ namespace FzLib.Avalonia.Controls;
 
 public class ProgressRingOverlay : TemplatedControl
 {
-    private IDisposable activeSubscription;
-    private int activationVersion = 0;
-
-    public static readonly StyledProperty<double> RingSizeProperty =
-        AvaloniaProperty.Register<ProgressRingOverlay, double>(
-            nameof(RingSize), defaultValue: 64d);
+    public static readonly StyledProperty<TimeSpan> DelayProperty =
+        AvaloniaProperty.Register<ProgressRingOverlay, TimeSpan>(
+            nameof(Delay), defaultValue: TimeSpan.FromSeconds(0.3));
 
     public static readonly StyledProperty<bool> IsActiveProperty =
         ProgressRing.IsActiveProperty.AddOwner<ProgressRingOverlay>();
@@ -23,9 +20,13 @@ public class ProgressRingOverlay : TemplatedControl
         AvaloniaProperty.Register<ProgressRingOverlay, bool>(
             nameof(IsActualActive));
 
-    public static readonly StyledProperty<TimeSpan> DelayProperty =
-        AvaloniaProperty.Register<ProgressRingOverlay, TimeSpan>(
-            nameof(Delay), defaultValue: TimeSpan.FromSeconds(0.3));
+    public static readonly StyledProperty<double> RingSizeProperty =
+        AvaloniaProperty.Register<ProgressRingOverlay, double>(
+            nameof(RingSize), defaultValue: 64d);
+
+    private int activationVersion = 0;
+
+    private IDisposable activeSubscription;
 
     public TimeSpan Delay
     {
@@ -51,6 +52,18 @@ public class ProgressRingOverlay : TemplatedControl
         set => SetValue(RingSizeProperty, value);
     }
 
+    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnAttachedToVisualTree(e);
+        activeSubscription = this.GetObservable(IsActiveProperty).Subscribe(OnActiveChanged);
+    }
+
+    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnDetachedFromVisualTree(e);
+        activeSubscription?.Dispose();
+    }
+
     private async void OnActiveChanged(bool value)
     {
         int currentVersion = ++activationVersion;
@@ -74,17 +87,5 @@ public class ProgressRingOverlay : TemplatedControl
         {
             IsActualActive = false;
         }
-    }
-
-    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
-    {
-        base.OnAttachedToVisualTree(e);
-        activeSubscription = this.GetObservable(IsActiveProperty).Subscribe(OnActiveChanged);
-    }
-
-    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
-    {
-        base.OnDetachedFromVisualTree(e);
-        activeSubscription?.Dispose();
     }
 }

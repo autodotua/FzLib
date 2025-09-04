@@ -1,19 +1,68 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using FzLib.Avalonia.Controls;
+using FzLib.Avalonia.Dialogs;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace FzLib.Avalonia.Services
 {
-    public static class TopLevelExtension
+    public static class ServiceExtension
     {
         public static IServiceCollection AddClipboardService(this IServiceCollection services)
         {
             services.AddSingleton<IClipboardService, ClipboardService>();
             return services;
+        }
+
+        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(CheckDialogItem))]
+        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(SelectDialogItem))]
+        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(CheckDialogItem))]
+        public static IServiceCollection AddDialogService(this IServiceCollection services)
+        {
+            return services.AddDialogService(null);
+        }
+
+        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(CheckDialogItem))]
+        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(SelectDialogItem))]
+        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(CheckDialogItem))]
+        public static IServiceCollection AddDialogService(this IServiceCollection services, string key, Func<TopLevel> getTopLevel)
+        {
+            ArgumentNullException.ThrowIfNull(services, nameof(services));
+            services.AddKeyedSingleton<IDialogService>(key, (provider, k) =>
+            {
+                var dialogService = new DialogService
+                {
+                    DefaultOwner = getTopLevel()
+                };
+                return dialogService;
+            });
+            return services;
+        }
+
+        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(CheckDialogItem))]
+        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(SelectDialogItem))]
+        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(CheckDialogItem))]
+        public static IServiceCollection AddDialogService(this IServiceCollection services, global::Avalonia.Controls.TopLevel defaultTopLevel)
+        {
+            services.AddSingleton<IDialogService>(provider =>
+            {
+                var dialogService = new DialogService
+                {
+                    DefaultOwner = defaultTopLevel
+                };
+                return dialogService;
+            });
+            return services;
+        }
+
+        public static IServiceCollection AddProgressOverlayService(this IServiceCollection services)
+        {
+            return services.AddSingleton<IProgressOverlayService, ProgressOverlayService>();
         }
 
         public static IServiceCollection AddStorageProviderService(this IServiceCollection services)
@@ -44,6 +93,7 @@ namespace FzLib.Avalonia.Services
                 return null;
             }
         }
+
         private static async Task<TopLevel> GetDesktopActiveWindowAsync(IClassicDesktopStyleApplicationLifetime lifetime,
                                                                                                          CancellationToken cancellationToken)
         {

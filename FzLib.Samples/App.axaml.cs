@@ -12,6 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 using FzLib.Avalonia.Services;
 using FzLib.Samples.ViewModels;
 using FzLib.Samples.Views;
+using FzLib.Avalonia.Controls;
 
 namespace FzLib.Samples;
 
@@ -33,6 +34,7 @@ public partial class App : global::Avalonia.Application
         AvaloniaXamlLoader.Load(this);
         var builder = Host.CreateApplicationBuilder();
 
+        builder.Services.AddProgressOverlayService();
         builder.Services.AddDialogService();
         builder.Services.AddDialogService("main",
             () => (ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow);

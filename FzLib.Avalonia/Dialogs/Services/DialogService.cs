@@ -41,7 +41,7 @@ namespace FzLib.Avalonia.Dialogs
                 return Task.FromResult(DefaultOwner);
             }
 
-            return TopLevelExtension.GetActiveTopLevelAsync(CancellationToken.None);
+            return ServiceExtension.GetActiveTopLevelAsync(CancellationToken.None);
         }
 
         #region 信息
