@@ -56,7 +56,10 @@
                         Content="中途改变提示信息" />
                     <Button
                         Command="{Binding ShowLoading9Command}"
-                        Content="包含取消按钮" />
+                        Content="基于CancellationToken的取消" />
+                    <Button
+                        Command="{Binding ShowLoading10Command}"
+                        Content="基于手动的取消" />
                 </StackPanel>
             </HeaderedContentControl>
 

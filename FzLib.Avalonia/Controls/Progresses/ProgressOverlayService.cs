@@ -113,7 +113,7 @@ namespace FzLib.Avalonia.Controls
             setVisible(visible);
         }
         public async Task WithOverlayAsync(
-            Func<Action<string>, Task> task,
+            Func<Task> task,
             string initialMessage = null,
             TimeSpan? delay = null)
         {
@@ -126,7 +126,7 @@ namespace FzLib.Avalonia.Controls
                 setCancelable?.Invoke(false);
                 setVisible(true);
 
-                await task(setMessage);
+                await task();
             }
             finally
             {
@@ -135,7 +135,7 @@ namespace FzLib.Avalonia.Controls
         }
 
         public async Task<bool> WithOverlayAsync(
-            Func<Action<string>, CancellationToken, Task> task,
+            Func<CancellationToken, Task> task,
             string initialMessage = null,
             TimeSpan? delay = null)
         {
@@ -156,17 +156,47 @@ namespace FzLib.Avalonia.Controls
                 setVisible(true);
                 CancellationTokenSource cts = new CancellationTokenSource();
                 setCancelable(true);
-                setCancelCommand(new RelayCommand(() =>
-                {
-                    cts.Cancel();
-                    setCancelable(false);
-                }));
-                await task(setMessage, cts.Token);
+                setCancelCommand(new AsyncRelayCommand(cts.CancelAsync));
+                await task(cts.Token);
                 return true;
             }
             catch (OperationCanceledException)
             {
                 return false;
+            }
+            finally
+            {
+                setVisible(false);
+            }
+        }
+
+        public async Task WithOverlayAsync(
+            Func<Task> task,
+            Func<Task> cancelRequest,
+            string initialMessage = null,
+            TimeSpan? delay = null)
+        {
+            CheckRegister();
+            if (setCancelable == null)
+            {
+                throw new InvalidOperationException("注册的服务不支持取消操作");
+            }
+            if (setCancelCommand == null)
+            {
+                throw new InvalidOperationException("注册的服务不支持取消操作");
+            }
+            try
+            {
+                setDelay?.Invoke(delay ?? TimeSpan.Zero);
+                setMessage?.Invoke(initialMessage);
+                setCancelable?.Invoke(false);
+                setVisible(true);
+                setCancelable(true);
+                setCancelCommand(new AsyncRelayCommand(() =>
+                {
+                    return cancelRequest?.Invoke();
+                }));
+                await task();
             }
             finally
             {

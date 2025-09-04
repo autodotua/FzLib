@@ -137,13 +137,13 @@ public partial class TaskViewModel(IDialogService dialogService, IProgressOverla
     [RelayCommand]
     private Task ShowLoading8Async()
     {
-        return ProgressOverlay.WithOverlayAsync(async setMessage =>
+        return ProgressOverlay.WithOverlayAsync(async () =>
           {
-              setMessage("正在处理（1/3）");
+              ProgressOverlay.SetMessage("正在处理（1/3）");
               await Task.Delay(1000);
-              setMessage("正在处理（2/3）");
+              ProgressOverlay.SetMessage("正在处理（2/3）");
               await Task.Delay(1000);
-              setMessage("正在处理（3/3）");
+              ProgressOverlay.SetMessage("正在处理（3/3）");
               await Task.Delay(1000);
           });
     }
@@ -151,10 +151,31 @@ public partial class TaskViewModel(IDialogService dialogService, IProgressOverla
     [RelayCommand]
     private Task ShowLoading9Async()
     {
-        return ProgressOverlay.WithOverlayAsync(async (setMessage,ct) =>
+        return ProgressOverlay.WithOverlayAsync(async ct =>
         {
-            setMessage("执行1小时");
+            ProgressOverlay.SetMessage("执行1小时");
             await Task.Delay(TimeSpan.FromHours(1), ct);
+        });
+    }
+
+    [RelayCommand]
+    private Task ShowLoading10Async()
+    {
+        bool stopped = false;
+        return ProgressOverlay.WithOverlayAsync(async () =>
+        {
+            ProgressOverlay.SetMessage("执行1小时");
+            while (!stopped)
+            {
+                await Task.Delay(1000);
+            }
+        },
+        async () =>
+        {
+            ProgressOverlay.SetMessage("正在取消");
+            await Task.Delay(1000);
+            ProgressOverlay.SetVisible(false);
+            stopped = true;
         });
     }
 }
