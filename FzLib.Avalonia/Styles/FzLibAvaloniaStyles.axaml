@@ -10,6 +10,7 @@
                 <ResourceInclude Source="/Styles/DialogHostStyles.axaml" />
                 <ResourceInclude Source="/Styles/PresetDialogStyles.axaml" />
                 <ResourceInclude Source="/Styles/PogressRingStyle.axaml" />
+                <ResourceInclude Source="/Styles/PogressRingBoxOverlayStyle.axaml" />
                 <ResourceInclude Source="/Styles/PogressRingOverlayStyle.axaml" />
                 <ResourceInclude Source="/Styles/Brushes.axaml" />
             </ResourceDictionary.MergedDictionaries>

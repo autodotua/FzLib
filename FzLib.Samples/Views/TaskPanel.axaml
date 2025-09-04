@@ -14,20 +14,36 @@
         <StackPanel>
             <HeaderedContentControl
                 Classes="GroupBox"
-                Header="进度环遮罩">
+                Header="进度环遮罩1">
                 <StackPanel Orientation="Horizontal">
                     <Button
                         Command="{Binding ShowLoading1Command}"
-                        Content="显示1秒"
-                        Tag="1" />
+                        Content="显示1秒" />
                     <Button
                         Command="{Binding ShowLoading2Command}"
-                        Content="延迟1秒后显示1秒"
-                        Tag="2" />
+                        Content="延迟1秒后显示1秒" />
                     <Button
                         Command="{Binding ShowLoading3Command}"
-                        Content="延迟2秒，提前1秒取消"
-                        Tag="3" />
+                        Content="延迟2秒，提前1秒取消" />
+                </StackPanel>
+            </HeaderedContentControl>
+
+            <HeaderedContentControl
+                Classes="GroupBox"
+                Header="进度环遮罩2">
+                <StackPanel Orientation="Horizontal">
+                    <Button
+                        Command="{Binding ShowLoading4Command}"
+                        Content="显示1秒" />
+                    <Button
+                        Command="{Binding ShowLoading5Command}"
+                        Content="延迟1秒后显示1秒" />
+                    <Button
+                        Command="{Binding ShowLoading6Command}"
+                        Content="中途改变提示信息" />
+                    <Button
+                        Command="{Binding ShowLoading7Command}"
+                        Content="包含取消按钮" />
                 </StackPanel>
             </HeaderedContentControl>
 
@@ -46,7 +62,14 @@
             </HeaderedContentControl>
         </StackPanel>
         <c:ProgressRingOverlay
-            Delay="{Binding Delay}"
-            IsActive="{Binding IsActive}" />
+            Delay="{Binding Delay1}"
+            IsActive="{Binding IsActive1}" />
+        <c:ProgressRingBoxOverlay
+            Title="{Binding Title2}"
+            CanCancel="{Binding CanCancel}"
+            CancelCommand="{Binding CancelCommand}"
+            Delay="{Binding Delay2}"
+            IsActive="{Binding IsActive2}"
+            Message="{Binding Message2}" />
     </Panel>
 </UserControl>

@@ -21,33 +21,31 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Grid>
-                        <Panel
-                            x:Name="OverlayPanel"
+                    <Panel
+                        x:Name="PART_Panel"
+                        Opacity="{TemplateBinding IsActualActive,
+                                                  Converter={x:Static cvt:Converters.BoldOpacity}}">
+                        <Panel.Transitions>
+                            <Transitions>
+                                <DoubleTransition
+                                    Easing="QuadraticEaseInOut"
+                                    Property="Opacity"
+                                    Duration="{StaticResource DefaultRingOverlayDuration}" />
+                            </Transitions>
+                        </Panel.Transitions>
+
+                        <Border
+                            Background="{DynamicResource SystemAltHighColor}"
                             IsHitTestVisible="{TemplateBinding IsActive}"
-                            Opacity="{TemplateBinding IsActualActive,
-                                                      Converter={x:Static cvt:Converters.BoldOpacity}}">
-                            <Panel.Transitions>
-                                <Transitions>
-                                    <DoubleTransition
-                                        Easing="QuadraticEaseInOut"
-                                        Property="Opacity"
-                                        Duration="{StaticResource DefaultRingOverlayDuration}" />
-                                </Transitions>
-                            </Panel.Transitions>
+                            Opacity="0.5" />
 
-                            <Border
-                                Background="{DynamicResource SystemAltHighColor}"
-                                Opacity="0.5" />
-
-                            <c:ProgressRing
-                                Width="{TemplateBinding RingSize}"
-                                Height="{TemplateBinding RingSize}"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                IsActive="{TemplateBinding IsActualActive}" />
-                        </Panel>
-                    </Grid>
+                        <c:ProgressRing
+                            Width="{TemplateBinding RingSize}"
+                            Height="{TemplateBinding RingSize}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            IsActive="{Binding #PART_Panel.Opacity, Converter={x:Static cvt:Converters.NotEqualWithParameter}, ConverterParameter=0}" />
+                    </Panel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

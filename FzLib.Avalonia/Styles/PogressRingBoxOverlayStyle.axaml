@@ -1,0 +1,108 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:FzLib.Avalonia.Controls"
+    xmlns:cvt="clr-namespace:FzLib.Avalonia.Converters"
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+    <Design.PreviewWith>
+        <Border
+            Width="500"
+            Height="500"
+            Background="SkyBlue">
+            <c:ProgressRingOverlay IsActive="True" />
+        </Border>
+    </Design.PreviewWith>
+    <sys:TimeSpan x:Key="DefaultRingOverlayDuration">0:0:0.5</sys:TimeSpan>
+
+    <ControlTheme
+        x:Key="{x:Type c:ProgressRingBoxOverlay}"
+        TargetType="c:ProgressRingBoxOverlay">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Panel
+                        x:Name="PART_Panel"
+                        Opacity="{TemplateBinding IsActualActive,
+                                                  Converter={x:Static cvt:Converters.BoldOpacity}}">
+                        <Panel.Transitions>
+                            <Transitions>
+                                <DoubleTransition
+                                    Easing="QuadraticEaseInOut"
+                                    Property="Opacity"
+                                    Duration="{StaticResource DefaultRingOverlayDuration}" />
+                            </Transitions>
+                        </Panel.Transitions>
+
+                        <Border
+                            Background="{DynamicResource SystemAltHighColor}"
+                            IsHitTestVisible="{TemplateBinding IsActive}"
+                            Opacity="0.5" />
+
+                        <Border
+                            Width="{TemplateBinding BoxWidth}"
+                            Height="{TemplateBinding BoxHeight}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
+                            CornerRadius="4">
+                            <Border.Effect>
+                                <DropShadowEffect
+                                    BlurRadius="{DynamicResource ExtendedWindowShadowRadius}"
+                                    OffsetX="0"
+                                    OffsetY="0"
+                                    Opacity="0.5"
+                                    Color="Black" />
+                            </Border.Effect>
+                            <Grid RowDefinitions="Auto,8,Auto,16,Auto,16,Auto">
+                                <TextBlock
+                                    Margin="16,12"
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Text="{TemplateBinding Title}" />
+                                <c:ProgressRing
+                                    Grid.Row="2"
+                                    Width="{TemplateBinding RingSize}"
+                                    Height="{TemplateBinding RingSize}"
+                                    IsActive="{Binding #PART_Panel.Opacity, Converter={x:Static cvt:Converters.NotEqualWithParameter}, ConverterParameter=0}" />
+
+                                <TextBlock
+                                    Grid.Row="4"
+                                    Margin="8,0"
+                                    Text="{TemplateBinding Message}"
+                                    TextAlignment="Center"
+                                    TextTrimming="CharacterEllipsis"
+                                    ToolTip.Tip="{TemplateBinding Message}" />
+
+                                <Button
+                                    Grid.Row="6"
+                                    Margin="0,0,16,8"
+                                    HorizontalAlignment="Right"
+                                    Background="Transparent"
+                                    Command="{TemplateBinding CancelCommand}"
+                                    Content="{TemplateBinding CancelContent}"
+                                    Foreground="{DynamicResource SystemAccentColor}"
+                                    IsEnabled="{TemplateBinding IsActive}"
+                                    IsVisible="{TemplateBinding CanCancel}">
+                                    <Button.Styles>
+                                        <Style Selector="Button">
+                                            <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+                                                <Setter Property="Background" Value="Transparent" />
+                                                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushDisabled}" />
+                                                <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundDisabled}" />
+                                            </Style>
+                                        </Style>
+                                    </Button.Styles>
+                                </Button>
+                            </Grid>
+                        </Border>
+
+                    </Panel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+
+    </ControlTheme>
+
+</ResourceDictionary>
