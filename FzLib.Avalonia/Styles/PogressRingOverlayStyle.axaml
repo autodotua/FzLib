@@ -21,10 +21,25 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
+                    <!--  IsVisible="{Binding $self.Opacity, Converter={x:Static cvt:Converters.NotEqualWithParameter}, ConverterParameter=0}"  -->
+
                     <Panel
                         x:Name="PART_Panel"
                         Opacity="{TemplateBinding IsActualActive,
                                                   Converter={x:Static cvt:Converters.BoldOpacity}}">
+                        <Panel.IsVisible>
+                            <MultiBinding Converter="{x:Static cvt:Converters.OrLogic}">
+                                <!--  同步IsVisible和Opacity，不然会挡住GridSplitter  -->
+                                <!--  如果IsActive（从启动（包括延时）到要求关闭），以及透明度不为零（从延时后进入动画，到退出动画），可视状态设置为True  -->
+                                <Binding
+                                    Converter="{x:Static cvt:Converters.NotEqualWithParameter}"
+                                    ConverterParameter="0"
+                                    Path="$self.Opacity" />
+                                <Binding
+                                    Path="IsActive"
+                                    RelativeSource="{RelativeSource TemplatedParent}" />
+                            </MultiBinding>
+                        </Panel.IsVisible>
                         <Panel.Transitions>
                             <Transitions>
                                 <DoubleTransition
