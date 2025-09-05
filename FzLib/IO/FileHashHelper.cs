@@ -100,7 +100,7 @@ public static class FileHashHelper
         IProgress<FileProcessProgress> progress,
         string filePath,
         long totalBytes,
-        CancellationToken ct)
+        CancellationToken ct = default)
     {
         long totalBytesProcessed = 0;
 

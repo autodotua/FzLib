@@ -19,7 +19,7 @@ internal static class FileIOHelper
         FileStream sourceStream,
         ChannelWriter<(byte[] buffer, int bytesRead)> writer,
         int bufferSize,
-        CancellationToken ct)
+        CancellationToken ct = default)
     {
         byte[] readBuffer = ArrayPool<byte>.Shared.Rent(bufferSize);
         try
