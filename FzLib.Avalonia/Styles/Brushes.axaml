@@ -44,20 +44,79 @@
                 Foreground="{DynamicResource Background0}"
                 Text="Accent0" />
             <TextBlock
-                Background="{DynamicResource Accent1}"
+                Background="{DynamicResource AccentF1}"
                 Foreground="{DynamicResource Background0}"
-                Text="Accent1" />
+                Text="AccentF1" />
             <TextBlock
-                Background="{DynamicResource Accent2}"
+                Background="{DynamicResource AccentF2}"
                 Foreground="{DynamicResource Background0}"
-                Text="Accent2" />
+                Text="AccentF2" />
             <TextBlock
-                Background="{DynamicResource Accent3}"
+                Background="{DynamicResource AccentF3}"
                 Foreground="{DynamicResource Background0}"
-                Text="Accent3" />
+                Text="AccentF3" />
+            <TextBlock
+                Background="{DynamicResource AccentB1}"
+                Foreground="{DynamicResource Foreground0}"
+                Text="AccentB1" />
+            <TextBlock
+                Background="{DynamicResource AccentB2}"
+                Foreground="{DynamicResource Foreground0}"
+                Text="AccentB2" />
+            <TextBlock
+                Background="{DynamicResource AccentB3}"
+                Foreground="{DynamicResource Foreground0}"
+                Text="AccentB3" />
 
         </StackPanel>
     </Design.PreviewWith>
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Dark">
+
+            <SolidColorBrush
+                x:Key="AccentB3"
+                Color="{DynamicResource SystemAccentColorDark1}" />
+            <SolidColorBrush
+                x:Key="AccentB2"
+                Color="{DynamicResource SystemAccentColorDark2}" />
+            <SolidColorBrush
+                x:Key="AccentB1"
+                Color="{DynamicResource SystemAccentColorDark3}" />
+
+            <SolidColorBrush
+                x:Key="AccentF3"
+                Color="{DynamicResource SystemAccentColorLight1}" />
+            <SolidColorBrush
+                x:Key="AccentF2"
+                Color="{DynamicResource SystemAccentColorLight2}" />
+            <SolidColorBrush
+                x:Key="AccentF1"
+                Color="{DynamicResource SystemAccentColorLight3}" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Light">
+
+            <SolidColorBrush
+                x:Key="AccentF3"
+                Color="{DynamicResource SystemAccentColor}" />
+            <SolidColorBrush
+                x:Key="AccentF2"
+                Color="{DynamicResource SystemAccentColorDark1}" />
+            <SolidColorBrush
+                x:Key="AccentF1"
+                Color="{DynamicResource SystemAccentColorDark2}" />
+
+            <SolidColorBrush
+                x:Key="AccentB3"
+                Color="{DynamicResource SystemAccentColorLight1}" />
+            <SolidColorBrush
+                x:Key="AccentB2"
+                Color="{DynamicResource SystemAccentColorLight2}" />
+            <SolidColorBrush
+                x:Key="AccentB1"
+                Color="{DynamicResource SystemAccentColorLight3}" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
     <SolidColorBrush
         x:Key="Background0"
         Color="{DynamicResource SystemAltHighColor}" />
@@ -89,7 +148,7 @@
         Color="{DynamicResource SystemBaseHighColor}" />
 
 
-
+    <!--  为了保证兼容性，保留下面4个  -->
     <SolidColorBrush
         x:Key="Accent0"
         Color="{DynamicResource SystemAccentColor}" />
@@ -102,5 +161,6 @@
     <SolidColorBrush
         x:Key="Accent3"
         Color="{DynamicResource SystemAccentColorDark3}" />
+
 
 </ResourceDictionary>

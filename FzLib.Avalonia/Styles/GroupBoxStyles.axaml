@@ -5,9 +5,14 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <Grid RowDefinitions="Auto,*">
-                    <TextBlock
+                    <ContentControl
+                        Background="{TemplateBinding HeaderTemplate}"
+                        Content="{TemplateBinding Header}"
+                        ContentTemplate="{TemplateBinding HeaderTemplate}"
+                        TextElement.FontWeight="Bold" />
+                    <!--<TextBlock
                         FontWeight="Bold"
-                        Text="{TemplateBinding Header}" />
+                        Text="{TemplateBinding Header}" />-->
                     <ContentPresenter
                         Name="PART_ContentPresenter"
                         Grid.Row="2"

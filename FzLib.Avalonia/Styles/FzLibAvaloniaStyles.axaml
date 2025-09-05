@@ -16,5 +16,6 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>
+    <StyleInclude Source="/Styles/ButtonSyles.axaml" />
     <StyleInclude Source="/Styles/GroupBoxStyles.axaml" />
 </Styles>
