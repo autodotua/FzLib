@@ -4,6 +4,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FzLib.Avalonia.Controls
 {
@@ -16,8 +17,28 @@ namespace FzLib.Avalonia.Controls
         private Action<string> setMessage;
         private Action<string> setTitle;
         private Action<bool> setVisible;
+        public void Attach(ProgressRingOverlay overlay)
+        {
+            Register(
+                p => overlay.IsActive = p,
+                p => overlay.Delay = p,
+                null,
+                null, null, null);
+        }
+
+        public void Attach(ProgressRingBoxOverlay overlay)
+        {
+            Register(
+                p => overlay.IsActive = p,
+                p => overlay.Delay = p,
+                p => overlay.Title = p,
+                p => overlay.Message = p,
+                p => overlay.CanCancel = p,
+                p => overlay.CancelCommand = p);
+        }
+
         public void Register(Action<bool> setVisible,
-                           Action<TimeSpan> setDelay,
+                                           Action<TimeSpan> setDelay,
                            Action<string> setTitle,
                            Action<string> setMessage,
                            Action<bool> setCancelable,
@@ -36,27 +57,6 @@ namespace FzLib.Avalonia.Controls
             this.setCancelCommand = setCancelCommand;
             hasRegistered = true;
         }
-
-        public void Register(ProgressRingOverlay overlay)
-        {
-            Register(
-                p => overlay.IsActive = p,
-                p => overlay.Delay = p,
-                null,
-                null, null, null);
-        }
-
-        public void Register(ProgressRingBoxOverlay overlay)
-        {
-            Register(
-                p => overlay.IsActive = p,
-                p => overlay.Delay = p,
-                p => overlay.Title = p,
-                p => overlay.Message = p,
-                p => overlay.CanCancel = p,
-                p => overlay.CancelCommand = p);
-        }
-
         public void SetCancelable(bool cancelable)
         {
             CheckRegister();
@@ -112,10 +112,8 @@ namespace FzLib.Avalonia.Controls
             CheckRegister();
             setVisible(visible);
         }
-        public async Task WithOverlayAsync(
-            Func<Task> task,
-            string initialMessage = null,
-            TimeSpan? delay = null)
+
+        public async Task WithOverlayAsync(Func<Task> task, Func<Exception, Task> onError = null, string initialMessage = null, TimeSpan? delay = null)
         {
             CheckRegister();
 
@@ -128,16 +126,21 @@ namespace FzLib.Avalonia.Controls
 
                 await task();
             }
+            catch (Exception ex)
+            {
+                if (onError == null)
+                {
+                    throw;
+                }
+                await onError(ex);
+            }
             finally
             {
                 setVisible(false);
             }
         }
 
-        public async Task<bool> WithOverlayAsync(
-            Func<CancellationToken, Task> task,
-            string initialMessage = null,
-            TimeSpan? delay = null)
+        public async Task WithOverlayAsync(Func<CancellationToken, Task> task, Func<Task> onCancel = null, Func<Exception, Task> onError = null, string initialMessage = null, TimeSpan? delay = null)
         {
             CheckRegister();
             if (setCancelable == null)
@@ -158,23 +161,30 @@ namespace FzLib.Avalonia.Controls
                 setCancelable(true);
                 setCancelCommand(new AsyncRelayCommand(cts.CancelAsync));
                 await task(cts.Token);
-                return true;
             }
             catch (OperationCanceledException)
             {
-                return false;
+                if (onCancel != null)
+                {
+                    await onCancel();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (onError == null)
+                {
+                    throw;
+                }
+                await onError(ex);
             }
             finally
             {
                 setVisible(false);
             }
+
         }
 
-        public async Task WithOverlayAsync(
-            Func<Task> task,
-            Func<Task> cancelRequest,
-            string initialMessage = null,
-            TimeSpan? delay = null)
+        public async Task WithOverlayAsync(Func<Task> task, Func<Task> onCancel, Func<Exception, Task> onError = null, string initialMessage = null, TimeSpan? delay = null)
         {
             CheckRegister();
             if (setCancelable == null)
@@ -194,9 +204,17 @@ namespace FzLib.Avalonia.Controls
                 setCancelable(true);
                 setCancelCommand(new AsyncRelayCommand(() =>
                 {
-                    return cancelRequest?.Invoke();
+                    return onCancel?.Invoke();
                 }));
                 await task();
+            }
+            catch (Exception ex)
+            {
+                if (onError == null)
+                {
+                    throw;
+                }
+                await onError(ex);
             }
             finally
             {
@@ -208,7 +226,7 @@ namespace FzLib.Avalonia.Controls
         {
             if (!hasRegistered)
             {
-                throw new InvalidOperationException("请先调用 Register 方法注册服务");
+                throw new InvalidOperationException("请先调用 Attach 方法注册服务");
             }
         }
     }

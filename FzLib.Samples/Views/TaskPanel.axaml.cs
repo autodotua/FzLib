@@ -19,6 +19,6 @@ public partial class TaskPanel : UserControl
     {
         DataContext = App.Services.GetRequiredService<TaskViewModel>();
         InitializeComponent();
-        App.Services.GetRequiredService<IProgressOverlayService>().Register(loading2);
+        App.Services.GetRequiredService<IProgressOverlayService>().Attach(loading2);
     }
 }
