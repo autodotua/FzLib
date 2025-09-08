@@ -16,7 +16,7 @@ public abstract class BoolToValueConverterBase<T> : IValueConverter
         return value is true ? TrueValue : FalseValue;
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    public virtual object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
     }
