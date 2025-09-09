@@ -1,3 +1,4 @@
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -20,8 +21,8 @@ namespace FzLib.Avalonia.Controls
         public void Attach(ProgressRingOverlay overlay)
         {
             Register(
-                p => overlay.IsActive = p,
-                p => overlay.Delay = p,
+                p => Dispatcher.UIThread.Invoke(() => overlay.IsActive = p),
+                p => Dispatcher.UIThread.Invoke(() => overlay.Delay = p),
                 null,
                 null, null, null);
         }
@@ -29,12 +30,12 @@ namespace FzLib.Avalonia.Controls
         public void Attach(ProgressRingBoxOverlay overlay)
         {
             Register(
-                p => overlay.IsActive = p,
-                p => overlay.Delay = p,
-                p => overlay.Title = p,
-                p => overlay.Message = p,
-                p => overlay.CanCancel = p,
-                p => overlay.CancelCommand = p);
+                p => Dispatcher.UIThread.Invoke(() => overlay.IsActive = p),
+                p => Dispatcher.UIThread.Invoke(() => overlay.Delay = p),
+                p => Dispatcher.UIThread.Invoke(() => overlay.Title = p),
+                p => Dispatcher.UIThread.Invoke(() => overlay.Message = p),
+                p => Dispatcher.UIThread.Invoke(() => overlay.CanCancel = p),
+                p => Dispatcher.UIThread.Invoke(() => overlay.CancelCommand = p));
         }
 
         public void Register(Action<bool> setVisible,
