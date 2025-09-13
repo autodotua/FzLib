@@ -6,38 +6,62 @@ namespace FzLib.Avalonia.Dialogs.Pickers;
 
 public interface IFilePickerOptionsBuilder
 {
-    // 添加“全部文件”过滤器
+    /// <summary>
+    /// 添加“全部文件”过滤器
+    /// </summary>
     IFilePickerOptionsBuilder AddAllFilesFilter(string name = "全部文件");
 
-    // 添加文件类型过滤器（按名称和扩展名）
+    /// <summary>
+    /// 添加文件类型过滤器（按名称和扩展名）
+    /// </summary>
     IFilePickerOptionsBuilder AddFilter(string name, params string[] extensions);
-    // 手动添加完整 Filter（支持 Apple UTI、MIME 类型等）
+
+    /// <summary>
+    /// 手动添加完整 Filter（支持 Apple UTI、MIME 类型等）
+    /// </summary>
     IFilePickerOptionsBuilder AddFilter(
         string name,
         IReadOnlyList<string> patterns,
         IReadOnlyList<string> appleUniformTypeIdentifiers = null,
         IReadOnlyList<string> mimeTypes = null);
 
-    // 是否允许多选
+    /// <summary>
+    /// 是否允许多选
+    /// </summary>
     IFilePickerOptionsBuilder AllowMultiple(bool allow = true);
 
-    // 构建选择文件夹的选项
+    /// <summary>
+    /// 构建选择文件夹的选项
+    /// </summary>
     FolderPickerOpenOptions BuildFolderOptions();
 
-    // 构建打开文件选项
+    /// <summary>
+    /// 构建打开文件选项
+    /// </summary>
     FilePickerOpenOptions BuildOpenOptions();
 
-    // 构建保存文件选项
+    /// <summary>
+    /// 构建保存文件选项
+    /// </summary>
     FilePickerSaveOptions BuildSaveOptions();
 
-    // 控制覆盖提示（保存时）
+    /// <summary>
+    /// 控制覆盖提示（保存时）
+    /// </summary>
     IFilePickerOptionsBuilder ShowOverwritePrompt(bool show = true);
 
-    // 设置建议文件名
+    /// <summary>
+    /// 设置建议文件名
+    /// </summary>
     IFilePickerOptionsBuilder SuggestedFileName(string name);
 
-    // 设置起始位置目录
+    /// <summary>
+    /// 设置起始位置目录
+    /// </summary>
     IFilePickerOptionsBuilder SuggestedStartLocation(IStorageFolder folder);
-    // 设置标题
+    
+    /// <summary>
+    /// 设置标题
+    /// </summary>
     IFilePickerOptionsBuilder Title(string title);
 }

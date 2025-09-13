@@ -67,7 +67,7 @@
                             </WrapPanel.Styles>
                             <Button
                                 Command="{Binding OpenFile1Command}"
-                                Content="打开文本文件（FileDialogFilterBuilder.Create()）" />
+                                Content="打开文本文件（FilePickerOptionsBuilder.Create()）" />
                             <Button
                                 Command="{Binding OpenFile2Command}"
                                 Content="打开图像文件（StorageProviderService.CreatePickerBuilder()）" />

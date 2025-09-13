@@ -19,6 +19,7 @@ public class FilePickerOptionsBuilder : IFilePickerOptionsBuilder, IStorageProvi
     private IStorageFolder suggestedStartLocation;
 
     private string title;
+
     internal FilePickerOptionsBuilder(IStorageProviderService service)
     {
         Service = service;
@@ -35,12 +36,12 @@ public class FilePickerOptionsBuilder : IFilePickerOptionsBuilder, IStorageProvi
         return new FilePickerOptionsBuilder();
     }
 
-    IFilePickerOptionsBuilder IFilePickerOptionsBuilder.AddAllFilesFilter(string name = "全部文件")
+    IFilePickerOptionsBuilder IFilePickerOptionsBuilder.AddAllFilesFilter(string name)
     {
         return AddAllFilesFilter(name);
     }
 
-    IStorageProviderServicePickerBuilder IStorageProviderServicePickerBuilder.AddAllFilesFilter(string name = "全部文件")
+    IStorageProviderServicePickerBuilder IStorageProviderServicePickerBuilder.AddAllFilesFilter(string name)
     {
         return AddAllFilesFilter(name);
     }
@@ -69,12 +70,12 @@ public class FilePickerOptionsBuilder : IFilePickerOptionsBuilder, IStorageProvi
         return AddFilter(name, patterns, appleUniformTypeIdentifiers, mimeTypes);
     }
 
-    IFilePickerOptionsBuilder IFilePickerOptionsBuilder.AllowMultiple(bool allow = true)
+    IFilePickerOptionsBuilder IFilePickerOptionsBuilder.AllowMultiple(bool allow)
     {
         return AllowMultiple(allow);
     }
 
-    IStorageProviderServicePickerBuilder IStorageProviderServicePickerBuilder.AllowMultiple(bool allow = true)
+    IStorageProviderServicePickerBuilder IStorageProviderServicePickerBuilder.AllowMultiple(bool allow)
     {
         return AllowMultiple(allow);
     }
@@ -150,12 +151,12 @@ public class FilePickerOptionsBuilder : IFilePickerOptionsBuilder, IStorageProvi
         return Service.SaveFilePickerAsync(BuildSaveOptions());
     }
 
-    IFilePickerOptionsBuilder IFilePickerOptionsBuilder.ShowOverwritePrompt(bool show = true)
+    IFilePickerOptionsBuilder IFilePickerOptionsBuilder.ShowOverwritePrompt(bool show)
     {
         return ShowOverwritePrompt(show);
     }
 
-    IStorageProviderServicePickerBuilder IStorageProviderServicePickerBuilder.ShowOverwritePrompt(bool show = true)
+    IStorageProviderServicePickerBuilder IStorageProviderServicePickerBuilder.ShowOverwritePrompt(bool show)
     {
         return ShowOverwritePrompt(show);
     }
@@ -185,6 +186,7 @@ public class FilePickerOptionsBuilder : IFilePickerOptionsBuilder, IStorageProvi
     {
         return Title(title);
     }
+
     IStorageProviderServicePickerBuilder IStorageProviderServicePickerBuilder.Title(string title)
     {
         return Title(title);
@@ -204,7 +206,7 @@ public class FilePickerOptionsBuilder : IFilePickerOptionsBuilder, IStorageProvi
             .ToList();
         return AddFilter(name, patterns, null, null);
     }
-    
+
     private FilePickerOptionsBuilder AddFilter(string name, IReadOnlyList<string> patterns,
         IReadOnlyList<string> appleUniformTypeIdentifiers, IReadOnlyList<string> mimeTypes)
     {
@@ -240,13 +242,13 @@ public class FilePickerOptionsBuilder : IFilePickerOptionsBuilder, IStorageProvi
         filters.Add(filter);
         return this;
     }
-    
+
     private FilePickerOptionsBuilder AllowMultiple(bool allow = true)
     {
         allowMultiple = allow;
         return this;
     }
-    
+
     private FilePickerOptionsBuilder ShowOverwritePrompt(bool show = true)
     {
         showOverwritePrompt = show;
@@ -263,13 +265,13 @@ public class FilePickerOptionsBuilder : IFilePickerOptionsBuilder, IStorageProvi
         suggestedFileName = name;
         return this;
     }
-    
+
     private FilePickerOptionsBuilder SuggestedStartLocation(IStorageFolder folder)
     {
         suggestedStartLocation = folder ?? throw new System.ArgumentNullException(nameof(folder), "建议的起始位置不能为null。");
         return this;
     }
-    
+
     private FilePickerOptionsBuilder Title(string title)
     {
         if (string.IsNullOrWhiteSpace(title))
@@ -279,6 +281,5 @@ public class FilePickerOptionsBuilder : IFilePickerOptionsBuilder, IStorageProvi
 
         this.title = title;
         return this;
-    }    
-    
+    }
 }
