@@ -23,7 +23,7 @@ namespace FzLib.Avalonia.Dialogs
             string watermark = null, char passwordChar = '\0',
             IEnumerable<Func<string, ValidationResult>> validations = null)
         {
-            PrimaryButtonEnable = true;
+            IsPrimaryButtonEnabled = true;
             Title = title;
             var content = new InputDialogContent
             {
@@ -66,7 +66,7 @@ namespace FzLib.Avalonia.Dialogs
 
         protected override void OnPrimaryButtonClick()
         {
-            Debug.Assert(PrimaryButtonEnable);
+            Debug.Assert(IsPrimaryButtonEnabled);
             Close((Content as InputDialogContent).Text);
         }
 
@@ -77,7 +77,7 @@ namespace FzLib.Avalonia.Dialogs
 
         private void OnValidationChanged(bool hasError)
         {
-            PrimaryButtonEnable = !hasError;
+            IsPrimaryButtonEnabled = !hasError;
         }
     }
 }

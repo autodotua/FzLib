@@ -7,12 +7,25 @@
     xmlns:dialog="using:FzLib.Avalonia.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:me="using:FzLib.Avalonia.MarkupExtensions"
-    Title="设置"
+    xmlns:vm="clr-namespace:FzLib.Samples.ViewModels"
+    Title="选择对话框"
     Padding="4"
+    x:DataType="vm:ComboBoxDialogViewModel"
     CloseButtonContent="关闭"
+    PrimaryButtonCommand="{Binding PrimaryButtonClickCommand}"
+    PrimaryButtonContent="主要按钮"
+    SecondaryButtonCommand="{Binding SecondaryButtonClickCommand}"
+    SecondaryButtonContent="次要按钮"
     mc:Ignorable="d">
-    <ComboBox>
-        <ComboBoxItem>选项1</ComboBoxItem>
-        <ComboBoxItem>选项2</ComboBoxItem>
-    </ComboBox>
+    <StackPanel>
+        <TextBlock>自定义对话框，同时按钮命令符合MVVM</TextBlock>
+        <ComboBox
+            HorizontalAlignment="Stretch"
+            SelectedIndex="{Binding SelectedIndex}">
+            <ComboBoxItem>选项1</ComboBoxItem>
+            <ComboBoxItem>选项2</ComboBoxItem>
+            <ComboBoxItem>选项3</ComboBoxItem>
+        </ComboBox>
+        <TextBlock Text="{Binding Message}" />
+    </StackPanel>
 </dialog:DialogHost>

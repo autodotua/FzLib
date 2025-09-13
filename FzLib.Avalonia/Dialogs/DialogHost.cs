@@ -10,53 +10,58 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace FzLib.Avalonia.Dialogs
 {
     public class DialogHost : ContentControl
     {
-        protected override Type StyleKeyOverride => typeof(DialogHost);
+        public static readonly StyledProperty<ICommand> CloseButtonCommandProperty = AvaloniaProperty.Register<DialogHost, ICommand>(
+            nameof(CloseButtonCommand));
 
         public static readonly StyledProperty<object> CloseButtonContentProperty =
             AvaloniaProperty.Register<DialogHost, object>(nameof(CloseButtonContent));
 
-        public static readonly StyledProperty<bool> CloseButtonEnableProperty =
-            AvaloniaProperty.Register<DialogHost, bool>(nameof(CloseButtonEnable), true);
+        public static readonly StyledProperty<bool> IsCloseButtonEnabledProperty =
+            AvaloniaProperty.Register<DialogHost, bool>(nameof(IsCloseButtonEnabled), true);
+
+        public static readonly StyledProperty<bool> IsPrimaryButtonEnabledProperty =
+            AvaloniaProperty.Register<DialogHost, bool>(nameof(IsPrimaryButtonEnabled), true);
+
+        public static readonly StyledProperty<bool> IsSecondaryButtonEnabledProperty =
+            AvaloniaProperty.Register<DialogHost, bool>(nameof(IsSecondaryButtonEnabled), true);
+
+        public static readonly StyledProperty<ICommand> PrimaryButtonCommandProperty = AvaloniaProperty.Register<DialogHost, ICommand>(
+            nameof(PrimaryButtonCommand));
 
         public static readonly StyledProperty<object> PrimaryButtonContentProperty =
             AvaloniaProperty.Register<DialogHost, object>(nameof(PrimaryButtonContent));
 
-        public static readonly StyledProperty<bool> PrimaryButtonEnableProperty =
-            AvaloniaProperty.Register<DialogHost, bool>(nameof(PrimaryButtonEnable), true);
+        public static readonly StyledProperty<ICommand> SecondaryButtonCommandProperty = AvaloniaProperty.Register<DialogHost, ICommand>(
+            nameof(SecondaryButtonCommand));
 
         public static readonly StyledProperty<object> SecondaryButtonContentProperty =
             AvaloniaProperty.Register<DialogHost, object>(nameof(SecondaryButtonContent));
-
-        public static readonly StyledProperty<bool> SecondaryButtonEnableProperty =
-            AvaloniaProperty.Register<DialogHost, bool>(nameof(SecondaryButtonEnable), true);
 
         public static readonly StyledProperty<string> TitleProperty =
             AvaloniaProperty.Register<DialogHost, string>(nameof(Title), "");
 
         public static string CancelButtonText = "取消";
-
         public static string CloseButtonText = "关闭";
-
         public static string NoButtonText = "否";
-
         public static string OkButtonText = "确定";
-
         public static string RetryButtonText = "重试";
-
         public static string YesButtonText = "是";
-
         internal Button CloseButton;
-
         internal Button PrimaryButton;
-
         internal Button SecondaryButton;
-
         private IDialogHostContainer dialogContainer;
+        
+        public ICommand CloseButtonCommand
+        {
+            get => GetValue(CloseButtonCommandProperty);
+            set => SetValue(CloseButtonCommandProperty, value);
+        }
 
         public object CloseButtonContent
         {
@@ -64,10 +69,28 @@ namespace FzLib.Avalonia.Dialogs
             set => SetValue(CloseButtonContentProperty, value);
         }
 
-        public bool CloseButtonEnable
+        public bool IsCloseButtonEnabled
         {
-            get => GetValue(CloseButtonEnableProperty);
-            set => SetValue(CloseButtonEnableProperty, value);
+            get => GetValue(IsCloseButtonEnabledProperty);
+            set => SetValue(IsCloseButtonEnabledProperty, value);
+        }
+
+        public bool IsPrimaryButtonEnabled
+        {
+            get => GetValue(IsPrimaryButtonEnabledProperty);
+            set => SetValue(IsPrimaryButtonEnabledProperty, value);
+        }
+
+        public bool IsSecondaryButtonEnabled
+        {
+            get => GetValue(IsSecondaryButtonEnabledProperty);
+            set => SetValue(IsSecondaryButtonEnabledProperty, value);
+        }
+
+        public ICommand PrimaryButtonCommand
+        {
+            get => GetValue(PrimaryButtonCommandProperty);
+            set => SetValue(PrimaryButtonCommandProperty, value);
         }
 
         public object PrimaryButtonContent
@@ -76,10 +99,10 @@ namespace FzLib.Avalonia.Dialogs
             set => SetValue(PrimaryButtonContentProperty, value);
         }
 
-        public bool PrimaryButtonEnable
+        public ICommand SecondaryButtonCommand
         {
-            get => GetValue(PrimaryButtonEnableProperty);
-            set => SetValue(PrimaryButtonEnableProperty, value);
+            get => GetValue(SecondaryButtonCommandProperty);
+            set => SetValue(SecondaryButtonCommandProperty, value);
         }
 
         public object SecondaryButtonContent
@@ -88,18 +111,14 @@ namespace FzLib.Avalonia.Dialogs
             set => SetValue(SecondaryButtonContentProperty, value);
         }
 
-        public bool SecondaryButtonEnable
-        {
-            get => GetValue(SecondaryButtonEnableProperty);
-            set => SetValue(SecondaryButtonEnableProperty, value);
-        }
-
         public string Title
         {
             get => GetValue(TitleProperty);
             set => SetValue(TitleProperty, value);
         }
 
+        protected override Type StyleKeyOverride => typeof(DialogHost);
+        
         public void Close()
         {
             dialogContainer.Close();
@@ -175,6 +194,12 @@ namespace FzLib.Avalonia.Dialogs
             }
         }
 
+        public Task ShowModelessWindowDialog()
+        {
+            dialogContainer = new WindowDialogContainer();
+            return (dialogContainer as WindowDialogContainer).ShowDialog(this);
+        }
+
         public Task ShowPopupDialog(Grid control)
         {
             return ShowPopupDialog<object>(control);
@@ -191,13 +216,7 @@ namespace FzLib.Avalonia.Dialogs
             dialogContainer = new WindowDialogContainer();
             return (dialogContainer as WindowDialogContainer).ShowDialog<T>(window, this);
         }
-
-        public Task ShowModelessWindowDialog()
-        {
-            dialogContainer = new WindowDialogContainer();
-            return (dialogContainer as WindowDialogContainer).ShowDialog(this);
-        }
-
+        
         public Task ShowWindowDialog(Window window)
         {
             return ShowWindowDialog<object>(window);

@@ -10,7 +10,9 @@
     } elseif ($IsMacOS) {
         $currentRuntime = "osx-x64"
     } else {
-        throw "无法确定当前操作系统"
+        Write "无法确定当前操作系统，将不发布AOT版本"
+        $currentRuntime = "unknown"
+        # throw "无法确定当前操作系统"
     }
 
     Write-Host "当前系统："

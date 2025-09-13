@@ -76,7 +76,7 @@ namespace FzLib.Avalonia.Dialogs
         private void CheckCanApply()
         {
             int count = (Content as CheckBoxDialogContent).Items.Count(p => p.IsChecked);
-            PrimaryButtonEnable = count >= minCheckCount && count <= maxCheckCount;
+            IsPrimaryButtonEnabled = count >= minCheckCount && count <= maxCheckCount;
         }
     }
 }

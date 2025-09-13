@@ -86,7 +86,7 @@
                     <TextBlock
                         Grid.Row="3"
                         Margin="0,8,0,0"
-                        Foreground="Yellow"
+                        Foreground="Orange"
                         IsVisible="{Binding HasError, RelativeSource={RelativeSource TemplatedParent}}"
                         Text="{Binding ErrorMessage, RelativeSource={RelativeSource TemplatedParent}}" />
                 </Grid>

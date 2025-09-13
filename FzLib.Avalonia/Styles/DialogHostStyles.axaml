@@ -94,25 +94,27 @@
                             </StackPanel.Styles>
                             <Button
                                 x:Name="CloseButton"
+                                Command="{TemplateBinding CloseButtonCommand}"
                                 Content="{TemplateBinding CloseButtonContent}"
                                 IsCancel="True"
-                                IsEnabled="{TemplateBinding CloseButtonEnable}"
+                                IsEnabled="{TemplateBinding IsCloseButtonEnabled}"
                                 IsVisible="{TemplateBinding CloseButtonContent,
                                                             Converter={x:Static cvt:Converters.IsNotNull}}" />
                             <Button
                                 x:Name="SecondaryButton"
-                                Grid.Column="2"
+                                Command="{TemplateBinding SecondaryButtonCommand}"
                                 Content="{TemplateBinding SecondaryButtonContent}"
-                                IsEnabled="{TemplateBinding SecondaryButtonEnable}"
+                                IsEnabled="{TemplateBinding IsSecondaryButtonEnabled}"
                                 IsVisible="{TemplateBinding SecondaryButtonContent,
                                                             Converter={x:Static cvt:Converters.IsNotNull}}" />
                             <Button
                                 x:Name="PrimaryButton"
-                                Grid.Column="4"
                                 Background="{DynamicResource SystemControlHighlightAccentBrush}"
+                                Command="{TemplateBinding PrimaryButtonCommand}"
                                 Content="{TemplateBinding PrimaryButtonContent}"
+                                Foreground="White"
                                 IsDefault="True"
-                                IsEnabled="{TemplateBinding PrimaryButtonEnable}"
+                                IsEnabled="{TemplateBinding IsPrimaryButtonEnabled}"
                                 IsVisible="{TemplateBinding PrimaryButtonContent,
                                                             Converter={x:Static cvt:Converters.IsNotNull}}" />
                         </StackPanel>
