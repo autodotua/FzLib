@@ -70,6 +70,10 @@
             </TabControl.Template>-->
 
 
+            <TabItem Header="JSON序列化">
+                <local:JsonPanel />
+            </TabItem>
+
             <TabItem Header="耗时任务">
                 <local:TaskPanel />
             </TabItem>

@@ -60,6 +60,10 @@
       <DependentUpon>SelectItemDialog.axaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\JsonPanel.axaml.cs">
+      <DependentUpon>JsonPanel.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

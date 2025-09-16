@@ -53,7 +53,7 @@ namespace FzLib.Avalonia.Converters
             return en.ToString();
         }
 
-        public static string GetDescription<T>(T en) where T : struct, Enum
+        public static string GetDescription<T>([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] T en) where T : struct, Enum
         {
             Type type = typeof(T);
             return GetDescription(type, en);
