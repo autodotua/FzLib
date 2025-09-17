@@ -9,6 +9,7 @@ using FzLib.Avalonia.Controls;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Avalonia.Controls.Primitives;
 using Avalonia.Media.Transformation;
 using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
@@ -18,9 +19,7 @@ namespace FzLib.Avalonia.Dialogs
 {
     public class PopupDialogContainer : ContentControl, IDialogHostContainer<Grid>
     {
-        public PopupDialogContainer()
-        {
-        }
+        public static readonly TimeSpan AnimationDuration = TimeSpan.FromMilliseconds(100);
 
         TaskCompletionSource<object> tcs;
 
@@ -31,8 +30,24 @@ namespace FzLib.Avalonia.Dialogs
                 throw new Exception($"还未调用{nameof(ShowDialog)}");
             }
 
-            (Parent as Grid).Children.Remove(this);
+            HideAndRemoveSelf();
+
             tcs.SetResult(null);
+        }
+
+        private void HideAndRemoveSelf()
+        {
+            //开始退出动画
+            bdDialog.Opacity = 0;
+            bdDialog.RenderTransform = TransformOperations.Parse("scale(0.98)");
+            bdBackground.Opacity = 0.0;
+            Task.Delay(AnimationDuration).ContinueWith(_ =>
+            {
+                Dispatcher.UIThread.Post(() =>
+                {
+                    ((Panel)Parent).Children.Remove(this);
+                });
+            });
         }
 
         public void Close(object result)
@@ -42,11 +57,9 @@ namespace FzLib.Avalonia.Dialogs
                 throw new Exception($"还未调用{nameof(ShowDialog)}");
             }
 
-            (Parent as Grid).Children.Remove(this);
+            HideAndRemoveSelf();
             tcs.SetResult(result);
         }
-
-        private Border bdDialog;
 
         public async Task<T> ShowDialog<T>(Grid container, DialogHost dialogHost)
         {
@@ -65,26 +78,35 @@ namespace FzLib.Avalonia.Dialogs
         protected override void OnLoaded(RoutedEventArgs e)
         {
             base.OnLoaded(e);
+
+            //开始打开动画
+            bdDialog.Opacity = 1;
+            bdDialog.RenderTransform = TransformOperations.Parse("scale(1)");
+            bdBackground.Opacity = 0.5;
+
+            //实现拖放
             var thumb = this.FindThumb();
             if (thumb is null)
             {
                 return;
             }
 
-            var bd = (Border)this.GetVisualDescendants().First(p => p.Name == "PART_Dialog");
-
-
-            bd.Opacity = 1;
-            bd.RenderTransform = TransformOperations.Parse("scale(1)");
-
-            var bg = this.GetVisualDescendants().First(p => p.Name == "PART_Background");
-            bg.Opacity = 0.5;
             var behavior = new VisualDragBehavior
             {
-                Target = bd
+                Target = bdDialog
             };
             //下面这行，放在上面几行的上面就不行，很神奇
             Interaction.GetBehaviors(thumb).Add(behavior);
+        }
+
+        private Border bdDialog;
+        private Border bdBackground;
+
+        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+        {
+            base.OnApplyTemplate(e);
+            bdDialog = e.NameScope.Find<Border>("PART_Dialog");
+            bdBackground = e.NameScope.Find<Border>("PART_Background");
         }
 
         protected override Type StyleKeyOverride => typeof(PopupDialogContainer);

@@ -6,7 +6,6 @@
     xmlns:cvt="using:FzLib.Avalonia.Converters"
     xmlns:dialogs="clr-namespace:FzLib.Avalonia.Dialogs"
     xmlns:sys="clr-namespace:System;assembly=System.Runtime">
-    <sys:TimeSpan x:Key="AnimationDuration">0:0:.1</sys:TimeSpan>
     <ControlTheme
         x:Key="{x:Type dialogs:PopupDialogContainer}"
         TargetType="dialogs:PopupDialogContainer">
@@ -35,7 +34,7 @@
                             <Transitions>
                                 <DoubleTransition
                                     Property="Opacity"
-                                    Duration="{StaticResource AnimationDuration}" />
+                                    Duration="{x:Static dialogs:PopupDialogContainer.AnimationDuration}" />
                             </Transitions>
                         </Border.Transitions>
                     </Border>
@@ -60,10 +59,10 @@
                             <Transitions>
                                 <TransformOperationsTransition
                                     Property="RenderTransform"
-                                    Duration="{StaticResource AnimationDuration}" />
+                                    Duration="{x:Static dialogs:PopupDialogContainer.AnimationDuration}" />
                                 <DoubleTransition
                                     Property="Opacity"
-                                    Duration="{StaticResource AnimationDuration}" />
+                                    Duration="{x:Static dialogs:PopupDialogContainer.AnimationDuration}" />
                             </Transitions>
                         </Border.Transitions>
                         <Border.Effect>
@@ -89,6 +88,19 @@
         <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" />
         <Setter Property="BorderBrush" Value="Gray" />
         <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="ExtendClientAreaChromeHints" Value="NoChrome" />
+        <Setter Property="ExtendClientAreaToDecorationsHint" Value="True" />
+        <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="-1" />
+        <Setter Property="SystemDecorations" Value="BorderOnly" />
+        <Setter Property="SizeToContent" Value="WidthAndHeight" />
+        <Setter Property="CanResize" Value="False" />
+        <Setter Property="WindowStartupLocation" Value="CenterOwner" />
+        <Setter Property="ShowInTaskbar" Value="False" />
+        <Setter Property="MinHeight" Value="120" />
+        <Setter Property="MinWidth" Value="320" />
+        <Setter Property="MaxWidth" Value="800" />
+        <Setter Property="MaxHeight" Value="800" />
+        <Setter Property="Padding" Value="16" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>

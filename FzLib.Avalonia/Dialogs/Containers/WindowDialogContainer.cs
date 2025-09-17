@@ -21,23 +21,6 @@ namespace FzLib.Avalonia.Dialogs
 {
     public class WindowDialogContainer : Window, IDialogHostContainer<Window>
     {
-        internal WindowDialogContainer()
-        {
-            ExtendClientAreaToDecorationsHint = true;
-            ExtendClientAreaChromeHints = global::Avalonia.Platform.ExtendClientAreaChromeHints.NoChrome;
-            ExtendClientAreaTitleBarHeightHint = -1;
-            SystemDecorations = SystemDecorations.BorderOnly; //避免在Linux上显示边框
-            SizeToContent = SizeToContent.WidthAndHeight;
-            CanResize = false;
-            WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            ShowInTaskbar = false;
-            MinHeight = 120;
-            MinWidth = 320;
-            MaxWidth = 800;
-            MaxHeight = 800;
-            Padding = new Thickness(16);
-        }
-
         protected override Type StyleKeyOverride => typeof(WindowDialogContainer);
 
         public Task ShowDialog(Window window, DialogHost dialogHost)
