@@ -20,17 +20,9 @@ public partial class App : global::Avalonia.Application
 {
     public static IServiceProvider Services { get; private set; }
 
-    void Preserve()
-    {
-        
-    }
     
     public override void Initialize()
     {
-        Preserve();
-        _ = typeof(DialogItemBase);
-        _ = typeof(SelectDialogItem);
-        _ = typeof(CheckDialogItem);
         AvaloniaXamlLoader.Load(this);
         var builder = Host.CreateApplicationBuilder();
 

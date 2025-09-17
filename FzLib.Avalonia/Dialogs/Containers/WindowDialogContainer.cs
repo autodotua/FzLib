@@ -73,7 +73,7 @@ namespace FzLib.Avalonia.Dialogs
             {
                 throw new Exception($"{nameof(WindowDialogContainer)}的{nameof(Content)}必须为{nameof(DialogHost)}");
             }
-            
+
             var thumb = this.FindThumb();
             if (thumb is null)
             {
@@ -83,6 +83,20 @@ namespace FzLib.Avalonia.Dialogs
             var behavior = new WindowDragBehavior();
 
             Interaction.GetBehaviors(thumb).Add(behavior);
+        }
+
+        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+        {
+            base.OnApplyTemplate(e);
+
+            //Windows11的窗口自带边框和阴影，不需要手动添加
+            var bg = e.NameScope.Find<Border>("PART_Background");
+            var bd = e.NameScope.Find<Border>("PART_Border");
+            if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000)) //Windows11
+            {
+                bg.Margin = new Thickness();
+                bd.IsVisible = false;
+            }
         }
     }
 }

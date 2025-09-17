@@ -9,12 +9,14 @@ using FzLib.Avalonia.Controls;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Avalonia.Media.Transformation;
+using Avalonia.Threading;
 using Avalonia.Xaml.Interactivity;
 using FzLib.Avalonia.Behaviors;
 
 namespace FzLib.Avalonia.Dialogs
 {
-    public class PopupDialogContainer : Panel, IDialogHostContainer<Grid>
+    public class PopupDialogContainer : ContentControl, IDialogHostContainer<Grid>
     {
         public PopupDialogContainer()
         {
@@ -48,66 +50,44 @@ namespace FzLib.Avalonia.Dialogs
 
         public async Task<T> ShowDialog<T>(Grid container, DialogHost dialogHost)
         {
-            Border bdBackground = new Border()
-            {
-                Background = Brushes.Gray,
-                Opacity = 0.5,
-            };
-            bdBackground[!BackgroundProperty] = new DynamicResourceExtension("SystemControlBackgroundAltHighBrush");
-            Children.Add(bdBackground);
-
-            bdDialog = new Border()
-            {
-                CornerRadius = new CornerRadius(4),
-                Effect = new DropShadowEffect()
-                {
-                    BlurRadius = 6,
-                    OffsetX = 0,
-                    OffsetY = 0,
-                },
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-                Child = dialogHost,
-                Background = Brushes.Black,
-                MinHeight = 120,
-                MinWidth = 320,
-                MaxWidth = 800,
-                MaxHeight = 800
-            };
-
-            bdDialog.Loaded += (s, e) =>
-            {
-                var thumb = this.FindThumb();
-                if (thumb is null)
-                {
-                    return;
-                }
-
-                var behavior = new VisualDragBehavior
-                {
-                    Target = bdDialog
-                };
-
-                Interaction.GetBehaviors(thumb).Add(behavior);
-            };
-
-            (bdDialog.Effect as DropShadowEffect)[!DropShadowEffectBase.ColorProperty] =
-                new DynamicResourceExtension("SystemControlBackgroundChromeMediumLowBrush");
-            bdDialog[!BackgroundProperty] = new DynamicResourceExtension("SystemControlBackgroundChromeMediumLowBrush");
-            Children.Add(bdDialog);
-
-            Grid.SetColumnSpan(this, int.MaxValue);
-            Grid.SetRowSpan(this, int.MaxValue);
             container.Margin.Deconstruct(out double left, out double top, out double right, out double bottom);
             Margin = new Thickness(-left, -top, -right, -bottom);
             HorizontalAlignment = HorizontalAlignment.Stretch;
             VerticalAlignment = VerticalAlignment.Stretch;
 
             container.Children.Add(this);
+            Content = dialogHost;
             tcs = new TaskCompletionSource<object>();
             await tcs.Task;
             return (T)tcs.Task.Result;
         }
+
+        protected override void OnLoaded(RoutedEventArgs e)
+        {
+            base.OnLoaded(e);
+            var thumb = this.FindThumb();
+            if (thumb is null)
+            {
+                return;
+            }
+
+            var bd = (Border)this.GetVisualDescendants().First(p => p.Name == "PART_Dialog");
+
+
+            bd.Opacity = 1;
+            bd.RenderTransform = TransformOperations.Parse("scale(1)");
+
+            var bg = this.GetVisualDescendants().First(p => p.Name == "PART_Background");
+            bg.Opacity = 0.5;
+            var behavior = new VisualDragBehavior
+            {
+                Target = bd
+            };
+            //下面这行，放在上面几行的上面就不行，很神奇
+            Interaction.GetBehaviors(thumb).Add(behavior);
+        }
+
+        protected override Type StyleKeyOverride => typeof(PopupDialogContainer);
 
         public Task ShowDialog(Grid container, DialogHost dialogHost)
         {

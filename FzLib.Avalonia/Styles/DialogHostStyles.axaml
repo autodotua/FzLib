@@ -4,11 +4,88 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:b="clr-namespace:FzLib.Avalonia.Behaviors"
     xmlns:cvt="using:FzLib.Avalonia.Converters"
-    xmlns:dialogs="clr-namespace:FzLib.Avalonia.Dialogs">
+    xmlns:dialogs="clr-namespace:FzLib.Avalonia.Dialogs"
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+    <sys:TimeSpan x:Key="AnimationDuration">0:0:.1</sys:TimeSpan>
+    <ControlTheme
+        x:Key="{x:Type dialogs:PopupDialogContainer}"
+        TargetType="dialogs:PopupDialogContainer">
+        <Setter Property="BorderBrush">
+            <SolidColorBrush
+                Opacity="0.4"
+                Color="Gray" />
+        </Setter>
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+
+                <Grid
+                    Margin="{TemplateBinding Margin}"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch">
+
+                    <!--  背景半透明遮罩  -->
+                    <Border
+                        x:Name="PART_Background"
+                        Background="{TemplateBinding Background}"
+                        Opacity="0">
+                        <Border.Transitions>
+                            <Transitions>
+                                <DoubleTransition
+                                    Property="Opacity"
+                                    Duration="{StaticResource AnimationDuration}" />
+                            </Transitions>
+                        </Border.Transitions>
+                    </Border>
+
+                    <!--  中心对话框  -->
+                    <Border
+                        x:Name="PART_Dialog"
+                        MinWidth="320"
+                        MinHeight="120"
+                        MaxWidth="800"
+                        MaxHeight="800"
+                        Margin="8"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="4"
+                        Opacity="0.5"
+                        RenderTransform="scale(0.98)">
+                        <Border.Transitions>
+                            <Transitions>
+                                <TransformOperationsTransition
+                                    Property="RenderTransform"
+                                    Duration="{StaticResource AnimationDuration}" />
+                                <DoubleTransition
+                                    Property="Opacity"
+                                    Duration="{StaticResource AnimationDuration}" />
+                            </Transitions>
+                        </Border.Transitions>
+                        <Border.Effect>
+                            <DropShadowEffect
+                                BlurRadius="6"
+                                OffsetX="0"
+                                OffsetY="0"
+                                Color="Black" />
+                        </Border.Effect>
+
+                        <!--  承载内容  -->
+                        <ContentPresenter Content="{TemplateBinding Content}" />
+                    </Border>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
     <ControlTheme
         x:Key="{x:Type dialogs:WindowDialogContainer}"
         BasedOn="{StaticResource {x:Type Window}}"
-        TargetType="Window">
+        TargetType="dialogs:WindowDialogContainer">
         <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" />
         <Setter Property="BorderBrush" Value="Gray" />
         <Setter Property="BorderThickness" Value="1" />
@@ -19,6 +96,7 @@
                         Name="PART_TransparencyFallback"
                         IsHitTestVisible="False" />
                     <Border
+                        x:Name="PART_Background"
                         Margin="8"
                         Background="{TemplateBinding Background}"
                         CornerRadius="4"
@@ -32,6 +110,7 @@
                         </Border.Effect>
                     </Border>
                     <Border
+                        x:Name="PART_Border"
                         Margin="8"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
@@ -68,7 +147,7 @@
 
         <Setter Property="Template">
             <ControlTemplate TargetType="dialogs:DialogHost">
-                <Panel x:Name="root">
+                <Panel>
                     <Grid
                         Margin="24"
                         RowDefinitions="Auto,*,Auto">
