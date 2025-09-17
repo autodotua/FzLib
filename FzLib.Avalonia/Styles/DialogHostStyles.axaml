@@ -53,8 +53,8 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="4"
-                        Opacity="0.5"
-                        RenderTransform="scale(0.98)">
+                        Opacity="0"
+                        RenderTransform="scale(0.98) translate(0,10px)">
                         <Border.Transitions>
                             <Transitions>
                                 <TransformOperationsTransition
@@ -70,7 +70,8 @@
                                 BlurRadius="6"
                                 OffsetX="0"
                                 OffsetY="0"
-                                Color="Black" />
+                                Color="Gray">                             
+                            </DropShadowEffect>
                         </Border.Effect>
 
                         <!--  承载内容  -->

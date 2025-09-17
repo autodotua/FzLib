@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Avalonia;
+using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
@@ -120,31 +121,27 @@ public abstract class ExtendedWindow : Window
         UpdateMargins();
     }
 
-    protected override void OnLoaded(RoutedEventArgs e)
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
-        base.OnLoaded(e);
-        if (UseCustomStyle())
+        base.OnApplyTemplate(e);
+        var titleBar = e.NameScope.Find<Grid>("PART_TitleBar");
+        if (titleBar == null)
         {
-            var titleBar = this.GetVisualDescendants().FirstOrDefault(p => p.Name == "PART_TitleBar") as Grid;
-            if (titleBar == null)
-            {
-                return;
-            }
-
-            // new WindowDragHelper(titleBar).EnableDrag();
-
-            titleBar.DoubleTapped += (s, e) =>
-            {
-                if (e.Source == s)
-                {
-                    WindowState = WindowState switch
-                    {
-                        WindowState.Normal => WindowState.Maximized,
-                        _ => WindowState.Normal,
-                    };
-                }
-            };
+            return;
         }
+        
+        
+        titleBar.DoubleTapped += (s, e) =>
+        {
+            if (e.Source == s)//避免按住标题栏上的按钮时误拖动
+            {
+                WindowState = WindowState switch
+                {
+                    WindowState.Normal => WindowState.Maximized,
+                    _ => WindowState.Normal,
+                };
+            }
+        };
     }
 
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
@@ -182,8 +179,10 @@ public abstract class ExtendedWindow : Window
         }
         else
         {
+            //如果不是Windows10 22000，或者不是Windows，则不显示阴影
             if (OperatingSystem.IsWindowsVersionAtLeast(10, build: 22000)
-                || !OperatingSystem.IsWindows())
+                || !OperatingSystem.IsWindowsVersionAtLeast(10)
+           )
             {
                 Resources["ExtendedWindowShadowRadius"] = 0d;
                 Resources["ExtendedWindowShadowThickness"] = new Thickness(0);
@@ -198,7 +197,7 @@ public abstract class ExtendedWindow : Window
         }
     }
 
-    private bool UseCustomStyle()
+    protected virtual bool UseCustomStyle()
     {
         return OperatingSystem.IsWindows();
     }

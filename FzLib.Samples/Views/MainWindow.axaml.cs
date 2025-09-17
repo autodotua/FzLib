@@ -26,7 +26,7 @@ public partial class MainWindow : ExtendedWindow
 
     private void Button_OnClick(object sender, RoutedEventArgs e)
     {
-        if (App.Current.RequestedThemeVariant == ThemeVariant.Light)
+        if (App.Current.ActualThemeVariant == ThemeVariant.Light)
         {
             App.Current.RequestedThemeVariant=ThemeVariant.Dark;
         }

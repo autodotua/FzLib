@@ -39,7 +39,7 @@ namespace FzLib.Avalonia.Dialogs
         {
             //开始退出动画
             bdDialog.Opacity = 0;
-            bdDialog.RenderTransform = TransformOperations.Parse("scale(0.98)");
+            bdDialog.RenderTransform = TransformOperations.Parse("scale(0.98)  translate(0,-10px)");
             bdBackground.Opacity = 0.0;
             Task.Delay(AnimationDuration).ContinueWith(_ =>
             {
@@ -83,6 +83,7 @@ namespace FzLib.Avalonia.Dialogs
             bdDialog.Opacity = 1;
             bdDialog.RenderTransform = TransformOperations.Parse("scale(1)");
             bdBackground.Opacity = 0.5;
+            ((DropShadowEffect)bdDialog.Effect).Color = Colors.Black;
 
             //实现拖放
             var thumb = this.FindThumb();
