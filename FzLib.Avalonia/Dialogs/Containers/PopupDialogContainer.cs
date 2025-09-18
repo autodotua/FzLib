@@ -21,7 +21,18 @@ namespace FzLib.Avalonia.Dialogs
     {
         public static readonly TimeSpan AnimationDuration = TimeSpan.FromMilliseconds(100);
 
+        public static readonly double DefaultBackgroundOpacity = 0.5;
+        public static readonly double DefaultDialogOpacity = 1;
+        public static readonly TransformOperations DefaultDialogTransform = TransformOperations.Parse("scale(1)");
+        public static readonly double InitialBackgroundOpacity = 0;
+        public static readonly double InitialDialogOpacity = 0;
+        public static readonly TransformOperations InitialDialogTransform = TransformOperations.Parse("scale(0.98)  translate(0,20px)");
+       
+        private Border bdBackground;
+        private Border bdDialog;
         TaskCompletionSource<object> tcs;
+
+        protected override Type StyleKeyOverride => typeof(PopupDialogContainer);
 
         public void Close()
         {
@@ -33,21 +44,6 @@ namespace FzLib.Avalonia.Dialogs
             HideAndRemoveSelf();
 
             tcs.SetResult(null);
-        }
-
-        private void HideAndRemoveSelf()
-        {
-            //开始退出动画
-            bdDialog.Opacity = 0;
-            bdDialog.RenderTransform = TransformOperations.Parse("scale(0.98)  translate(0,-10px)");
-            bdBackground.Opacity = 0.0;
-            Task.Delay(AnimationDuration).ContinueWith(_ =>
-            {
-                Dispatcher.UIThread.Post(() =>
-                {
-                    ((Panel)Parent).Children.Remove(this);
-                });
-            });
         }
 
         public void Close(object result)
@@ -75,15 +71,24 @@ namespace FzLib.Avalonia.Dialogs
             return (T)tcs.Task.Result;
         }
 
+        public Task ShowDialog(Grid container, DialogHost dialogHost)
+        {
+            return ShowDialog<object>(container, dialogHost);
+        }
+
+        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+        {
+            base.OnApplyTemplate(e);
+            bdDialog = e.NameScope.Find<Border>("PART_Dialog");
+            bdBackground = e.NameScope.Find<Border>("PART_Background");
+        }
+
         protected override void OnLoaded(RoutedEventArgs e)
         {
             base.OnLoaded(e);
 
             //开始打开动画
-            bdDialog.Opacity = 1;
-            bdDialog.RenderTransform = TransformOperations.Parse("scale(1)");
-            bdBackground.Opacity = 0.5;
-            ((DropShadowEffect)bdDialog.Effect).Color = Colors.Black;
+            BeginAnimation(true);
 
             //实现拖放
             var thumb = this.FindThumb();
@@ -100,21 +105,21 @@ namespace FzLib.Avalonia.Dialogs
             Interaction.GetBehaviors(thumb).Add(behavior);
         }
 
-        private Border bdDialog;
-        private Border bdBackground;
-
-        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+        private void BeginAnimation(bool show)
         {
-            base.OnApplyTemplate(e);
-            bdDialog = e.NameScope.Find<Border>("PART_Dialog");
-            bdBackground = e.NameScope.Find<Border>("PART_Background");
+            var parameters = show ?
+                (DefaultDialogOpacity, DefaultDialogTransform, DefaultBackgroundOpacity)
+                : (InitialDialogOpacity, InitialDialogTransform, InitialBackgroundOpacity);
+            bdDialog.Opacity = parameters.Item1;
+            bdDialog.RenderTransform = parameters.Item2;
+            bdBackground.Opacity = parameters.Item3;
         }
 
-        protected override Type StyleKeyOverride => typeof(PopupDialogContainer);
-
-        public Task ShowDialog(Grid container, DialogHost dialogHost)
+        private async void HideAndRemoveSelf()
         {
-            return ShowDialog<object>(container, dialogHost);
+            BeginAnimation(false);
+            await Task.Delay(AnimationDuration);
+            Dispatcher.UIThread.Post(() => ((Panel)Parent).Children.Remove(this));
         }
     }
 }

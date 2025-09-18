@@ -29,7 +29,7 @@
                     <Border
                         x:Name="PART_Background"
                         Background="{TemplateBinding Background}"
-                        Opacity="0">
+                        Opacity="{x:Static dialogs:PopupDialogContainer.InitialBackgroundOpacity}">
                         <Border.Transitions>
                             <Transitions>
                                 <DoubleTransition
@@ -53,8 +53,8 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="4"
-                        Opacity="0"
-                        RenderTransform="scale(0.98) translate(0,10px)">
+                        Opacity="{x:Static dialogs:PopupDialogContainer.InitialDialogOpacity}"
+                        RenderTransform="{x:Static dialogs:PopupDialogContainer.InitialDialogTransform}">
                         <Border.Transitions>
                             <Transitions>
                                 <TransformOperationsTransition
@@ -70,8 +70,7 @@
                                 BlurRadius="6"
                                 OffsetX="0"
                                 OffsetY="0"
-                                Color="Gray">                             
-                            </DropShadowEffect>
+                                Color="Gray" />
                         </Border.Effect>
 
                         <!--  承载内容  -->
