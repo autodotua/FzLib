@@ -52,6 +52,7 @@
                         Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
+                        BoxShadow="0 0 6 0 #88000000"
                         CornerRadius="4"
                         Opacity="{x:Static dialogs:PopupDialogContainer.InitialDialogOpacity}"
                         RenderTransform="{x:Static dialogs:PopupDialogContainer.InitialDialogTransform}">
@@ -65,13 +66,6 @@
                                     Duration="{x:Static dialogs:PopupDialogContainer.AnimationDuration}" />
                             </Transitions>
                         </Border.Transitions>
-                        <Border.Effect>
-                            <DropShadowEffect
-                                BlurRadius="6"
-                                OffsetX="0"
-                                OffsetY="0"
-                                Color="Gray" />
-                        </Border.Effect>
 
                         <!--  承载内容  -->
                         <ContentPresenter Content="{TemplateBinding Content}" />

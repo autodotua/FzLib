@@ -13,6 +13,7 @@ using FzLib.Avalonia.Services;
 using FzLib.Samples.ViewModels;
 using FzLib.Samples.Views;
 using FzLib.Avalonia.Controls;
+using FzLib.Programming;
 
 namespace FzLib.Samples;
 
@@ -23,6 +24,8 @@ public partial class App : global::Avalonia.Application
     
     public override void Initialize()
     {
+        TcpSingleInstanceHelper.EnsureSingleInstance();
+        
         AvaloniaXamlLoader.Load(this);
         var builder = Host.CreateApplicationBuilder();
 
