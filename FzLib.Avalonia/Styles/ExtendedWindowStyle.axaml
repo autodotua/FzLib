@@ -24,10 +24,14 @@
                         Name="PART_TransparencyFallback"
                         IsHitTestVisible="False" />
                     <Border
-                        x:Name="PART_Border"
+                        x:Name="PART_Shadow"
                         Background="{TemplateBinding Background}"
+                        IsHitTestVisible="False" />
+                    <Border
+                        x:Name="PART_Border"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
                         IsHitTestVisible="False" />
                     <Panel
                         Margin="{TemplateBinding WindowDecorationMargin}"

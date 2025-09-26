@@ -35,4 +35,9 @@ public partial class MainWindow : ExtendedWindow
             App.Current.RequestedThemeVariant=ThemeVariant.Light;
         }
     }
+
+    private void CloseButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        Close();
+    }
 }

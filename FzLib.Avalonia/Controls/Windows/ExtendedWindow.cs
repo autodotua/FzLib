@@ -37,6 +37,8 @@ public abstract class ExtendedWindow : Window
         AvaloniaProperty.Register<ExtendedWindow, object>(
             nameof(TitleBarFooter));
 
+    private Border bdShadow;
+
     private Border bdBorder;
 
     private Grid gdContainer;
@@ -45,7 +47,9 @@ public abstract class ExtendedWindow : Window
 
     protected ExtendedWindow()
     {
-        CornerRadius = new CornerRadius(2);
+        CornerRadius = new CornerRadius(4);
+        BorderThickness = new Thickness(1);
+        BorderBrush = new SolidColorBrush(Colors.Gray, 0.3);
     }
 
     public bool CustomTitleBar
@@ -117,6 +121,7 @@ public abstract class ExtendedWindow : Window
     {
         base.OnApplyTemplate(e);
         var titleBar = e.NameScope.Find<Grid>("PART_TitleBar");
+        bdShadow = e.NameScope.Find<Border>("PART_Shadow");
         bdBorder = e.NameScope.Find<Border>("PART_Border");
         gdContainer = e.NameScope.Find<Grid>("PART_Container");
 
@@ -172,6 +177,12 @@ public abstract class ExtendedWindow : Window
         return OperatingSystem.IsWindows();
     }
 
+    protected virtual bool UseCustomChrome()
+    {
+        return OperatingSystem.IsWindowsVersionAtLeast(10)
+               && !OperatingSystem.IsWindowsVersionAtLeast(10, build: 22000);
+    }
+
     private void UpdateMargins()
     {
         if (!UseCustomStyle())
@@ -182,25 +193,35 @@ public abstract class ExtendedWindow : Window
         if (WindowState == WindowState.Maximized)
         {
             //最大化，不显示阴影
-            bdBorder.BoxShadow = default;
-            gdContainer.Margin = bdBorder.Margin = OffScreenMargin;
-            bdBorder.CornerRadius = default;
+            bdShadow.BoxShadow = default;
+            gdContainer.Margin = bdShadow.Margin = OffScreenMargin;
+            bdShadow.CornerRadius = default;
+            bdBorder.IsVisible = false;
         }
         else
         {
-            if (OperatingSystem.IsWindowsVersionAtLeast(10)
-                && !OperatingSystem.IsWindowsVersionAtLeast(10, build: 22000))
+            if (UseCustomChrome())
             {
                 //仅对Windows10显示阴影
-                bdBorder.BoxShadow = BoxShadows.Parse($"0 0 {ShadowWidth} 0 #88000000");
-                gdContainer.Margin = bdBorder.Margin = new Thickness(ShadowWidth);
-                bdBorder.CornerRadius = CornerRadius;
+
+                //阴影
+                bdShadow.BoxShadow = BoxShadows.Parse($"0 0 {ShadowWidth} 0 #88000000");
+                //内容向内收缩
+                gdContainer.Margin = bdShadow.Margin = new Thickness(ShadowWidth);
+                //显示圆角
+                bdShadow.CornerRadius = CornerRadius;
+                //显示边框
+                bdBorder.IsVisible = true;
+                //边框显示在内容之外
+                BorderThickness.Deconstruct(out var l, out var t, out var r, out var b);
+                bdBorder.Margin = new Thickness(ShadowWidth - l, ShadowWidth - t, ShadowWidth - r, ShadowWidth - b);
             }
             else
             {
-                bdBorder.BoxShadow = default;
-                gdContainer.Margin = bdBorder.Margin = default;
-                bdBorder.CornerRadius = default;
+                bdShadow.BoxShadow = default;
+                gdContainer.Margin = bdShadow.Margin = default;
+                bdShadow.CornerRadius = default;
+                bdBorder.IsVisible = false;
             }
         }
     }

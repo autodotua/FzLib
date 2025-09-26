@@ -18,6 +18,7 @@ namespace FzLib.Avalonia.Controls
         private Action<string> setMessage;
         private Action<string> setTitle;
         private Action<bool> setVisible;
+
         public void Attach(ProgressRingOverlay overlay)
         {
             Register(
@@ -39,14 +40,17 @@ namespace FzLib.Avalonia.Controls
         }
 
         public void Register(Action<bool> setVisible,
-                                           Action<TimeSpan> setDelay,
-                           Action<string> setTitle,
-                           Action<string> setMessage,
-                           Action<bool> setCancelable,
-                           Action<ICommand> setCancelCommand)
+            Action<TimeSpan> setDelay,
+            Action<string> setTitle,
+            Action<string> setMessage,
+            Action<bool> setCancelable,
+            Action<ICommand> setCancelCommand)
         {
             if (hasRegistered)
             {
+#if DEBUG
+                return;
+#endif
                 throw new InvalidOperationException("ProgressOverlayService 只能注册一次");
             }
 
@@ -58,6 +62,7 @@ namespace FzLib.Avalonia.Controls
             this.setCancelCommand = setCancelCommand;
             hasRegistered = true;
         }
+
         public void SetCancelable(bool cancelable)
         {
             CheckRegister();
@@ -65,6 +70,7 @@ namespace FzLib.Avalonia.Controls
             {
                 throw new InvalidOperationException("注册的服务不支持取消操作");
             }
+
             setCancelable(cancelable);
         }
 
@@ -75,6 +81,7 @@ namespace FzLib.Avalonia.Controls
             {
                 throw new InvalidOperationException("注册的服务不支持取消操作");
             }
+
             setCancelCommand(command);
         }
 
@@ -85,6 +92,7 @@ namespace FzLib.Avalonia.Controls
             {
                 throw new InvalidOperationException("注册的服务不支持设置延迟");
             }
+
             setDelay(delay);
         }
 
@@ -95,6 +103,7 @@ namespace FzLib.Avalonia.Controls
             {
                 throw new InvalidOperationException("注册的服务不支持显示消息");
             }
+
             setMessage(message);
         }
 
@@ -105,6 +114,7 @@ namespace FzLib.Avalonia.Controls
             {
                 throw new InvalidOperationException("注册的服务不支持显示标题");
             }
+
             setTitle(title);
         }
 
@@ -114,7 +124,8 @@ namespace FzLib.Avalonia.Controls
             setVisible(visible);
         }
 
-        public async Task WithOverlayAsync(Func<Task> task, Func<Exception, Task> onError = null, string initialMessage = null, TimeSpan? delay = null)
+        public async Task WithOverlayAsync(Func<Task> task, Func<Exception, Task> onError = null,
+            string initialMessage = null, TimeSpan? delay = null)
         {
             CheckRegister();
 
@@ -133,6 +144,7 @@ namespace FzLib.Avalonia.Controls
                 {
                     throw;
                 }
+
                 await onError(ex);
             }
             finally
@@ -141,17 +153,20 @@ namespace FzLib.Avalonia.Controls
             }
         }
 
-        public async Task WithOverlayAsync(Func<CancellationToken, Task> task, Func<Task> onCancel = null, Func<Exception, Task> onError = null, string initialMessage = null, TimeSpan? delay = null)
+        public async Task WithOverlayAsync(Func<CancellationToken, Task> task, Func<Task> onCancel = null,
+            Func<Exception, Task> onError = null, string initialMessage = null, TimeSpan? delay = null)
         {
             CheckRegister();
             if (setCancelable == null)
             {
                 throw new InvalidOperationException("注册的服务不支持取消操作");
             }
+
             if (setCancelCommand == null)
             {
                 throw new InvalidOperationException("注册的服务不支持取消操作");
             }
+
             try
             {
                 setDelay?.Invoke(delay ?? TimeSpan.Zero);
@@ -176,26 +191,29 @@ namespace FzLib.Avalonia.Controls
                 {
                     throw;
                 }
+
                 await onError(ex);
             }
             finally
             {
                 setVisible(false);
             }
-
         }
 
-        public async Task WithOverlayAsync(Func<Task> task, Func<Task> onCancel, Func<Exception, Task> onError = null, string initialMessage = null, TimeSpan? delay = null)
+        public async Task WithOverlayAsync(Func<Task> task, Func<Task> onCancel, Func<Exception, Task> onError = null,
+            string initialMessage = null, TimeSpan? delay = null)
         {
             CheckRegister();
             if (setCancelable == null)
             {
                 throw new InvalidOperationException("注册的服务不支持取消操作");
             }
+
             if (setCancelCommand == null)
             {
                 throw new InvalidOperationException("注册的服务不支持取消操作");
             }
+
             try
             {
                 setDelay?.Invoke(delay ?? TimeSpan.Zero);
@@ -203,10 +221,7 @@ namespace FzLib.Avalonia.Controls
                 setCancelable?.Invoke(false);
                 setVisible(true);
                 setCancelable(true);
-                setCancelCommand(new AsyncRelayCommand(() =>
-                {
-                    return onCancel?.Invoke();
-                }));
+                setCancelCommand(new AsyncRelayCommand(() => { return onCancel?.Invoke(); }));
                 await task();
             }
             catch (Exception ex)
@@ -215,6 +230,7 @@ namespace FzLib.Avalonia.Controls
                 {
                     throw;
                 }
+
                 await onError(ex);
             }
             finally

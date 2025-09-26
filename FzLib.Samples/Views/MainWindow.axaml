@@ -41,69 +41,60 @@
         </Style>
     </Window.Styles>
     <Grid>
-        <TabControl>
-            <!--<TabControl.Template>
-                <ControlTemplate>
+        <Grid RowDefinitions="Auto,*">
+            <Grid
+                Margin="4"
+                ColumnDefinitions="Auto,*,Auto"
+                IsVisible="{Binding #root.CustomTitleBar}">
+
+                <Button
+                    Background="Transparent"
+                    Click="CloseButton_OnClick">
                     <Border
-                        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                        VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{TemplateBinding CornerRadius}">
-                        <DockPanel>
-                            <ItemsPresenter
-                                Name="PART_ItemsPresenter"
-                                DockPanel.Dock="{TemplateBinding TabStripPlacement}"
-                                ItemsPanel="{TemplateBinding ItemsPanel}" />
-                            <ScrollViewer>
-                                <ContentPresenter
-                                    Name="PART_SelectedContentHost"
-                                    Margin="{TemplateBinding Padding}"
-                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                    Content="{TemplateBinding SelectedContent}"
-                                    ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
-                            </ScrollViewer>
-                        </DockPanel>
-                    </Border>
-                </ControlTemplate>
-            </TabControl.Template>-->
+                        Width="6"
+                        Height="6"
+                        Background="Red"
+                        CornerRadius="3" />
+                </Button>
+                <TextBlock
+                    Grid.Column="2"
+                    Text="FzLib.Samples" />
+            </Grid>
+            <TabControl Grid.Row="1">
+                <TabItem Header="JSON序列化">
+                    <local:JsonPanel />
+                </TabItem>
 
+                <TabItem Header="耗时任务">
+                    <local:TaskPanel />
+                </TabItem>
 
-            <TabItem Header="JSON序列化">
-                <local:JsonPanel />
-            </TabItem>
+                <TabItem Header="对话框">
+                    <local:DialogPanel />
+                </TabItem>
 
-            <TabItem Header="耗时任务">
-                <local:TaskPanel />
-            </TabItem>
-
-            <TabItem Header="对话框">
-                <local:DialogPanel />
-            </TabItem>
-
-            <TabItem Header="表单">
-                <DockPanel>
-                    <Button
-                        Margin="8"
-                        Click="RefreshFormPanelButton_Click"
-                        Content="刷新"
-                        DockPanel.Dock="Top" />
-                    <ContentControl x:Name="formPanelContainer">
-                        <local:FormPanel />
-                    </ContentControl>
-                </DockPanel>
-            </TabItem>
-            <TabItem Header="文件系统">
-                <local:FileSystemPanel ScrollViewer.VerticalScrollBarVisibility="Disabled" />
-            </TabItem>
-            <TabItem Header="值转换器">
-                <local:ConverterPanel />
-            </TabItem>
-            <TabItem Header="行为">
-                <local:BehaviorPanel />
-            </TabItem>
-        </TabControl>
+                <TabItem Header="表单">
+                    <DockPanel>
+                        <Button
+                            Margin="8"
+                            Click="RefreshFormPanelButton_Click"
+                            Content="刷新"
+                            DockPanel.Dock="Top" />
+                        <ContentControl x:Name="formPanelContainer">
+                            <local:FormPanel />
+                        </ContentControl>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="文件系统">
+                    <local:FileSystemPanel ScrollViewer.VerticalScrollBarVisibility="Disabled" />
+                </TabItem>
+                <TabItem Header="值转换器">
+                    <local:ConverterPanel />
+                </TabItem>
+                <TabItem Header="行为">
+                    <local:BehaviorPanel />
+                </TabItem>
+            </TabControl>
+        </Grid>
     </Grid>
 </c:ExtendedWindow>
