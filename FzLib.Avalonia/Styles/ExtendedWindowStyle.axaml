@@ -4,9 +4,6 @@
     xmlns:b="clr-namespace:FzLib.Avalonia.Behaviors"
     xmlns:c="using:FzLib.Avalonia.Controls"
     xmlns:sys="using:System">
-    <sys:Double x:Key="ExtendedWindowShadowRadius">8.0</sys:Double>
-    <Thickness x:Key="ExtendedWindowShadowThickness">8</Thickness>
-    <CornerRadius x:Key="ExtendedWindowCornerRadius">2</CornerRadius>
     <ControlTheme
         x:Key="{x:Type c:ExtendedWindow}"
         TargetType="c:ExtendedWindow">
@@ -26,23 +23,12 @@
                     <Border
                         Name="PART_TransparencyFallback"
                         IsHitTestVisible="False" />
-                    <!--  <Border  -->
-                    <!--  Background="{TemplateBinding Background}"  -->
-                    <!--  IsHitTestVisible="False" />  -->
                     <Border
-                        Margin="{DynamicResource ExtendedWindowShadowThickness}"
+                        x:Name="PART_Border"
                         Background="{TemplateBinding Background}"
-                        CornerRadius="{DynamicResource ExtendedWindowCornerRadius}"
-                        IsHitTestVisible="False">
-                        <Border.Effect>
-                            <DropShadowEffect
-                                BlurRadius="{DynamicResource ExtendedWindowShadowRadius}"
-                                OffsetX="0"
-                                OffsetY="0"
-                                Opacity="0.5"
-                                Color="Black" />
-                        </Border.Effect>
-                    </Border>
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        IsHitTestVisible="False" />
                     <Panel
                         Margin="{TemplateBinding WindowDecorationMargin}"
                         Background="Transparent" />
@@ -51,7 +37,7 @@
                             <TitleBar />
                         </VisualLayerManager.ChromeOverlayLayer>
                         <Grid
-                            Margin="{DynamicResource ExtendedWindowShadowThickness}"
+                            x:Name="PART_Container"
                             RowDefinitions="Auto,*">
                             <Grid
                                 x:Name="PART_TitleBar"

@@ -24,7 +24,7 @@ public abstract class ExtendedWindow : Window
             nameof(CustomTitleBar));
 
     public new static readonly DirectProperty<ExtendedWindow, Bitmap> IconProperty =
-            AvaloniaProperty.RegisterDirect<ExtendedWindow, Bitmap>(
+        AvaloniaProperty.RegisterDirect<ExtendedWindow, Bitmap>(
             nameof(Icon),
             o => o.Icon,
             (o, v) => o.Icon = v);
@@ -34,8 +34,12 @@ public abstract class ExtendedWindow : Window
             nameof(TitleBarBackground), Brushes.Transparent);
 
     public static readonly StyledProperty<object> TitleBarFooterProperty =
-            AvaloniaProperty.Register<ExtendedWindow, object>(
+        AvaloniaProperty.Register<ExtendedWindow, object>(
             nameof(TitleBarFooter));
+
+    private Border bdBorder;
+
+    private Grid gdContainer;
 
     private Bitmap icon;
 
@@ -109,31 +113,24 @@ public abstract class ExtendedWindow : Window
         Focus();
     }
 
-    protected override void OnClosed(EventArgs e)
-    {
-        base.OnClosed(e);
-        IsClosed = true;
-    }
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        UpdateMargins();
-    }
-
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
         var titleBar = e.NameScope.Find<Grid>("PART_TitleBar");
+        bdBorder = e.NameScope.Find<Border>("PART_Border");
+        gdContainer = e.NameScope.Find<Grid>("PART_Container");
+
+        UpdateMargins();
+
         if (titleBar == null)
         {
             return;
         }
-        
-        
+
+
         titleBar.DoubleTapped += (s, e) =>
         {
-            if (e.Source == s)//避免按住标题栏上的按钮时误拖动
+            if (e.Source == s) //避免按住标题栏上的按钮时误拖动
             {
                 WindowState = WindowState switch
                 {
@@ -142,6 +139,12 @@ public abstract class ExtendedWindow : Window
                 };
             }
         };
+    }
+
+    protected override void OnClosed(EventArgs e)
+    {
+        base.OnClosed(e);
+        IsClosed = true;
     }
 
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
@@ -164,6 +167,11 @@ public abstract class ExtendedWindow : Window
         }
     }
 
+    protected virtual bool UseCustomStyle()
+    {
+        return OperatingSystem.IsWindows();
+    }
+
     private void UpdateMargins()
     {
         if (!UseCustomStyle())
@@ -173,32 +181,27 @@ public abstract class ExtendedWindow : Window
 
         if (WindowState == WindowState.Maximized)
         {
-            Resources["ExtendedWindowShadowRadius"] = 0d;
-            Resources["ExtendedWindowShadowThickness"] = OffScreenMargin;
-            Resources["ExtendedWindowCornerRadius"] = new CornerRadius(0);
+            //最大化，不显示阴影
+            bdBorder.BoxShadow = default;
+            gdContainer.Margin = bdBorder.Margin = OffScreenMargin;
+            bdBorder.CornerRadius = default;
         }
         else
         {
-            //如果不是Windows10 22000，或者不是Windows，则不显示阴影
-            if (OperatingSystem.IsWindowsVersionAtLeast(10, build: 22000)
-                || !OperatingSystem.IsWindowsVersionAtLeast(10)
-           )
+            if (OperatingSystem.IsWindowsVersionAtLeast(10)
+                && !OperatingSystem.IsWindowsVersionAtLeast(10, build: 22000))
             {
-                Resources["ExtendedWindowShadowRadius"] = 0d;
-                Resources["ExtendedWindowShadowThickness"] = new Thickness(0);
-                Resources["ExtendedWindowCornerRadius"] = new CornerRadius(0);
+                //仅对Windows10显示阴影
+                bdBorder.BoxShadow = BoxShadows.Parse($"0 0 {ShadowWidth} 0 #88000000");
+                gdContainer.Margin = bdBorder.Margin = new Thickness(ShadowWidth);
+                bdBorder.CornerRadius = CornerRadius;
             }
             else
             {
-                Resources["ExtendedWindowShadowRadius"] = ShadowWidth;
-                Resources["ExtendedWindowShadowThickness"] = new Thickness(ShadowWidth);
-                Resources["ExtendedWindowCornerRadius"] = CornerRadius;
+                bdBorder.BoxShadow = default;
+                gdContainer.Margin = bdBorder.Margin = default;
+                bdBorder.CornerRadius = default;
             }
         }
-    }
-
-    protected virtual bool UseCustomStyle()
-    {
-        return OperatingSystem.IsWindows();
     }
 }
