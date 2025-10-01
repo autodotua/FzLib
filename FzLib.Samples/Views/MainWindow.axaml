@@ -61,6 +61,10 @@
                     Text="FzLib.Samples" />
             </Grid>
             <TabControl Grid.Row="1">
+                <TabItem Header="用户设备识别">
+                    <local:IdentityPanel />
+                </TabItem>
+
                 <TabItem Header="JSON序列化">
                     <local:JsonPanel />
                 </TabItem>

@@ -7,7 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace FzLib.Samples.ViewModels;
-
 public partial class TaskViewModel(IDialogService dialogService, IProgressOverlayService progressOverlay) : ObservableObject
 {
     [ObservableProperty]
