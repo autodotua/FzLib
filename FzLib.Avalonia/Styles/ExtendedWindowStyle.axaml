@@ -40,47 +40,51 @@
                         <VisualLayerManager.ChromeOverlayLayer>
                             <TitleBar />
                         </VisualLayerManager.ChromeOverlayLayer>
-                        <Grid
-                            x:Name="PART_Container"
-                            RowDefinitions="Auto,*">
+                        <Border
+                            x:Name="PART_ContainerBorder"
+                            ClipToBounds="True">
                             <Grid
-                                x:Name="PART_TitleBar"
-                                Background="{TemplateBinding TitleBarBackground}"
-                                ColumnDefinitions="Auto,Auto,*,Auto"
-                                IsVisible="{Binding !CustomTitleBar, RelativeSource={RelativeSource TemplatedParent}}">
-                                <Interaction.Behaviors>
-                                    <b:WindowDragBehavior />
-                                </Interaction.Behaviors>
-                                <Image
-                                    Height="18"
-                                    Margin="8,0,-4,0"
-                                    VerticalAlignment="Center"
-                                    IsHitTestVisible="False"
-                                    Source="{TemplateBinding Icon}"
-                                    Stretch="Fill" />
-                                <TextBlock
-                                    Grid.Column="1"
-                                    Margin="8,0"
-                                    VerticalAlignment="Center"
-                                    FontSize="12"
-                                    IsHitTestVisible="False"
-                                    Text="{TemplateBinding Title}" />
-                                <ContentControl
-                                    Grid.Column="2"
-                                    Margin="4,0"
-                                    HorizontalAlignment="Right"
-                                    Content="{TemplateBinding TitleBarFooter}" />
-                                <c:WindowButtons Grid.Column="3" />
+                                x:Name="PART_Container"
+                                RowDefinitions="Auto,*">
+                                <Grid
+                                    x:Name="PART_TitleBar"
+                                    Background="{TemplateBinding TitleBarBackground}"
+                                    ColumnDefinitions="Auto,Auto,*,Auto"
+                                    IsVisible="{Binding !CustomTitleBar, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <Interaction.Behaviors>
+                                        <b:WindowDragBehavior />
+                                    </Interaction.Behaviors>
+                                    <Image
+                                        Height="18"
+                                        Margin="8,0,-4,0"
+                                        VerticalAlignment="Center"
+                                        IsHitTestVisible="False"
+                                        Source="{TemplateBinding Icon}"
+                                        Stretch="Fill" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Margin="8,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        IsHitTestVisible="False"
+                                        Text="{TemplateBinding Title}" />
+                                    <ContentControl
+                                        Grid.Column="2"
+                                        Margin="4,0"
+                                        HorizontalAlignment="Right"
+                                        Content="{TemplateBinding TitleBarFooter}" />
+                                    <c:WindowButtons Grid.Column="3" />
+                                </Grid>
+                                <ContentPresenter
+                                    Name="PART_ContentPresenter"
+                                    Grid.Row="1"
+                                    Margin="{TemplateBinding Padding}"
+                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}" />
                             </Grid>
-                            <ContentPresenter
-                                Name="PART_ContentPresenter"
-                                Grid.Row="1"
-                                Margin="{TemplateBinding Padding}"
-                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}" />
-                        </Grid>
+                        </Border>
                     </VisualLayerManager>
                 </Panel>
             </ControlTemplate>

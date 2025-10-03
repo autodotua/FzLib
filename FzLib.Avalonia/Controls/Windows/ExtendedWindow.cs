@@ -40,9 +40,9 @@ public abstract class ExtendedWindow : Window
     private Border bdShadow;
 
     private Border bdBorder;
-
-    private Grid gdContainer;
-
+    
+    private Border bdContainer;
+    
     private Bitmap icon;
 
     protected ExtendedWindow()
@@ -123,7 +123,7 @@ public abstract class ExtendedWindow : Window
         var titleBar = e.NameScope.Find<Grid>("PART_TitleBar");
         bdShadow = e.NameScope.Find<Border>("PART_Shadow");
         bdBorder = e.NameScope.Find<Border>("PART_Border");
-        gdContainer = e.NameScope.Find<Grid>("PART_Container");
+        bdContainer = e.NameScope.Find<Border>("PART_ContainerBorder");
 
         UpdateMargins();
 
@@ -194,8 +194,9 @@ public abstract class ExtendedWindow : Window
         {
             //最大化，不显示阴影
             bdShadow.BoxShadow = default;
-            gdContainer.Margin = bdShadow.Margin = OffScreenMargin;
+            bdContainer.Margin = bdShadow.Margin = OffScreenMargin;
             bdShadow.CornerRadius = default;
+            bdContainer.CornerRadius = default;
             bdBorder.IsVisible = false;
         }
         else
@@ -207,9 +208,10 @@ public abstract class ExtendedWindow : Window
                 //阴影
                 bdShadow.BoxShadow = BoxShadows.Parse($"0 0 {ShadowWidth} 0 #88000000");
                 //内容向内收缩
-                gdContainer.Margin = bdShadow.Margin = new Thickness(ShadowWidth);
+                bdContainer.Margin = bdShadow.Margin = new Thickness(ShadowWidth);
                 //显示圆角
                 bdShadow.CornerRadius = CornerRadius;
+                bdContainer.CornerRadius = CornerRadius;
                 //显示边框
                 bdBorder.IsVisible = true;
                 //边框显示在内容之外
@@ -219,8 +221,9 @@ public abstract class ExtendedWindow : Window
             else
             {
                 bdShadow.BoxShadow = default;
-                gdContainer.Margin = bdShadow.Margin = default;
+                bdContainer.Margin = bdShadow.Margin = default;
                 bdShadow.CornerRadius = default;
+                bdContainer.CornerRadius = default;
                 bdBorder.IsVisible = false;
             }
         }
