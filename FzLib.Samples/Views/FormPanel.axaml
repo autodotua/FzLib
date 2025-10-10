@@ -3,79 +3,139 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="using:FzLib.Avalonia.Controls"
+    xmlns:cvt="using:FzLib.Avalonia.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:me="using:FzLib.Avalonia.MarkupExtensions"
+    xmlns:vm="clr-namespace:FzLib.Samples.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    x:DataType="vm:FormViewModel"
     mc:Ignorable="d">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel
             Orientation="Vertical"
             Spacing="16">
-            <c:StackFormItemGroup>
-                <c:FormItem
-                    Description="这是一条表单项的描述"
-                    Label="姓名：">
-                    <TextBox Text="王某某" />
-                </c:FormItem>
-                <c:FormItem Label="打开文件：">
-                    <c:FilePickerTextBox Type="OpenFile" />
-                </c:FormItem>
-                <c:FormItem Label="左对齐：">
-                    <NumericUpDown
-                        HorizontalAlignment="Left"
-                        Value="20" />
-                </c:FormItem>
-                <c:FormItem Label="横向子表单：">
-                    <c:WrapFormItemGroup>
-                        <c:FormItem Label="文本框：">
-                            <TextBox
-                                Width="120"
-                                Text="" />
-                        </c:FormItem>
-                        <c:FormItem Label="选择框：">
-                            <ComboBox
-                                Width="120"
-                                SelectedIndex="0">
-                                <ComboBoxItem>选项1</ComboBoxItem>
-                                <ComboBoxItem>选项2</ComboBoxItem>
-                                <ComboBoxItem>选项3</ComboBoxItem>
-                                <ComboBoxItem>选项4</ComboBoxItem>
-                            </ComboBox>
-                        </c:FormItem>
 
-                        <c:FormItem Label="数字选择：">
-                            <NumericUpDown
-                                Width="120"
-                                FormatString="0" />
-                        </c:FormItem>
-                        <CheckBox
-                            VerticalAlignment="Center"
-                            Content="非表单元素" />
-                        <Button Content="非表单元素" />
-                        <Button
-                            Classes="Link"
-                            Content="非表单元素" />
-                    </c:WrapFormItemGroup>
-                </c:FormItem>
-            </c:StackFormItemGroup>
+            <HeaderedContentControl
+                Classes="GroupBox"
+                Header="基本使用">
+                <c:StackFormItemGroup>
+                    <c:FormItem
+                        Description="这是一条表单项的描述"
+                        Label="姓名：">
+                        <TextBox Text="王某某" />
+                    </c:FormItem>
+                    <c:FormItem Label="打开文件：">
+                        <c:FilePickerTextBox Type="OpenFile" />
+                    </c:FormItem>
+                    <c:FormItem Label="左对齐：">
+                        <NumericUpDown
+                            HorizontalAlignment="Left"
+                            Value="20" />
+                    </c:FormItem>
+                    <c:FormItem Label="横向子表单：">
+                        <c:WrapFormItemGroup>
+                            <c:FormItem Label="文本框：">
+                                <TextBox
+                                    Width="120"
+                                    Text="" />
+                            </c:FormItem>
+                            <c:FormItem Label="选择框：">
+                                <ComboBox
+                                    Width="120"
+                                    SelectedIndex="0">
+                                    <ComboBoxItem>选项1</ComboBoxItem>
+                                    <ComboBoxItem>选项2</ComboBoxItem>
+                                    <ComboBoxItem>选项3</ComboBoxItem>
+                                    <ComboBoxItem>选项4</ComboBoxItem>
+                                </ComboBox>
+                            </c:FormItem>
 
-            <StackPanel
-                Orientation="Vertical"
-                Spacing="8">
-                <c:FormItem Header="这是另一种标签形式">
-                    <TextBox />
-                </c:FormItem>
-                <c:FormItem Header="它可以显示在控件上方">
-                    <TextBox />
-                </c:FormItem>
-                <c:FormItem
-                    Description="以及描述也可以共存"
-                    Header="也可以和左侧标签共存"
-                    Label="左侧标签：">
-                    <TextBox />
-                </c:FormItem>
-            </StackPanel>
+                            <c:FormItem Label="数字选择：">
+                                <NumericUpDown
+                                    Width="120"
+                                    FormatString="0" />
+                            </c:FormItem>
+                            <CheckBox
+                                VerticalAlignment="Center"
+                                Content="非表单元素" />
+                            <Button Content="非表单元素" />
+                            <Button
+                                Classes="Link"
+                                Content="非表单元素" />
+                        </c:WrapFormItemGroup>
+                    </c:FormItem>
+
+                </c:StackFormItemGroup>
+            </HeaderedContentControl>
+
+
+            <HeaderedContentControl
+                Classes="GroupBox"
+                Header="自定义控件">
+                <c:StackFormItemGroup>
+                    <c:FormItem Label="单选按钮组：">
+                        <StackPanel Orientation="Horizontal">
+                            <ListBox
+                                ItemsSource="{me:EnumValues HorizontalAlignment}"
+                                SelectedIndex="{Binding SelectedIndex1}"
+                                SelectedItem="{Binding SelectedItem1}"
+                                Theme="{StaticResource RadioButtonGroupTheme}" />
+                            <TextBlock VerticalAlignment="Center">
+                                <Run Text="当前选择：" /> <Run Text="{Binding SelectedItem1}" />
+                                <Run Text="（" />
+                                <Run Text="{Binding SelectedIndex1}" />
+                                <Run Text="）" />
+                            </TextBlock>
+                        </StackPanel>
+                    </c:FormItem>
+                    <c:FormItem Label="单选按钮组（二元）：">
+                        <StackPanel Orientation="Horizontal">
+                            <ListBox
+                                ItemsSource="{Binding Items2}"
+                                SelectedIndex="{Binding Selected2, Converter={x:Static cvt:Converters.BoolZeroOne}}"
+                                SelectedItem="{Binding SelectedItem2}"
+                                Theme="{StaticResource RadioButtonGroupTheme}" />
+                            <TextBlock VerticalAlignment="Center">
+                                <Run Text="当前选择：" /> <Run Text="{Binding SelectedItem2}" />
+                                <Run Text="（" />
+                                <Run Text="{Binding Selected2, Mode=TwoWay}" />
+                                <Run Text="）" />
+                            </TextBlock>
+                        </StackPanel>
+                    </c:FormItem>
+                </c:StackFormItemGroup>
+            </HeaderedContentControl>
+
+            <HeaderedContentControl
+                Classes="GroupBox"
+                Header="标签和描述">
+                <c:StackFormItemGroup>
+                    <c:FormItem Header="这是另一种标签形式，它可以显示在控件上方">
+                        <TextBox />
+                    </c:FormItem>
+                    <c:FormItem Header="{Binding .}">
+                        <c:FormItem.HeaderTemplate>
+                            <DataTemplate x:DataType="vm:FormViewModel">
+                                <CheckBox
+                                    Content="Label、Header和Description均可设置模板"
+                                    IsChecked="{Binding FormHeaderIsChecked}" />
+                            </DataTemplate>
+                        </c:FormItem.HeaderTemplate>
+                        <TextBlock>
+                            <Run Text="当前选择状态：" />
+                            <Run Text="{Binding FormHeaderIsChecked}" />
+                        </TextBlock>
+                    </c:FormItem>
+                    <c:FormItem
+                        Description="以及描述也可以共存"
+                        Header="也可以和左侧标签共存"
+                        Label="左侧标签：">
+                        <TextBox />
+                    </c:FormItem>
+                </c:StackFormItemGroup>
+            </HeaderedContentControl>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

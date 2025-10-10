@@ -1,0 +1,93 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ControlTheme
+        x:Key="RadioButtonGroupListBoxStyle"
+        TargetType="ListBoxItem">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    x:Name="PART_Outer"
+                    MinWidth="36"
+                    Background="Transparent">
+                    <Border
+                        x:Name="PART_Inner"
+                        Margin="4"
+                        CornerRadius="4">
+                        <ContentPresenter
+                            Name="PART_ContentPresenter"
+                            Padding="6,3"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}" />
+                    </Border>
+                </Border>
+
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Foreground" Value="{DynamicResource SystemControlDisabledBaseMediumLowBrush}" />
+        </Style>
+
+        <!--  PointerOver State  -->
+        <Style Selector="^:pointerover /template/ Border#PART_Inner">
+            <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListMediumBrush}" />
+        </Style>
+
+        <!--  Pressed State  -->
+        <Style Selector="^:pressed /template/ Border#PART_Inner">
+            <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListMediumBrush}" />
+        </Style>
+
+        <!--  Selected State  -->
+        <Style Selector="^:selected">
+            <Style Selector="^ /template/ Border#PART_Inner">
+                <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListMediumBrush}" />
+            </Style>
+            <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+                <!-- <Setter Property="Foreground" Value="{DynamicResource SystemControlHighlightListAccentHighBrush}" /> -->
+                <Setter Property="FontWeight" Value="Bold" />
+            </Style>
+
+            <!--  Selected Unfocused State  -->
+            <Style Selector="^:not(:focus) /template/ Border#PART_Inner">
+                <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListMediumBrush}" />
+            </Style>
+
+            <!--  Selected PointerOver State  -->
+            <Style Selector="^:pointerover /template/ Border#PART_Inner">
+                <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListMediumBrush}" />
+            </Style>
+
+            <!--  Selected Pressed State  -->
+            <Style Selector="^:pressed /template/ Border#PART_Inner">
+                <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListMediumBrush}" />
+            </Style>
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme
+        x:Key="RadioButtonGroupTheme"
+        BasedOn="{StaticResource {x:Type ListBox}}"
+        TargetType="ListBox">
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="ItemContainerTheme" Value="{StaticResource RadioButtonGroupListBoxStyle}" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Spacing="0" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

@@ -24,22 +24,25 @@
                 <Grid
                     ColumnDefinitions="Auto,*"
                     RowDefinitions="Auto,Auto,Auto">
-                    <TextBlock
-                        Name="PART_LabelText"
+                    <ContentPresenter
+                        Name="PART_Label"
                         Grid.Row="1"
                         Width="{TemplateBinding LabelWidth}"
                         Margin="0,0,8,0"
                         VerticalAlignment="Center"
+                        Content="{TemplateBinding Label}"
+                        ContentTemplate="{TemplateBinding LabelTemplate}"
                         IsVisible="{TemplateBinding Label,
-                                                    Converter={x:Static cvt:Converters.IsNotNull}}"
-                        Text="{TemplateBinding Label}" />
+                                                    Converter={x:Static cvt:Converters.IsNotNull}}" />
 
-                    <TextBlock
+                    <ContentPresenter
+                        x:Name="PART_Header"
                         Grid.Column="1"
                         Margin="0,0,0,4"
+                        Content="{TemplateBinding Header}"
+                        ContentTemplate="{TemplateBinding HeaderTemplate}"
                         IsVisible="{TemplateBinding Header,
-                                                    Converter={x:Static cvt:Converters.IsNotNull}}"
-                        Text="{TemplateBinding Header}" />
+                                                    Converter={x:Static cvt:Converters.IsNotNull}}" />
                     <ContentPresenter
                         Name="PART_ContentPresenter"
                         Grid.Row="1"
@@ -47,14 +50,16 @@
                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                         Content="{TemplateBinding Content}"
                         RenderOptions.EdgeMode="Antialias" />
-                    <TextBlock
+                    <ContentPresenter
+                        x:Name="PART_Description"
                         Grid.Row="2"
                         Grid.Column="2"
                         Margin="0,4,0,0"
+                        Content="{TemplateBinding Description}"
+                        ContentTemplate="{TemplateBinding DescriptionTemplate}"
                         IsVisible="{TemplateBinding Description,
                                                     Converter={x:Static cvt:Converters.IsNotNull}}"
-                        Opacity="0.7"
-                        Text="{TemplateBinding Description}" />
+                        Opacity="0.7" />
                 </Grid>
             </ControlTemplate>
         </Setter>

@@ -61,6 +61,19 @@
                     Text="FzLib.Samples" />
             </Grid>
             <TabControl Grid.Row="1">
+                <TabItem Header="表单">
+                    <DockPanel>
+                        <Button
+                            Margin="8"
+                            Click="RefreshFormPanelButton_Click"
+                            Content="刷新"
+                            DockPanel.Dock="Top" />
+                        <ContentControl x:Name="formPanelContainer">
+                            <local:FormPanel />
+                        </ContentControl>
+                    </DockPanel>
+                </TabItem>
+
                 <TabItem Header="用户设备识别">
                     <local:IdentityPanel />
                 </TabItem>
@@ -77,18 +90,6 @@
                     <local:DialogPanel />
                 </TabItem>
 
-                <TabItem Header="表单">
-                    <DockPanel>
-                        <Button
-                            Margin="8"
-                            Click="RefreshFormPanelButton_Click"
-                            Content="刷新"
-                            DockPanel.Dock="Top" />
-                        <ContentControl x:Name="formPanelContainer">
-                            <local:FormPanel />
-                        </ContentControl>
-                    </DockPanel>
-                </TabItem>
                 <TabItem Header="文件系统">
                     <local:FileSystemPanel ScrollViewer.VerticalScrollBarVisibility="Disabled" />
                 </TabItem>
