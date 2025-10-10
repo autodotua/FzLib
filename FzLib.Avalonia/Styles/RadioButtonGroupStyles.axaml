@@ -1,8 +1,30 @@
 <ResourceDictionary
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:FzLib.Avalonia.Controls">
+
+    <SolidColorBrush
+        x:Key="RadioButtonGroupListBoxBackground"
+        Opacity="0.3"
+        Color="Gray" />
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush
+                x:Key="RadioButtonGroupListBoxHighlightBackground"
+                Opacity="0.2"
+                Color="White" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush
+                x:Key="RadioButtonGroupListBoxHighlightBackground"
+                Opacity="0.8"
+                Color="White" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
     <ControlTheme
-        x:Key="RadioButtonGroupListBoxStyle"
+        x:Key="RadioButtonGroupListBoxItemStyle"
         TargetType="ListBoxItem">
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -28,7 +50,6 @@
                             ContentTemplate="{TemplateBinding ContentTemplate}" />
                     </Border>
                 </Border>
-
             </ControlTemplate>
         </Setter>
 
@@ -38,48 +59,49 @@
 
         <!--  PointerOver State  -->
         <Style Selector="^:pointerover /template/ Border#PART_Inner">
-            <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListMediumBrush}" />
+            <Setter Property="Background" Value="{DynamicResource RadioButtonGroupListBoxHighlightBackground}" />
         </Style>
 
         <!--  Pressed State  -->
         <Style Selector="^:pressed /template/ Border#PART_Inner">
-            <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListMediumBrush}" />
+            <Setter Property="Background" Value="{DynamicResource RadioButtonGroupListBoxHighlightBackground}" />
         </Style>
 
         <!--  Selected State  -->
         <Style Selector="^:selected">
             <Style Selector="^ /template/ Border#PART_Inner">
-                <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListMediumBrush}" />
+                <Setter Property="Background" Value="{DynamicResource RadioButtonGroupListBoxHighlightBackground}" />
             </Style>
             <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
                 <!-- <Setter Property="Foreground" Value="{DynamicResource SystemControlHighlightListAccentHighBrush}" /> -->
-                <Setter Property="FontWeight" Value="Bold" />
+                <!-- <Setter Property="FontWeight" Value="Bold" /> -->
             </Style>
 
             <!--  Selected Unfocused State  -->
             <Style Selector="^:not(:focus) /template/ Border#PART_Inner">
-                <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListMediumBrush}" />
+                <Setter Property="Background" Value="{DynamicResource RadioButtonGroupListBoxHighlightBackground}" />
             </Style>
 
             <!--  Selected PointerOver State  -->
             <Style Selector="^:pointerover /template/ Border#PART_Inner">
-                <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListMediumBrush}" />
+                <Setter Property="Background" Value="{DynamicResource RadioButtonGroupListBoxHighlightBackground}" />
             </Style>
 
             <!--  Selected Pressed State  -->
             <Style Selector="^:pressed /template/ Border#PART_Inner">
-                <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListMediumBrush}" />
+                <Setter Property="Background" Value="{DynamicResource RadioButtonGroupListBoxHighlightBackground}" />
             </Style>
         </Style>
     </ControlTheme>
 
     <ControlTheme
-        x:Key="RadioButtonGroupTheme"
+        x:Key="{x:Type c:RadioButtonGroup}"
         BasedOn="{StaticResource {x:Type ListBox}}"
         TargetType="ListBox">
+        <Setter Property="Background" Value="{DynamicResource RadioButtonGroupListBoxBackground}" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="CornerRadius" Value="4" />
-        <Setter Property="ItemContainerTheme" Value="{StaticResource RadioButtonGroupListBoxStyle}" />
+        <Setter Property="ItemContainerTheme" Value="{StaticResource RadioButtonGroupListBoxItemStyle}" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>

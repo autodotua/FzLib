@@ -2,7 +2,8 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="using:FzLib.Avalonia.Controls"
-    xmlns:cvt="using:FzLib.Avalonia.Converters">
+    xmlns:cvt="using:FzLib.Avalonia.Converters"
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
     <Design.PreviewWith>
         <c:StackFormItemGroup>
             <c:FormItem
@@ -16,6 +17,10 @@
         </c:StackFormItemGroup>
 
     </Design.PreviewWith>
+    <Thickness x:Key="FormItemLabelMargin">0,0,8,0</Thickness>
+    <Thickness x:Key="FormItemHeaderMargin">0,0,0,4</Thickness>
+    <Thickness x:Key="FormItemDescriptionMargin">0,4,0,0</Thickness>
+    <sys:Double x:Key="DescriptionOpacity">0.7</sys:Double>
     <ControlTheme
         x:Key="{x:Type c:FormItem}"
         TargetType="c:FormItem">
@@ -28,7 +33,7 @@
                         Name="PART_Label"
                         Grid.Row="1"
                         Width="{TemplateBinding LabelWidth}"
-                        Margin="0,0,8,0"
+                        Margin="{DynamicResource FormItemLabelMargin}"
                         VerticalAlignment="Center"
                         Content="{TemplateBinding Label}"
                         ContentTemplate="{TemplateBinding LabelTemplate}"
@@ -38,7 +43,7 @@
                     <ContentPresenter
                         x:Name="PART_Header"
                         Grid.Column="1"
-                        Margin="0,0,0,4"
+                        Margin="{DynamicResource FormItemHeaderMargin}"
                         Content="{TemplateBinding Header}"
                         ContentTemplate="{TemplateBinding HeaderTemplate}"
                         IsVisible="{TemplateBinding Header,
@@ -53,13 +58,13 @@
                     <ContentPresenter
                         x:Name="PART_Description"
                         Grid.Row="2"
-                        Grid.Column="2"
-                        Margin="0,4,0,0"
+                        Grid.Column="1"
+                        Margin="{DynamicResource FormItemDescriptionMargin}"
                         Content="{TemplateBinding Description}"
                         ContentTemplate="{TemplateBinding DescriptionTemplate}"
                         IsVisible="{TemplateBinding Description,
                                                     Converter={x:Static cvt:Converters.IsNotNull}}"
-                        Opacity="0.7" />
+                        Opacity="{DynamicResource DescriptionOpacity}" />
                 </Grid>
             </ControlTemplate>
         </Setter>

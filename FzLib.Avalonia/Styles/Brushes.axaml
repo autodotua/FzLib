@@ -93,6 +93,20 @@
             <SolidColorBrush
                 x:Key="AccentF1"
                 Color="{DynamicResource SystemAccentColorLight3}" />
+
+
+            <SolidColorBrush
+                x:Key="Background0"
+                Color="#000" />
+            <SolidColorBrush
+                x:Key="Background1"
+                Color="#111" />
+            <SolidColorBrush
+                x:Key="Background2"
+                Color="#222" />
+            <SolidColorBrush
+                x:Key="Background3"
+                Color="#333" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Light">
 
@@ -115,20 +129,22 @@
             <SolidColorBrush
                 x:Key="AccentB1"
                 Color="{DynamicResource SystemAccentColorLight3}" />
+
+            <SolidColorBrush
+                x:Key="Background0"
+                Color="#FFF" />
+            <SolidColorBrush
+                x:Key="Background1"
+                Color="#EEE" />
+            <SolidColorBrush
+                x:Key="Background2"
+                Color="#DDD" />
+            <SolidColorBrush
+                x:Key="Background3"
+                Color="#CCC" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
-    <SolidColorBrush
-        x:Key="Background0"
-        Color="{DynamicResource SystemAltHighColor}" />
-    <SolidColorBrush
-        x:Key="Background1"
-        Color="{DynamicResource SystemChromeLowColor}" />
-    <SolidColorBrush
-        x:Key="Background2"
-        Color="{DynamicResource SystemChromeMediumColor}" />
-    <SolidColorBrush
-        x:Key="Background3"
-        Color="{DynamicResource SystemChromeHighColor}" />
+
 
     <SolidColorBrush
         x:Key="Foreground0"
