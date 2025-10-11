@@ -103,6 +103,10 @@
                             </TextBlock>
                         </StackPanel>
                     </c:FormItem>
+
+                    <c:FormItem Label="字符串列表：">
+                        <c:StringListEditor ItemsSource="{Binding StringList}" />
+                    </c:FormItem>
                 </c:StackFormItemGroup>
             </HeaderedContentControl>
 

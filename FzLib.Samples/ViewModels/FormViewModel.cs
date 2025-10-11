@@ -10,19 +10,22 @@ public partial class FormViewModel : ObservableObject
 {
     [ObservableProperty]
     private bool formHeaderIsChecked = true;
-    
-    [ObservableProperty]
-    private HorizontalAlignment selectedItem1;
-
-    [ObservableProperty]
-    private int selectedIndex1;
 
     [ObservableProperty]
     private string[] items2 = ["左边", "右边"];
 
     [ObservableProperty]
-    private string selectedItem2;
+    private bool selected2;
 
     [ObservableProperty]
-    private bool selected2;
+    private int selectedIndex1;
+
+    [ObservableProperty]
+    private HorizontalAlignment selectedItem1;
+    
+    [ObservableProperty]
+    private string selectedItem2;
+    
+    [ObservableProperty]
+    private ObservableStringList stringList = new ObservableStringList(["001", "two", "第三"]);
 }

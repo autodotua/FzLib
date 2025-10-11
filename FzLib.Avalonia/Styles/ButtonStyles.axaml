@@ -35,5 +35,12 @@
             </Style>
         </Style>
 
+        <Style Selector="^.Transparent">
+            <Setter Property="Background" Value="Transparent" />
+            <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="{DynamicResource Foreground3}" />
+            </Style>
+        </Style>
     </Style>
 </Styles>

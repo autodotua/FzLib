@@ -63,12 +63,23 @@
             <TabControl Grid.Row="1">
                 <TabItem Header="表单">
                     <DockPanel>
-                        <Button
-                            Margin="8"
-                            Click="RefreshFormPanelButton_Click"
-                            Content="刷新"
-                            DockPanel.Dock="Top" />
-                        <ContentControl x:Name="formPanelContainer">
+                        <StackPanel
+                            HorizontalAlignment="Right"
+                            DockPanel.Dock="Bottom"
+                            Orientation="Horizontal"
+                            Spacing="8">
+                            <Button
+                                Margin="8"
+                                Click="RefreshFormPanelButton_Click"
+                                Content="刷新" />
+                            <CheckBox
+                                x:Name="chkFormEnable"
+                                Content="IsEnabled"
+                                IsChecked="True" />
+                        </StackPanel>
+                        <ContentControl
+                            x:Name="formPanelContainer"
+                            IsEnabled="{Binding #chkFormEnable.IsChecked}">
                             <local:FormPanel />
                         </ContentControl>
                     </DockPanel>

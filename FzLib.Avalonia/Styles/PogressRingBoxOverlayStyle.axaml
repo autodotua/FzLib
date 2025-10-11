@@ -58,15 +58,8 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
+                            BoxShadow="0 0 6 0 #88000000"
                             CornerRadius="4">
-                            <Border.Effect>
-                                <DropShadowEffect
-                                    BlurRadius="{DynamicResource ExtendedWindowShadowRadius}"
-                                    OffsetX="0"
-                                    OffsetY="0"
-                                    Opacity="0.5"
-                                    Color="Black" />
-                            </Border.Effect>
                             <Grid RowDefinitions="Auto,8,Auto,16,Auto,16,Auto">
                                 <TextBlock
                                     Margin="16,12"

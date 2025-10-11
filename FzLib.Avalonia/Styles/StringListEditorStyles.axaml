@@ -1,0 +1,124 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:FzLib.Avalonia.Controls"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime">
+
+    <system:Double x:Key="TagHeight">28</system:Double>
+    <system:Double x:Key="ScrollBarSize">6</system:Double>
+    <CornerRadius x:Key="TagCornerRadius">4</CornerRadius>
+    <CornerRadius x:Key="TagButtonCornerRadius">0,4,4,0</CornerRadius>
+
+    <ControlTheme
+        x:Key="StringListButton"
+        BasedOn="{StaticResource {x:Type Button}}"
+        TargetType="Button">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Width" Value="{StaticResource TagHeight}" />
+        <Setter Property="Height" Value="{StaticResource TagHeight}" />
+        <!--  按钮里的字，默认有点靠下，通过设置Padding来向上移动  -->
+        <Setter Property="Padding" Value="0,0,0,3" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Background" Value="Transparent" />
+        <Style Selector="^:disabled">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme
+        x:Key="TagTextBox"
+        BasedOn="{StaticResource {x:Type TextBox}}"
+        TargetType="TextBox">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="2,2,2,3" />
+        <Setter Property="Height" Value="{StaticResource TagHeight}" />
+        <Setter Property="MinHeight" Value="{StaticResource TagHeight}" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Background" Value="Transparent" />
+        <Style Selector="^:pointerover">
+            <Style Selector="^ /template/ Border#PART_BorderElement">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+        </Style>
+        <Style Selector="^:disabled">
+            <Style Selector="^ /template/ Border#PART_BorderElement">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+        </Style>
+        <Style Selector="^:focus">
+            <Style Selector="^ /template/ Border#PART_BorderElement">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+        </Style>
+        <Style Selector="^ /template/ Border">
+            <Setter Property="Padding" Value="2,0" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme
+        x:Key="{x:Type c:StringListEditor}"
+        TargetType="c:StringListEditor">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <DockPanel LastChildFill="True">
+                    <Button
+                        x:Name="PART_AddButton"
+                        Background="{DynamicResource ButtonBackground}"
+                        Content="+"
+                        CornerRadius="{StaticResource TagCornerRadius}"
+                        DockPanel.Dock="Right"
+                        Theme="{StaticResource StringListButton}" />
+
+                    <ScrollViewer
+                        x:Name="PART_ScrollViewer"
+                        HorizontalScrollBarVisibility="Auto"
+                        VerticalScrollBarVisibility="Disabled">
+
+                        <ItemsControl
+                            x:Name="PART_Items"
+                            Margin="0,0,0,6"
+                            ItemsSource="{TemplateBinding ItemsSource}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel
+                                        Orientation="Horizontal"
+                                        Spacing="2" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border
+                                        Margin="4,0,0,0"
+                                        Background="{DynamicResource ButtonBackground}"
+                                        CornerRadius="{StaticResource TagCornerRadius}">
+                                        <StackPanel
+                                            Orientation="Horizontal"
+                                            Spacing="0">
+                                            <TextBox
+                                                x:Name="PART_TagTextBox"
+                                                Text="{Binding Value}"
+                                                Theme="{StaticResource TagTextBox}" />
+                                            <Button
+                                                x:Name="RemoveButton"
+                                                Margin="0"
+                                                Content="×"
+                                                CornerRadius="{StaticResource TagButtonCornerRadius}"
+                                                Theme="{StaticResource StringListButton}" />
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </DockPanel>
+
+
+            </ControlTemplate>
+        </Setter>
+
+
+    </ControlTheme>
+
+</ResourceDictionary>
