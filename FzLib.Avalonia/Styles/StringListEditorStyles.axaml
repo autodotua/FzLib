@@ -6,24 +6,40 @@
     xmlns:t="clr-namespace:FzLib.Text;assembly=FzLib">
 
     <system:Double x:Key="TagHeight">28</system:Double>
-    <system:Double x:Key="ScrollBarSize">6</system:Double>
     <CornerRadius x:Key="TagCornerRadius">4</CornerRadius>
     <CornerRadius x:Key="TagButtonCornerRadius">0,4,4,0</CornerRadius>
 
     <ControlTheme
         x:Key="StringListButton"
-        BasedOn="{StaticResource {x:Type Button}}"
         TargetType="Button">
         <Setter Property="FontSize" Value="18" />
         <Setter Property="Width" Value="{StaticResource TagHeight}" />
         <Setter Property="Height" Value="{StaticResource TagHeight}" />
-        <!--  按钮里的字，默认有点靠下，通过设置Padding来向上移动  -->
-        <Setter Property="Padding" Value="0,0,0,3" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <!--  按钮里的字，默认有点靠下，通过设置Padding来向上移动  -->
+                    <ContentPresenter
+                        x:Name="PART_ContentPresenter"
+                        Padding="0,0,0,3"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Background="{TemplateBinding Background}"
+                        Content="{TemplateBinding Content}"
+                        CornerRadius="{TemplateBinding CornerRadius}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
         <Style Selector="^:disabled">
             <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}" />
+        </Style>
+
+        <Style Selector="^:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPressed}" />
         </Style>
     </ControlTheme>
 
@@ -76,6 +92,9 @@
                         x:Name="PART_ScrollViewer"
                         HorizontalScrollBarVisibility="Auto"
                         VerticalScrollBarVisibility="Disabled">
+                        <ScrollViewer.Resources>
+                            <system:Double x:Key="ScrollBarSize">6</system:Double>
+                        </ScrollViewer.Resources>
 
                         <ItemsControl
                             x:Name="PART_Items"
@@ -91,7 +110,7 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="t:EditableString">
                                     <Border
-                                        Margin="4,0,0,0"
+                                        Margin="0,0,8,0"
                                         Background="{DynamicResource ButtonBackground}"
                                         CornerRadius="{StaticResource TagCornerRadius}">
                                         <StackPanel

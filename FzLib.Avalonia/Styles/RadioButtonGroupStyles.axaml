@@ -2,12 +2,6 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:FzLib.Avalonia.Controls">
-
-    <SolidColorBrush
-        x:Key="RadioButtonGroupListBoxBackground"
-        Opacity="0.3"
-        Color="Gray" />
-
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush
@@ -99,7 +93,7 @@
         x:Key="{x:Type c:RadioButtonGroup}"
         BasedOn="{StaticResource {x:Type ListBox}}"
         TargetType="ListBox">
-        <Setter Property="Background" Value="{DynamicResource RadioButtonGroupListBoxBackground}" />
+        <Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="CornerRadius" Value="4" />
         <Setter Property="ItemContainerTheme" Value="{StaticResource RadioButtonGroupListBoxItemStyle}" />
