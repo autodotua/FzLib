@@ -100,33 +100,24 @@
                             x:Name="PART_Items"
                             Margin="0,0,0,6"
                             ItemsSource="{TemplateBinding ItemsSource}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel
-                                        Orientation="Horizontal"
-                                        Spacing="2" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="t:EditableString">
                                     <Border
-                                        Margin="0,0,8,0"
                                         Background="{DynamicResource ButtonBackground}"
                                         CornerRadius="{StaticResource TagCornerRadius}">
-                                        <StackPanel
-                                            Orientation="Horizontal"
-                                            Spacing="0">
-                                            <TextBox
-                                                x:Name="PART_TagTextBox"
-                                                Text="{Binding Path=Value}"
-                                                Theme="{StaticResource TagTextBox}" />
+                                        <DockPanel>
                                             <Button
                                                 x:Name="RemoveButton"
                                                 Margin="0"
                                                 Content="×"
                                                 CornerRadius="{StaticResource TagButtonCornerRadius}"
+                                                DockPanel.Dock="Right"
                                                 Theme="{StaticResource StringListButton}" />
-                                        </StackPanel>
+                                            <TextBox
+                                                x:Name="PART_TagTextBox"
+                                                Text="{Binding Path=Value}"
+                                                Theme="{StaticResource TagTextBox}" />
+                                        </DockPanel>
                                     </Border>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

@@ -75,37 +75,77 @@
                 Classes="GroupBox"
                 Header="自定义控件">
                 <c:StackFormItemGroup>
+                    <c:FormItem Label="以下列表的布局：">
+                        <c:RadioButtonGroup
+                            x:Name="listLayout"
+                            ItemsSource="{me:EnumValues c:ItemsControlLayout}"
+                            Layout="HorizontalWrap"
+                            SelectedIndex="1" />
+                    </c:FormItem>
+                    <c:FormItem Label="以下列表的间距：">
+                        <Slider
+                            x:Name="sldSpacing"
+                            Maximum="20"
+                            Minimum="0" />
+                    </c:FormItem>
                     <c:FormItem Label="单选按钮组：">
-                        <StackPanel Orientation="Horizontal">
-                            <c:RadioButtonGroup
-                                ItemsSource="{me:EnumValues HorizontalAlignment}"
-                                SelectedIndex="{Binding SelectedIndex1}"
-                                SelectedItem="{Binding SelectedItem1}" />
-                            <TextBlock VerticalAlignment="Center">
+                        <DockPanel>
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                DockPanel.Dock="Right">
                                 <Run Text="当前选择：" /> <Run Text="{Binding SelectedItem1}" />
                                 <Run Text="（" />
                                 <Run Text="{Binding SelectedIndex1}" />
                                 <Run Text="）" />
                             </TextBlock>
-                        </StackPanel>
+                            <c:RadioButtonGroup
+                                ItemsSource="{me:EnumValues HorizontalAlignment}"
+                                Layout="{Binding #listLayout.SelectedItem}"
+                                SelectedIndex="{Binding SelectedIndex1}"
+                                SelectedItem="{Binding SelectedItem1}"
+                                Spacing="{Binding #sldSpacing.Value}" />
+                        </DockPanel>
                     </c:FormItem>
                     <c:FormItem Label="单选按钮组（二元）：">
-                        <StackPanel Orientation="Horizontal">
-                            <c:RadioButtonGroup
-                                ItemsSource="{Binding Items2}"
-                                SelectedIndex="{Binding Selected2, Converter={x:Static cvt:Converters.BoolZeroOne}}"
-                                SelectedItem="{Binding SelectedItem2}" />
-                            <TextBlock VerticalAlignment="Center">
-                                <Run Text="当前选择：" /> <Run Text="{Binding SelectedItem2}" />
+                        <DockPanel>
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                DockPanel.Dock="Right">
+                                <Run Text="当前选择：" />
+                                <Run Text="{Binding SelectedItem2}" />
                                 <Run Text="（" />
                                 <Run Text="{Binding Selected2, Mode=TwoWay}" />
                                 <Run Text="）" />
                             </TextBlock>
-                        </StackPanel>
+                            <c:RadioButtonGroup
+                                Columns="2"
+                                ItemsSource="{Binding Items2}"
+                                Layout="{Binding #listLayout.SelectedItem}"
+                                Rows="1"
+                                SelectedIndex="{Binding Selected2, Converter={x:Static cvt:Converters.BoolZeroOne}}"
+                                SelectedItem="{Binding SelectedItem2}"
+                                Spacing="{Binding #sldSpacing.Value}" />
+                        </DockPanel>
                     </c:FormItem>
 
                     <c:FormItem Label="字符串列表：">
-                        <c:StringListEditor ItemsSource="{Binding StringList}" />
+                        <Grid
+                            ColumnDefinitions="Auto,*"
+                            ColumnSpacing="8"
+                            RowDefinitions="Auto,Auto"
+                            RowSpacing="8">
+                            <c:StringListEditor
+                                ItemsSource="{Binding StringList}"
+                                Layout="{Binding #listLayout.SelectedItem}"
+                                Spacing="{Binding #sldSpacing.Value}" />
+                            <!--  <TextBlock  -->
+                            <!--  Grid.Row="1"  -->
+                            <!--  Text="当前的字符串列表：" />  -->
+                            <!--  <TextBlock  -->
+                            <!--  Grid.Row="1"  -->
+                            <!--  Grid.Column="1"  -->
+                            <!--  Text="{Binding StringList, Converter={x:Static cvt:Converters.StringList}}" />  -->
+                        </Grid>
                     </c:FormItem>
                 </c:StackFormItemGroup>
             </HeaderedContentControl>

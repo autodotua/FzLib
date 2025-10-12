@@ -12,23 +12,61 @@ using FzLib.Text;
 
 namespace FzLib.Avalonia.Controls;
 
-public partial class StringListEditor : TemplatedControl
+public partial class StringListEditor : TemplatedControl, ILayoutChangeable
 {
+    public static readonly StyledProperty<int> ColumnsProperty = AvaloniaProperty.Register<RadioButtonGroup, int>(
+        nameof(Columns));
+
     public static readonly StyledProperty<ObservableStringList> ItemsSourceProperty =
-        AvaloniaProperty.Register<StringListEditor, ObservableStringList>(
+            AvaloniaProperty.Register<StringListEditor, ObservableStringList>(
             nameof(ItemsSource));
 
+    public static readonly StyledProperty<ItemsControlLayout> LayoutProperty =
+        AvaloniaProperty.Register<StringListEditor, ItemsControlLayout>(
+            nameof(Layout), ItemsControlLayout.HorizontalStack);
+
+    public static readonly StyledProperty<int> RowsProperty = AvaloniaProperty.Register<RadioButtonGroup, int>(
+        nameof(Rows));
+
+    public static readonly StyledProperty<double> SpacingProperty = AvaloniaProperty.Register<RadioButtonGroup, double>(
+        nameof(Spacing), 8d);
+
     private Button addButton;
-    
+
     private ItemsControl items;
-    
+
     private ScrollViewer scr;
+    
+    public int Columns
+    {
+        get => GetValue(ColumnsProperty);
+        set => SetValue(ColumnsProperty, value);
+    }
+
     public ObservableStringList ItemsSource
     {
         get => GetValue(ItemsSourceProperty);
         set => SetValue(ItemsSourceProperty, value);
     }
 
+    public ItemsControlLayout Layout
+    {
+        get => GetValue(LayoutProperty);
+        set => SetValue(LayoutProperty, value);
+    }
+
+    public int Rows
+    {
+        get => GetValue(RowsProperty);
+        set => SetValue(RowsProperty, value);
+    }
+
+    public double Spacing
+    {
+        get => GetValue(SpacingProperty);
+        set => SetValue(SpacingProperty, value);
+    }
+    
     protected override Type StyleKeyOverride { get; } = typeof(StringListEditor);
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -42,6 +80,9 @@ public partial class StringListEditor : TemplatedControl
             return;
         }
 
+        ItemsControlExtensions.SetLayoutSubscribe(this, items, LayoutProperty, SpacingProperty, ColumnsProperty,
+            RowsProperty);
+
         addButton.Click += AddButton_Click;
 
         items.ContainerPrepared += (s, e) =>
@@ -54,6 +95,7 @@ public partial class StringListEditor : TemplatedControl
                 {
                     throw new InvalidOperationException("找不到TextBox或Button");
                 }
+
                 textBox.KeyDown += TextBox_KeyDown;
                 removeButton.Click += RemoveButton_Click;
             };
@@ -69,7 +111,6 @@ public partial class StringListEditor : TemplatedControl
         scr.Offset = new Vector(int.MaxValue, 0); //滚动到最右侧
         FocusTextBox(list.Count - 1);
     }
-    
 
     private void ClearButton_Click(object sender, RoutedEventArgs e)
     {
@@ -128,7 +169,7 @@ public partial class StringListEditor : TemplatedControl
                 new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
     }
-    
+
     private void RemoveButton_Click(object sender, RoutedEventArgs e)
     {
         var button = sender as Button;

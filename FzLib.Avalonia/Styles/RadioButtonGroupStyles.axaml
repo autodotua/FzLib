@@ -97,14 +97,14 @@
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="CornerRadius" Value="4" />
         <Setter Property="ItemContainerTheme" Value="{StaticResource RadioButtonGroupListBoxItemStyle}" />
-        <Setter Property="ItemsPanel">
-            <Setter.Value>
-                <ItemsPanelTemplate>
-                    <StackPanel
-                        Orientation="Horizontal"
-                        Spacing="0" />
-                </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>
+        <!-- <Setter Property="ItemsPanel"> -->
+        <!--     <Setter.Value> -->
+        <!--         <ItemsPanelTemplate> -->
+        <!--  <StackPanel  -->
+        <!--  Orientation="Horizontal"  -->
+        <!--  Spacing="0" />  -->
+        <!--         </ItemsPanelTemplate> -->
+        <!--     </Setter.Value> -->
+        <!-- </Setter> -->
     </ControlTheme>
 </ResourceDictionary>
