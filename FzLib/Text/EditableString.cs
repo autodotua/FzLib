@@ -1,8 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using FzLib.Programming;
 
-namespace FzLib;
+namespace FzLib.Text;
 
 public partial class EditableString : NotifyPropertyChangedBase
 {
@@ -14,11 +15,13 @@ public partial class EditableString : NotifyPropertyChangedBase
         set => SetField(ref stringValue, value);
     }
 
+    [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(EditableString))]
     public EditableString(string value)
     {
         this.stringValue = value;
     }
 
+    [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(EditableString))]
     public EditableString()
     {
     }

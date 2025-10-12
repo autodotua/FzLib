@@ -1,7 +1,4 @@
-﻿using System;
-using System.Text;
-
-namespace FzLib
+﻿namespace FzLib.Text
 {
     public static class StringExtension
     {

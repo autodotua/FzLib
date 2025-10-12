@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 
-namespace FzLib;
+namespace FzLib.Text;
 
 public class ObservableStringList : ObservableCollection<EditableString>
 {

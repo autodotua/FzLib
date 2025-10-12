@@ -2,7 +2,8 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c="clr-namespace:FzLib.Avalonia.Controls"
-    xmlns:system="clr-namespace:System;assembly=System.Runtime">
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+    xmlns:t="clr-namespace:FzLib.Text;assembly=FzLib">
 
     <system:Double x:Key="TagHeight">28</system:Double>
     <system:Double x:Key="ScrollBarSize">6</system:Double>
@@ -88,7 +89,7 @@
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
-                                <DataTemplate>
+                                <DataTemplate x:DataType="t:EditableString">
                                     <Border
                                         Margin="4,0,0,0"
                                         Background="{DynamicResource ButtonBackground}"
@@ -98,7 +99,7 @@
                                             Spacing="0">
                                             <TextBox
                                                 x:Name="PART_TagTextBox"
-                                                Text="{Binding Value}"
+                                                Text="{Binding Path=Value}"
                                                 Theme="{StaticResource TagTextBox}" />
                                             <Button
                                                 x:Name="RemoveButton"

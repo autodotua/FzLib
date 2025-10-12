@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Avalonia.Layout;
 using CommunityToolkit.Mvvm.ComponentModel;
+using FzLib.Text;
 
 namespace FzLib.Samples.ViewModels;
 

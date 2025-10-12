@@ -60,6 +60,9 @@ try {
         rm Publish/samples/osx-x64/*.pdb
     }
 
+    rm -Recurse -Force FzLib.Samples/obj/Release
+    rm -Recurse -Force FzLib.Avalonia/obj/Release
+    rm -Recurse -Force FzLib/obj/Release
     Write-Output "操作完成"
     Invoke-Item Publish\Samples
     pause

@@ -19,17 +19,11 @@ namespace FzLib.Avalonia.Services
             return services;
         }
 
-        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(CheckDialogItem))]
-        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(SelectDialogItem))]
-        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(CheckDialogItem))]
         public static IServiceCollection AddDialogService(this IServiceCollection services)
         {
             return services.AddDialogService(null);
         }
 
-        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(CheckDialogItem))]
-        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(SelectDialogItem))]
-        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(CheckDialogItem))]
         public static IServiceCollection AddDialogService(this IServiceCollection services, string key, Func<TopLevel> getTopLevel)
         {
             ArgumentNullException.ThrowIfNull(services, nameof(services));
@@ -44,9 +38,6 @@ namespace FzLib.Avalonia.Services
             return services;
         }
 
-        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(CheckDialogItem))]
-        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(SelectDialogItem))]
-        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(CheckDialogItem))]
         public static IServiceCollection AddDialogService(this IServiceCollection services, global::Avalonia.Controls.TopLevel defaultTopLevel)
         {
             services.AddSingleton<IDialogService>(provider =>
