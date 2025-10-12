@@ -40,8 +40,14 @@
             <Setter Property="Spacing" Value="8" />
         </Style>
     </Window.Styles>
-    <Grid>
-        <Grid RowDefinitions="Auto,*">
+    <Grid
+        ColumnDefinitions="*,*,*"
+        RowDefinitions="*,*,*">
+        <!--  测试对话框自动寻找Container的能力  -->
+        <Grid
+            Grid.RowSpan="3"
+            Grid.ColumnSpan="3"
+            RowDefinitions="Auto,*">
             <Grid
                 Margin="4"
                 ColumnDefinitions="Auto,*,Auto"
