@@ -15,6 +15,11 @@ namespace FzLib.Avalonia.Converters
 
         public static readonly BoolLogicConverter
             AndLogic = new() { Operator = BoolLogicConverter.LogicalOperator.And };
+        public static readonly BoolLogicConverter OrLogic = new() { Operator = BoolLogicConverter.LogicalOperator.Or };
+        public static readonly BoolLogicConverter XorLogic = new() { Operator = BoolLogicConverter.LogicalOperator.Xor };
+        public static readonly BoolLogicConverter NorLogic = new() { Operator = BoolLogicConverter.LogicalOperator.Nor };
+        public static readonly BoolLogicConverter NandLogic = new() { Operator = BoolLogicConverter.LogicalOperator.Nand };
+        public static readonly BoolLogicConverter XnorLogic = new() { Operator = BoolLogicConverter.LogicalOperator.Xnor };
 
         public static readonly BoolToFontWeightConverter BoldFontWeight = new();
         public static readonly BoolToOpacityStyleConverter BoldOpacity = new();
@@ -37,7 +42,6 @@ namespace FzLib.Avalonia.Converters
         public static readonly BoolToFontStyleConverter ItalicFontStyle = new();
         public static readonly BoolToFontWeightConverter LightFontWeight = new() { TrueFontWeight = FontWeight.Light };
         public static readonly EqualToBoolConverter NotEqualWithParameter = new() { InverseResult = true };
-        public static readonly BoolLogicConverter OrLogic = new() { Operator = BoolLogicConverter.LogicalOperator.Or };
 
         public static readonly BoolToTextDecorationConverter OverlineTextDecoration =
             new() { TrueTextDecoration = TextDecorations.Overline };

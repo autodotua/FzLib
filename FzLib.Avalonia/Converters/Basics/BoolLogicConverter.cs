@@ -18,7 +18,8 @@ namespace FzLib.Avalonia.Converters
             Or,
             Nor,
             Xor,
-            Nand
+            Nand,
+            Xnor
         }
 
         public enum NullOrUnsetHandling
@@ -81,6 +82,7 @@ namespace FzLib.Avalonia.Converters
                     LogicalOperator.Nor => !(result || current),
                     LogicalOperator.Xor => result ^ current,
                     LogicalOperator.Nand => !(result && current),
+                    LogicalOperator.Xnor => !(result ^ current),
                     _ => throw new ArgumentOutOfRangeException()
                 };
             }
