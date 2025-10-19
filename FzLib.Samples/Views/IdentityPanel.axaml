@@ -24,7 +24,7 @@
         </c:FormItem>
         <c:FormItem Label="用户设备码：">
             <TextBlock
-                Text="{Binding CombinedrId}"
+                Text="{Binding CombinedId}"
                 TextWrapping="Wrap" />
         </c:FormItem>
     </c:StackFormItemGroup>

@@ -35,7 +35,7 @@ public partial class DialogViewModel(IDialogService dialogService) : ObservableO
     {
         DialogService.ContainerType = ContainerType;
         await DialogService.ShowOkDialogAsync("大量内容", string.Concat(Enumerable.Repeat("信息正文", 100)),
-            string.Concat(Enumerable.Repeat("详细内容", 1000)));
+            string.Concat(Enumerable.Repeat("一共十万字长度的文本", 10000)));
     }
 
     [RelayCommand]

@@ -12,5 +12,5 @@ public partial class IdentityViewModel : ObservableObject
     private string machineId = IdentityProvider.GetMachineId();
 
     [ObservableProperty]
-    private string combinedrId = IdentityProvider.GetCombinedId();
+    private string combinedId = IdentityProvider.GetCombinedId();
 }
