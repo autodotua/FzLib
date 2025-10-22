@@ -20,11 +20,11 @@ class Program
             .CreateLogger();
         Log.Information("程序启动");
 
-        
+
         //FzLib.Application.UnhandledExceptionCatcher
         UnhandledExceptionCatcher.WithCatcher(() => BuildAvaloniaApp().StartWithClassicDesktopLifetime(args))
-            .Catch((e, s) => { Log.Fatal("未捕获的异常", e); })
-            .Finally(() => { })
+            .Catch((e, s) => { Log.Fatal(e, "未捕获的异常"); })
+            .Finally(() => { Log.Information("程序结束"); })
             .Run();
     }
 
