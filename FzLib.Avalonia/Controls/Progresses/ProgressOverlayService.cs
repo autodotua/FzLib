@@ -9,7 +9,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FzLib.Avalonia.Controls
 {
-    public partial class ProgressOverlayService : IProgressOverlayService
+    public class ProgressOverlayService : IProgressOverlayService
     {
         private bool hasRegistered = false;
         private Action<bool> setCancelable;
@@ -51,7 +51,7 @@ namespace FzLib.Avalonia.Controls
 #if DEBUG
                 return;
 #endif
-                throw new InvalidOperationException("ProgressOverlayService 只能注册一次");
+                throw new InvalidOperationException("ProgressOverlayService 已被注册，请先调用Unregister取消注册");
             }
 
             this.setVisible = setVisible ?? throw new ArgumentNullException(nameof(setVisible));
@@ -124,8 +124,13 @@ namespace FzLib.Avalonia.Controls
             setVisible(visible);
         }
 
+        public void Unregister()
+        {
+            hasRegistered = false;
+        }
+
         public async Task WithOverlayAsync(Func<Task> task, Func<Exception, Task> onError = null,
-            string initialMessage = null, TimeSpan? delay = null)
+                    string initialMessage = null, TimeSpan? delay = null)
         {
             CheckRegister();
 
