@@ -57,5 +57,5 @@ FzLib是一套本人开发过程中逐渐形成的工具库，包含数据、IO�
 
 ## 文档
 
-- [FzLib文档](doc_FzLib.md)
-- [FzLib.Avalonia文档](doc_FzLib_Avalonia.md)
+- [FzLib文档](Assets/doc_FzLib.md)
+- [FzLib.Avalonia文档](Assets/doc_FzLib_Avalonia.md)
