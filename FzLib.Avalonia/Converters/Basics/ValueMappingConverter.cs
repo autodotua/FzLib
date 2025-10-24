@@ -6,7 +6,7 @@ using Avalonia.Data.Converters;
 
 namespace FzLib.Avalonia.Converters
 {
-    public class ValueMappingConverter​ : IValueConverter
+    public class ValueMappingConverter : IValueConverter
     {
         public IDictionary<string,string> Map { get; set; }
 
