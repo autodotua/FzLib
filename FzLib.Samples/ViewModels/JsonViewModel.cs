@@ -106,7 +106,7 @@ public partial class JsonViewModel : ObservableObject
                    && Equals(CustomClass, other.CustomClass);
         }
 
-        public override bool Equals(object? obj) => Equals(obj as JsonTest);
+        public override bool Equals(object obj) => Equals(obj as JsonTest);
 
         public override int GetHashCode()
         {
@@ -150,7 +150,7 @@ public partial class JsonViewModel : ObservableObject
                 return StringValue == other.StringValue && IntValue == other.IntValue;
             }
 
-            public override bool Equals(object? obj) => Equals(obj as AnotherClass);
+            public override bool Equals(object obj) => Equals(obj as AnotherClass);
 
             public override int GetHashCode() => HashCode.Combine(StringValue, IntValue);
         }
