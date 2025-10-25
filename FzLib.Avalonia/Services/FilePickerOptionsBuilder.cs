@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Avalonia.Platform.Storage;
 using FzLib.Avalonia.Services;
 
-namespace FzLib.Avalonia.Dialogs.Pickers;
+namespace FzLib.Avalonia.Services;
 
 public class FilePickerOptionsBuilder : IFilePickerOptionsBuilder, IStorageProviderServicePickerBuilder
 {

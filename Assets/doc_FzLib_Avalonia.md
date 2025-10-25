@@ -548,6 +548,8 @@ xmlns:di="using:FzLib.Avalonia.DependencyInjection"
 </dialog:DialogHost>
 ```
 
+通过`Title`设置标题。
+
 自带三个按钮。
 
 | 按钮类型 | 虚拟方法（在View中实现）   | 命令（通常在ViewModel中实现） | 文本                     | 启用状态                   |
@@ -574,6 +576,92 @@ public async Task<T> ShowDialog<T>(DialogContainerType type, Visual visual)
 
 调用`Close()`方法直接关闭，调用`Close(T)`方法时可以返回一个值。
 
-### `Dialogs.Containers`目录
+## `Dialogs.Containers`目录
 
-未完待续
+### `IDialogHostContainer`接口，`IDialogHostContainer<TContainer>`接口
+
+为对话框容器约定了`ShowDialog`和`Close`方法
+
+### `PopupDialogContainer`类
+
+通过在同一个`TopLevel`窗口的布局面板（暂时仅支持`Grid`）中添加对话框容器（嵌入视觉树），来实现模态对话框的弹出效果。支持弹出和消失动画，支持拖拽。
+
+### `WindowDialogContainer`类
+
+通过创建新窗口（Window）而非嵌入现有视觉树来实现模态对话框。无动画支持，仅支持桌面系统，资源开销较大，但支持真正的模态和非模态对话框。
+
+## `Dialogs.Presets`目录
+
+提供了一系列预设的对话框。这些对话框需要通过`FzLib.Avalonia.Dialogs.DialogService`进行调用。
+
+### 文本对话框
+
+`MessageDialog`类提供文本对话框的宿主UI。通过`MessageDialogContent`配置内容。
+
+通过`ButtonDefinition`属性定义按钮组合。
+
+| 枚举值        | 主要按钮 | 次要按钮 | 关闭按钮 |
+| ------------- | -------- | -------- | -------- |
+| `OK`          |          |          | `"确定"` |
+| `YesNo`       | `"是"`   | `"否"`   |          |
+| `YesNoCancel` | `"是"`   | `"否"`   | `"取消"` |
+| `RetryCancel` | `"重试"` |          | `"取消"` |
+
+可以设置以下属性：
+
+| 属性        | 描述                                                    |
+| ----------- | ------------------------------------------------------- |
+| `Message`   | 显示在标题下方的具体信息                                |
+| `Detail`    | 默认折叠，可按需展开的详细信息                          |
+| `Icon`      | 显示在信息左侧的图标，使用满足SVG路径的数据字符串来表示 |
+| `IconBrush` | 图标的颜色                                              |
+
+| 抛出异常对话框                                               | 询问选择对话框                                               |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| ![FzLib.Avalonia.Dialogs.MessageDialog_Exception](FzLib.Avalonia.Dialogs.MessageDialog_Exception.png) | ![FzLib.Avalonia.Dialogs.MessageDialog_YesNoCancel](FzLib.Avalonia.Dialogs.MessageDialog_YesNoCancel.png) |
+
+### 输入对话框
+
+`InputDialog`类提供输入对话框的宿主UI。通过`InputDialogContent`配置内容。
+
+可以设置以下属性：
+
+| 属性                   | 描述                                                         |
+| ---------------------- | ------------------------------------------------------------ |
+| `Message`              | 显示在标题下方的具体信息                                     |
+| `Text`                 | 显示在输入框中的文本                                         |
+| `Watermark`            | 显示在输入框中的占位符水印                                   |
+| `MultiLines`           | 是否允许多行输入                                             |
+| `PasswordChar`         | 密码隐藏字符。若为`\0`，则表示非密码输入                     |
+| `MinLines`, `MaxLines` | 最少和最多行数                                               |
+| `Validations`          | 一个`Func<string, ValidationResult>`列表，用来指定用户输入内容的验证函数。任意验证函数内抛出异常，则认为用户输入不符合要求，界面中弹出报错信息。 |
+
+![FzLib.Avalonia.Dialogs.InputDialog_Validation](FzLib.Avalonia.Dialogs.InputDialog_Validation.png)
+
+### 选择对话框
+
+`SelectItemDialog`类提供单选对话框的宿主UI，通过`SelectDialogContent`配置内容；`CheckItemDialog`类提供多选对话框的宿主UI，通过`CheckDialogContent`配置内容。
+
+通过配置`Items`来指定选项。
+
+| 属性           | 描述                                         | 备注                 |
+| -------------- | -------------------------------------------- | -------------------- |
+| `Title`        | 选项的标题                                   |                      |
+| `Detail`       | 选项的补充信息                               |                      |
+| `Tag`          | 每个选项可以附带任意类型的对象，用以后续区分 |                      |
+| `SelectAction` | 单击该选项后，立即做出的动作                 | 仅`SelectDialogItem` |
+| `IsChecked`    | 选项是否被选择                               | 仅`CheckDialogItem`  |
+| `IsEnabled`    | 选项是否可被选择                             | 仅`CheckDialogItem`  |
+
+
+
+| 单选对话框                                                   | 多选对话框                                                   |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| ![FzLib.Avalonia.Dialogs.SelectItemDialog](FzLib.Avalonia.Dialogs.SelectItemDialog.png) | ![FzLib.Avalonia.Dialogs.CheckItemDialog](FzLib.Avalonia.Dialogs.CheckItemDialog.png) |
+
+
+
+## `Dialogs.Services`目录
+
+为对话框提供适应MVVM的服务
+
