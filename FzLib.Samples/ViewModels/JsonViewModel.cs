@@ -86,7 +86,7 @@ public partial class JsonViewModel : ObservableObject
         public string StringValue { get; set; } = "Hello World";
         public TimeSpan TimeSpanValue { get; set; } = TimeSpan.FromSeconds(1234567890);
         public Uri UriValue { get; set; } = new Uri("https://www.baidu.com");
-        public bool Equals(JsonTest? other)
+        public bool Equals(JsonTest other)
         {
             if (other is null) return false;
 
@@ -144,7 +144,7 @@ public partial class JsonViewModel : ObservableObject
         {
             public int IntValue { get; set; } = 1234567890;
             public string StringValue { get; set; } = "Hello World";
-            public bool Equals(AnotherClass? other)
+            public bool Equals(AnotherClass other)
             {
                 if (other is null) return false;
                 return StringValue == other.StringValue && IntValue == other.IntValue;

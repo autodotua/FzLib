@@ -38,7 +38,7 @@ namespace FzLib.Avalonia.Services
             return services;
         }
 
-        public static IServiceCollection AddDialogService(this IServiceCollection services, global::Avalonia.Controls.TopLevel defaultTopLevel)
+        public static IServiceCollection AddDialogService(this IServiceCollection services, TopLevel defaultTopLevel)
         {
             services.AddSingleton<IDialogService>(provider =>
             {

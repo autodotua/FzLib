@@ -67,6 +67,10 @@
                     Text="FzLib.Samples" />
             </Grid>
             <TabControl Grid.Row="1">
+                <TabItem Header="颜色笔刷">
+                    <local:BrushesPanel />
+                </TabItem>
+
                 <TabItem Header="表单">
                     <DockPanel>
                         <StackPanel

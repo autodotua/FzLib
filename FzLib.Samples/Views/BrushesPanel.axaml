@@ -1,0 +1,199 @@
+<UserControl
+    x:Class="FzLib.Samples.Views.BrushesPanel"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:b="using:FzLib.Avalonia.Behaviors"
+    xmlns:c="using:FzLib.Avalonia.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Styles>
+        <Style Selector="Border">
+            <Setter Property="Height" Value="60" />
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="BorderBrush" Value="{DynamicResource Foreground0}" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+        <Style Selector="Border TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+    </UserControl.Styles>
+    <ScrollViewer>
+        <StackPanel
+            Margin="8"
+            Spacing="8">
+            <HeaderedContentControl
+                Classes="GroupBox"
+                Header="背景色（Background）">
+                <Grid
+                    Margin="10"
+                    ColumnDefinitions="*,*,*,*"
+                    RowDefinitions="Auto,Auto">
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Background="{DynamicResource Background0}">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource Foreground0}"
+                            Text="Background0" />
+                    </Border>
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Background="{DynamicResource Background1}">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource Foreground0}"
+                            Text="Background1" />
+                    </Border>
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Background="{DynamicResource Background2}">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource Foreground0}"
+                            Text="Background2" />
+                    </Border>
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="3"
+                        Background="{DynamicResource Background3}">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource Foreground0}"
+                            Text="Background3" />
+                    </Border>
+                </Grid>
+            </HeaderedContentControl>
+
+            <HeaderedContentControl
+                Classes="GroupBox"
+                Header="前景色（Foreground）">
+                <Grid
+                    Margin="10"
+                    ColumnDefinitions="*,*,*,*"
+                    RowDefinitions="Auto,Auto">
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Background="{DynamicResource Background2}">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource Foreground0}"
+                            Text="Foreground0" />
+                    </Border>
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Background="{DynamicResource Background2}">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource Foreground1}"
+                            Text="Foreground1" />
+                    </Border>
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Background="{DynamicResource Background2}">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource Foreground2}"
+                            Text="Foreground2" />
+                    </Border>
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="3"
+                        Background="{DynamicResource Background2}">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource Foreground3}"
+                            Text="Foreground3" />
+                    </Border>
+                </Grid>
+            </HeaderedContentControl>
+
+            <HeaderedContentControl
+                Classes="GroupBox"
+                Header="强调色（Accent）">
+                <Grid
+                    Margin="10"
+                    ColumnDefinitions="*,*,*,*"
+                    RowDefinitions="Auto,Auto,Auto">
+                    <!--  基础强调色  -->
+                    <Border
+                        Grid.RowSpan="2"
+                        Background="{DynamicResource Accent0}">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource Background0}"
+                            Text="Accent0" />
+                    </Border>
+
+                    <!--  浅色强调色变体  -->
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Background="{DynamicResource Background2}">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource AccentF1}"
+                            Text="AccentF1" />
+                    </Border>
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Background="{DynamicResource Background2}">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource AccentF2}"
+                            Text="AccentF2" />
+                    </Border>
+                    <Border
+                        Grid.Row="0"
+                        Grid.Column="3"
+                        Background="{DynamicResource Background2}">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource AccentF3}"
+                            Text="AccentF3" />
+                    </Border>
+
+                    <!--  深色强调色变体  -->
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Background="{DynamicResource AccentB1}">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource Foreground0}"
+                            Text="AccentB1" />
+                    </Border>
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Background="{DynamicResource AccentB2}">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource Foreground0}"
+                            Text="AccentB2" />
+                    </Border>
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        Background="{DynamicResource AccentB3}">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource Foreground0}"
+                            Text="AccentB3" />
+                    </Border>
+                </Grid>
+            </HeaderedContentControl>
+        </StackPanel>
+    </ScrollViewer>
+
+</UserControl>

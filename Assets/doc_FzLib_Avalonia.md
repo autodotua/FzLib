@@ -216,7 +216,7 @@ private async Task DoSthAsync(CancellationToken cancellationToken)
 
 ## `Controls.ItemsControls`目录
 
-### `ILayoutChangeable`接口, `ItemsControlLayout`枚举
+### `ILayoutChangeable`接口，`ItemsControlLayout`枚举
 
 `ILayoutChangeable`为`ItemsControl`的`ItemsPanel`提供抽象属性的接口。
 
@@ -486,7 +486,7 @@ Avalonia中，XAML中的控件必须为无参构造函数，这导致ViewModel�
 例如，有一个View和一个ViewModel：
 
 ```csharp
-public partial class SomeUserControl : UserControl
+public partial class SomeUserControl ：UserControl
 {
     public SomeUserControl()
     {
@@ -663,5 +663,174 @@ public async Task<T> ShowDialog<T>(DialogContainerType type, Visual visual)
 
 ## `Dialogs.Services`目录
 
-为对话框提供适应MVVM的服务
+提供了了一个适应MVVM的对话框服务接口和实现类。`IDialogService`接口定义了一套完整的对话框服务功能，包括信息提示对话框（如确认、警告、错误等）、输入对话框（文本、多行文本、密码、数字等）、选择对话框（单选、多选）以及自定义对话框。`DialogService`类实现了该接口，提供了具体的对话框显示逻辑，支持模态和非模态窗口，并能指定对话框的所有者窗口。
+
+使用时，在依赖注入初始化时增加服务：
+
+```csharp
+var builder = Host.CreateApplicationBuilder();
+builder.Services.AddDialogService();
+```
+
+默认在每次对话框显示前寻找当前被激活的`Window`或`MainView`，也可以通过设置`DefaultOwner`来指定宿主（`TopLevel`）。
+
+可以通过以下方式，创建一个具有指定键的`IDialogService`，例如可以用于在多窗口应用中区分不同的宿主或容器类型：
+
+```csharp
+builder.Services.AddDialogService("main",
+    () => (ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow);
+//在构造函数中
+public SomeClass([FromKeyedServices("main")] IDialogService dialogService)
+{
+    _dialogService = dialogService; // 通过 key 注入
+}
+```
+
+提供了多种预设对话框：
+
+| **方法名**                           | **描述**                                           | **参数**                                                     | **返回值**                                          |
+| :----------------------------------- | :------------------------------------------------- | :----------------------------------------------------------- | :-------------------------------------------------- |
+| `ShowOkDialogAsync`                  | 显示一个仅含“确定”按钮的对话框                     | `title`（标题）、`message`（消息，可选）、`detail`（详情，可选） | `Task`                                              |
+| `ShowWarningDialogAsync`             | 显示警告对话框（黄色警告图标）                     | 同上                                                         | `Task`                                              |
+| `ShowErrorDialogAsync`               | 显示错误对话框（红色错误图标），可选“重试”按钮     | `title`、`message`/`Exception`、`detail`（可选）、`retryButton`（是否显示“重试”按钮） | `Task<bool>`（用户是否确认）                        |
+| `ShowYesNoDialogAsync`               | 显示“是/否”对话框，可选“取消”按钮                  | `title`、`message`（可选）、`detail`（可选）、`cancelButon`（是否显示“取消”按钮） | `Task<bool?>`（`true`=是，`false`=否，`null`=取消） |
+| `ShowInputTextDialogAsync`           | 单行文本输入框                                     | `title`、`message`、`defaultText`（默认值，可选）、`watermark`（水印，可选）、`validation`（验证函数，可选） | `Task<string>`（用户输入）                          |
+| `ShowInputMultiLinesTextDialogAsync` | 多行文本输入框（可设置最小/最大行数）              | `title`、`message`、`minLines`（默认3）、`maxLines`（默认10）、`defaultText`、`watermark`、`validation` | `Task<string>`                                      |
+| `ShowInputPasswordDialogAsync`       | 密码输入框（掩码显示）                             | `title`、`message`、`watermark`（可选）、`validation`（可选） | `Task<string>`                                      |
+| `ShowInputNumberDialogAsync`         | 数字输入框（支持泛型数字类型，如 `int`、`double`） | `title`、`message`、`watermark`（可选） 或 `defaultValue`（默认值） | `Task<T?>`（`T`为数字类型）                         |
+| `ShowSelectItemDialog`               | 单选列表对话框                                     | `title`、`items`（选项列表）、`message`（可选）、`buttonContent`（按钮文本，可选）、`buttonCommand`（按钮回调，可选） | `Task<int?>`（选中项索引，`null`=取消）             |
+| `ShowCheckItemDialog`                | 多选复选框对话框（可设置最小/最大选择数量）        | `title`、`items`、`message`（可选）、`minCheckCount`（默认0）、`maxCheckCount`（默认`int.MaxValue`） | `Task<bool>`（是否确认选择）                        |
+| `ShowCustomDialogAsync`              | 显示自定义对话框（无返回值）                       | `dialog`（自定义对话框实例）                                 | `Task`                                              |
+| `ShowCustomDialogAsync<T>`           | 显示自定义对话框并返回结果                         | 同上                                                         | `Task<T>`（自定义类型结果）                         |
+
+## `MarkupExtensions`命名空间
+
+Avalonia XAML标记扩展，用于在XAML中提供一些需要后台代码配合的功能。
+
+### `EnumValuesExtension`类
+
+用于在XAML中动态绑定枚举类型的值列表。它的核心作用是将枚举的所有可能值转换为一个可绑定的集合，方便在UI控件（特别是提供`ItemsSource`属性的控件，如如 `ComboBox`、`ListBox`等）中直接使用。
+
+```xaml
+xmlns:me="using:FzLib.Avalonia.MarkupExtensions"
+ <ComboBox ItemsSource="{me:EnumValues sys:DayOfWeek}"/>
+```
+
+### `StringToDictionaryExtension`类
+
+用于将格式化的字符串（如 `"key1:value1;key2:value2"`）动态转换为键值对字典（`Dictionary<string, string>`），方便在 XAML 中直接绑定到需要字典数据的 UI 控件。
+
+```xaml
+xmlns:cvt="using:FzLib.Avalonia.Converters"
+xmlns:me="using:FzLib.Avalonia.MarkupExtensions"
+<cvt:ValueMappingConverter Map="{me:StringToDictionary Monday:周一;Tuesday:星期二;Wednesday:礼拜三;Thursday:第四天;Friday:要下班了;Saturday:周末第一天;Sunday:最后一天}" />
+```
+
+## `Services`命名空间
+
+### `IClipboardService`接口，`ClipboardService`类
+
+为`Avalonia.Input.Platform.IClipboard`提供了一层包装，实现在ViewModel中调用剪贴板。将从`Avalonia.Application.Current.ApplicationLifetime`的`MainWindow`或`MainView`中获取`IClipboard`。
+
+```csharp
+var builder = Host.CreateApplicationBuilder();
+builder.Services.AddClipboardService();
+```
+
+### `IStorageProviderService`接口，`StorageProviderService`类
+
+为`Avalonia.Platform.Storage.IStorageProvider`提供了一层包装，实现在ViewModel中调用剪贴板。将从`Avalonia.Application.Current.ApplicationLifetime`的`MainWindow`或`MainView`中获取`IStorageProvider`。
+
+```csharp
+var builder = Host.CreateApplicationBuilder();
+builder.Services.AddStorageProviderService();
+```
+
+### `IFilePickerOptionsBuilder`接口，`IStorageProviderServicePickerBuilder`接口，`FilePickerOptionsBuilder`类，
+
+文件选择器配置构建器，用于在 Avalonia 应用中简化文件/文件夹选择对话框的配置和调用。它通过Fluent Interface设计模式，提供了一种链式调用的方式来配置文件选择器的各种选项，并最终生成对应的选项对象或直接触发文件选择操作。
+
+有两种使用方法：
+
+1. 通过`IStorageProviderService`接口的`CreatePickerBuilder()`方法，这会返回一个`IStorageProviderServicePickerBuilder`接口，在其中可以进行相关配置，最后`Open...Async`或`Save...Async`方法打开对话框。
+2. 通过`FilePickerOptionsBuilder.Create()`方法创建实例，这会返回一个`IFilePickerOptionsBuilder`接口，在其中可以进行相关配置，最后通过`Build...Options`来创建`FolderPickerOpenOptions`、`FilePickerOpenOptions`或`FilePickerSaveOptions`。
+
+常见的方法如下：
+
+```csharp
+// 创建打开文件的配置
+var options = FilePickerOptionsBuilder.Create()
+    .Title("选择图片")
+    .AddFilter("图片文件", "png", "jpg", "jpeg")
+    .AddAllFilesFilter()
+    .AllowMultiple(true)
+    .BuildOpenOptions();
+
+// 将 options 传递给 Avalonia 的文件选择器
+```
+
+```csharp
+public class MainViewModel
+{
+    private readonly IStorageProviderService _storageService;
+
+    public MainViewModel(IStorageProviderService storageService)
+    {
+        _storageService = storageService;
+    }
+
+    public async Task OpenFilesAsync()
+    {
+        var files = await new FilePickerOptionsBuilder(_storageService)
+            .Title("选择多个文件")
+            .AddFilter("文档", "docx", "pdf")
+            .AllowMultiple()
+            .OpenFilePickerAsync();
+    }
+}
+```
+
+### `ServiceExtension`类
+
+为`Services`命名空间中的接口提供依赖注入的扩展方法。
+
+| **方法名**                  | **创建的接口名**          | **使用示例**                                                 |
+| :-------------------------- | :------------------------ | :----------------------------------------------------------- |
+| `AddClipboardService`       | `IClipboardService`       | `builder.Services.AddClipboardService();`                    |
+| `AddDialogService`          | `IDialogService`          | `builder.Services.AddDialogService();`<br />`builder.Services.AddDialogService(mainWindow);`<br />`builder.Services.AddDialogService("main", () => mainWindow);` |
+| `AddProgressOverlayService` | `IProgressOverlayService` | `builder.Services.AddProgressOverlayService();`              |
+| `AddStorageProviderService` | `IStorageProviderService` | `builder.Services.AddStorageProviderService();`              |
+
+## `Styles`目录
+
+提供了一系列为Avalonia自带控件以及`FzLib.Avalonia`自定义控件设计的样式和主题。
+
+### `Brushes`资源字典
+
+定义了一套完整的主题颜色系统，支持亮色和暗色两种主题模式。资源字典包含了背景色、前景色和强调色的多级定义，采用简短的Key，便于在Avalonia应用程序中实现一致的主题风格。
+
+| **资源名称**  | **含义**                   | **分类** | **来源**                                                     |
+| :------------ | :------------------------- | :------- | :----------------------------------------------------------- |
+| `Background0` | 基础背景色                 | 背景色   | 主题字典中定义（Dark：`#000`，Light：`#FFF`）                |
+| `Background1` | 次级背景色                 | 背景色   | 主题字典中定义（Dark：`#111`，Light：`#EEE`）                |
+| `Background2` | 三级背景色                 | 背景色   | 主题字典中定义（Dark：`#222`，Light：`#DDD`）                |
+| `Background3` | 四级背景色                 | 背景色   | 主题字典中定义（Dark：`#333`，Light：`#CCC`）                |
+| `Foreground0` | 基础前景色（100%不透明度） | 前景色   | 全局定义，绑定到`SystemBaseHighColor`                        |
+| `Foreground1` | 次级前景色（90%不透明度）  | 前景色   | 全局定义，绑定到`SystemBaseHighColor`+不透明度调整           |
+| `Foreground2` | 三级前景色（80%不透明度）  | 前景色   | 全局定义，绑定到`SystemBaseHighColor`+不透明度调整           |
+| `Foreground3` | 四级前景色（70%不透明度）  | 前景色   | 全局定义，绑定到`SystemBaseHighColor`+不透明度调整           |
+| `Accent0`     | 基础强调色                 | 强调色   | 兼容性保留，绑定到`SystemAccentColor`                        |
+| `Accent1`     | 深色强调色变体1            | 强调色   | 兼容性保留，绑定到`SystemAccentColorDark1`                   |
+| `Accent2`     | 深色强调色变体2            | 强调色   | 兼容性保留，绑定到`SystemAccentColorDark2`                   |
+| `Accent3`     | 深色强调色变体3            | 强调色   | 兼容性保留，绑定到`SystemAccentColorDark3`                   |
+| `AccentF1`    | 浅色强调色变体1            | 强调色   | Dark主题绑定到`SystemAccentColorLight1`，Light主题绑定到`SystemAccentColorDark2` |
+| `AccentF2`    | 浅色强调色变体2            | 强调色   | Dark主题绑定到`SystemAccentColorLight2`，Light主题绑定到`SystemAccentColorDark1` |
+| `AccentF3`    | 浅色强调色变体3            | 强调色   | Dark主题绑定到`SystemAccentColorLight3`，Light主题绑定到`SystemAccentColor` |
+| `AccentB1`    | 深色强调色变体1            | 强调色   | Dark主题绑定到`SystemAccentColorDark3`，Light主题绑定到`SystemAccentColorLight3` |
+| `AccentB2`    | 深色强调色变体2            | 强调色   | Dark主题绑定到`SystemAccentColorDark2`，Light主题绑定到`SystemAccentColorLight2` |
+| `AccentB3`    | 深色强调色变体3            | 强调色   | Dark主题绑定到`SystemAccentColorDark1`，Light主题绑定到`SystemAccentColorLight1` |
+
+| 亮色                                                         | 暗色                                                         |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| ![FzLib.Avalonia.Styles.Brushes_Light](FzLib.Avalonia.Styles.Brushes_Light.png) | ![FzLib.Avalonia.Styles.Brushes_Dark](FzLib.Avalonia.Styles.Brushes_Dark.png) |
 
