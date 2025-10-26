@@ -71,6 +71,10 @@
       <DependentUpon>BrushesPanel.axaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\StylesPanel.axaml.cs">
+      <DependentUpon>StylesPanel.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

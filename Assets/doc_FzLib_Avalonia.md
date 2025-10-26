@@ -805,6 +805,8 @@ public class MainViewModel
 
 提供了一系列为Avalonia自带控件以及`FzLib.Avalonia`自定义控件设计的样式和主题。
 
+用于自定义控件的`DialogHostStyles`、`ExtendedWindowStyle`、`FormItemStyle`、`PogressRingBoxOverlayStyle`、`PogressRingOverlayStyle`、`PogressRingStyle`、`PresetDialogStyles`、`RadioButtonGroupStyles`、`StringListEditorStyles`将不会被介绍。
+
 ### `Brushes`资源字典
 
 定义了一套完整的主题颜色系统，支持亮色和暗色两种主题模式。资源字典包含了背景色、前景色和强调色的多级定义，采用简短的Key，便于在Avalonia应用程序中实现一致的主题风格。
@@ -834,3 +836,45 @@ public class MainViewModel
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | ![FzLib.Avalonia.Styles.Brushes_Light](FzLib.Avalonia.Styles.Brushes_Light.png) | ![FzLib.Avalonia.Styles.Brushes_Dark](FzLib.Avalonia.Styles.Brushes_Dark.png) |
 
+### `ButtonStyles`样式集
+
+为`Button`提供特殊样式。
+
+| 类名          | 行为                                                         |
+| ------------- | ------------------------------------------------------------ |
+| `.Primary`    | 背景定义为强调色                                             |
+| `.Link`       | 背景定以为透明，前景定义为强调色，类似`HyperlinkButton`但无下划线 |
+| `Transparent` | 背景定以为透明                                               |
+
+### `GroupBoxStyles`样式集
+
+为`HeaderedContentControl`提供特殊样式。
+
+| 类名                  | 行为                                                         |
+| --------------------- | ------------------------------------------------------------ |
+| `.GroupBox`           | 在上方显示粗体的`Header`，然后是`Content`                    |
+| `.GroupBoxWithBorder` | 在上方显示粗体的`Header`，然后是`Content`，周围有一圈边框，形如WPF或WinForms的`GroupBox` |
+
+### `TextBoxStyles`样式集
+
+为`TextBoxControl`提供特殊样式。
+
+| 类名       | 行为                                                         |
+| ---------- | ------------------------------------------------------------ |
+| `.Display` | 类似`SelectableTextBlock`，但通过`TextBox`提供了虚拟化，长文本的性能更好 |
+
+### `FzLibAvaloniaStyles`类
+
+`FzLibAvaloniaStyles`是`FzLib.Avalonia`中包含的所有样式和资源字典的入口。使用`FzLib.Avalonia`中的样式，只需要引用该类即可。
+
+```xaml
+<Application
+    ...
+    xmlns:styles="using:FzLib.Avalonia.Styles">
+    <Application.Styles>
+        <FluentTheme />
+        <styles:FzLibAvaloniaStyles />
+        ...
+    </Application.Styles>
+</Application>
+```
