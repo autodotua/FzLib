@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace FzLib.Avalonia.Dialogs
 {
-    public static class DialogHostContainerExtension
+    internal static class DialogHostContainerExtension
     {
         public static Border FindThumb<TContainer>(this TContainer visual) where TContainer : Visual, IDialogHostContainer
         {

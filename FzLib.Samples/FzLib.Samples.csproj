@@ -60,8 +60,19 @@
       <DependentUpon>SelectItemDialog.axaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\IdentityPanel.axaml.cs">
+      <DependentUpon>IdentityPanel.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\JsonPanel.axaml.cs">
       <DependentUpon>JsonPanel.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\BrushesPanel.axaml.cs">
+      <DependentUpon>BrushesPanel.axaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\StylesPanel.axaml.cs">
+      <DependentUpon>StylesPanel.axaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -90,33 +101,6 @@
   <ItemGroup>
     <ProjectReference Include="..\FzLib.Avalonia\FzLib.Avalonia.csproj" />
     <ProjectReference Include="..\FzLib\FzLib.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="App.axaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
-    <Compile Update="Dialogs\DialogHost.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
-    <Compile Update="Test\Views\FileSystemPanel.axaml.cs">
-      <DependentUpon>FileSystemPanel.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Test\Views\ConverterPanel.axaml.cs">
-      <DependentUpon>ConverterPanel.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Test\Views\FormPanel.axaml.cs">
-      <DependentUpon>FormPanel.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Test\Views\TaskPanel.axaml.cs">
-      <DependentUpon>LoadingPanel.axaml</DependentUpon>
-    </Compile>
-    <Compile Update="Test\Views\MainWindow.axaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
-    <Compile Update="Test\Views\DialogPanel.axaml.cs">
-      <DependentUpon>DialogPanel.axaml</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>

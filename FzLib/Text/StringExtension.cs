@@ -1,7 +1,4 @@
-﻿using System;
-using System.Text;
-
-namespace FzLib
+﻿namespace FzLib.Text
 {
     public static class StringExtension
     {
@@ -63,6 +60,12 @@ namespace FzLib
 
             // 确认匹配后，返回剩余部分
             return str.Substring(prefix.Length);
+        }
+
+        public static string[] SplitLines(this string str, bool removeEmptyLine = true)
+        {
+            return str.Split(["\r\n", "\n", "\r"],
+                removeEmptyLine ? StringSplitOptions.RemoveEmptyEntries : StringSplitOptions.None);
         }
     }
 }

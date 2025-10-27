@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -62,12 +63,20 @@ public class SmoothScrollBehavior : AvaloniaObject
         {
             // DataGrid、ListBox、TextBox… 模板里都带 ScrollViewer
             // 引用 System.Reactive 并使用扩展方法，自动将Lambda转IObservable<>
-            ctrl.GetObservable(Visual.IsVisibleProperty).Subscribe(_ =>
+            // ctrl.GetObservable(Visual.IsVisibleProperty).Subscribe(_ =>
+            // {
+            //     var inner = ctrl.FindDescendantOfType<ScrollViewer>();
+            //     if (inner != null)
+            //         Hook(inner);
+            // });
+            ctrl.Loaded += (s, e) =>
             {
                 var inner = ctrl.FindDescendantOfType<ScrollViewer>();
                 if (inner != null)
+                {
                     Hook(inner);
-            });
+                }
+            };
         }
     }
 
@@ -118,6 +127,40 @@ public class SmoothScrollBehavior : AvaloniaObject
 
     private static void OnWheel(ScrollViewer sv, PointerWheelEventArgs e, State state)
     {
+        if (e.Source is not Control c)
+        {
+            return;
+        }
+
+        //如果被附加的ScrollViewer内部还有ScrollViewer（例如TextBox、DataGrid），若不进行特殊处理，内部的ScrollViewer将无法使用鼠标滚轮进行滚动
+        //因此，需要判断滚轮事件是否来自被附加的ScrollViewer，如果不是，需要判断内部的ScrollViewer是否滚动到位。
+        //如果已经滚动到位，则外部可以继续滚动，否则不进行处理。
+        var scrollViewersInnerToOuter = c.GetVisualAncestors().OfType<ScrollViewer>().ToList();
+        bool canSmooth = true;
+        if (scrollViewersInnerToOuter[0] != sv)
+        {
+            Debug.WriteLine("滚轮事件不是来自被附加的ScrollViewer");
+            for (int i = 0; i < scrollViewersInnerToOuter.Count - 1; i++)
+            {
+                var inner = scrollViewersInnerToOuter[i];
+                Debug.WriteLine($"Delta={e.Delta}, Offset={inner.Offset},ScrollBarMaximum={inner.ScrollBarMaximum}");
+                //如果没有滚动到位，则不进行平滑滚动。
+                if (!(e.Delta.Y > 0 && inner.Offset.Y == 0
+                      || e.Delta.Y < 0 && inner.Offset.Y >= inner.ScrollBarMaximum.Y))
+                {
+                    canSmooth = false;
+                    break;
+                }
+            }
+        }
+
+        if (!canSmooth)
+        {
+            return;
+        }
+
+        Debug.WriteLine("开始处理平滑滚动");
+
         e.Handled = true;
 
         // 注入速度

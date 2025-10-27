@@ -16,6 +16,7 @@ namespace FzLib.Avalonia.Controls
         void SetMessage(string message);
         void SetTitle(string title);
         void SetVisible(bool visible);
+        void Unregister();
         Task WithOverlayAsync(Func<Task> task, Func<Exception, Task> onError = null, string initialMessage = null, TimeSpan? delay = null);
         Task WithOverlayAsync(Func<CancellationToken, Task> task, Func<Task> onCancel = null, Func<Exception, Task> onError=null, string initialMessage = null, TimeSpan? delay = null);
         Task WithOverlayAsync(Func<Task> task, Func<Task> onCancel, Func<Exception, Task> onError = null, string initialMessage = null, TimeSpan? delay = null);

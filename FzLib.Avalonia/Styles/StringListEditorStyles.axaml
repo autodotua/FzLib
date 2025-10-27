@@ -1,0 +1,135 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:FzLib.Avalonia.Controls"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+    xmlns:t="clr-namespace:FzLib.Text;assembly=FzLib">
+
+    <system:Double x:Key="TagHeight">28</system:Double>
+    <CornerRadius x:Key="TagCornerRadius">4</CornerRadius>
+    <CornerRadius x:Key="TagButtonCornerRadius">0,4,4,0</CornerRadius>
+
+    <ControlTheme
+        x:Key="StringListButton"
+        TargetType="Button">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Width" Value="{StaticResource TagHeight}" />
+        <Setter Property="Height" Value="{StaticResource TagHeight}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <!--  按钮里的字，默认有点靠下，通过设置Padding来向上移动  -->
+                    <ContentPresenter
+                        x:Name="PART_ContentPresenter"
+                        Padding="0,0,0,3"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Background="{TemplateBinding Background}"
+                        Content="{TemplateBinding Content}"
+                        CornerRadius="{TemplateBinding CornerRadius}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style Selector="^:disabled">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}" />
+        </Style>
+
+        <Style Selector="^:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPressed}" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme
+        x:Key="TagTextBox"
+        BasedOn="{StaticResource {x:Type TextBox}}"
+        TargetType="TextBox">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="2,2,2,3" />
+        <Setter Property="Height" Value="{StaticResource TagHeight}" />
+        <Setter Property="MinHeight" Value="{StaticResource TagHeight}" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Background" Value="Transparent" />
+        <Style Selector="^:pointerover">
+            <Style Selector="^ /template/ Border#PART_BorderElement">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+        </Style>
+        <Style Selector="^:disabled">
+            <Style Selector="^ /template/ Border#PART_BorderElement">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+        </Style>
+        <Style Selector="^:focus">
+            <Style Selector="^ /template/ Border#PART_BorderElement">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+        </Style>
+        <Style Selector="^ /template/ Border">
+            <Setter Property="Padding" Value="2,0" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme
+        x:Key="{x:Type c:StringListEditor}"
+        TargetType="c:StringListEditor">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <DockPanel LastChildFill="True">
+                    <Button
+                        x:Name="PART_AddButton"
+                        Background="{DynamicResource ButtonBackground}"
+                        Content="+"
+                        CornerRadius="{StaticResource TagCornerRadius}"
+                        DockPanel.Dock="Right"
+                        Theme="{StaticResource StringListButton}" />
+
+                    <ScrollViewer
+                        x:Name="PART_ScrollViewer"
+                        HorizontalScrollBarVisibility="Auto"
+                        VerticalScrollBarVisibility="Disabled">
+                        <ScrollViewer.Resources>
+                            <system:Double x:Key="ScrollBarSize">6</system:Double>
+                        </ScrollViewer.Resources>
+
+                        <ItemsControl
+                            x:Name="PART_Items"
+                            Margin="0,0,0,6"
+                            ItemsSource="{TemplateBinding ItemsSource}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="t:EditableString">
+                                    <Border
+                                        Background="{DynamicResource ButtonBackground}"
+                                        CornerRadius="{StaticResource TagCornerRadius}">
+                                        <DockPanel>
+                                            <Button
+                                                x:Name="RemoveButton"
+                                                Margin="0"
+                                                Content="×"
+                                                CornerRadius="{StaticResource TagButtonCornerRadius}"
+                                                DockPanel.Dock="Right"
+                                                Theme="{StaticResource StringListButton}" />
+                                            <TextBox
+                                                x:Name="PART_TagTextBox"
+                                                Text="{Binding Path=Value}"
+                                                Theme="{StaticResource TagTextBox}" />
+                                        </DockPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </DockPanel>
+
+
+            </ControlTemplate>
+        </Setter>
+
+
+    </ControlTheme>
+
+</ResourceDictionary>

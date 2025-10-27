@@ -97,7 +97,7 @@ public partial class StackFormItemGroup : StackPanel
             double maxWidth = 0;
             foreach (var child in Children.OfType<FormItem>())
             {
-                var label = child.GetVisualDescendants().FirstOrDefault(p => p.Name == "PART_LabelText");
+                var label = child.GetVisualDescendants().FirstOrDefault(p => p.Name == "PART_Label");
                 if (label == null)
                 {
                     return;

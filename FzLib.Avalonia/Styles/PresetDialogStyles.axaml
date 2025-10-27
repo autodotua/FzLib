@@ -152,7 +152,7 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     ColumnDefinitions="Auto,*"
-                    RowDefinitions="*,Auto">
+                    RowDefinitions="Auto,*">
                     <ScrollViewer
                         Grid.Column="1"
                         VerticalAlignment="Center"
@@ -192,10 +192,10 @@
                             MaxHeight="320"
                             HorizontalScrollBarVisibility="Disabled"
                             VerticalScrollBarVisibility="Auto">
-                            <SelectableTextBlock
+                            <TextBox
                                 Margin="0,8,0,0"
-                                Text="{TemplateBinding Detail}"
-                                TextWrapping="Wrap" />
+                                Classes="Display"
+                                Text="{TemplateBinding Detail}" />
                         </ScrollViewer>
                     </Expander>
 

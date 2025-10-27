@@ -26,8 +26,10 @@ namespace FzLib.Avalonia.Dialogs
         public static readonly TransformOperations DefaultDialogTransform = TransformOperations.Parse("scale(1)");
         public static readonly double InitialBackgroundOpacity = 0;
         public static readonly double InitialDialogOpacity = 0;
-        public static readonly TransformOperations InitialDialogTransform = TransformOperations.Parse("scale(0.98)  translate(0,20px)");
-       
+
+        public static readonly TransformOperations InitialDialogTransform =
+            TransformOperations.Parse("scale(0.98)  translate(0,20px)");
+
         private Border bdBackground;
         private Border bdDialog;
         TaskCompletionSource<object> tcs;
@@ -65,6 +67,8 @@ namespace FzLib.Avalonia.Dialogs
             VerticalAlignment = VerticalAlignment.Stretch;
 
             container.Children.Add(this);
+            Grid.SetRowSpan(this, int.MaxValue);
+            Grid.SetColumnSpan(this, int.MaxValue);
             Content = dialogHost;
             tcs = new TaskCompletionSource<object>();
             await tcs.Task;
@@ -107,8 +111,8 @@ namespace FzLib.Avalonia.Dialogs
 
         private void BeginAnimation(bool show)
         {
-            var parameters = show ?
-                (DefaultDialogOpacity, DefaultDialogTransform, DefaultBackgroundOpacity)
+            var parameters = show
+                ? (DefaultDialogOpacity, DefaultDialogTransform, DefaultBackgroundOpacity)
                 : (InitialDialogOpacity, InitialDialogTransform, InitialBackgroundOpacity);
             bdDialog.Opacity = parameters.Item1;
             bdDialog.RenderTransform = parameters.Item2;

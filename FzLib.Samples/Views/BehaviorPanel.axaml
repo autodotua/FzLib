@@ -9,7 +9,9 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <StackPanel Spacing="8">
+    <Grid
+        ColumnDefinitions="*,8,*"
+        RowDefinitions="Auto,8,*">
         <Border
             Width="200"
             Height="200"
@@ -25,6 +27,7 @@
         </Border>
         <Border
             x:Name="bd"
+            Grid.Column="2"
             Width="200"
             Height="200"
             Background="Gray">
@@ -50,6 +53,34 @@
 
 
         </Border>
-    </StackPanel>
+        <ScrollViewer
+            Grid.Row="2"
+            Grid.ColumnSpan="3"
+            b:SmoothScrollBehavior.IsEnabled="True">
+            <StackPanel Spacing="8">
+                <TextBlock Text="平滑滚动" />
+                <TextBox
+                    MaxLines="5"
+                    MinLines="5"
+                    Text="测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配测试平滑滚动与滚动框内滚动框的适配"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    b:SmoothScrollBehavior.IsEnabled="True"
+                    MaxLines="5"
+                    MinLines="5"
+                    Text="测试附加在非ScrollViewer上的平滑滚动测试附加在非ScrollViewer上的平滑滚动测试附加在非ScrollViewer上的平滑滚动测试附加在非ScrollViewer上的平滑滚动测试附加在非ScrollViewer上的平滑滚动测试附加在非ScrollViewer上的平滑滚动测试附加在非ScrollViewer上的平滑滚动测试附加在非ScrollViewer上的平滑滚动测试附加在非ScrollViewer上的平滑滚动测试附加在非ScrollViewer上的平滑滚动测试附加在非ScrollViewer上的平滑滚动测试附加在非ScrollViewer上的平滑滚动测试附加在非ScrollViewer上的平滑滚动测试附加在非ScrollViewer上的平滑滚动测试附加在非ScrollViewer上的平滑滚动测试附加在非ScrollViewer上的平滑滚动测试附加在非ScrollViewer上的平滑滚动测试附加在非ScrollViewer上的平滑滚动测试附加在非ScrollViewer上的平滑滚动测试附加在非ScrollViewer上的平滑滚动测试附加在非ScrollViewer上的平滑滚动测试附加在非ScrollViewer上的平滑滚动测试附加在非ScrollViewer上的平滑滚动测试附加在非ScrollViewer上的平滑滚动"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    MaxLines="5"
+                    MinLines="5" />
+                <TextBox
+                    MaxLines="5"
+                    MinLines="5" />
+                <TextBox
+                    MaxLines="5"
+                    MinLines="5" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
 
 </UserControl>

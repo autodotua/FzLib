@@ -24,7 +24,7 @@ public abstract class ExtendedWindow : Window
             nameof(CustomTitleBar));
 
     public new static readonly DirectProperty<ExtendedWindow, Bitmap> IconProperty =
-            AvaloniaProperty.RegisterDirect<ExtendedWindow, Bitmap>(
+        AvaloniaProperty.RegisterDirect<ExtendedWindow, Bitmap>(
             nameof(Icon),
             o => o.Icon,
             (o, v) => o.Icon = v);
@@ -34,14 +34,22 @@ public abstract class ExtendedWindow : Window
             nameof(TitleBarBackground), Brushes.Transparent);
 
     public static readonly StyledProperty<object> TitleBarFooterProperty =
-            AvaloniaProperty.Register<ExtendedWindow, object>(
+        AvaloniaProperty.Register<ExtendedWindow, object>(
             nameof(TitleBarFooter));
 
+    private Border bdShadow;
+
+    private Border bdBorder;
+    
+    private Border bdContainer;
+    
     private Bitmap icon;
 
     protected ExtendedWindow()
     {
-        CornerRadius = new CornerRadius(2);
+        CornerRadius = new CornerRadius(4);
+        BorderThickness = new Thickness(1);
+        BorderBrush = new SolidColorBrush(Colors.Gray, 0.3);
     }
 
     public bool CustomTitleBar
@@ -109,31 +117,25 @@ public abstract class ExtendedWindow : Window
         Focus();
     }
 
-    protected override void OnClosed(EventArgs e)
-    {
-        base.OnClosed(e);
-        IsClosed = true;
-    }
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        UpdateMargins();
-    }
-
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
         var titleBar = e.NameScope.Find<Grid>("PART_TitleBar");
+        bdShadow = e.NameScope.Find<Border>("PART_Shadow");
+        bdBorder = e.NameScope.Find<Border>("PART_Border");
+        bdContainer = e.NameScope.Find<Border>("PART_ContainerBorder");
+
+        UpdateMargins();
+
         if (titleBar == null)
         {
             return;
         }
-        
-        
+
+
         titleBar.DoubleTapped += (s, e) =>
         {
-            if (e.Source == s)//避免按住标题栏上的按钮时误拖动
+            if (e.Source == s) //避免按住标题栏上的按钮时误拖动
             {
                 WindowState = WindowState switch
                 {
@@ -142,6 +144,12 @@ public abstract class ExtendedWindow : Window
                 };
             }
         };
+    }
+
+    protected override void OnClosed(EventArgs e)
+    {
+        base.OnClosed(e);
+        IsClosed = true;
     }
 
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
@@ -164,6 +172,17 @@ public abstract class ExtendedWindow : Window
         }
     }
 
+    protected virtual bool UseCustomStyle()
+    {
+        return OperatingSystem.IsWindows();
+    }
+
+    protected virtual bool UseCustomChrome()
+    {
+        return OperatingSystem.IsWindowsVersionAtLeast(10)
+               && !OperatingSystem.IsWindowsVersionAtLeast(10, build: 22000);
+    }
+
     private void UpdateMargins()
     {
         if (!UseCustomStyle())
@@ -173,32 +192,40 @@ public abstract class ExtendedWindow : Window
 
         if (WindowState == WindowState.Maximized)
         {
-            Resources["ExtendedWindowShadowRadius"] = 0d;
-            Resources["ExtendedWindowShadowThickness"] = OffScreenMargin;
-            Resources["ExtendedWindowCornerRadius"] = new CornerRadius(0);
+            //最大化，不显示阴影
+            bdShadow.BoxShadow = default;
+            bdContainer.Margin = bdShadow.Margin = OffScreenMargin;
+            bdShadow.CornerRadius = default;
+            bdContainer.CornerRadius = default;
+            bdBorder.IsVisible = false;
         }
         else
         {
-            //如果不是Windows10 22000，或者不是Windows，则不显示阴影
-            if (OperatingSystem.IsWindowsVersionAtLeast(10, build: 22000)
-                || !OperatingSystem.IsWindowsVersionAtLeast(10)
-           )
+            if (UseCustomChrome())
             {
-                Resources["ExtendedWindowShadowRadius"] = 0d;
-                Resources["ExtendedWindowShadowThickness"] = new Thickness(0);
-                Resources["ExtendedWindowCornerRadius"] = new CornerRadius(0);
+                //仅对Windows10显示阴影
+
+                //阴影
+                bdShadow.BoxShadow = BoxShadows.Parse($"0 0 {ShadowWidth} 0 #88000000");
+                //内容向内收缩
+                bdContainer.Margin = bdShadow.Margin = new Thickness(ShadowWidth);
+                //显示圆角
+                bdShadow.CornerRadius = CornerRadius;
+                bdContainer.CornerRadius = CornerRadius;
+                //显示边框
+                bdBorder.IsVisible = true;
+                //边框显示在内容之外
+                BorderThickness.Deconstruct(out var l, out var t, out var r, out var b);
+                bdBorder.Margin = new Thickness(ShadowWidth - l, ShadowWidth - t, ShadowWidth - r, ShadowWidth - b);
             }
             else
             {
-                Resources["ExtendedWindowShadowRadius"] = ShadowWidth;
-                Resources["ExtendedWindowShadowThickness"] = new Thickness(ShadowWidth);
-                Resources["ExtendedWindowCornerRadius"] = CornerRadius;
+                bdShadow.BoxShadow = default;
+                bdContainer.Margin = bdShadow.Margin = default;
+                bdShadow.CornerRadius = default;
+                bdContainer.CornerRadius = default;
+                bdBorder.IsVisible = false;
             }
         }
-    }
-
-    protected virtual bool UseCustomStyle()
-    {
-        return OperatingSystem.IsWindows();
     }
 }

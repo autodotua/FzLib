@@ -13,9 +13,12 @@
                 <ResourceInclude Source="/Styles/PogressRingBoxOverlayStyle.axaml" />
                 <ResourceInclude Source="/Styles/PogressRingOverlayStyle.axaml" />
                 <ResourceInclude Source="/Styles/Brushes.axaml" />
+                <ResourceInclude Source="/Styles/RadioButtonGroupStyles.axaml" />
+                <ResourceInclude Source="/Styles/StringListEditorStyles.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>
-    <StyleInclude Source="/Styles/ButtonSyles.axaml" />
+    <StyleInclude Source="/Styles/ButtonStyles.axaml" />
+    <StyleInclude Source="/Styles/TextBoxStyles.axaml" />
     <StyleInclude Source="/Styles/GroupBoxStyles.axaml" />
 </Styles>

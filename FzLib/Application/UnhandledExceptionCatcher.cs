@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 
 namespace FzLib.Application
@@ -80,6 +81,11 @@ namespace FzLib.Application
             {
                 TaskScheduler.UnobservedTaskException += (s, e) =>
                 {
+                    if (e.Exception.InnerException is SocketException)
+                    {
+                        //来自TcpSingleInstanceHelper的异常，不处理
+                        return;
+                    }
                     if (!e.Observed)
                     {
                         RaiseEvent(s, e.Exception.InnerException ?? e.Exception, ExceptionSource.Task);
@@ -98,7 +104,7 @@ namespace FzLib.Application
             {
                 AppDomain.CurrentDomain.UnhandledException += (s, e) =>
                 {
-                    RaiseEvent(s, e.ExceptionObject as Exception ?? new Exception("Unknown exception"),
+                    RaiseEvent(s, e.ExceptionObject as Exception ?? new Exception("未知异常"),
                         ExceptionSource.Thread);
                 };
             }

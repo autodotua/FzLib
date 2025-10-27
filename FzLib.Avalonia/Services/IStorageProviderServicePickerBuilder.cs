@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Avalonia.Platform.Storage;
 
-namespace FzLib.Avalonia.Dialogs.Pickers;
+namespace FzLib.Avalonia.Services;
 
 public interface IStorageProviderServicePickerBuilder
 {
