@@ -19,6 +19,6 @@
         </ResourceDictionary>
     </Styles.Resources>
     <StyleInclude Source="/Styles/ButtonStyles.axaml" />
-    <StyleInclude Source="/Styles/TextBoxStyles.axaml" />
+    <StyleInclude Source="/Styles/TextStyles.axaml" />
     <StyleInclude Source="/Styles/GroupBoxStyles.axaml" />
 </Styles>
