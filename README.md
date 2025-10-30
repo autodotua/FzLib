@@ -13,6 +13,14 @@ FzLib是一套本人开发过程中逐渐形成的工具库，包含数据、IO�
 ![Size](https://img.shields.io/github/repo-size/f-shake/FzLib.svg?label=Size)
 ![License](https://img.shields.io/github/license/f-shake/FzLib.svg)
 
+## 分支
+
+| 命名空间    | 包含的内容                                                   |
+| ----------- | ------------------------------------------------------------ |
+| `master`    | 2018~2022年形成的库，主要涵盖.NET通用开发、地理信息开发、WPF开发等，支持.NET Framework和.NET Core |
+| `master_v2` | 2022~2025年形成的库，同时服务于.NET通用开发、Windows（WPF）开发和Avalonia开发，仅支持.NET |
+| `master_v3` | 2025年以后形成的库，同时服务于.NET通用开发和Avalonia开发，仅支持.NET |
+| `dev`       | 尚处于开发过程中的最新代码                                   |
 
 ## 项目结构
 
