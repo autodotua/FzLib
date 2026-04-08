@@ -128,13 +128,20 @@
                     </c:FormItem>
 
                     <c:FormItem Label="字符串列表：">
-                        <c:StringListEditor
-                            AddButtonPosition="{Binding #rbgAddButtonPosition.SelectedItem}"
-                            ItemsSource="{Binding StringList}"
-                            Layout="{Binding #listLayout.SelectedItem}"
-                            Spacing="{Binding #sldSpacing.Value}" />
-
+                        <DockPanel>
+                            <Button
+                                Classes="Link"
+                                Command="{Binding SwitchStringListNullCommand}"
+                                Content="切换空引用"
+                                DockPanel.Dock="Right" />
+                            <c:StringListEditor
+                                AddButtonPosition="{Binding #rbgAddButtonPosition.SelectedItem}"
+                                ItemsSource="{Binding StringList}"
+                                Layout="{Binding #listLayout.SelectedItem}"
+                                Spacing="{Binding #sldSpacing.Value}" />
+                        </DockPanel>
                     </c:FormItem>
+
                     <c:FormItem Label="上方新增按钮位置：">
                         <c:RadioButtonGroup
                             x:Name="rbgAddButtonPosition"

@@ -165,29 +165,20 @@ public class StringListEditor : TemplatedControl, ILayoutChangeable
 
     private void UpdateAddButtonMargin()
     {
-        if (ItemsSource.Count == 0)
+        if (ItemsSource == null || ItemsSource.Count == 0)
         {
             addButton.Margin = new Thickness();
         }
         else
         {
-            switch (AddButtonPosition)
+            addButton.Margin = AddButtonPosition switch
             {
-                case Dock.Left:
-                    addButton.Margin = new Thickness(0, 0, 8, 6);
-                    break;
-                case Dock.Bottom:
-                    addButton.Margin = new Thickness(0, 4, 0, 0);
-                    break;
-                case Dock.Right:
-                    addButton.Margin = new Thickness(8, 0, 0, 6);
-                    break;
-                case Dock.Top:
-                    addButton.Margin = new Thickness(0, 0, 0, 6);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+                Dock.Left => new Thickness(0, 0, 8, 6),
+                Dock.Bottom => new Thickness(0, 4, 0, 0),
+                Dock.Right => new Thickness(8, 0, 0, 6),
+                Dock.Top => new Thickness(0, 0, 0, 6),
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
     }
 
@@ -199,6 +190,8 @@ public class StringListEditor : TemplatedControl, ILayoutChangeable
             ItemsSource_CollectionChanged(obj,
                 new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
+
+        addButton.IsEnabled = obj != null;
     }
 
     private void RemoveButton_Click(object sender, RoutedEventArgs e)

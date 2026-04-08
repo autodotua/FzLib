@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace FzLib.Net;
+namespace FzLib.Web;
 
 public class HttpStatusCodeException : Exception
 {
