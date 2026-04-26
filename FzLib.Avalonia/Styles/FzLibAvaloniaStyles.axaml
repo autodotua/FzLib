@@ -15,6 +15,7 @@
                 <ResourceInclude Source="/Styles/Brushes.axaml" />
                 <ResourceInclude Source="/Styles/RadioButtonGroupStyles.axaml" />
                 <ResourceInclude Source="/Styles/StringListEditorStyles.axaml" />
+                <ResourceInclude Source="/Styles/NumericUpDownStyles.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>

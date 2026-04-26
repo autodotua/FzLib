@@ -123,6 +123,18 @@
                             Text="可禁用文本" />
                     </StackPanel>
                 </HeaderedContentControl>
+                <HeaderedContentControl
+                    Classes="GroupBox"
+                    Header="数字">
+                    <c:StackFormItemGroup>
+                        <c:FormItem Label="普通样式：">
+                            <NumericUpDown />
+                        </c:FormItem>
+                        <c:FormItem Label="垂直按钮样式：">
+                            <NumericUpDown Theme="{StaticResource NumericUpDownVerticalButtonSpinnerTheme}" />
+                        </c:FormItem>
+                    </c:StackFormItemGroup>
+                </HeaderedContentControl>
             </StackPanel>
         </ScrollViewer>
     </DockPanel>
