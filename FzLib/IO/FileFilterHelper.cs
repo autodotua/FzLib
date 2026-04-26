@@ -70,7 +70,7 @@ public partial class FileFilterHelper
 
             includePaths = string.IsNullOrWhiteSpace(filter.IncludePaths)
                 ? ["*"]
-                : filter.IncludePaths.Split(Environment.NewLine);
+                : filter.IncludePaths.Replace('\\', '/').Split(Environment.NewLine);
 
             excludeFiles = string.IsNullOrWhiteSpace(filter.ExcludeFiles)
                 ? []
@@ -82,7 +82,7 @@ public partial class FileFilterHelper
 
             excludePaths = string.IsNullOrWhiteSpace(filter.ExcludePaths)
                 ? []
-                : filter.ExcludePaths.Split(Environment.NewLine);
+                : filter.ExcludePaths.Replace('\\', '/').Split(Environment.NewLine);
         }
     }
 
@@ -130,6 +130,11 @@ public partial class FileFilterHelper
         {
             text = text.ToLower(); // 转换文本为小写
             pattern = pattern.ToLower(); // 转换模式为小写
+        }
+
+        if (text == pattern)
+        {
+            return true;
         }
 
         int textLen = text.Length; // 文本长度
