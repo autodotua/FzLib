@@ -74,5 +74,10 @@
                 <Setter Property="FontWeight" Value="Bold" />
             </Style>
         </Style>
+        <Style Selector="^.BoldHeader">
+            <Style Selector="^ /template/ ContentPresenter#PART_Header">
+                <Setter Property="FontWeight" Value="Bold" />
+            </Style>
+        </Style>
     </ControlTheme>
 </ResourceDictionary>
