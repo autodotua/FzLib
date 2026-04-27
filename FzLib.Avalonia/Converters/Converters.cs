@@ -45,18 +45,19 @@ namespace FzLib.Avalonia.Converters
         public static readonly DescriptionConverter Description = new();
         public static readonly EqualToBoolConverter EqualWithParameter = new();
 
-        [Obsolete("使用ByteLength")]
-        public static readonly DataSizeConverter FileLength = new([" bps", " Kbps", " Mbps", " Gbps", " Tbps"]);
 
-        [Obsolete("使用ByteRate")]
-        public static readonly DataSizeConverter TransferSpeed = new([" B/s", " KB/s", " MB/s", " GB/s", " TB/s"]);
-
-        public static readonly DataSizeConverter ByteLength = new([" bps", " Kbps", " Mbps", " Gbps", " Tbps"]);
+        public static readonly DataSizeConverter ByteLength = new([" B", " KB", " MB", " GB", " TB"]);
         public static readonly DataSizeConverter ByteRate = new([" B/s", " KB/s", " MB/s", " GB/s", " TB/s"]);
+        public static readonly DataSizeConverter BitLength = new([" b", " Kb", " Mb", " Gb", " Tb"]);
         public static readonly DataSizeConverter BitRate = new([" bps", " Kbps", " Mbps", " Gbps", " Tbps"]);
         public static readonly DataSizeConverter BitRateMbps = new DataSizeConverter([null, null, " Mbps"]);
         public static readonly DataSizeConverter BitRateKbps = new DataSizeConverter([null, " Kbps"]);
-        public static readonly DataSizeConverter BitLength = new([" b", " Kb", " Mb", " Gb", " Tb"]);
+        
+        [Obsolete("使用ByteLength")]
+        public static readonly DataSizeConverter FileLength = ByteLength;
+
+        [Obsolete("使用ByteRate")]
+        public static readonly DataSizeConverter TransferSpeed = ByteRate;
         
         public static readonly InverseBoolConverter InverseBool = new();
         public static readonly NullToBoolConverter IsNotNull = new();
