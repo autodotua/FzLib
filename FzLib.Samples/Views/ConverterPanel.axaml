@@ -232,18 +232,25 @@
                     </c:FormItem>
 
                     <c:FormItem Header="字符串列表 StringListConverter">
-                        <StackPanel>
-                            <TextBox Text="{Binding StringList, Converter={x:Static cvt:Converters.StringList}}" />
-                            <ListBox
-                                BorderThickness="1"
-                                ItemsSource="{Binding StringList}">
-                                <ListBox.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <WrapPanel Orientation="Horizontal" />
-                                    </ItemsPanelTemplate>
-                                </ListBox.ItemsPanel>
-                            </ListBox>
-                        </StackPanel>
+                        <c:StackFormItemGroup>
+                            <c:FormItem Label="半角逗号：">
+                                <TextBox Text="{Binding StringList, Converter={x:Static cvt:Converters.StringList}}" />
+                            </c:FormItem>
+                            <c:FormItem Label="全角逗号：">
+                                <TextBox Text="{Binding StringList, Converter={x:Static cvt:Converters.StringList}, ConverterParameter='，'}" />
+                            </c:FormItem>
+                            <c:FormItem Label="列表：">
+                                <ListBox
+                                    BorderThickness="1"
+                                    ItemsSource="{Binding StringList}">
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                </ListBox>
+                            </c:FormItem>
+                        </c:StackFormItemGroup>
                     </c:FormItem>
 
 
