@@ -232,18 +232,25 @@
                     </c:FormItem>
 
                     <c:FormItem Header="字符串列表 StringListConverter">
-                        <StackPanel>
-                            <TextBox Text="{Binding StringList, Converter={x:Static cvt:Converters.StringList}}" />
-                            <ListBox
-                                BorderThickness="1"
-                                ItemsSource="{Binding StringList}">
-                                <ListBox.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <WrapPanel Orientation="Horizontal" />
-                                    </ItemsPanelTemplate>
-                                </ListBox.ItemsPanel>
-                            </ListBox>
-                        </StackPanel>
+                        <c:StackFormItemGroup>
+                            <c:FormItem Label="半角逗号：">
+                                <TextBox Text="{Binding StringList, Converter={x:Static cvt:Converters.StringList}}" />
+                            </c:FormItem>
+                            <c:FormItem Label="全角逗号：">
+                                <TextBox Text="{Binding StringList, Converter={x:Static cvt:Converters.StringList}, ConverterParameter='，'}" />
+                            </c:FormItem>
+                            <c:FormItem Label="列表：">
+                                <ListBox
+                                    BorderThickness="1"
+                                    ItemsSource="{Binding StringList}">
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                </ListBox>
+                            </c:FormItem>
+                        </c:StackFormItemGroup>
                     </c:FormItem>
 
 
@@ -354,13 +361,28 @@
             <HeaderedContentControl
                 Classes="GroupBox"
                 Header="文件系统">
-                <StackPanel>
-                    <c:FilePickerTextBox FileNames="{Binding FileName}" />
-                    <TextBlock>
-                        <Run Text="文件大小：" />
-                        <Run Text="{Binding File.Length, Converter={x:Static cvt:Converters.FileLength}, Mode=OneWay}" />
-                    </TextBlock>
-                </StackPanel>
+                <c:StackFormItemGroup>
+                    <c:FormItem Label="数值：">
+                        <NumericUpDown
+                            x:Name="num"
+                            Value="1234567890" />
+                    </c:FormItem>
+                    <c:FormItem Label="文件大小：">
+                        <TextBlock Text="{Binding #num.Value, Converter={x:Static cvt:Converters.ByteLength}, Mode=OneWay}" />
+                    </c:FormItem>
+                    <c:FormItem Label="位长度：">
+                        <TextBlock Text="{Binding #num.Value, Converter={x:Static cvt:Converters.BitLength}, Mode=OneWay}" />
+                    </c:FormItem>
+                    <c:FormItem Label="传输速率（字节）：">
+                        <TextBlock Text="{Binding #num.Value, Converter={x:Static cvt:Converters.ByteRate}, Mode=OneWay}" />
+                    </c:FormItem>
+                    <c:FormItem Label="传输速率（比特）：">
+                        <TextBlock Text="{Binding #num.Value, Converter={x:Static cvt:Converters.BitRate}, Mode=OneWay}" />
+                    </c:FormItem>
+                    <c:FormItem Label="传输速率（比特，Mbps）：">
+                        <TextBlock Text="{Binding #num.Value, Converter={x:Static cvt:Converters.BitRateMbps}, Mode=OneWay}" />
+                    </c:FormItem>
+                </c:StackFormItemGroup>
             </HeaderedContentControl>
 
 

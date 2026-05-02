@@ -1,4 +1,4 @@
-using Avalonia;
+锘縰sing Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
@@ -28,7 +28,7 @@ public partial class WindowButtons : StackPanel
         }
         else
         {
-            throw new NotSupportedException("TopLevel必须是Window");
+            throw new NotSupportedException("TopLevel蹇呴』鏄疻indow");
         }
     }
 
@@ -40,7 +40,7 @@ public partial class WindowButtons : StackPanel
         }
         else
         {
-            throw new NotSupportedException("TopLevel必须是Window");
+            throw new NotSupportedException("TopLevel蹇呴』鏄疻indow");
         }
     }
 
@@ -52,7 +52,7 @@ public partial class WindowButtons : StackPanel
         }
         else
         {
-            throw new NotSupportedException("TopLevel必须是Window");
+            throw new NotSupportedException("TopLevel蹇呴』鏄疻indow");
         }
     }
 
@@ -72,7 +72,7 @@ public partial class WindowButtons : StackPanel
         }
         else
         {
-            throw new NotSupportedException("TopLevel必须是Window");
+            throw new NotSupportedException("TopLevel蹇呴』鏄疻indow");
         }
     }
 

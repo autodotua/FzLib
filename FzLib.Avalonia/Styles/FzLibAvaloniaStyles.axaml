@@ -15,10 +15,11 @@
                 <ResourceInclude Source="/Styles/Brushes.axaml" />
                 <ResourceInclude Source="/Styles/RadioButtonGroupStyles.axaml" />
                 <ResourceInclude Source="/Styles/StringListEditorStyles.axaml" />
+                <ResourceInclude Source="/Styles/NumericUpDownStyles.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>
     <StyleInclude Source="/Styles/ButtonStyles.axaml" />
-    <StyleInclude Source="/Styles/TextBoxStyles.axaml" />
+    <StyleInclude Source="/Styles/TextStyles.axaml" />
     <StyleInclude Source="/Styles/GroupBoxStyles.axaml" />
 </Styles>

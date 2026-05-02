@@ -15,7 +15,7 @@ namespace FzLib.Application
         static ApplicationInfo()
         {
             ProgramFilePath = Process.GetCurrentProcess().MainModule.FileName;
-            ProgramDirectoryPath = Path.GetDirectoryName(ProgramFilePath);
+            ProgramDirectoryPath = AppContext.BaseDirectory;
             ProgramName = AppDomain.CurrentDomain.FriendlyName.Split('.')[0];
         }
         public static string WorkingDirectory

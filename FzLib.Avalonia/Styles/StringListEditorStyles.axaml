@@ -85,7 +85,7 @@
                         Background="{DynamicResource ButtonBackground}"
                         Content="+"
                         CornerRadius="{StaticResource TagCornerRadius}"
-                        DockPanel.Dock="Right"
+                        DockPanel.Dock="{TemplateBinding AddButtonPosition}"
                         Theme="{StaticResource StringListButton}" />
 
                     <ScrollViewer
@@ -103,11 +103,12 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="t:EditableString">
                                     <Border
+                                        x:Name="PART_ItemBorder"
                                         Background="{DynamicResource ButtonBackground}"
                                         CornerRadius="{StaticResource TagCornerRadius}">
                                         <DockPanel>
                                             <Button
-                                                x:Name="RemoveButton"
+                                                x:Name="PART_RemoveButton"
                                                 Margin="0"
                                                 Content="×"
                                                 CornerRadius="{StaticResource TagButtonCornerRadius}"

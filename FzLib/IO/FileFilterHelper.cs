@@ -3,7 +3,6 @@ using System.Text.RegularExpressions;
 
 namespace FzLib.IO;
 
-
 public partial class FileFilterHelper
 {
     private static readonly char[] PathSplitter = ['/', '\\'];
@@ -71,7 +70,7 @@ public partial class FileFilterHelper
 
             includePaths = string.IsNullOrWhiteSpace(filter.IncludePaths)
                 ? ["*"]
-                : filter.IncludePaths.Split(Environment.NewLine);
+                : filter.IncludePaths.Replace('\\', '/').Split(Environment.NewLine);
 
             excludeFiles = string.IsNullOrWhiteSpace(filter.ExcludeFiles)
                 ? []
@@ -83,16 +82,19 @@ public partial class FileFilterHelper
 
             excludePaths = string.IsNullOrWhiteSpace(filter.ExcludePaths)
                 ? []
-                : filter.ExcludePaths.Split(Environment.NewLine);
+                : filter.ExcludePaths.Replace('\\', '/').Split(Environment.NewLine);
         }
     }
 
-    public bool IsMatched(string path)
+    public bool IsMatched(string path, bool isFile = true)
     {
-        string name = Path.GetFileName(path);
-        if (!IsMatchedName(name))
+        if (isFile)
         {
-            return false;
+            string name = Path.GetFileName(path);
+            if (!IsMatchedName(name))
+            {
+                return false;
+            }
         }
 
         path = path.Replace('\\', '/');
@@ -101,13 +103,15 @@ public partial class FileFilterHelper
             return false;
         }
 
-        string[] folders = Path.GetDirectoryName(path)?.Split(PathSplitter, StringSplitOptions.RemoveEmptyEntries);
+        string[] folders = isFile
+            ? Path.GetDirectoryName(path)?.Split(PathSplitter, StringSplitOptions.RemoveEmptyEntries)
+            : path.Split(PathSplitter, StringSplitOptions.RemoveEmptyEntries);
         return IsMatchedFolder(folders);
     }
 
     public bool IsMatched(FileSystemInfo file)
     {
-        return IsMatched(file.FullName);
+        return IsMatched(file.FullName, !file.Attributes.HasFlag(FileAttributes.Directory));
     }
 
     [GeneratedRegex(".*")]
@@ -126,6 +130,11 @@ public partial class FileFilterHelper
         {
             text = text.ToLower(); // 转换文本为小写
             pattern = pattern.ToLower(); // 转换模式为小写
+        }
+
+        if (text == pattern)
+        {
+            return true;
         }
 
         int textLen = text.Length; // 文本长度

@@ -838,13 +838,13 @@ public class MainViewModel
 
 ### `ButtonStyles`样式集
 
-为`Button`提供特殊样式。
+为`Button`、`DropDownButton`、`ToggleButton`提供特殊样式。
 
-| 类名          | 行为                                                         |
-| ------------- | ------------------------------------------------------------ |
-| `.Primary`    | 背景定义为强调色                                             |
-| `.Link`       | 背景定以为透明，前景定义为强调色，类似`HyperlinkButton`但无下划线 |
-| `Transparent` | 背景定以为透明                                               |
+| 类名           | 目标类型                                   | 行为                                                         |
+| -------------- | ------------------------------------------ | ------------------------------------------------------------ |
+| `.Primary`     | `Button`、`DropDownButton`                 | 背景定义为强调色                                             |
+| `.Link`        | `Button`、`DropDownButton`                 | 背景定以为透明，前景定义为强调色，类似`HyperlinkButton`但无下划线 |
+| `.Transparent` | `Button`、`DropDownButton`、`ToggleButton` | 背景定以为透明                                               |
 
 ### `GroupBoxStyles`样式集
 
@@ -855,13 +855,15 @@ public class MainViewModel
 | `.GroupBox`           | 在上方显示粗体的`Header`，然后是`Content`                    |
 | `.GroupBoxWithBorder` | 在上方显示粗体的`Header`，然后是`Content`，周围有一圈边框，形如WPF或WinForms的`GroupBox` |
 
-### `TextBoxStyles`样式集
+### `TextStyles`样式集
 
-为`TextBoxControl`提供特殊样式。
+为`TextBlock`、`TextBox`提供特殊样式。
 
-| 类名       | 行为                                                         |
-| ---------- | ------------------------------------------------------------ |
-| `.Display` | 类似`SelectableTextBlock`，但通过`TextBox`提供了虚拟化，长文本的性能更好 |
+| 类名           | 目标类型    | 行为                                                         |
+| -------------- | ----------- | ------------------------------------------------------------ |
+| `.Display`     | `TextBox`   | 类似`SelectableTextBlock`，但通过`TextBox`提供了虚拟化，长文本的性能更好 |
+| `.Description` | `TextBlock` | 提供透明度稍低的描述性标签                                   |
+| `.Disableable` | `TextBlock` | 提供可以被禁用的标签                                         |
 
 ### `FzLibAvaloniaStyles`类
 

@@ -68,5 +68,16 @@
                 </Grid>
             </ControlTemplate>
         </Setter>
+
+        <Style Selector="^.BoldLabel">
+            <Style Selector="^ /template/ ContentPresenter#PART_Label">
+                <Setter Property="FontWeight" Value="Bold" />
+            </Style>
+        </Style>
+        <Style Selector="^.BoldHeader">
+            <Style Selector="^ /template/ ContentPresenter#PART_Header">
+                <Setter Property="FontWeight" Value="Bold" />
+            </Style>
+        </Style>
     </ControlTheme>
 </ResourceDictionary>

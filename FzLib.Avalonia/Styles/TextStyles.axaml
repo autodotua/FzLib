@@ -28,4 +28,14 @@
             </Style>
         </Style>
     </Style>
+
+    <Style Selector="TextBlock">
+        <Style Selector="^.Description">
+            <Setter Property="Foreground" Value="{DynamicResource SystemBaseMediumColor}" />
+        </Style>
+
+        <Style Selector="^.Disableable:disabled">
+            <Setter Property="Foreground" Value="{DynamicResource SystemControlDisabledBaseMediumLowBrush}" />
+        </Style>
+    </Style>
 </Styles>

@@ -1,4 +1,4 @@
-using Avalonia.Threading;
+锘縰sing Avalonia.Threading;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -51,7 +51,7 @@ namespace FzLib.Avalonia.Controls
 #if DEBUG
                 return;
 #endif
-                throw new InvalidOperationException("ProgressOverlayService 已被注册，请先调用Unregister取消注册");
+                throw new InvalidOperationException("ProgressOverlayService 宸茶娉ㄥ唽锛岃鍏堣皟鐢║nregister鍙栨秷娉ㄥ唽");
             }
 
             this.setVisible = setVisible ?? throw new ArgumentNullException(nameof(setVisible));
@@ -68,7 +68,7 @@ namespace FzLib.Avalonia.Controls
             CheckRegister();
             if (setCancelable == null)
             {
-                throw new InvalidOperationException("注册的服务不支持取消操作");
+                throw new InvalidOperationException("娉ㄥ唽鐨勬湇鍔′笉鏀寔鍙栨秷鎿嶄綔");
             }
 
             setCancelable(cancelable);
@@ -79,7 +79,7 @@ namespace FzLib.Avalonia.Controls
             CheckRegister();
             if (setCancelCommand == null)
             {
-                throw new InvalidOperationException("注册的服务不支持取消操作");
+                throw new InvalidOperationException("娉ㄥ唽鐨勬湇鍔′笉鏀寔鍙栨秷鎿嶄綔");
             }
 
             setCancelCommand(command);
@@ -90,7 +90,7 @@ namespace FzLib.Avalonia.Controls
             CheckRegister();
             if (setDelay == null)
             {
-                throw new InvalidOperationException("注册的服务不支持设置延迟");
+                throw new InvalidOperationException("娉ㄥ唽鐨勬湇鍔′笉鏀寔璁剧疆寤惰繜");
             }
 
             setDelay(delay);
@@ -101,7 +101,7 @@ namespace FzLib.Avalonia.Controls
             CheckRegister();
             if (setMessage == null)
             {
-                throw new InvalidOperationException("注册的服务不支持显示消息");
+                throw new InvalidOperationException("娉ㄥ唽鐨勬湇鍔′笉鏀寔鏄剧ず娑堟伅");
             }
 
             setMessage(message);
@@ -112,7 +112,7 @@ namespace FzLib.Avalonia.Controls
             CheckRegister();
             if (setTitle == null)
             {
-                throw new InvalidOperationException("注册的服务不支持显示标题");
+                throw new InvalidOperationException("娉ㄥ唽鐨勬湇鍔′笉鏀寔鏄剧ず鏍囬");
             }
 
             setTitle(title);
@@ -164,12 +164,12 @@ namespace FzLib.Avalonia.Controls
             CheckRegister();
             if (setCancelable == null)
             {
-                throw new InvalidOperationException("注册的服务不支持取消操作");
+                throw new InvalidOperationException("娉ㄥ唽鐨勬湇鍔′笉鏀寔鍙栨秷鎿嶄綔");
             }
 
             if (setCancelCommand == null)
             {
-                throw new InvalidOperationException("注册的服务不支持取消操作");
+                throw new InvalidOperationException("娉ㄥ唽鐨勬湇鍔′笉鏀寔鍙栨秷鎿嶄綔");
             }
 
             try
@@ -211,12 +211,12 @@ namespace FzLib.Avalonia.Controls
             CheckRegister();
             if (setCancelable == null)
             {
-                throw new InvalidOperationException("注册的服务不支持取消操作");
+                throw new InvalidOperationException("娉ㄥ唽鐨勬湇鍔′笉鏀寔鍙栨秷鎿嶄綔");
             }
 
             if (setCancelCommand == null)
             {
-                throw new InvalidOperationException("注册的服务不支持取消操作");
+                throw new InvalidOperationException("娉ㄥ唽鐨勬湇鍔′笉鏀寔鍙栨秷鎿嶄綔");
             }
 
             try
@@ -248,7 +248,7 @@ namespace FzLib.Avalonia.Controls
         {
             if (!hasRegistered)
             {
-                throw new InvalidOperationException("请先调用 Attach 方法注册服务");
+                throw new InvalidOperationException("璇峰厛璋冪敤 Attach 鏂规硶娉ㄥ唽鏈嶅姟");
             }
         }
     }

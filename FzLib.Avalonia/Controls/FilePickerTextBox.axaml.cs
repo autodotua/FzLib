@@ -1,4 +1,4 @@
-using Avalonia;
+ï»¿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Input;
@@ -19,7 +19,7 @@ public partial class FilePickerTextBox : UserControl
         AvaloniaProperty.Register<FilePickerTextBox, bool>(nameof(AllowMultiple));
 
     public static readonly StyledProperty<object> ButtonContentProperty =
-            AvaloniaProperty.Register<FilePickerTextBox, object>(nameof(ButtonContent), "ä¯ÀÀ..");
+            AvaloniaProperty.Register<FilePickerTextBox, object>(nameof(ButtonContent), "æµè§ˆ..");
 
     public static readonly StyledProperty<string> FileNamesProperty =
         AvaloniaProperty.Register<FilePickerTextBox, string>(nameof(FileNames), defaultBindingMode: BindingMode.TwoWay);
@@ -280,9 +280,9 @@ public partial class FilePickerTextBox : UserControl
             if (AndroidExternalFilesDir == null)
             {
                 throw new ArgumentException(
-                    "ÔÚAndroidÖĞÊ¹ÓÃÊ±£¬Ó¦µ±ÉèÖÃAndroidExternalFilesDir¡£" +
-                    "Öµ¿ÉÒÔ´ÓAndroidÏîÄ¿ÖĞÊ¹ÓÃGetExternalFilesDir(string.Empty)" +
-                    ".AbsolutePath.Split([\"Android\"], StringSplitOptions.None)[0]¸³Öµ");
+                    "åœ¨Androidä¸­ä½¿ç”¨æ—¶ï¼Œåº”å½“è®¾ç½®AndroidExternalFilesDirã€‚" +
+                    "å€¼å¯ä»¥ä»Androidé¡¹ç›®ä¸­ä½¿ç”¨GetExternalFilesDir(string.Empty)" +
+                    ".AbsolutePath.Split([\"Android\"], StringSplitOptions.None)[0]èµ‹å€¼");
             }
             var path = file.Path.LocalPath;
             return Path.Combine(AndroidExternalFilesDir, path.Split(':')[^1]);

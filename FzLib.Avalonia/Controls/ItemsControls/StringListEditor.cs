@@ -12,13 +12,17 @@ using FzLib.Text;
 
 namespace FzLib.Avalonia.Controls;
 
-public partial class StringListEditor : TemplatedControl, ILayoutChangeable
+public class StringListEditor : TemplatedControl, ILayoutChangeable
 {
+    public static readonly StyledProperty<Dock> AddButtonPositionProperty =
+        AvaloniaProperty.Register<StringListEditor, Dock>(
+            nameof(AddButtonPosition), Dock.Right);
+
     public static readonly StyledProperty<int> ColumnsProperty = AvaloniaProperty.Register<RadioButtonGroup, int>(
         nameof(Columns));
 
     public static readonly StyledProperty<ObservableStringList> ItemsSourceProperty =
-            AvaloniaProperty.Register<StringListEditor, ObservableStringList>(
+        AvaloniaProperty.Register<StringListEditor, ObservableStringList>(
             nameof(ItemsSource));
 
     public static readonly StyledProperty<ItemsControlLayout> LayoutProperty =
@@ -36,7 +40,13 @@ public partial class StringListEditor : TemplatedControl, ILayoutChangeable
     private ItemsControl items;
 
     private ScrollViewer scr;
-    
+
+    public Dock AddButtonPosition
+    {
+        get => GetValue(AddButtonPositionProperty);
+        set => SetValue(AddButtonPositionProperty, value);
+    }
+
     public int Columns
     {
         get => GetValue(ColumnsProperty);
@@ -66,7 +76,7 @@ public partial class StringListEditor : TemplatedControl, ILayoutChangeable
         get => GetValue(SpacingProperty);
         set => SetValue(SpacingProperty, value);
     }
-    
+
     protected override Type StyleKeyOverride { get; } = typeof(StringListEditor);
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -102,6 +112,7 @@ public partial class StringListEditor : TemplatedControl, ILayoutChangeable
         };
 
         this.GetObservable(ItemsSourceProperty).Subscribe(ItemsSourceChanged);
+        this.GetObservable(AddButtonPositionProperty).Subscribe(p => UpdateAddButtonMargin());
     }
 
     private void AddButton_Click(object sender, RoutedEventArgs e)
@@ -149,14 +160,25 @@ public partial class StringListEditor : TemplatedControl, ILayoutChangeable
 
     private void ItemsSource_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-        var list = sender as ObservableStringList;
-        if (list.Count == 0)
+        UpdateAddButtonMargin();
+    }
+
+    private void UpdateAddButtonMargin()
+    {
+        if (ItemsSource == null || ItemsSource.Count == 0)
         {
             addButton.Margin = new Thickness();
         }
         else
         {
-            addButton.Margin = new Thickness(8, 0, 0, 6);
+            addButton.Margin = AddButtonPosition switch
+            {
+                Dock.Left => new Thickness(0, 0, 8, 6),
+                Dock.Bottom => new Thickness(0, 4, 0, 0),
+                Dock.Right => new Thickness(8, 0, 0, 6),
+                Dock.Top => new Thickness(0, 0, 0, 6),
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
     }
 
@@ -168,6 +190,8 @@ public partial class StringListEditor : TemplatedControl, ILayoutChangeable
             ItemsSource_CollectionChanged(obj,
                 new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
+
+        addButton.IsEnabled = obj != null;
     }
 
     private void RemoveButton_Click(object sender, RoutedEventArgs e)
