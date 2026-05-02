@@ -137,7 +137,7 @@ public partial class FilePickerTextBox : UserControl
         {
             return;
         }
-        var files = e.Data.GetFiles()?.Select(p => p.TryGetLocalPath()).ToList();
+        var files = e.DataTransfer.TryGetFiles()?.Select(p => p.TryGetLocalPath()).ToList();
         if (files is null or { Count: 0 })
         {
             return;
@@ -225,53 +225,55 @@ public partial class FilePickerTextBox : UserControl
 
     private bool CanDrop(DragEventArgs e)
     {
-        if (e.Data.GetDataFormats().Contains(DataFormats.Files))
+        var files = e.DataTransfer.TryGetFiles();
+        if (files.Length == 0)
         {
-            var fileAttributes = e.Data.GetFiles()
-                .Select(p => p.TryGetLocalPath())
-                .Select(File.GetAttributes)
-                .ToList();
-            if (Type == PickerType.SaveFile && fileAttributes.Count > 1)
-            {
-                return false;
-            }
-
-            var isAllDir = fileAttributes.All(p => p.HasFlag(FileAttributes.Directory));
-            var isAllFile = fileAttributes.All(p => !p.HasFlag(FileAttributes.Directory));
-            switch (Type)
-            {
-                case PickerType.OpenFile:
-                case PickerType.SaveFile:
-                    if (AllowMultiple && isAllFile)
-                    {
-                        return true;
-                    }
-                    else if (!AllowMultiple && fileAttributes.Count == 1 && isAllFile)
-                    {
-                        return true;
-                    }
-
-                    break;
-                case PickerType.OpenFolder:
-                    if (AllowMultiple && isAllDir)
-                    {
-                        return true;
-                    }
-                    else if (!AllowMultiple && fileAttributes.Count == 1 && isAllDir)
-                    {
-                        return true;
-                    }
-
-                    break;
-            }
-
             return false;
+        }
+
+        var fileAttributes = files
+            .Select(p => p.TryGetLocalPath())
+            .Select(File.GetAttributes)
+            .ToList();
+
+        if (Type == PickerType.SaveFile && fileAttributes.Count > 1)
+        {
+            return false;
+        }
+
+        var isAllDir = fileAttributes.All(p => p.HasFlag(FileAttributes.Directory));
+        var isAllFile = fileAttributes.All(p => !p.HasFlag(FileAttributes.Directory));
+        switch (Type)
+        {
+            case PickerType.OpenFile:
+            case PickerType.SaveFile:
+                if (AllowMultiple && isAllFile)
+                {
+                    return true;
+                }
+                else if (!AllowMultiple && fileAttributes.Count == 1 && isAllFile)
+                {
+                    return true;
+                }
+
+                break;
+            case PickerType.OpenFolder:
+                if (AllowMultiple && isAllDir)
+                {
+                    return true;
+                }
+                else if (!AllowMultiple && fileAttributes.Count == 1 && isAllDir)
+                {
+                    return true;
+                }
+
+                break;
         }
 
         return false;
     }
-    
-    public static  string AndroidExternalFilesDir { get; set; }
+
+    public static string AndroidExternalFilesDir { get; set; }
 
     private string GetPath(IStorageItem file)
     {

@@ -28,11 +28,11 @@ namespace FzLib.Avalonia.Controls
         
         public static Window GetWindow(this Visual visual)
         {
-            return visual.GetVisualRoot() as Window;
+            return visual.GetPresentationSource().RootVisual as Window;
         }
         public static T GetWindow<T>(this Visual visual) where T : Window
         {
-            return visual.GetVisualRoot() as T;
+            return visual.GetPresentationSource().RootVisual as T;
         }
     }
 }

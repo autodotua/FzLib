@@ -14,6 +14,7 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Avalonia.VisualTree;
+using Avalonia.Controls.Chrome;
 
 namespace FzLib.Avalonia.Controls;
 
@@ -50,6 +51,7 @@ public abstract class ExtendedWindow : Window
         CornerRadius = new CornerRadius(4);
         BorderThickness = new Thickness(1);
         BorderBrush = new SolidColorBrush(Colors.Gray, 0.3);
+
     }
 
     public bool CustomTitleBar
@@ -189,7 +191,7 @@ public abstract class ExtendedWindow : Window
         {
             return;
         }
-
+        return;
         if (WindowState == WindowState.Maximized)
         {
             //最大化，不显示阴影

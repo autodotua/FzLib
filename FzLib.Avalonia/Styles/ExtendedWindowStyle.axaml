@@ -1,122 +1,527 @@
 <ResourceDictionary
-    xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:b="clr-namespace:FzLib.Avalonia.Behaviors"
-    xmlns:c="using:FzLib.Avalonia.Controls"
-    xmlns:sys="using:System">
-    <ControlTheme
-        x:Key="{x:Type c:ExtendedWindow}"
-        TargetType="c:ExtendedWindow">
-        <Setter Property="Background" Value="{DynamicResource SystemRegionBrush}" />
-        <Setter Property="TransparencyBackgroundFallback" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
-        <Setter Property="TopLevel.SystemBarColor" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
-        <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
-        <Setter Property="FontFamily" Value="{DynamicResource ContentControlThemeFontFamily}" />
-        <Setter Property="ExtendClientAreaChromeHints" Value="NoChrome" />
-        <!-- <Setter Property="SystemDecorations" Value="BorderOnly" /> -->
-        <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="-1" />
-        <Setter Property="ExtendClientAreaToDecorationsHint" Value="True" />
-        <Setter Property="Template">
-            <ControlTemplate>
-                <Panel>
-                    <Border
-                        Name="PART_TransparencyFallback"
-                        IsHitTestVisible="False" />
-                    <Border
-                        x:Name="PART_Shadow"
-                        Background="{TemplateBinding Background}"
-                        IsHitTestVisible="False" />
-                    <Border
-                        x:Name="PART_Border"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{TemplateBinding CornerRadius}"
-                        IsHitTestVisible="False" />
-                    <Panel
-                        Margin="{TemplateBinding WindowDecorationMargin}"
-                        Background="Transparent" />
-                    <VisualLayerManager>
-                        <VisualLayerManager.ChromeOverlayLayer>
-                            <TitleBar />
-                        </VisualLayerManager.ChromeOverlayLayer>
-                        <Border
-                            x:Name="PART_ContainerBorder"
-                            ClipToBounds="True">
-                            <Grid
-                                x:Name="PART_Container"
-                                RowDefinitions="Auto,*">
-                                <Grid
-                                    x:Name="PART_TitleBar"
-                                    Background="{TemplateBinding TitleBarBackground}"
-                                    ColumnDefinitions="Auto,Auto,*,Auto"
-                                    IsVisible="{Binding !CustomTitleBar, RelativeSource={RelativeSource TemplatedParent}}">
-                                    <Interaction.Behaviors>
-                                        <b:WindowDragBehavior />
-                                    </Interaction.Behaviors>
-                                    <Image
-                                        Height="18"
-                                        Margin="8,0,-4,0"
-                                        VerticalAlignment="Center"
-                                        IsHitTestVisible="False"
-                                        Source="{TemplateBinding Icon}"
-                                        Stretch="Fill" />
-                                    <TextBlock
-                                        Grid.Column="1"
-                                        Margin="8,0"
-                                        VerticalAlignment="Center"
-                                        FontSize="12"
-                                        IsHitTestVisible="False"
-                                        Text="{TemplateBinding Title}" />
-                                    <ContentControl
-                                        Grid.Column="2"
-                                        Margin="4,0"
-                                        HorizontalAlignment="Right"
-                                        Content="{TemplateBinding TitleBarFooter}" />
-                                    <c:WindowButtons Grid.Column="3" />
-                                </Grid>
-                                <ContentPresenter
-                                    Name="PART_ContentPresenter"
-                                    Grid.Row="1"
-                                    Margin="{TemplateBinding Padding}"
-                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                    Content="{TemplateBinding Content}"
-                                    ContentTemplate="{TemplateBinding ContentTemplate}" />
-                            </Grid>
-                        </Border>
-                    </VisualLayerManager>
-                </Panel>
-            </ControlTemplate>
-        </Setter>
+xmlns="https://github.com/avaloniaui"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:b="clr-namespace:FzLib.Avalonia.Behaviors"
+xmlns:c="using:FzLib.Avalonia.Controls"
+xmlns:sys="using:System">
 
-        <Style Selector="^">
-            <Style Selector="^ Button">
-                <Setter Property="Background" Value="Transparent" />
-                <Setter Property="Padding" Value="6,2" />
-                <Setter Property="CornerRadius" Value="0" />
 
-                <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-                    <Setter Property="Background" Value="Transparent" />
-                    <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushDisabled}" />
-                    <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundDisabled}" />
-                </Style>
+	<!--
+	<ControlTheme x:Key="CaptionButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+	<Setter Property="Foreground" Value="{DynamicResource Foreground0}" />
+	<Setter Property="Background" Value="Transparent" />
+	<Setter Property="CornerRadius" Value="0" />
+	<Setter Property="Padding" Value="4" />
+	<Setter Property="Width" Value="38" />
+	<Setter Property="Height" Value="20" />
+	<Setter Property="WindowDecorationProperties.ElementRole" Value="DecorationsElement" />
+	--><!--<Setter Property="Template">
+	<ControlTemplate TargetType="Button">
+	<ContentPresenter
+	Name="PART_ContentPresenter"
+	Padding="{TemplateBinding Padding}"
+	Background="{TemplateBinding Background}"
+	BorderBrush="{TemplateBinding BorderBrush}"
+	BorderThickness="{TemplateBinding BorderThickness}"
+	Content="{TemplateBinding Content}"
+	ContentTemplate="{TemplateBinding ContentTemplate}"
+	CornerRadius="{TemplateBinding CornerRadius}"
+	Foreground="{TemplateBinding Foreground}">
+	<ContentPresenter.DataTemplates>
+	<DataTemplate DataType="Geometry">
+	<PathIcon
+	Theme="{StaticResource InnerPathIcon}"
+	Data="{Binding}" />
+	</DataTemplate>
+	</ContentPresenter.DataTemplates>
+	</ContentPresenter>
+	</ControlTemplate>
+	</Setter>--><!--
 
-            </Style>
+	<Style Selector="^:pointerover">
+	<Setter Property="Background" Value="{DynamicResource CaptionButtonPointeroverBackground}" />
+	</Style>
 
-            <Style Selector="^ ToggleButton">
-                <Setter Property="Background" Value="Transparent" />
-                <Setter Property="Padding" Value="6,2" />
-                <Setter Property="CornerRadius" Value="0" />
+	<Style Selector="^:pressed">
+	<Setter Property="Background" Value="{DynamicResource CaptionButtonPressedBackground}" />
+	</Style>
 
-                <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-                    <Setter Property="Background" Value="Transparent" />
-                    <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushDisabled}" />
-                    <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundDisabled}" />
-                </Style>
+	<Style Selector="^:disabled">
+	<Setter Property="Foreground" Value="{DynamicResource CaptionButtonDisabledForeground}" />
+	</Style>
+	</ControlTheme>
 
-            </Style>
-        </Style>
-    </ControlTheme>
+	<Path
+	x:Key="ExitMaximumButtonContent"
+	Height="30"
+	Width="48"
+	Stroke="{DynamicResource SystemBaseHighColor}"
+	StrokeThickness="1"
+	Data="M20 13 L20 11 L28 11 L28 19 L26 19 L26 13 L18 13 L18 21 L26 21 L26 19"	>
+	<Path.RenderTransform>
+	<TranslateTransform X="2" Y="-2" />
+	</Path.RenderTransform>
+	</Path>
+
+	<ControlTheme    x:Key="ExtendedWindowDrawnDecorationsTheme"  TargetType="WindowDrawnDecorations">
+	<Setter Property="DefaultTitleBarHeight" Value="32"/>
+	<Setter Property="DefaultFrameThickness" Value="0,0,0,0"/>
+	<Setter Property="DefaultShadowThickness" Value="16"/>
+	<Setter Property="Template">
+	<WindowDrawnDecorationsTemplate>
+	<WindowDrawnDecorationsContent>
+	<WindowDrawnDecorationsContent.Underlay>
+	--><!-- Full-size: covers shadow area + frame + behind client area --><!--
+	<Panel>
+	<Border Margin="{TemplateBinding ShadowThickness}"
+	Background="{DynamicResource WindowBackground}"
+	BorderThickness="1"
+	BorderBrush="{DynamicResource WindowBorderBrush}"
+	BoxShadow="0 8 32 0 #40000000"/>
+	</Panel>
+	</WindowDrawnDecorationsContent.Underlay>
+
+	<WindowDrawnDecorationsContent.Overlay>
+	--><!-- Positioned over the titlebar area --><!--
+	<DockPanel Height="{TemplateBinding TitleBarHeight}"
+	VerticalAlignment="Top"
+	Margin="{TemplateBinding ShadowThickness}">
+	<StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+	<Button x:Name="PART_OverLayMinimizeButton" WindowDecorationProperties.ElementRole="MinimizeButton" Content="─"/>
+	<Button x:Name="PART_OverLayMaximizeButton" WindowDecorationProperties.ElementRole="MaximizeButton"  Content="□"/>
+	<Button x:Name="PART_OverLayCloseButton" WindowDecorationProperties.ElementRole="CloseButton" Content="✕"/>
+	</StackPanel>
+	<Panel Background="#00000000"
+	WindowDecorationProperties.ElementRole="TitleBar">
+	<TextBlock Text="{TemplateBinding Title}"
+	Foreground="{DynamicResource Foreground0}"
+	VerticalAlignment="Center"
+	Margin="12,0"/></Panel>
+	</DockPanel>
+	</WindowDrawnDecorationsContent.Overlay>
+
+	<WindowDrawnDecorationsContent.FullscreenPopover>
+	--><!-- Shown on hover at top edge in fullscreen --><!--
+	<DockPanel Height="{TemplateBinding TitleBarHeight}"
+	Background="#00000000">
+	<StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+	<Button x:Name="PART_FullscreenMinimizeButton" WindowDecorationProperties.ElementRole="MinimizeButton" Content="─"/>
+	<Button x:Name="PART_FullscreenMaximizeButton" WindowDecorationProperties.ElementRole="MaximizeButton"  Content="□"/>
+	<Button x:Name="PART_FullscreenCloseButton" WindowDecorationProperties.ElementRole="CloseButton" Content="✕"/>
+	</StackPanel>
+	<TextBlock Text="{TemplateBinding Title}"
+	Foreground="{DynamicResource Foreground0}"
+	WindowDecorationProperties.ElementRole="TitleBar"
+	VerticalAlignment="Center"
+	Margin="12,0"/>
+	</DockPanel>
+	</WindowDrawnDecorationsContent.FullscreenPopover>
+
+	</WindowDrawnDecorationsContent>
+	</WindowDrawnDecorationsTemplate>
+	</Setter>
+
+	--><!-- Pseudoclass styling --><!--
+	<Style Selector="^:maximized /template/ Border">
+	<Setter Property="BorderThickness" Value="0"/>
+	</Style>
+	<Style Selector="^:fullscreen /template/ DockPanel">
+	<Setter Property="IsVisible" Value="False"/>
+	</Style>
+	</ControlTheme>
+	-->
+
+
+	<ControlTheme x:Key="CaptionButton" TargetType="Button">
+		<Setter Property="Foreground" Value="{DynamicResource Foreground0}" />
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="Width" Value="48" />
+		<Setter Property="Height" Value="30" />
+		<Setter Property="WindowDecorationProperties.ElementRole" Value="DecorationsElement" />
+		<Setter Property="Template">
+			<ControlTemplate TargetType="Button">
+				<ContentPresenter
+				Name="PART_ContentPresenter"
+				Padding="{TemplateBinding Padding}"
+				Background="{TemplateBinding Background}"
+				BorderBrush="{TemplateBinding BorderBrush}"
+				BorderThickness="{TemplateBinding BorderThickness}"
+				Content="{TemplateBinding Content}"
+				ContentTemplate="{TemplateBinding ContentTemplate}"
+				CornerRadius="{TemplateBinding CornerRadius}"
+				Foreground="{TemplateBinding Foreground}">
+					<!--  <ContentPresenter.DataTemplates>
+					<DataTemplate DataType="Geometry">
+					<PathIcon
+					Theme="{StaticResource InnerPathIcon}"
+					Data="{Binding}" />
+					</DataTemplate>
+					</ContentPresenter.DataTemplates>-->
+				</ContentPresenter>
+			</ControlTemplate>
+		</Setter>
+
+		<!--        <Style Selector="^:pointerover">
+		<Setter Property="Background" Value="{DynamicResource CaptionButtonPointeroverBackground}" />
+		</Style>
+
+		<Style Selector="^:pressed">
+		<Setter Property="Background" Value="{DynamicResource CaptionButtonPressedBackground}" />
+		</Style>
+
+		<Style Selector="^:disabled">
+		<Setter Property="Foreground" Value="{DynamicResource CaptionButtonDisabledForeground}" />
+		</Style>-->
+	</ControlTheme>
+
+	<DataTemplate 	x:Key="ExitMaximumButtonTemplate">
+		<Path
+		Height="30"
+		Width="48"
+		Stroke="{DynamicResource SystemBaseHighColor}"
+		StrokeThickness="1"
+		Data="M20 13 L20 11 L28 11 L28 19 L26 19 L26 13 L18 13 L18 21 L26 21 L26 19"	>
+			<Path.RenderTransform>
+				<TranslateTransform X="2" Y="-2" />
+			</Path.RenderTransform>
+		</Path>
+	</DataTemplate>
+
+	<DataTemplate 	x:Key="MaximizeButtonTemplate">
+		<Rectangle 
+		Width="10" 	Stroke="{DynamicResource SystemBaseHighColor}"
+		StrokeThickness="1"
+		Height="10"/>
+	</DataTemplate>
+
+	<DataTemplate 	x:Key="MinimizeButtonTemplate">
+	  <Line Stroke="{DynamicResource SystemBaseHighColor}"
+		StrokeThickness="1" Height="30"
+		Width="48"
+            VerticalAlignment="Center"
+            StartPoint="18,15"
+            EndPoint="30,15" />
+	</DataTemplate>
+
+	<DataTemplate 	x:Key="CloseButtonTemplate">
+		<Panel >
+			<Line 	Stroke="{DynamicResource SystemBaseHighColor}"
+				   StrokeThickness="1" Height="30"
+		Width="48"
+				   VerticalAlignment="Center"
+				   StartPoint="19,10"
+				   EndPoint="29,20" />
+			<Line 	Stroke="{DynamicResource SystemBaseHighColor}"
+				   StrokeThickness="1" Height="30"
+		Width="48"
+				   VerticalAlignment="Center"
+				   StartPoint="19,20"
+				   EndPoint="29,10" />
+		</Panel>
+	</DataTemplate>
+
+	<ControlTheme x:Key="ExtendedWindowDrawnDecorationsTheme" TargetType="WindowDrawnDecorations">
+		<Setter Property="DefaultTitleBarHeight" Value="32" />
+		<Setter Property="DefaultFrameThickness" Value="1" />
+		<Setter Property="DefaultShadowThickness" Value="8" />
+		<Setter Property="Template">
+			<WindowDrawnDecorationsTemplate>
+				<WindowDrawnDecorationsContent>
+					<WindowDrawnDecorationsContent.Underlay>
+						<!--  Full-size: covers shadow area + frame + behind client area  -->
+						<Panel Name="PART_UnderlayWrapper">
+							<Border
+							Name="PART_WindowBorder"
+							Background="{DynamicResource WindowBackground}"
+							BorderBrush="{DynamicResource WindowBorderBrush}"
+							BorderThickness="{TemplateBinding FrameThickness}"
+							IsHitTestVisible="False" />
+							<!-- Titlebar: background, title text, and drag area live in underlay -->
+							<Panel Name="PART_TitleBar"
+								   VerticalAlignment="Top"
+								   Height="{TemplateBinding TitleBarHeight}"
+								   Background="{DynamicResource TitleBarBackground}"
+								   IsVisible="{TemplateBinding HasTitleBar}"
+								   WindowDecorationProperties.ElementRole="TitleBar" />
+						</Panel>
+					</WindowDrawnDecorationsContent.Underlay>
+
+					<WindowDrawnDecorationsContent.Overlay>
+						<!--  Positioned over the titlebar area  -->
+						<Panel Name="PART_OverlayWrapper">
+							<!--  Title text lives in overlay so it renders above client content  -->
+							<Panel
+							Name="PART_TitleTextPanel"
+							Height="{TemplateBinding TitleBarHeight}"
+							VerticalAlignment="Top"
+							IsHitTestVisible="False"
+							IsVisible="{TemplateBinding HasTitleBar}">
+								<TextBlock
+								Margin="12,0,0,0"
+								VerticalAlignment="Center"
+								Text="{TemplateBinding Title}" />
+							</Panel>
+							<StackPanel
+							Name="PART_OverlayPanel"
+							Height="{TemplateBinding TitleBarHeight}"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Top"
+							IsVisible="{TemplateBinding HasTitleBar}"
+							Orientation="Horizontal">
+								<Button
+								Name="PART_MinimizeButton"
+								Theme="{StaticResource CaptionButton}"
+								ContentTemplate="{StaticResource MinimizeButtonTemplate}"
+								WindowDecorationProperties.ElementRole="MinimizeButton" />
+								<Button
+								Name="PART_MaximizeButton"
+								Theme="{StaticResource CaptionButton}"
+								ContentTemplate="{StaticResource MaximizeButtonTemplate}"
+								WindowDecorationProperties.ElementRole="MaximizeButton" />
+								<Button
+								Name="PART_CloseButton"
+								Theme="{StaticResource CaptionButton}"
+									 ContentTemplate="{StaticResource CloseButtonTemplate}"
+								WindowDecorationProperties.ElementRole="CloseButton" />
+							</StackPanel>
+						</Panel>
+					</WindowDrawnDecorationsContent.Overlay>
+
+					<WindowDrawnDecorationsContent.FullscreenPopover>
+						<!--  Shown on hover at top edge in fullscreen  -->
+						<DockPanel
+						Height="{TemplateBinding DefaultTitleBarHeight}"
+						Background="{DynamicResource TitleBarBackground}"
+						VerticalAlignment="Top"
+						WindowDecorationProperties.ElementRole="TitleBar">
+							<StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+								<Button
+								Name="PART_PopoverFullScreenButton"
+								Theme="{StaticResource CaptionButton}"
+								ContentTemplate="{StaticResource ExitMaximumButtonTemplate}"
+								WindowDecorationProperties.ElementRole="FullScreenButton" />
+								<Button
+								Name="PART_PopoverCloseButton"
+								Theme="{StaticResource CaptionButton}"
+								ContentTemplate="{StaticResource ExitMaximumButtonTemplate}"
+								WindowDecorationProperties.ElementRole="CloseButton" />
+							</StackPanel>
+							<TextBlock
+							Margin="12,0,0,0"
+							VerticalAlignment="Center"
+							Text="{TemplateBinding Title}" />
+						</DockPanel>
+					</WindowDrawnDecorationsContent.FullscreenPopover>
+				</WindowDrawnDecorationsContent>
+			</WindowDrawnDecorationsTemplate>
+		</Setter>
+
+		<Style Selector="^ /template/ Button#PART_CloseButton,^ /template/ Button#PART_PopoverCloseButton">
+			<Style Selector="^:pointerover">
+				<Setter Property="Foreground" Value="{DynamicResource CaptionButtonCloseForeground}" />
+				<Setter Property="Background" Value="{DynamicResource CaptionButtonClosePointeroverBackground}" />
+			</Style>
+			<Style Selector="^:pressed">
+				<Setter Property="Foreground" Value="{DynamicResource CaptionButtonCloseForeground}" />
+				<Setter Property="Background" Value="{DynamicResource CaptionButtonClosePressedBackground}" />
+			</Style>
+		</Style>
+
+		<!--  Shadow: inset border and add drop shadow  -->
+		<Style Selector="^:has-shadow">
+			<Style Selector="^ /template/ Panel#PART_UnderlayWrapper">
+				<Setter Property="Margin" Value="{TemplateBinding ShadowThickness}" />
+			</Style>
+			<Style Selector="^ /template/ Border#PART_WindowBorder">
+				<Setter Property="BoxShadow" Value="{DynamicResource WindowBorderShadow}" />
+			</Style>
+			<Style Selector="^ /template/ Panel#PART_OverlayWrapper">
+				<Setter Property="Margin" Value="{TemplateBinding ShadowThickness}" />
+			</Style>
+		</Style>
+
+		<!-- Maximized: restore button path changes -->
+		<Style Selector="^:maximized /template/ Button#PART_MaximizeButton">
+			<Setter Property="Content" Value="最大化" />
+		</Style>
+
+		<!--  Border: inset titlebar and buttons inside frame  -->
+		<Style Selector="^:has-border">
+			<Style Selector="^ /template/ Panel#PART_TitleTextPanel">
+				<Setter Property="Margin" Value="1,1,1,0" />
+			</Style>
+			<Style Selector="^ /template/ Panel#PART_TitleBar">
+				<Setter Property="Margin" Value="1,1,1,0" />
+			</Style>
+			<Style Selector="^ /template/ StackPanel#PART_OverlayPanel">
+				<Setter Property="Margin" Value="0,1,1,0" />
+			</Style>
+		</Style>
+
+		<!-- Hide caption buttons when the platform does not support the action -->
+		<Style Selector="^:not(:has-minimize) /template/ Button#PART_MinimizeButton">
+			<Setter Property="IsVisible" Value="False"/>
+		</Style>
+		<Style Selector="^:not(:has-maximize) /template/ Button#PART_MaximizeButton">
+			<Setter Property="IsVisible" Value="False"/>
+		</Style>
+		<Style Selector="^:not(:has-fullscreen) /template/ Button#PART_FullScreenButton">
+			<Setter Property="IsVisible" Value="False"/>
+		</Style>
+		<Style Selector="^:not(:has-fullscreen) /template/ Button#PART_PopoverFullScreenButton">
+			<Setter Property="IsVisible" Value="False"/>
+		</Style>
+
+		<!--  Fullscreen: hide overlay and titlebar (popover takes over)  -->
+		<Style Selector="^:fullscreen">
+			<Style Selector="^ /template/ Panel#PART_TitleTextPanel">
+				<Setter Property="IsVisible" Value="False" />
+			</Style>
+			<Style Selector="^ /template/ StackPanel#PART_OverlayPanel">
+				<Setter Property="IsVisible" Value="False" />
+			</Style>
+			<Style Selector="^ /template/ Panel#PART_TitleBar">
+				<Setter Property="IsVisible" Value="False" />
+			</Style>
+		</Style>
+	</ControlTheme>
+
+
+
+	<ControlTheme
+	x:Key="{x:Type c:ExtendedWindow}"	TargetType="c:ExtendedWindow">
+		<Setter Property="Background" Value="{DynamicResource SystemRegionBrush}" />
+		<Setter Property="TransparencyBackgroundFallback" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
+		<Setter Property="TopLevel.SystemBarColor" Value="{DynamicResource SystemControlBackgroundAltHighBrush}" />
+		<Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+		<Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
+		<Setter Property="FontFamily" Value="{DynamicResource ContentControlThemeFontFamily}" />
+		<Setter Property="WindowDecorations" Value="Full"/>
+		<Setter Property="ExtendClientAreaToDecorationsHint" Value="True" />
+		<Setter Property="WindowDecorationsTheme" Value="{StaticResource ExtendedWindowDrawnDecorationsTheme}"/>
+		<!--	<Setter Property="ExtendClientAreaTitleBarHeightHint" Value="-1" />
+		<Setter Property="ExtendClientAreaToDecorationsHint" Value="True" />-->
+
+		<Setter Property="Template">
+			<ControlTemplate TargetType="Window">
+				<Panel>
+					<Border Name="PART_TransparencyFallback" IsHitTestVisible="False" />
+					<Border Background="{TemplateBinding Background}" IsHitTestVisible="False" />
+					<Panel Margin="{TemplateBinding WindowDecorationMargin}" Background="Transparent" />
+					<VisualLayerManager Name="PART_VisualLayerManager">
+						<Border Padding="0,32,0,0">
+							<ContentPresenter
+							Name="PART_ContentPresenter"
+							Margin="{TemplateBinding Padding}"
+							HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+							VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+							Content="{TemplateBinding Content}"
+							ContentTemplate="{TemplateBinding ContentTemplate}" />
+						</Border>
+					</VisualLayerManager>
+				</Panel>
+			</ControlTemplate>
+		</Setter>
+		<!--	  <Setter Property="Template">
+		<ControlTemplate>
+		<Panel>
+		<Border
+		Name="PART_TransparencyFallback"
+		IsHitTestVisible="False" />
+		<Border
+		x:Name="PART_Shadow"
+		Background="{TemplateBinding Background}"
+		IsHitTestVisible="False" />
+		<Border
+		x:Name="PART_Border"
+		BorderBrush="{TemplateBinding BorderBrush}"
+		BorderThickness="{TemplateBinding BorderThickness}"
+		CornerRadius="{TemplateBinding CornerRadius}"
+		IsHitTestVisible="False" />
+		<Panel
+		Margin="{TemplateBinding WindowDecorationMargin}"
+		Background="Transparent" />
+		<VisualLayerManager>
+		<VisualLayerManager.ChromeOverlayLayer>
+		<TitleBar />
+		</VisualLayerManager.ChromeOverlayLayer>
+		<Border
+		x:Name="PART_ContainerBorder"
+		ClipToBounds="True">
+		<Grid
+		x:Name="PART_Container"
+		RowDefinitions="Auto,*">
+		<Grid
+		x:Name="PART_TitleBar"
+		Background="{TemplateBinding TitleBarBackground}"
+		ColumnDefinitions="Auto,Auto,*,Auto"
+		IsVisible="{Binding !CustomTitleBar, RelativeSource={RelativeSource TemplatedParent}}">
+		<Interaction.Behaviors>
+		<b:WindowDragBehavior />
+		</Interaction.Behaviors>
+		<Image
+		Height="18"
+		Margin="8,0,-4,0"
+		VerticalAlignment="Center"
+		IsHitTestVisible="False"
+		Source="{TemplateBinding Icon}"
+		Stretch="Fill" />
+		<TextBlock
+		Grid.Column="1"
+		Margin="8,0"
+		VerticalAlignment="Center"
+		FontSize="12"
+		IsHitTestVisible="False"
+		Text="{TemplateBinding Title}" />
+		<ContentControl
+		Grid.Column="2"
+		Margin="4,0"
+		HorizontalAlignment="Right"
+		Content="{TemplateBinding TitleBarFooter}" />
+		<c:WindowButtons Grid.Column="3" />
+		</Grid>
+		<ContentPresenter
+		Name="PART_ContentPresenter"
+		Grid.Row="1"
+		Margin="{TemplateBinding Padding}"
+		HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+		VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+		Content="{TemplateBinding Content}"
+		ContentTemplate="{TemplateBinding ContentTemplate}" />
+		</Grid>
+		</Border>
+		</VisualLayerManager>
+		</Panel>
+		</ControlTemplate>
+		</Setter>
+		-->
+		<!--<Style Selector="^">
+		<Style Selector="^ Button">
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="Padding" Value="6,2" />
+		<Setter Property="CornerRadius" Value="0" />
+
+		<Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushDisabled}" />
+		<Setter Property="Foreground" Value="{DynamicResource ButtonForegroundDisabled}" />
+		</Style>
+
+		</Style>
+
+		<Style Selector="^ ToggleButton">
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="Padding" Value="6,2" />
+		<Setter Property="CornerRadius" Value="0" />
+
+		<Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushDisabled}" />
+		<Setter Property="Foreground" Value="{DynamicResource ButtonForegroundDisabled}" />
+		</Style>
+
+		</Style>
+		</Style>-->
+	</ControlTheme>
 
 </ResourceDictionary>

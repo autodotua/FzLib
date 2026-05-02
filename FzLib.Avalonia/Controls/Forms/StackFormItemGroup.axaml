@@ -11,7 +11,7 @@
     mc:Ignorable="d">
     <StackPanel.Styles>
         <Style Selector="ctrl|FormItem">
-            <Setter Property="LabelWidth" Value="{Binding #root.LabelWidth}" />
+            <Setter Property="LabelWidth" Value="{Binding $parent[ctrl:StackFormItemGroup].LabelWidth}" />
         </Style>
     </StackPanel.Styles>
 </StackPanel>

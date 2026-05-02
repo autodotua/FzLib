@@ -82,10 +82,10 @@
         <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" />
         <Setter Property="BorderBrush" Value="Gray" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="ExtendClientAreaChromeHints" Value="NoChrome" />
+        <Setter Property="WindowDecorations" Value="BorderOnly" />
         <Setter Property="ExtendClientAreaToDecorationsHint" Value="True" />
         <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="-1" />
-        <Setter Property="SystemDecorations" Value="BorderOnly" />
+        <!--<Setter Property="SystemDecorations" Value="BorderOnly" />-->
         <Setter Property="SizeToContent" Value="WidthAndHeight" />
         <Setter Property="CanResize" Value="False" />
         <Setter Property="WindowStartupLocation" Value="CenterOwner" />
@@ -128,9 +128,9 @@
                         Margin="{TemplateBinding WindowDecorationMargin}"
                         Background="Transparent" />
                     <VisualLayerManager>
-                        <VisualLayerManager.ChromeOverlayLayer>
+                     <!--   <VisualLayerManager.ChromeOverlayLayer>
                             <TitleBar />
-                        </VisualLayerManager.ChromeOverlayLayer>
+                        </VisualLayerManager.ChromeOverlayLayer>-->
                         <ContentPresenter
                             Name="PART_ContentPresenter"
                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -183,15 +183,13 @@
                                 Content="{TemplateBinding CloseButtonContent}"
                                 IsCancel="True"
                                 IsEnabled="{TemplateBinding IsCloseButtonEnabled}"
-                                IsVisible="{TemplateBinding CloseButtonContent,
-                                                            Converter={x:Static cvt:Converters.IsNotNull}}" />
+                                IsVisible="{Binding CloseButtonContent, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static cvt:Converters.IsNotNull}}" />
                             <Button
                                 x:Name="SecondaryButton"
                                 Command="{TemplateBinding SecondaryButtonCommand}"
                                 Content="{TemplateBinding SecondaryButtonContent}"
                                 IsEnabled="{TemplateBinding IsSecondaryButtonEnabled}"
-                                IsVisible="{TemplateBinding SecondaryButtonContent,
-                                                            Converter={x:Static cvt:Converters.IsNotNull}}" />
+                                IsVisible="{Binding SecondaryButtonContent, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static cvt:Converters.IsNotNull}}" />
                             <Button
                                 x:Name="PrimaryButton"
                                 Background="{DynamicResource SystemControlHighlightAccentBrush}"
@@ -200,8 +198,7 @@
                                 Foreground="White"
                                 IsDefault="True"
                                 IsEnabled="{TemplateBinding IsPrimaryButtonEnabled}"
-                                IsVisible="{TemplateBinding PrimaryButtonContent,
-                                                            Converter={x:Static cvt:Converters.IsNotNull}}" />
+                                IsVisible="{Binding PrimaryButtonContent, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static cvt:Converters.IsNotNull}}" />
                         </StackPanel>
                         <VisualLayerManager Grid.Row="1">
                             <ContentPresenter

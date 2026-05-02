@@ -37,8 +37,7 @@
                         VerticalAlignment="Center"
                         Content="{TemplateBinding Label}"
                         ContentTemplate="{TemplateBinding LabelTemplate}"
-                        IsVisible="{TemplateBinding Label,
-                                                    Converter={x:Static cvt:Converters.IsNotNull}}" />
+                        IsVisible="{Binding Label,  RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static cvt:Converters.IsNotNull}}" />
 
                     <ContentPresenter
                         x:Name="PART_Header"
@@ -46,8 +45,7 @@
                         Margin="{DynamicResource FormItemHeaderMargin}"
                         Content="{TemplateBinding Header}"
                         ContentTemplate="{TemplateBinding HeaderTemplate}"
-                        IsVisible="{TemplateBinding Header,
-                                                    Converter={x:Static cvt:Converters.IsNotNull}}" />
+                        IsVisible="{Binding Header, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static cvt:Converters.IsNotNull}}" />
                     <ContentPresenter
                         Name="PART_ContentPresenter"
                         Grid.Row="1"
@@ -62,8 +60,7 @@
                         Margin="{DynamicResource FormItemDescriptionMargin}"
                         Content="{TemplateBinding Description}"
                         ContentTemplate="{TemplateBinding DescriptionTemplate}"
-                        IsVisible="{TemplateBinding Description,
-                                                    Converter={x:Static cvt:Converters.IsNotNull}}"
+                        IsVisible="{Binding Description, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static cvt:Converters.IsNotNull}}"
                         Opacity="{DynamicResource DescriptionOpacity}" />
                 </Grid>
             </ControlTemplate>

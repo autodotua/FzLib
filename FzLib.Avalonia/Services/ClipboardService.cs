@@ -2,6 +2,7 @@
 using Avalonia.Input;
 using Avalonia.Input.Platform;
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,15 +13,25 @@ namespace FzLib.Avalonia.Services
         public IClipboard Clipboard => ServiceExtension.GetMainTopLevel()?.Clipboard ??
             throw new InvalidOperationException("找不到剪贴板");
 
-        public Task ClearAsync() => Clipboard?.ClearAsync() ?? Task.CompletedTask;
+        public async Task ClearAsync() => await Clipboard?.ClearAsync();
 
-        public Task<object> GetDataAsync(string format) => Clipboard?.GetDataAsync(format) ?? Task.FromResult<object>(null);
+        public async Task<T> GetDataAsync<T>(DataFormat<T> dataFormat) where T : class => await (await Clipboard?.TryGetDataAsync()).TryGetValueAsync(dataFormat);
 
-        public Task<string[]> GetFormatsAsync() => Clipboard?.GetFormatsAsync() ?? Task.FromResult(Array.Empty<string>());
+        public async Task<IReadOnlyList<DataFormat>> GetFormatsAsync() => await Clipboard?.GetDataFormatsAsync();
 
-        public Task<string> GetTextAsync() => Clipboard?.GetTextAsync() ?? Task.FromResult<string>(null);
+        public async Task<string> GetTextAsync() => await Clipboard?.TryGetTextAsync();
 
-        public Task SetDataObjectAsync(IDataObject data) => Clipboard?.SetDataObjectAsync(data) ?? Task.CompletedTask;
+        public async Task SetDataObjectAsync<T>(DataFormat<T> format, T value) where T : class
+        {
+            var item = new DataTransferItem();
+            item.Set(format, value);
+            var dt = new DataTransfer();
+            dt.Add(item);
+
+            await Clipboard.SetDataAsync(dt);
+        }
+
+        public async Task SetDataObjectAsync(IAsyncDataTransfer data) => await Clipboard.SetDataAsync(data);
 
         public Task SetTextAsync(string text) => Clipboard?.SetTextAsync(text) ?? Task.CompletedTask;
     }
