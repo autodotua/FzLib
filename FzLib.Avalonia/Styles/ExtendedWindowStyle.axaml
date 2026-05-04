@@ -7,9 +7,11 @@ xmlns:sys="using:System">
 
 	<x:Double x:Key="CaptionButtonWidth">45</x:Double>
 	<x:Double x:Key="ExtendedWindowTitleBarHeight">30</x:Double>
-	<x:Double x:Key="ExtendedWindowShadowWidth">8</x:Double>
-	<Thickness x:Key="ExtendedWindowShadowMargin">8</Thickness>
-	<BoxShadows x:Key="ExtendedWindowBoxShadow">0 0 8 0 #FF000000</BoxShadows>
+	<x:Double x:Key="ExtendedWindowShadowWidth">4</x:Double>
+	<Thickness x:Key="ExtendedWindowShadowMargin">4</Thickness>
+	<Thickness x:Key="ExtendedWindowBorderThickness">1</Thickness>
+	<SolidColorBrush x:Key="ExtendedWindowBorderBrush" Color="Gray" Opacity="0.3"/>
+	<BoxShadows x:Key="ExtendedWindowBoxShadow">0 0 4 0 #88000000</BoxShadows>
 	<CornerRadius x:Key="ExtendedWindowCornerRadius">4</CornerRadius>
 
 	<ControlTheme x:Key="FluentDrawnCaptionButton" TargetType="Button">
@@ -47,31 +49,27 @@ xmlns:sys="using:System">
 			<WindowDrawnDecorationsTemplate>
 				<WindowDrawnDecorationsContent>
 					<WindowDrawnDecorationsContent.Underlay>
-						<Panel x:Name="PART_UnderlayWrapper" 
+						<Panel x:Name="PART_UnderlayWrapper"
 							   Margin="{StaticResource ExtendedWindowShadowMargin}">
 							<Border x:Name="PART_WindowBorder"
-							Background="Transparent"
-							 BorderThickness="{TemplateBinding FrameThickness}"
-							CornerRadius="{StaticResource ExtendedWindowCornerRadius}"							
-							BoxShadow="{StaticResource ExtendedWindowBoxShadow}"
-							BorderBrush="Transparent"
-							IsHitTestVisible="False" />
-							<Border
-							ClipToBounds="True"
-							CornerRadius="{StaticResource ExtendedWindowCornerRadius}">
-								<Panel x:Name="PART_TitleBar" VerticalAlignment="Top"
-									   Height="{TemplateBinding TitleBarHeight}"
-									   Background="Transparent"
-									   IsVisible="{TemplateBinding HasTitleBar}"
-									   WindowDecorationProperties.ElementRole="TitleBar" />
-							</Border>
+									Background="Transparent"
+									BorderThickness="{TemplateBinding FrameThickness}"
+									CornerRadius="{StaticResource ExtendedWindowCornerRadius}"
+									BoxShadow="{StaticResource ExtendedWindowBoxShadow}"
+									BorderBrush="Transparent"
+									IsHitTestVisible="False" />
+							<Panel x:Name="PART_TitleBar" VerticalAlignment="Top"
+								   Height="{TemplateBinding TitleBarHeight}"
+								   Background="Transparent"
+								   IsVisible="{TemplateBinding HasTitleBar}"
+								   WindowDecorationProperties.ElementRole="TitleBar" />
 
 						</Panel>
 					</WindowDrawnDecorationsContent.Underlay>
 
 					<WindowDrawnDecorationsContent.Overlay>
 						<!-- Overlay: only interactive caption buttons -->
-						<Panel x:Name="PART_OverlayWrapper" Margin="8">
+						<Panel x:Name="PART_OverlayWrapper" Margin="{StaticResource ExtendedWindowShadowMargin}">
 							<!-- Title text lives in overlay so it renders above client content -->
 							<Panel x:Name="PART_TitleTextPanel" VerticalAlignment="Top"
 								   Height="{TemplateBinding TitleBarHeight}"
@@ -187,8 +185,7 @@ xmlns:sys="using:System">
 				</WindowDrawnDecorationsContent>
 			</WindowDrawnDecorationsTemplate>
 		</Setter>
-
-		<!-- Shadow: inset border and add drop shadow -->
+<!--
 		<Style Selector="^:has-shadow /template/ Panel#PART_UnderlayWrapper">
 			<Setter Property="Margin" Value="{TemplateBinding ShadowThickness}"/>
 		</Style>
@@ -199,7 +196,7 @@ xmlns:sys="using:System">
 			<Setter Property="Margin" Value="{TemplateBinding ShadowThickness}"/>
 		</Style>
 
-		<!-- Border: inset titlebar and buttons inside frame -->
+
 		<Style Selector="^:has-border /template/ Panel#PART_TitleTextPanel">
 			<Setter Property="Margin" Value="1,1,1,0"/>
 		</Style>
@@ -208,11 +205,17 @@ xmlns:sys="using:System">
 		</Style>
 		<Style Selector="^:has-border /template/ StackPanel#PART_OverlayPanel">
 			<Setter Property="Margin" Value="0,1,1,0"/>
-		</Style>
+		</Style>-->
 
 		<!-- Maximized: restore button path changes -->
 		<Style Selector="^:maximized /template/ Path#RestoreButtonPath">
 			<Setter Property="Data" Value="M2048 410h-410v-410h-1638v1638h410v410h1638v-1638zM1434 1434h-1229v-1229h1229v1229zM1843 1843h-1229v-205h1024v-1024h205v1229z" />
+		</Style>
+		<Style Selector="^:maximized /template/  Panel#PART_UnderlayWrapper">
+			<Setter Property="Margin" Value="0" />
+		</Style>
+		<Style Selector="^:maximized /template/  Border#PART_WindowBorder">
+			<Setter Property="CornerRadius" Value="0" />
 		</Style>
 
 		<!-- Disabled buttons -->
@@ -255,6 +258,8 @@ xmlns:sys="using:System">
 		<Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
 		<Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
 		<Setter Property="FontFamily" Value="{DynamicResource ContentControlThemeFontFamily}" />
+		<Setter Property="BorderBrush" Value="{DynamicResource ExtendedWindowBorderBrush}" />
+		<Setter Property="BorderThickness" Value="{DynamicResource ExtendedWindowBorderThickness}" />
 		<Setter Property="WindowDecorationsTheme" Value="{StaticResource ExtendedWindowDrawnDecorationsTheme}" />
 		<Setter Property="WindowDecorations" Value="Full"/>
 		<Setter Property="ExtendClientAreaToDecorationsHint" Value="True" />
