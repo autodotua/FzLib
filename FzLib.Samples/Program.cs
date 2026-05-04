@@ -32,5 +32,8 @@ class Program
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()
             .LogToTrace()
-            .WithDeveloperTools();
+#if DEBUG
+            .WithDeveloperTools()
+#endif
+        ;
 }

@@ -18,6 +18,36 @@ using Avalonia.Controls.Chrome;
 
 namespace FzLib.Avalonia.Controls;
 
+public abstract class ExtendedWindowDrawnDecorations : WindowDrawnDecorations
+{
+    //public Control TitleBarCustomControl= new Button { Content="测试"};
+
+    protected override Type StyleKeyOverride => typeof(WindowDrawnDecorations);
+
+    public static readonly StyledProperty<Control> TitleBarCustomControlProperty =
+        AvaloniaProperty.Register<ExtendedWindowDrawnDecorations, Control>(nameof(TitleBarCustomControl), new Button { Content = "测试" });
+
+    public Control TitleBarCustomControl
+    {
+        get => GetValue(TitleBarCustomControlProperty);
+        set => SetValue(TitleBarCustomControlProperty, value);
+    }
+
+
+
+    public ExtendedWindowDrawnDecorations()
+    {
+    }
+}
+
+public abstract class ExtendedWindowDrawnDecorationsContent : WindowDrawnDecorationsContent
+{
+    public Control[] TitleBarControls = [new Button { Content = "测试" }];
+
+    public ExtendedWindowDrawnDecorationsContent()
+    {
+    }
+}
 public abstract class ExtendedWindow : Window
 {
     public static readonly StyledProperty<bool> CustomTitleBarProperty =
@@ -41,9 +71,9 @@ public abstract class ExtendedWindow : Window
     private Border bdShadow;
 
     private Border bdBorder;
-    
+
     private Border bdContainer;
-    
+
     private Bitmap icon;
 
     protected ExtendedWindow()
