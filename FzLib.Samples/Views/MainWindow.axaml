@@ -21,10 +21,11 @@
         <StackPanel
             Orientation="Horizontal"
             Spacing="16">
-            <ToggleButton
+            <ToggleButton Theme="{StaticResource FluentDrawnCaptionButton}" Width="NaN"
                 Content="自定义标题栏"
                 IsChecked="{Binding #root.CustomTitleBar}" />
-            <Button
+            <Button Theme="{StaticResource FluentDrawnCaptionButton}" 
+                    Width="NaN"
                 Click="Button_OnClick"
                 Content="切换暗色模式" />
         </StackPanel>

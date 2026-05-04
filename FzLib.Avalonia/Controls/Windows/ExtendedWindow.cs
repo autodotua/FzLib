@@ -25,27 +25,48 @@ public abstract class ExtendedWindow : Window
         AvaloniaProperty.Register<ExtendedWindow, bool>(
             nameof(CustomTitleBar));
 
+    public static readonly StyledProperty<CornerRadius> DefaultCornerRadiusProperty =
+        AvaloniaProperty.Register<ExtendedWindow, CornerRadius>(nameof(DefaultCornerRadius), new CornerRadius(4));
+
+    /// <summary>
+    /// DefaultShadowWidth StyledProperty definition
+    /// </summary>
+    public static readonly StyledProperty<double> DefaultShadowWidthProperty =
+        AvaloniaProperty.Register<ExtendedWindow, double>(nameof(DefaultShadowWidth), 4);
+
     public new static readonly DirectProperty<ExtendedWindow, Bitmap> IconProperty =
-        AvaloniaProperty.RegisterDirect<ExtendedWindow, Bitmap>(
+                AvaloniaProperty.RegisterDirect<ExtendedWindow, Bitmap>(
             nameof(Icon),
             o => o.Icon,
             (o, v) => o.Icon = v);
 
+    public static readonly StyledProperty<BoxShadows> ShadowProperty =
+        AvaloniaProperty.Register<ExtendedWindow, BoxShadows>(nameof(Shadow), BoxShadows.Parse("0 0 4 0 #88000000"));
+
+    public static readonly DirectProperty<ExtendedWindow, Thickness> ShadowThicknessProperty =
+        AvaloniaProperty.RegisterDirect<ExtendedWindow, Thickness>(nameof(ShadowThickness),
+            o => o.ShadowThickness);
+
+    public static readonly DirectProperty<ExtendedWindow, double> ShadowWidthProperty =
+        AvaloniaProperty.RegisterDirect<ExtendedWindow, double>(nameof(ShadowWidth),
+            o => o.ShadowWidth);
+
     public static readonly StyledProperty<IBrush> TitleBarBackgroundProperty =
-        AvaloniaProperty.Register<ExtendedWindow, IBrush>(
+                    AvaloniaProperty.Register<ExtendedWindow, IBrush>(
             nameof(TitleBarBackground), Brushes.Transparent);
 
     public static readonly StyledProperty<object> TitleBarFooterProperty =
         AvaloniaProperty.Register<ExtendedWindow, object>(
             nameof(TitleBarFooter));
 
-    private Border bdShadow;
-
-    private Border bdBorder;
-
-    private Border bdContainer;
-
+    //private Border bdBorder;
+    //private Border bdContainer;
+    //private Border bdShadow;
     private Bitmap icon;
+
+    private Thickness shadowThickness = new Thickness(4);
+
+    private double shadowWidth = 4;
 
     public ExtendedWindow()
     {
@@ -55,6 +76,22 @@ public abstract class ExtendedWindow : Window
     {
         get => GetValue(CustomTitleBarProperty);
         set => SetValue(CustomTitleBarProperty, value);
+    }
+
+    public CornerRadius DefaultCornerRadius
+    {
+        get => this.GetValue(DefaultCornerRadiusProperty);
+        set => SetValue(DefaultCornerRadiusProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the DefaultShadowWidth property. This StyledProperty 
+    /// indicates ....
+    /// </summary>
+    public double DefaultShadowWidth
+    {
+        get => this.GetValue(DefaultShadowWidthProperty);
+        set => SetValue(DefaultShadowWidthProperty, value);
     }
 
     public new Bitmap Icon
@@ -69,6 +106,28 @@ public abstract class ExtendedWindow : Window
 
     public bool IsClosed { get; private set; }
 
+    public BoxShadows Shadow
+    {
+        get => this.GetValue(ShadowProperty);
+        set => SetValue(ShadowProperty, value);
+    }
+
+    public Thickness ShadowThickness
+    {
+        get => shadowThickness;
+        private set => SetAndRaise(ShadowThicknessProperty, ref shadowThickness, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the ShadowWidth property. This DirectProperty 
+    /// indicates ....
+    /// </summary>
+    public double ShadowWidth
+    {
+        get => shadowWidth;
+        private set => SetAndRaise(ShadowWidthProperty, ref shadowWidth, value);
+    }
+
     public IBrush TitleBarBackground
     {
         get => GetValue(TitleBarBackgroundProperty);
@@ -80,9 +139,6 @@ public abstract class ExtendedWindow : Window
         get => GetValue(TitleBarFooterProperty);
         set => SetValue(TitleBarFooterProperty, value);
     }
-
-    protected double ShadowWidth { get; set; } = 8;
-
     protected override Type StyleKeyOverride
     {
         get
@@ -97,14 +153,13 @@ public abstract class ExtendedWindow : Window
             }
         }
     }
-
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
         var titleBar = e.NameScope.Find<Grid>("PART_TitleBar");
-        bdShadow = e.NameScope.Find<Border>("PART_Shadow");
-        bdBorder = e.NameScope.Find<Border>("PART_Border");
-        bdContainer = e.NameScope.Find<Border>("PART_ContainerBorder");
+        //bdShadow = e.NameScope.Find<Border>("PART_Shadow");
+        //bdBorder = e.NameScope.Find<Border>("PART_Border");
+        //bdContainer = e.NameScope.Find<Border>("PART_ContainerBorder");
 
         UpdateMargins();
 
@@ -139,6 +194,8 @@ public abstract class ExtendedWindow : Window
         if (change.Property == WindowStateProperty)
         {
             Debug.WriteLine($"WindowState:{change.NewValue}");
+
+            UpdateMargins();
         }
 
         if (change.Property == OffScreenMarginProperty)
@@ -153,32 +210,29 @@ public abstract class ExtendedWindow : Window
         }
     }
 
-    protected virtual bool UseCustomStyle()
-    {
-        return OperatingSystem.IsWindows();
-    }
-
     protected virtual bool UseCustomChrome()
     {
         return OperatingSystem.IsWindowsVersionAtLeast(10)
                && !OperatingSystem.IsWindowsVersionAtLeast(10, build: 22000);
     }
 
+    protected virtual bool UseCustomStyle()
+    {
+        return OperatingSystem.IsWindows();
+    }
     private void UpdateMargins()
     {
         if (!UseCustomStyle())
         {
             return;
         }
-        return;
+
         if (WindowState == WindowState.Maximized)
         {
             //最大化，不显示阴影
-            bdShadow.BoxShadow = default;
-            bdContainer.Margin = bdShadow.Margin = OffScreenMargin;
-            bdShadow.CornerRadius = default;
-            bdContainer.CornerRadius = default;
-            bdBorder.IsVisible = false;
+            ShadowWidth = 0;
+            ShadowThickness = default;
+            CornerRadius = default;
         }
         else
         {
@@ -187,26 +241,32 @@ public abstract class ExtendedWindow : Window
                 //仅对Windows10显示阴影
 
                 //阴影
-                bdShadow.BoxShadow = BoxShadows.Parse($"0 0 {ShadowWidth} 0 #88000000");
-                //内容向内收缩
-                bdContainer.Margin = bdShadow.Margin = new Thickness(ShadowWidth);
-                //显示圆角
-                bdShadow.CornerRadius = CornerRadius;
-                bdContainer.CornerRadius = CornerRadius;
-                //显示边框
-                bdBorder.IsVisible = true;
-                //边框显示在内容之外
-                BorderThickness.Deconstruct(out var l, out var t, out var r, out var b);
-                bdBorder.Margin = new Thickness(ShadowWidth - l, ShadowWidth - t, ShadowWidth - r, ShadowWidth - b);
+                //bdShadow.BoxShadow = BoxShadows.Parse($"0 0 {ShadowWidth} 0 #88000000");
+                ////内容向内收缩
+                //bdContainer.Margin = bdShadow.Margin = new Thickness(ShadowWidth);
+                ////显示圆角
+                //bdShadow.CornerRadius = CornerRadius;
+                //bdContainer.CornerRadius = CornerRadius;
+                ////显示边框
+                //bdBorder.IsVisible = true;
+                ////边框显示在内容之外
+                //BorderThickness.Deconstruct(out var l, out var t, out var r, out var b);
+                //bdBorder.Margin = new Thickness(ShadowWidth - l, ShadowWidth - t, ShadowWidth - r, ShadowWidth - b);
+
+
+                ShadowWidth = DefaultShadowWidth;
+                ShadowThickness = new Thickness(DefaultShadowWidth);
+                CornerRadius = DefaultCornerRadius;
+
             }
-            else
-            {
-                bdShadow.BoxShadow = default;
-                bdContainer.Margin = bdShadow.Margin = default;
-                bdShadow.CornerRadius = default;
-                bdContainer.CornerRadius = default;
-                bdBorder.IsVisible = false;
-            }
+            //else
+            //{
+            //    bdShadow.BoxShadow = default;
+            //    bdContainer.Margin = bdShadow.Margin = default;
+            //    bdShadow.CornerRadius = default;
+            //    bdContainer.CornerRadius = default;
+            //    bdBorder.IsVisible = false;
+            //}
         }
     }
 }
