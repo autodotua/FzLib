@@ -218,7 +218,8 @@ public abstract class ExtendedWindow : Window
 
     protected virtual bool UseCustomStyle()
     {
-        return OperatingSystem.IsWindows();
+        return true;
+        //return OperatingSystem.IsWindows();
     }
     private void UpdateMargins()
     {
@@ -227,7 +228,7 @@ public abstract class ExtendedWindow : Window
             return;
         }
 
-        if (WindowState == WindowState.Maximized)
+        if (WindowState == WindowState.Maximized || !UseCustomChrome())
         {
             //最大化，不显示阴影
             ShadowWidth = 0;
@@ -236,37 +237,9 @@ public abstract class ExtendedWindow : Window
         }
         else
         {
-            if (UseCustomChrome())
-            {
-                //仅对Windows10显示阴影
-
-                //阴影
-                //bdShadow.BoxShadow = BoxShadows.Parse($"0 0 {ShadowWidth} 0 #88000000");
-                ////内容向内收缩
-                //bdContainer.Margin = bdShadow.Margin = new Thickness(ShadowWidth);
-                ////显示圆角
-                //bdShadow.CornerRadius = CornerRadius;
-                //bdContainer.CornerRadius = CornerRadius;
-                ////显示边框
-                //bdBorder.IsVisible = true;
-                ////边框显示在内容之外
-                //BorderThickness.Deconstruct(out var l, out var t, out var r, out var b);
-                //bdBorder.Margin = new Thickness(ShadowWidth - l, ShadowWidth - t, ShadowWidth - r, ShadowWidth - b);
-
-
-                ShadowWidth = DefaultShadowWidth;
-                ShadowThickness = new Thickness(DefaultShadowWidth);
-                CornerRadius = DefaultCornerRadius;
-
-            }
-            //else
-            //{
-            //    bdShadow.BoxShadow = default;
-            //    bdContainer.Margin = bdShadow.Margin = default;
-            //    bdShadow.CornerRadius = default;
-            //    bdContainer.CornerRadius = default;
-            //    bdBorder.IsVisible = false;
-            //}
+            ShadowWidth = DefaultShadowWidth;
+            ShadowThickness = new Thickness(DefaultShadowWidth);
+            CornerRadius = DefaultCornerRadius;
         }
     }
 }

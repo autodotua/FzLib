@@ -15,9 +15,6 @@
     Orientation="Horizontal"
     mc:Ignorable="d">
     <StackPanel.Resources>
-        <cv:InverseBoolConverter x:Key="InverseBoolConverter" />
-        <sys:Boolean x:Key="IsMaximized">True</sys:Boolean>
-        <sys:Boolean x:Key="IsNotMaximized">False</sys:Boolean>
         <ControlTheme
             x:Key="{x:Type Button}"
             TargetType="Button">
@@ -37,9 +34,6 @@
                     <TransformOperationsTransition
                         Property="RenderTransform"
                         Duration="0:0:.075" />
-                    <!--  <BrushTransition  -->
-                    <!--  Property="Background"  -->
-                    <!--  Duration="0:0:0.1" />  -->
                 </Transitions>
             </Setter>
 
@@ -57,11 +51,6 @@
                         ContentTemplate="{TemplateBinding ContentTemplate}"
                         CornerRadius="{TemplateBinding CornerRadius}"
                         RecognizesAccessKey="True">
-                        <!-- <ContentPresenter.Transitions> -->
-                        <!--  <BrushTransition  -->
-                        <!--  Property="Background"  -->
-                        <!--  Duration="0:0:1" />  -->
-                        <!-- </ContentPresenter.Transitions> -->
                     </ContentPresenter>
                 </ControlTemplate>
             </Setter>
@@ -131,10 +120,10 @@
             <Rectangle
                 Width="10"
                 Height="10"
-                IsVisible="{DynamicResource IsNotMaximized}" />
+                IsVisible="{Binding !#btns.IsMaximized}" />
             <Path
                 Data="M20 13 L20 11 L28 11 L28 19 L26 19 L26 13 L18 13 L18 21 L26 21 L26 19"
-                IsVisible="{DynamicResource IsMaximized}">
+                IsVisible="{Binding #btns.IsMaximized}">
                 <Path.RenderTransform>
                     <TranslateTransform X="2" Y="-2" />
                 </Path.RenderTransform>
@@ -143,6 +132,7 @@
     </Button>
     <Button
         x:Name="btnClose"
+        CornerRadius="{Binding #btns.RightTopCornerRadius}"
         Click="CloseButton_Click">
         <Button.Styles>
             <Style Selector="Button:pointerover">

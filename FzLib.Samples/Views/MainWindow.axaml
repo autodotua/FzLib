@@ -21,13 +21,18 @@
         <StackPanel
             Orientation="Horizontal"
             Spacing="16">
-            <ToggleButton Theme="{StaticResource FluentDrawnCaptionButton}" Width="NaN"
+            <ToggleButton
+                Width="NaN"
+                VerticalContentAlignment="Center"
                 Content="自定义标题栏"
-                IsChecked="{Binding #root.CustomTitleBar}" />
-            <Button Theme="{StaticResource FluentDrawnCaptionButton}" 
-                    Width="NaN"
+                IsChecked="{Binding #root.CustomTitleBar}"
+                Theme="{StaticResource FluentDrawnCaptionButton}" />
+            <Button
+                Width="NaN"
+                VerticalContentAlignment="Center"
                 Click="Button_OnClick"
-                Content="切换暗色模式" />
+                Content="切换暗色模式"
+                Theme="{StaticResource FluentDrawnCaptionButton}" />
         </StackPanel>
     </c:ExtendedWindow.TitleBarFooter>
     <Window.Styles>
@@ -36,9 +41,6 @@
         </Style>
         <Style Selector="Expander">
             <Setter Property="HorizontalAlignment" Value="Stretch" />
-        </Style>
-        <Style Selector="StackPanel">
-            <Setter Property="Spacing" Value="8" />
         </Style>
     </Window.Styles>
     <Grid

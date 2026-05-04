@@ -12,12 +12,54 @@ namespace FzLib.Avalonia.Controls;
 
 public partial class WindowButtons : StackPanel
 {
+    public static readonly StyledProperty<double> CornerRadiusWidthProperty =
+        AvaloniaProperty.Register<WindowButtons, double>(nameof(CornerRadiusWidth));
+
+    public static readonly DirectProperty<WindowButtons, bool> IsMaximizedProperty =
+            AvaloniaProperty.RegisterDirect<WindowButtons, bool>(nameof(IsMaximized),
+            o => o.IsMaximized,
+            (o, v) => o.IsMaximized = v);
+
+    public static readonly DirectProperty<WindowButtons, CornerRadius> RightTopCornerRadiusProperty =
+        AvaloniaProperty.RegisterDirect<WindowButtons, CornerRadius>(nameof(RightTopCornerRadius),
+            o => o.RightTopCornerRadius,
+            (o, v) => o.RightTopCornerRadius = v);
+
+    private bool isMaximized = default;
+
+    private CornerRadius rightTopCornerRadius = default;
+
     public WindowButtons()
     {
         InitializeComponent();
-        // RenderOptions.SetEdgeMode(btnMinimize,EdgeMode.Aliased);
-        // RenderOptions.SetEdgeMode(btnResize,EdgeMode.Aliased);
-        // RenderOptions.SetEdgeMode(btnClose,EdgeMode.Aliased);
+    }
+
+    public double CornerRadiusWidth
+    {
+        get => this.GetValue(CornerRadiusWidthProperty);
+        set => SetValue(CornerRadiusWidthProperty, value);
+    }
+
+    public bool IsMaximized
+    {
+        get => isMaximized;
+        set => SetAndRaise(IsMaximizedProperty, ref isMaximized, value);
+    }
+
+    public CornerRadius RightTopCornerRadius
+    {
+        get => rightTopCornerRadius;
+        set => SetAndRaise(RightTopCornerRadiusProperty, ref rightTopCornerRadius, value);
+    }
+
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
+        base.OnPropertyChanged(change);
+        if (change.Property == CornerRadiusWidthProperty)
+        {
+            var v = (double)change.NewValue;
+            RightTopCornerRadius = new CornerRadius(0, v, 0, 0);
+        }
     }
 
     private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -75,10 +117,8 @@ public partial class WindowButtons : StackPanel
             throw new NotSupportedException("TopLevel必须是Window");
         }
     }
-
     private void UpdateIsMaximized(Window win)
     {
-        Resources["IsNotMaximized"] =
-            !(bool)(Resources["IsMaximized"] = win.WindowState == WindowState.Maximized);
+        IsMaximized = win.WindowState == WindowState.Maximized;
     }
 }
