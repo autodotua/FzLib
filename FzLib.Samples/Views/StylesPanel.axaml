@@ -55,7 +55,7 @@
                             Spacing="8">
                             <DropDownButton
                                 Classes="Primary"
-                                Content="ToggleButton.Primary">
+                                Content="DropDownButton.Primary">
                                 <DropDownButton.Flyout>
                                     <MenuFlyout>
                                         <sys:String>hello</sys:String>
@@ -65,7 +65,7 @@
                             </DropDownButton>
                             <DropDownButton
                                 Classes="Link"
-                                Content="ToggleButton.Link">
+                                Content="DropDownButton.Link">
                                 <DropDownButton.Flyout>
                                     <MenuFlyout>
                                         <sys:String>hello</sys:String>
@@ -75,7 +75,7 @@
                             </DropDownButton>
                             <DropDownButton
                                 Classes="Transparent"
-                                Content="ToggleButton.Transparent">
+                                Content="DropDownButton.Transparent">
                                 <DropDownButton.Flyout>
                                     <MenuFlyout>
                                         <sys:String>hello</sys:String>

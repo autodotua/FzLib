@@ -156,30 +156,7 @@ public abstract class ExtendedWindow : Window
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
-        var titleBar = e.NameScope.Find<Grid>("PART_TitleBar");
-        //bdShadow = e.NameScope.Find<Border>("PART_Shadow");
-        //bdBorder = e.NameScope.Find<Border>("PART_Border");
-        //bdContainer = e.NameScope.Find<Border>("PART_ContainerBorder");
-
         UpdateMargins();
-
-        if (titleBar == null)
-        {
-            return;
-        }
-
-
-        titleBar.DoubleTapped += (s, e) =>
-        {
-            if (e.Source == s) //避免按住标题栏上的按钮时误拖动
-            {
-                WindowState = WindowState switch
-                {
-                    WindowState.Normal => WindowState.Maximized,
-                    _ => WindowState.Normal,
-                };
-            }
-        };
     }
 
     protected override void OnClosed(EventArgs e)
@@ -212,14 +189,15 @@ public abstract class ExtendedWindow : Window
 
     protected virtual bool UseCustomChrome()
     {
+        //仅在Windows 10使用自定义窗口边框，Windows7和11不使用
         return OperatingSystem.IsWindowsVersionAtLeast(10)
                && !OperatingSystem.IsWindowsVersionAtLeast(10, build: 22000);
     }
 
     protected virtual bool UseCustomStyle()
     {
-        return true;
-        //return OperatingSystem.IsWindows();
+        //仅在Windows上使用自定义样式
+        return OperatingSystem.IsWindows();
     }
     private void UpdateMargins()
     {

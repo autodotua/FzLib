@@ -7,31 +7,40 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Avalonia.Media;
 using Avalonia.Media.TextFormatting.Unicode;
+using Avalonia.Controls.Primitives;
 
 namespace FzLib.Avalonia.Controls;
 
-public partial class WindowButtons : StackPanel
+public partial class WindowButtons : TemplatedControl
 {
     public static readonly StyledProperty<double> CornerRadiusWidthProperty =
         AvaloniaProperty.Register<WindowButtons, double>(nameof(CornerRadiusWidth));
 
-    public static readonly DirectProperty<WindowButtons, bool> IsMaximizedProperty =
-            AvaloniaProperty.RegisterDirect<WindowButtons, bool>(nameof(IsMaximized),
-            o => o.IsMaximized,
-            (o, v) => o.IsMaximized = v);
+    public static readonly DirectProperty<WindowButtons, bool> IsWindowMaximizedProperty =
+            AvaloniaProperty.RegisterDirect<WindowButtons, bool>(nameof(IsWindowMaximized),
+            o => o.IsWindowMaximized,
+            (o, v) => o.IsWindowMaximized = v);
+
+    public static readonly DirectProperty<WindowButtons, bool> IsWindowNormalProperty =
+        AvaloniaProperty.RegisterDirect<WindowButtons, bool>(nameof(IsWindowNormal),
+            o => o.IsWindowNormal,
+            (o, v) => o.IsWindowNormal = v);
 
     public static readonly DirectProperty<WindowButtons, CornerRadius> RightTopCornerRadiusProperty =
-        AvaloniaProperty.RegisterDirect<WindowButtons, CornerRadius>(nameof(RightTopCornerRadius),
+            AvaloniaProperty.RegisterDirect<WindowButtons, CornerRadius>(nameof(RightTopCornerRadius),
             o => o.RightTopCornerRadius,
             (o, v) => o.RightTopCornerRadius = v);
 
+    private Button btnClose;
+    private Button btnMinimize;
+    private Button btnResize;
     private bool isMaximized = default;
 
+    private bool isWindowNormal = default;
     private CornerRadius rightTopCornerRadius = default;
 
     public WindowButtons()
     {
-        InitializeComponent();
     }
 
     public double CornerRadiusWidth
@@ -40,16 +49,51 @@ public partial class WindowButtons : StackPanel
         set => SetValue(CornerRadiusWidthProperty, value);
     }
 
-    public bool IsMaximized
+    public bool IsWindowMaximized
     {
         get => isMaximized;
-        set => SetAndRaise(IsMaximizedProperty, ref isMaximized, value);
+        set => SetAndRaise(IsWindowMaximizedProperty, ref isMaximized, value);
+    }
+
+    public bool IsWindowNormal
+    {
+        get => isWindowNormal;
+        set => SetAndRaise(IsWindowNormalProperty, ref isWindowNormal, value);
     }
 
     public CornerRadius RightTopCornerRadius
     {
         get => rightTopCornerRadius;
         set => SetAndRaise(RightTopCornerRadiusProperty, ref rightTopCornerRadius, value);
+    }
+
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+    {
+        base.OnApplyTemplate(e);
+        btnClose = e.NameScope.Find<Button>("PART_CloseButton") ?? throw new Exception("未找到PART_CloseButton");
+        btnResize = e.NameScope.Find<Button>("PART_ResizeButton") ?? throw new Exception("未找到PART_ResizeButton");
+        btnMinimize = e.NameScope.Find<Button>("PART_MinimizeButton") ?? throw new Exception("未找到PART_MinimizeButton");
+
+        btnClose.Click += CloseButton_Click;
+        btnResize.Click += ResizeButton_Click;
+        btnMinimize.Click += MinimizeButton_Click;
+
+        if (TopLevel.GetTopLevel(this) is Window win)
+        {
+            UpdateIsMaximized(win);
+
+            win.PropertyChanged += (s, e2) =>
+            {
+                if (e2.Property == Window.WindowStateProperty)
+                {
+                    UpdateIsMaximized(win);
+                }
+            };
+        }
+        else
+        {
+            throw new NotSupportedException("TopLevel必须是Window");
+        }
     }
 
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
@@ -98,27 +142,9 @@ public partial class WindowButtons : StackPanel
         }
     }
 
-    private void StackPanel_Loaded(object sender, RoutedEventArgs e)
-    {
-        if (TopLevel.GetTopLevel(this) is Window win)
-        {
-            UpdateIsMaximized(win);
 
-            win.PropertyChanged += (s, e2) =>
-            {
-                if (e2.Property == Window.WindowStateProperty)
-                {
-                    UpdateIsMaximized(win);
-                }
-            };
-        }
-        else
-        {
-            throw new NotSupportedException("TopLevel必须是Window");
-        }
-    }
     private void UpdateIsMaximized(Window win)
     {
-        IsMaximized = win.WindowState == WindowState.Maximized;
+        IsWindowNormal = !(IsWindowMaximized = win.WindowState == WindowState.Maximized);
     }
 }
