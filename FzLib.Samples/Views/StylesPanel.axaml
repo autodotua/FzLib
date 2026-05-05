@@ -17,7 +17,7 @@
             Content="IsEnabled"
             DockPanel.Dock="Bottom"
             IsChecked="True" />
-        <ScrollViewer>
+        <ScrollViewer b:SmoothScrollBehavior.IsEnabled="True">
             <StackPanel
                 Margin="8"
                 IsEnabled="{Binding #chkIsEnabled.IsChecked}"
@@ -95,6 +95,28 @@
                             </DropDownButton>
                         </StackPanel>
                     </StackPanel>
+                </HeaderedContentControl>
+                <HeaderedContentControl
+                    Classes="GroupBox"
+                    Header="滑块">
+                    <c:StackFormItemGroup>
+                        <c:FormItem Label="带数值滑块：">
+                            <Slider
+                                Classes="ThumbLabel"
+                                IsSnapToTickEnabled="True"
+                                Maximum="10"
+                                Minimum="0"
+                                TickFrequency="1" />
+                        </c:FormItem>
+                        <c:FormItem Label="带数值滑块（1位小数）：">
+                            <Slider
+                                Classes="ThumbLabelF1"
+                                IsSnapToTickEnabled="True"
+                                Maximum="10"
+                                Minimum="0"
+                                TickFrequency="0.1" />
+                        </c:FormItem>
+                    </c:StackFormItemGroup>
                 </HeaderedContentControl>
                 <HeaderedContentControl
                     Classes="GroupBox"

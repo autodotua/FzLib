@@ -1,0 +1,51 @@
+<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style Selector="Slider">
+        <Style Selector="^.ThumbLabel">
+            <Style Selector="^ /template/ Thumb#thumb">
+                <Setter Property="Template">
+                    <ControlTemplate>
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{DynamicResource SliderThumbCornerRadius}">
+                            <Viewbox>
+                                <TextBlock
+                                    Margin="2"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Foreground="#FFDDDDDD"
+                                    Text="{ReflectionBinding .}" />
+                            </Viewbox>
+                        </Border>
+                    </ControlTemplate>
+                </Setter>
+            </Style>
+        </Style>
+        <Style Selector="^.ThumbLabelF1">
+            <Style Selector="^ /template/ Thumb#thumb">
+                <Setter Property="Template">
+                    <ControlTemplate>
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{DynamicResource SliderThumbCornerRadius}">
+                            <Viewbox>
+                                <TextBlock
+                                    Margin="2"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Foreground="#FFDDDDDD"
+                                    Text="{ReflectionBinding .,
+                                                             StringFormat={}{0:F1}}" />
+                            </Viewbox>
+                        </Border>
+                    </ControlTemplate>
+                </Setter>
+            </Style>
+        </Style>
+    </Style>
+</Styles>

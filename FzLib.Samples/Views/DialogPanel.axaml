@@ -22,15 +22,9 @@
             DockPanel.Dock="Bottom"
             Text="{Binding Message}" />
 
-        <WrapPanel>
-            <WrapPanel.Styles>
-                <Style Selector="Button">
-                    <Setter Property="Margin" Value="8" />
-                </Style>
-                <Style Selector="ComboBox">
-                    <Setter Property="Margin" Value="8" />
-                </Style>
-            </WrapPanel.Styles>
+        <WrapPanel
+            ItemSpacing="8"
+            LineSpacing="8">
             <ComboBox
                 DisplayMemberBinding="{Binding ., Converter={StaticResource DialogContainerDescriptionConverter}}"
                 ItemsSource="{me:EnumValues EnumType='dialogs:DialogContainerType'}"

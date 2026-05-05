@@ -2,6 +2,7 @@
     x:Class="FzLib.Samples.Views.FormPanel"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:b="using:FzLib.Avalonia.Behaviors"
     xmlns:c="using:FzLib.Avalonia.Controls"
     xmlns:cvt="using:FzLib.Avalonia.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,7 +13,9 @@
     d:DesignWidth="800"
     x:DataType="vm:FormViewModel"
     mc:Ignorable="d">
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <ScrollViewer
+        b:SmoothScrollBehavior.IsEnabled="True"
+        VerticalScrollBarVisibility="Auto">
         <StackPanel
             Orientation="Vertical"
             Spacing="16">
