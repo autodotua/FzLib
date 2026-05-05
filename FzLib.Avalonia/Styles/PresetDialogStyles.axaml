@@ -79,7 +79,7 @@
                         MinLines="{TemplateBinding MinLines}"
                         PasswordChar="{TemplateBinding PasswordChar}"
                         Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}}"
-                        Watermark="{TemplateBinding Watermark}" />
+                        PlaceholderText="{TemplateBinding Watermark}" />
                     <!--  由于性能原因，TemplateBinding 只支持 OneWay 模式（这与 WPF 相同）。这意味着 TemplateBinding 实际上等同于 {Binding RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}。如果在控件模板中需要 TwoWay 绑定，则需要使用完整的语法，如下所示。请注意，Binding 也将使用默认的绑定模式，不同于 TemplateBinding。  -->
                     <!--  {Binding RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}  -->
                     <!--  TemplateBinding 只能在 IStyledElement 上使用。  -->

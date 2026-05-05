@@ -31,31 +31,41 @@
                         <StackPanel
                             Orientation="Horizontal"
                             Spacing="8">
+                            <Button Content="Button" />
                             <Button
                                 Classes="Primary"
-                                Content="Button.Primary" />
+                                Content="Primary" />
                             <Button
                                 Classes="Link"
-                                Content="Button.Link" />
+                                Content="Link" />
                             <Button
                                 Classes="Transparent"
-                                Content="Button.Transparent" />
+                                Content="Transparent" />
                         </StackPanel>
 
                         <StackPanel
                             Orientation="Horizontal"
                             Spacing="8">
+                            <ToggleButton Content="ToggleButton" />
                             <ToggleButton
                                 Classes="Transparent"
-                                Content="ToggleButton.Transparent" />
+                                Content="Transparent" />
                         </StackPanel>
 
                         <StackPanel
                             Orientation="Horizontal"
                             Spacing="8">
+                            <DropDownButton Content="DropDownButton">
+                                <DropDownButton.Flyout>
+                                    <MenuFlyout>
+                                        <sys:String>hello</sys:String>
+                                        <sys:String>world</sys:String>
+                                    </MenuFlyout>
+                                </DropDownButton.Flyout>
+                            </DropDownButton>
                             <DropDownButton
                                 Classes="Primary"
-                                Content="DropDownButton.Primary">
+                                Content="Primary">
                                 <DropDownButton.Flyout>
                                     <MenuFlyout>
                                         <sys:String>hello</sys:String>
@@ -65,7 +75,7 @@
                             </DropDownButton>
                             <DropDownButton
                                 Classes="Link"
-                                Content="DropDownButton.Link">
+                                Content="Link">
                                 <DropDownButton.Flyout>
                                     <MenuFlyout>
                                         <sys:String>hello</sys:String>
@@ -75,7 +85,7 @@
                             </DropDownButton>
                             <DropDownButton
                                 Classes="Transparent"
-                                Content="DropDownButton.Transparent">
+                                Content="Transparent">
                                 <DropDownButton.Flyout>
                                     <MenuFlyout>
                                         <sys:String>hello</sys:String>
@@ -102,6 +112,9 @@
                             Header=".GroupBoxWithBorder">
                             <TextBlock Text="内容内容内容内容内容内容内容内容内容内容内容" />
                         </HeaderedContentControl>
+                        <GroupBox Header="默认GroupBox">
+                            <TextBlock Text="内容内容内容内容内容内容内容内容内容内容内容" />
+                        </GroupBox>
                     </StackPanel>
                 </HeaderedContentControl>
                 <HeaderedContentControl
@@ -117,10 +130,10 @@
                             TextWrapping="Wrap" />
                         <TextBlock
                             Classes="Description"
-                            Text="描述性文本" />
+                            Text="描述性文本.Description" />
                         <TextBlock
                             Classes="Disableable"
-                            Text="可禁用文本" />
+                            Text="可禁用文本.Disableable" />
                     </StackPanel>
                 </HeaderedContentControl>
                 <HeaderedContentControl

@@ -85,7 +85,7 @@
         <Setter Property="WindowDecorations" Value="BorderOnly" />
         <Setter Property="ExtendClientAreaToDecorationsHint" Value="True" />
         <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="-1" />
-        <!--<Setter Property="SystemDecorations" Value="BorderOnly" />-->
+        <Setter Property="WindowDecorationsTheme" Value="{StaticResource ExtendedWindowDrawnDecorationsTheme}" />
         <Setter Property="SizeToContent" Value="WidthAndHeight" />
         <Setter Property="CanResize" Value="False" />
         <Setter Property="WindowStartupLocation" Value="CenterOwner" />
@@ -128,7 +128,7 @@
                         Margin="{TemplateBinding WindowDecorationMargin}"
                         Background="Transparent" />
                     <VisualLayerManager>
-                     <!--   <VisualLayerManager.ChromeOverlayLayer>
+                        <!--   <VisualLayerManager.ChromeOverlayLayer>
                             <TitleBar />
                         </VisualLayerManager.ChromeOverlayLayer>-->
                         <ContentPresenter

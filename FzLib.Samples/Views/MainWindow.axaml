@@ -11,7 +11,7 @@
     xmlns:vm="using:FzLib.Samples.ViewModels"
     x:Name="root"
     Title="窗口标题"
-    Width="640"
+    Width="800"
     Height="640"
     x:DataType="viewModels:MainViewModel"
     Icon="avares://FzLib.Samples/favicon.png"
@@ -23,12 +23,14 @@
             Spacing="16">
             <ToggleButton
                 Width="NaN"
+                Padding="8,0"
                 VerticalContentAlignment="Center"
                 Content="自定义标题栏"
                 IsChecked="{Binding #root.CustomTitleBar}"
                 Theme="{StaticResource FluentDrawnCaptionButton}" />
             <Button
                 Width="NaN"
+                Padding="8,0"
                 VerticalContentAlignment="Center"
                 Click="Button_OnClick"
                 Content="切换暗色模式"
@@ -69,7 +71,19 @@
                     Grid.Column="2"
                     Text="FzLib.Samples" />
             </Grid>
-            <TabControl Grid.Row="1">
+            <TabControl
+                Grid.Row="1"
+                TabStripPlacement="Left">
+                <TabControl.Resources>
+                    <x:Double x:Key="TabItemMinHeight">32</x:Double>
+                    <x:Double x:Key="TabItemVerticalPipeHeight">18</x:Double>
+                    <x:Double x:Key="TabItemPipeThickness">2</x:Double>
+                </TabControl.Resources>
+                <TabControl.Styles>
+                    <Style Selector="TabItem &gt; AccessText">
+                        <Setter Property="FontSize" Value="18" />
+                    </Style>
+                </TabControl.Styles>
                 <TabItem Header="主题和样式">
                     <local:StylesPanel />
                 </TabItem>

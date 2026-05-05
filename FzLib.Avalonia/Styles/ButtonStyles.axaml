@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style Selector="Button">
         <Style Selector="^.Primary">
-            <Setter Property="Background" Value="{DynamicResource Accent1}" />
+            <Setter Property="Background" Value="{DynamicResource Accent0}" />
             <Setter Property="Foreground" Value="White" />
 
             <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
@@ -11,7 +11,7 @@
                 <Setter Property="Foreground" Value="White" />
             </Style>
             <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-                <Setter Property="Background" Value="{DynamicResource Accent3}" />
+                <Setter Property="Background" Value="{DynamicResource Accent1}" />
                 <Setter Property="Foreground" Value="White" />
             </Style>
         </Style>
@@ -47,15 +47,26 @@
 
     <Style Selector="DropDownButton">
         <Style Selector="^.Primary">
-            <Setter Property="Background" Value="{DynamicResource Accent1}" />
+            <Setter Property="Background" Value="{DynamicResource Accent0}" />
             <Setter Property="Foreground" Value="White" />
+
+            <Style Selector="^ /template/ PathIcon#DropDownGlyph">
+                <Setter Property="Foreground" Value="White" />
+            </Style>
+
+            <Style Selector="^:pointerover /template/ Border#RootBorder">
+                <Setter Property="Background" Value="{DynamicResource Accent2}" />
+            </Style>
 
             <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
                 <Setter Property="Background" Value="{DynamicResource Accent2}" />
                 <Setter Property="Foreground" Value="White" />
             </Style>
+            <Style Selector="^:pressed /template/ Border#RootBorder">
+                <Setter Property="Background" Value="{DynamicResource Accent1}" />
+            </Style>
             <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
-                <Setter Property="Background" Value="{DynamicResource Accent3}" />
+                <Setter Property="Background" Value="{DynamicResource Accent1}" />
                 <Setter Property="Foreground" Value="White" />
             </Style>
         </Style>

@@ -139,20 +139,9 @@ public abstract class ExtendedWindow : Window
         get => GetValue(TitleBarFooterProperty);
         set => SetValue(TitleBarFooterProperty, value);
     }
-    protected override Type StyleKeyOverride
-    {
-        get
-        {
-            if (UseCustomStyle())
-            {
-                return typeof(ExtendedWindow);
-            }
-            else
-            {
-                return typeof(Window);
-            }
-        }
-    }
+
+    protected override Type StyleKeyOverride => UseCustomStyle() ? typeof(ExtendedWindow) : typeof(Window);
+
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
