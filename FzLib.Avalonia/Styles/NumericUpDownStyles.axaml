@@ -76,6 +76,7 @@
                                         TabIndex="2">
                                         <RepeatButton
                                             Name="PART_IncreaseButton"
+                                            Background="Transparent"
                                             IsTabStop="{TemplateBinding IsTabStop}"
                                             Theme="{StaticResource FluentButtonSpinnerRepeatButton}">
                                             <Path
@@ -89,6 +90,7 @@
                                         </RepeatButton>
                                         <RepeatButton
                                             Name="PART_DecreaseButton"
+                                            Background="Transparent"
                                             IsTabStop="{TemplateBinding IsTabStop}"
                                             Theme="{StaticResource FluentButtonSpinnerRepeatButton}">
                                             <Path

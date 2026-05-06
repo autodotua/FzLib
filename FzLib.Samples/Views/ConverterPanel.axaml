@@ -16,14 +16,17 @@
     x:DataType="vm:ConverterViewModel"
     mc:Ignorable="d">
     <UserControl.Styles>
-        <Style Selector="StackPanel">
+        <Style Selector="HeaderedContentControl.GroupBox > StackPanel">
+            <Setter Property="Spacing" Value="8" />
+        </Style>
+        <Style Selector="c|FormItem > StackPanel">
             <Setter Property="Spacing" Value="8" />
         </Style>
     </UserControl.Styles>
     <ScrollViewer
         b:SmoothScrollBehavior.IsEnabled="True"
         VerticalScrollBarVisibility="Auto">
-        <StackPanel>
+        <StackPanel Spacing="8">
             <HeaderedContentControl
                 Classes="GroupBox"
                 Header="基本类型">
