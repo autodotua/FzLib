@@ -51,10 +51,6 @@ public abstract class ExtendedWindow : Window
         AvaloniaProperty.RegisterDirect<ExtendedWindow, double>(nameof(ShadowWidth),
             o => o.ShadowWidth);
 
-    public static readonly StyledProperty<IBrush> TitleBarBackgroundProperty =
-                    AvaloniaProperty.Register<ExtendedWindow, IBrush>(
-            nameof(TitleBarBackground), Brushes.Transparent);
-
     public static readonly StyledProperty<object> TitleBarFooterProperty =
         AvaloniaProperty.Register<ExtendedWindow, object>(
             nameof(TitleBarFooter));
@@ -126,12 +122,6 @@ public abstract class ExtendedWindow : Window
     {
         get => shadowWidth;
         private set => SetAndRaise(ShadowWidthProperty, ref shadowWidth, value);
-    }
-
-    public IBrush TitleBarBackground
-    {
-        get => GetValue(TitleBarBackgroundProperty);
-        set => SetValue(TitleBarBackgroundProperty, value);
     }
 
     public object TitleBarFooter

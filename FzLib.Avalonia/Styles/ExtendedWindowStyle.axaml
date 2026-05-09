@@ -204,7 +204,8 @@
                         <DockPanel>
                             <Grid
                                 x:Name="PART_CustomTitleBar"
-                                Height="30"
+                                Height="{DynamicResource ExtendedWindowTitleBarHeight}"
+                                VerticalAlignment="Top"
                                 ColumnDefinitions="Auto,0,Auto,8,*,2,Auto"
                                 DockPanel.Dock="Top"
                                 IsVisible="{Binding !CustomTitleBar, RelativeSource={RelativeSource TemplatedParent}}">
