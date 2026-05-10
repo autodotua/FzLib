@@ -53,7 +53,8 @@
         </Style>
 
         <Style Selector="^:pressed /template/ ContentPresenter">
-            <Setter Property="Background" Value="{DynamicResource Background1}" />
+            <Setter Property="Background" Value="{DynamicResource Background2}" />
+            <Setter Property="Opacity" Value="0.7" />
         </Style>
     </ControlTheme>
 

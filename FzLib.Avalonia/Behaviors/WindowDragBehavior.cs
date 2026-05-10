@@ -9,9 +9,10 @@ namespace FzLib.Avalonia.Behaviors;
 
 public class WindowDragBehavior : Behavior<InputElement>
 {
+    private InputElement element;
     private Point? startPoint;
     private Window window;
-    private InputElement element;
+    public bool DoubleTapToMaximize { get; set; } = false;
 
     protected override void OnAttached()
     {
@@ -42,6 +43,32 @@ public class WindowDragBehavior : Behavior<InputElement>
         element = null;
     }
 
+    private void AttachPointerEvents()
+    {
+        if (element == null)
+        {
+            return;
+        }
+
+        element.PointerPressed += OnPointerPressed;
+        element.PointerMoved += OnPointerMoved;
+        element.PointerReleased += OnPointerReleased;
+        element.DoubleTapped += OnDoubleTapped;
+    }
+
+    private void DetachPointerEvents()
+    {
+        if (element == null)
+        {
+            return;
+        }
+
+        element.PointerPressed -= OnPointerPressed;
+        element.PointerMoved -= OnPointerMoved;
+        element.PointerReleased -= OnPointerReleased;
+        element.DoubleTapped -= OnDoubleTapped;
+    }
+
     private void OnAttachedToVisualTree(object sender, VisualTreeAttachmentEventArgs e)
     {
         if (element == null)
@@ -61,33 +88,41 @@ public class WindowDragBehavior : Behavior<InputElement>
         DetachPointerEvents();
         window = null;
     }
-
-    private void AttachPointerEvents()
+    private void OnDoubleTapped(object sender, TappedEventArgs e)
     {
-        if (element == null)
+        if (element == null || window == null || e.Source != sender || !DoubleTapToMaximize)
+        {
+            return;
+        }
+        if (window.WindowState == WindowState.Maximized)
+        {
+            window.WindowState = WindowState.Normal;
+        }
+        else
+        {
+            window.WindowState = WindowState.Maximized;
+        }
+    }
+    private void OnPointerMoved(object sender, PointerEventArgs e)
+    {
+        if (!startPoint.HasValue || window == null)
         {
             return;
         }
 
-        element.PointerPressed += OnPointerPressed;
-        element.PointerMoved += OnPointerMoved;
-        element.PointerReleased += OnPointerReleased;
-    }
+        var current = e.GetPosition(null);
+        var offset = current - startPoint.Value;
 
-    private void DetachPointerEvents()
-    {
-        if (element == null)
-            return;
-
-        element.PointerPressed -= OnPointerPressed;
-        element.PointerMoved -= OnPointerMoved;
-        element.PointerReleased -= OnPointerReleased;
+        var position = window.Position;
+        window.Position = new PixelPoint(position.X + (int)offset.X, position.Y + (int)offset.Y);
     }
 
     private void OnPointerPressed(object sender, PointerPressedEventArgs e)
     {
         if (element == null || window == null || e.Source != sender)
+        {
             return;
+        }
 
         if (e.Pointer.Type == PointerType.Mouse)
         {
@@ -98,19 +133,6 @@ public class WindowDragBehavior : Behavior<InputElement>
             startPoint = e.GetPosition(null);
         }
     }
-
-    private void OnPointerMoved(object sender, PointerEventArgs e)
-    {
-        if (!startPoint.HasValue || window == null)
-            return;
-
-        var current = e.GetPosition(null);
-        var offset = current - startPoint.Value;
-
-        var position = window.Position;
-        window.Position = new PixelPoint(position.X + (int)offset.X, position.Y + (int)offset.Y);
-    }
-
     private void OnPointerReleased(object sender, PointerReleasedEventArgs e)
     {
         startPoint = null;
