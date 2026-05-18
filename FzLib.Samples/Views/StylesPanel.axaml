@@ -1,60 +1,60 @@
 <UserControl
-    x:Class="FzLib.Samples.Views.StylesPanel"
-    xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:b="using:FzLib.Avalonia.Behaviors"
-    xmlns:c="using:FzLib.Avalonia.Controls"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
-    mc:Ignorable="d">
+x:Class="FzLib.Samples.Views.StylesPanel"
+xmlns="https://github.com/avaloniaui"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:b="using:FzLib.Avalonia.Behaviors"
+xmlns:c="using:FzLib.Avalonia.Controls"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+d:DesignHeight="450"
+d:DesignWidth="800"
+mc:Ignorable="d">
     <DockPanel>
         <CheckBox
-            x:Name="chkIsEnabled"
-            HorizontalAlignment="Right"
-            Content="IsEnabled"
-            DockPanel.Dock="Bottom"
-            IsChecked="True" />
+        x:Name="chkIsEnabled"
+        HorizontalAlignment="Right"
+        Content="IsEnabled"
+        DockPanel.Dock="Bottom"
+        IsChecked="True" />
         <ScrollViewer b:SmoothScrollBehavior.IsEnabled="True">
             <StackPanel
-                Margin="8"
-                IsEnabled="{Binding #chkIsEnabled.IsChecked}"
-                Spacing="8">
+            Margin="8"
+            IsEnabled="{Binding #chkIsEnabled.IsChecked}"
+            Spacing="8">
                 <HeaderedContentControl
-                    Classes="GroupBox"
-                    Header="按钮">
+                Classes="GroupBox"
+                Header="按钮">
                     <StackPanel
-                        Orientation="Vertical"
-                        Spacing="8">
+                    Orientation="Vertical"
+                    Spacing="8">
                         <StackPanel
-                            Orientation="Horizontal"
-                            Spacing="8">
+                        Orientation="Horizontal"
+                        Spacing="8">
                             <Button Content="Button" />
                             <Button
-                                Classes="Primary"
-                                Content="Primary" />
+                            Classes="Primary"
+                            Content="Primary" />
                             <Button
-                                Classes="Link"
-                                Content="Link" />
+                            Classes="Link"
+                            Content="Link" />
                             <Button
-                                Classes="Transparent"
-                                Content="Transparent" />
+                            Classes="Transparent"
+                            Content="Transparent" />
                         </StackPanel>
 
                         <StackPanel
-                            Orientation="Horizontal"
-                            Spacing="8">
+                        Orientation="Horizontal"
+                        Spacing="8">
                             <ToggleButton Content="ToggleButton" />
                             <ToggleButton
-                                Classes="Transparent"
-                                Content="Transparent" />
+                            Classes="Transparent"
+                            Content="Transparent" />
                         </StackPanel>
 
                         <StackPanel
-                            Orientation="Horizontal"
-                            Spacing="8">
+                        Orientation="Horizontal"
+                        Spacing="8">
                             <DropDownButton Content="DropDownButton">
                                 <DropDownButton.Flyout>
                                     <MenuFlyout>
@@ -64,8 +64,8 @@
                                 </DropDownButton.Flyout>
                             </DropDownButton>
                             <DropDownButton
-                                Classes="Primary"
-                                Content="Primary">
+                            Classes="Primary"
+                            Content="Primary">
                                 <DropDownButton.Flyout>
                                     <MenuFlyout>
                                         <sys:String>hello</sys:String>
@@ -74,8 +74,8 @@
                                 </DropDownButton.Flyout>
                             </DropDownButton>
                             <DropDownButton
-                                Classes="Link"
-                                Content="Link">
+                            Classes="Link"
+                            Content="Link">
                                 <DropDownButton.Flyout>
                                     <MenuFlyout>
                                         <sys:String>hello</sys:String>
@@ -84,8 +84,8 @@
                                 </DropDownButton.Flyout>
                             </DropDownButton>
                             <DropDownButton
-                                Classes="Transparent"
-                                Content="Transparent">
+                            Classes="Transparent"
+                            Content="Transparent">
                                 <DropDownButton.Flyout>
                                     <MenuFlyout>
                                         <sys:String>hello</sys:String>
@@ -97,42 +97,42 @@
                     </StackPanel>
                 </HeaderedContentControl>
                 <HeaderedContentControl
-                    Classes="GroupBox"
-                    Header="滑块">
+                Classes="GroupBox"
+                Header="滑块">
                     <c:StackFormItemGroup>
                         <c:FormItem Label="带数值滑块：">
                             <Slider
-                                Classes="ThumbLabel"
-                                IsSnapToTickEnabled="True"
-                                Maximum="10"
-                                Minimum="0"
-                                TickFrequency="1" />
+                            Classes="ThumbLabel"
+                            IsSnapToTickEnabled="True"
+                            Maximum="10"
+                            Minimum="0"
+                            TickFrequency="1" />
                         </c:FormItem>
                         <c:FormItem Label="带数值滑块（1位小数）：">
                             <Slider
-                                Classes="ThumbLabelF1"
-                                IsSnapToTickEnabled="True"
-                                Maximum="10"
-                                Minimum="0"
-                                TickFrequency="0.1" />
+                            Classes="ThumbLabelF1"
+                            IsSnapToTickEnabled="True"
+                            Maximum="10"
+                            Minimum="0"
+                            TickFrequency="0.1" />
                         </c:FormItem>
                     </c:StackFormItemGroup>
                 </HeaderedContentControl>
                 <HeaderedContentControl
-                    Classes="GroupBox"
-                    Header="组合框">
+                Classes="GroupBox"
+                Header="组合框">
                     <StackPanel
-                        Orientation="Vertical"
-                        Spacing="8">
+                    Orientation="Vertical"
+                    Spacing="8">
                         <HeaderedContentControl
-                            Classes="GroupBox"
-                            Header=".GroupBox">
+                        Classes="GroupBox"
+                        Header=".GroupBox">
                             <TextBlock Text="内容内容内容内容内容内容内容内容内容内容内容" />
                         </HeaderedContentControl>
                         <HeaderedContentControl
-                            Background="{DynamicResource Background1}"
-                            Classes="GroupBoxWithBorder"
-                            Header=".GroupBoxWithBorder">
+                        Background="{DynamicResource Background1}"
+                        Classes="GroupBoxWithBorder"
+                        Header=".GroupBoxWithBorder">
                             <TextBlock Text="内容内容内容内容内容内容内容内容内容内容内容" />
                         </HeaderedContentControl>
                         <GroupBox Header="默认GroupBox">
@@ -141,33 +141,37 @@
                     </StackPanel>
                 </HeaderedContentControl>
                 <HeaderedContentControl
-                    Classes="GroupBox"
-                    Header="文本">
+                Classes="GroupBox"
+                Header="文本">
                     <StackPanel
-                        Orientation="Vertical"
-                        Spacing="8">
+                    Orientation="Vertical"
+                    Spacing="8">
                         <TextBox
-                            Classes="Display"
-                            MaxLines="5"
-                            Text=".Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display"
-                            TextWrapping="Wrap" />
+                        MaxLines="5"
+                        Text="普通文本框"
+                        TextWrapping="Wrap" />
+                        <TextBox
+                        Classes="Display"
+                        MaxLines="5"
+                        Text=".Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display.Display"
+                        TextWrapping="Wrap" />
                         <TextBlock
-                            Classes="Description"
-                            Text="描述性文本.Description" />
+                        Classes="Description"
+                        Text="描述性文本.Description" />
                         <TextBlock
-                            Classes="Disableable"
-                            Text="可禁用文本.Disableable" />
+                        Classes="Disableable"
+                        Text="可禁用文本.Disableable" />
                     </StackPanel>
                 </HeaderedContentControl>
                 <HeaderedContentControl
-                    Classes="GroupBox"
-                    Header="数字">
+                Classes="GroupBox"
+                Header="数字">
                     <c:StackFormItemGroup>
                         <c:FormItem Label="普通样式：">
                             <NumericUpDown />
                         </c:FormItem>
                         <c:FormItem Label="垂直按钮样式：">
-                            <NumericUpDown Theme="{StaticResource NumericUpDownVerticalButtonSpinnerTheme}" />
+                            <NumericUpDown  Classes="VerticalButtonSpinner" />
                         </c:FormItem>
                     </c:StackFormItemGroup>
                 </HeaderedContentControl>
