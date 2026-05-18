@@ -130,7 +130,6 @@ mc:Ignorable="d">
                             <TextBlock Text="内容内容内容内容内容内容内容内容内容内容内容" />
                         </HeaderedContentControl>
                         <HeaderedContentControl
-                        Background="{DynamicResource Background1}"
                         Classes="GroupBoxWithBorder"
                         Header=".GroupBoxWithBorder">
                             <TextBlock Text="内容内容内容内容内容内容内容内容内容内容内容" />

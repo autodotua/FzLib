@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace FzLib.Avalonia.Converters
 {
+
     public static class Converters
     {
         public static readonly NumberToAlignmentConverter Alignment = new();
@@ -25,10 +26,10 @@ namespace FzLib.Avalonia.Converters
             NorLogic = new() { Operator = BoolLogicConverter.LogicalOperator.Nor };
 
         public static readonly BoolLogicConverter NandLogic = new()
-            { Operator = BoolLogicConverter.LogicalOperator.Nand };
+        { Operator = BoolLogicConverter.LogicalOperator.Nand };
 
         public static readonly BoolLogicConverter XnorLogic = new()
-            { Operator = BoolLogicConverter.LogicalOperator.Xnor };
+        { Operator = BoolLogicConverter.LogicalOperator.Xnor };
 
         public static readonly BoolToFontWeightConverter BoldFontWeight = new();
         public static readonly BoolToOpacityStyleConverter BoldOpacity = new();
@@ -39,7 +40,7 @@ namespace FzLib.Avalonia.Converters
             new() { ComparisonValue = 0, Operator = ComparisonOperator.GreaterThan };
 
         public static readonly CountToBoolConverter CountIsZero = new()
-            { ComparisonValue = 0, Operator = ComparisonOperator.Equal };
+        { ComparisonValue = 0, Operator = ComparisonOperator.Equal };
 
         public static readonly DateTimeConverter DateTime = new();
         public static readonly DescriptionConverter Description = new();
@@ -52,13 +53,13 @@ namespace FzLib.Avalonia.Converters
         public static readonly DataSizeConverter BitRate = new([" bps", " Kbps", " Mbps", " Gbps", " Tbps"]);
         public static readonly DataSizeConverter BitRateMbps = new DataSizeConverter([null, null, " Mbps"]);
         public static readonly DataSizeConverter BitRateKbps = new DataSizeConverter([null, " Kbps"]);
-        
+
         [Obsolete("使用ByteLength")]
         public static readonly DataSizeConverter FileLength = ByteLength;
 
         [Obsolete("使用ByteRate")]
         public static readonly DataSizeConverter TransferSpeed = ByteRate;
-        
+
         public static readonly InverseBoolConverter InverseBool = new();
         public static readonly NullToBoolConverter IsNotNull = new();
         public static readonly NullToBoolConverter IsNull = new() { ValueWhenNull = true };
