@@ -212,7 +212,9 @@ public partial class JsonViewModel : ObservableObject
                     case string s: writer.WriteStringValue(s); break;
                     case bool b: writer.WriteBooleanValue(b); break;
                     default:
+#pragma warning disable IL3050, IL2026 // AOT safety: fallback path for complex types; Samples-only code
                         JsonSerializer.Serialize(writer, value, value.GetType(), options);
+#pragma warning restore IL3050, IL2026
                         break;
                 }
             }

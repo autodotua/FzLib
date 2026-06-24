@@ -15,13 +15,11 @@ public partial class EditableString : NotifyPropertyChangedBase
         set => SetField(ref stringValue, value);
     }
 
-    [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(EditableString))]
     public EditableString(string value)
     {
         this.stringValue = value;
     }
 
-    [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(EditableString))]
     public EditableString()
     {
     }

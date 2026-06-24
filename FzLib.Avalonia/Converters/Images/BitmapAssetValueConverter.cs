@@ -41,7 +41,7 @@ public class BitmapAssetValueConverter : IValueConverter
                 }
                 catch (Exception ex)
                 {
-                    return ReturnNullIfError ? null : throw new InvalidOperationException($"无法加载图片文件 {file.FullName}");
+                    return ReturnNullIfError ? null : throw new InvalidOperationException($"无法加载图片文件 {file.FullName}", ex);
                 }
             }
 

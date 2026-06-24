@@ -27,7 +27,7 @@ public class ServiceResult<T> : ServiceResult
 
     public T Value { get; init; }
 
-    public static new ServiceResult<T> Success(T value) =>
+    public static ServiceResult<T> Success(T value) =>
         new() { IsSuccess = true, StatusCode = HttpStatusCode.OK, Value = value };
 
     public new static ServiceResult<T> Failure(string msg, HttpStatusCode code) =>

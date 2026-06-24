@@ -152,6 +152,10 @@ namespace FzLib.Avalonia.Dialogs
             {
                 grid = g2;
             }
+            else if (topLevel.Content is Border bd && bd.Child is Grid g3)
+            {
+                grid = g3;
+            }
 
             bool canPopupDialog = grid != null;
           

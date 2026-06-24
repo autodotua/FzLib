@@ -2,13 +2,12 @@
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using System.Windows;
 using Avalonia;
 using Avalonia.Data.Converters;
 
 namespace FzLib.Avalonia.Converters
 {
-    public class DescriptionConverter<T> : IValueConverter where T : struct, Enum
+    public class DescriptionConverter<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] T> : IValueConverter where T : struct, Enum
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -41,22 +40,23 @@ namespace FzLib.Avalonia.Converters
 
         private static string GetDescription([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] Type type, object en)
         {
-            MemberInfo[] memInfo = type.GetMember(en.ToString());
-            if (memInfo != null && memInfo.Length > 0)
+            FieldInfo field = type.GetField(en.ToString());
+            if (field != null)
             {
-                object[] attrs = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
-                if (attrs != null && attrs.Length > 0)
+                DescriptionAttribute attr = field.GetCustomAttribute<DescriptionAttribute>(false);
+                if (attr != null)
                 {
-                    return ((DescriptionAttribute)attrs[0]).Description;
+                    return attr.Description;
                 }
             }
             return en.ToString();
         }
 
-        public static string GetDescription<T>([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] T en) where T : struct, Enum
+        public static string GetDescription<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] T>(T en) where T : struct, Enum
         {
-            Type type = typeof(T);
-            return GetDescription(type, en);
+            FieldInfo field = typeof(T).GetField(en.ToString());
+            DescriptionAttribute attr = field?.GetCustomAttribute<DescriptionAttribute>(false);
+            return attr?.Description ?? en.ToString();
         }
     }
 }
