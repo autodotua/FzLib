@@ -169,8 +169,11 @@ public abstract class ExtendedWindow : Window
     protected virtual bool UseCustomChrome()
     {
         //仅在Windows 10使用自定义窗口边框，Windows7和11不使用
-        return OperatingSystem.IsWindowsVersionAtLeast(10)
-               && !OperatingSystem.IsWindowsVersionAtLeast(10, build: 22000);
+        //return OperatingSystem.IsWindowsVersionAtLeast(10)
+        //       && !OperatingSystem.IsWindowsVersionAtLeast(10, build: 22000);
+
+        //20260529更新：Avalonia 12.0.4修复了Win10没有边框阴影的问题，所以此处永远返回false
+        return false;
     }
 
     protected virtual bool UseCustomStyle()

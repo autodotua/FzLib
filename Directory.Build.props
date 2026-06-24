@@ -1,7 +1,7 @@
 <Project>
     <PropertyGroup>
         <Nullable>disable</Nullable>
-        <FzLibVersion>3.4.0-rc.2</FzLibVersion>
-        <AvaloniaVersion>12.0.2</AvaloniaVersion>
+        <FzLibVersion>3.4.0-rc.3</FzLibVersion>
+        <AvaloniaVersion>12.0.5</AvaloniaVersion>
     </PropertyGroup>
 </Project>
